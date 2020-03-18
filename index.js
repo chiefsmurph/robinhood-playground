@@ -37,14 +37,17 @@ const stocktwits = require('./utils/stocktwits');
 const restartProcess = require('./app-actions/restart-process');
 
 const RealtimeRunner = require('./realtime/RealtimeRunner');
-
+const sendEmail = require('./utils/send-email');
 
 mongoose.connect(mongoConnectionString, { useNewUrlParser: true });
 
-process.on('unhandledRejection', (reason, p) => {
-    console.log('we hit an error oh shit')
-    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+process.on('unhandledRejection', async (reason, p) => {
     // application specific logging, throwing an error, or other logic here
+    console.log('we hit an error oh shit');
+    const log = `Unhandled Rejection at: ${p}, reason: ${reason}`;
+    console.log(log);
+    await sendEmail('force', 'unhandledRejection', log);
+    return restartProcess();
 });
 
 (async () => {
