@@ -71,7 +71,7 @@ module.exports = class PositionWatcher {
     if (!avgEntry) return this.scheduleTimeout();
 
     const lowestFill = Math.min(
-      ...buys.map(buy => buy.fillPrice),
+      ...(buys || []).map(buy => buy.fillPrice),
       buyPrice || Number.POSITIVE_INFINITY
     );
 
