@@ -105,11 +105,12 @@ const saveToFile = async (strategy, min, withPrices, { keys, data }) => {
         //     isRecommended = false;
         // }
         
-        multiplier = Math.max(multiplier, 1);           // MIN
         if (!interestingWords.includes('downer')) {     // MAX (ONLY FOR NON DOWNERS)
             multiplier = Math.round(multiplier * overallMultiplierMultiplier);
             multiplier = Math.min(multiplier, maxMultiplier);
         }
+        
+        multiplier = Math.max(multiplier, 1);           // MIN
         
         forPurchaseData = {
             forPurchasePms, 
