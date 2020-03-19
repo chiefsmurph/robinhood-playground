@@ -125,7 +125,7 @@ module.exports = class PositionWatcher {
 
 
     let shouldAvgDownWhen = [
-      -3,
+      -2.5 - numAvgDowners * 0.5,
       -2 - numAvgDowners * 2
     ];
     
