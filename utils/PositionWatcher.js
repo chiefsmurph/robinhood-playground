@@ -125,10 +125,15 @@ module.exports = class PositionWatcher {
 
 
     let shouldAvgDownWhen = [
-      [-2.5, -12],
-      [-3, -7],
-      [-2.5, -4]
+      -3,
+      -2 - numAvgDowners * 2
     ];
+    
+    // let shouldAvgDownWhen = [
+    //   [-2.5, -12],
+    //   [-3, -7],
+    //   [-2.5, -4]
+    // ];
 
     // const quickAvgDown = Boolean(minSinceLastAvgDown <= 6);
     // if (quickAvgDown) {
@@ -144,7 +149,7 @@ module.exports = class PositionWatcher {
       recentPickTrend
     ].every(trend => trendLowerThanPerc(trend, fillPickLimit)) && trendLowerThanPerc(returnPerc, returnLimit);
 
-    const hitAvgDownWhen = shouldAvgDownWhen.find(passesCheck);
+    const hitAvgDownWhen = passesCheck(shouldAvgDownWhen);
     const shouldAvgDown = Boolean(hitAvgDownWhen);
 
 
