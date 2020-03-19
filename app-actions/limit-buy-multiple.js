@@ -234,7 +234,7 @@ module.exports = async ({
             const pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
             const totalQuantity = Math.round(perStock / pickPrice) || 1;
 
-            const buyStock = strategy.includes('sudden') ? simpleLimitBuy : eclecticBuy;
+            const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
             const response = await buyStock({
                 ticker,
                 pickPrice,
