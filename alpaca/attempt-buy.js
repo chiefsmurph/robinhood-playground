@@ -35,7 +35,7 @@ const calcLimitPrice = async ({ ticker, pickPrice, attemptNum }) => {
     return finalPrice;
 };
 
-module.exports = async ({ ticker, quantity, pickPrice, strategy, fallbackToMarket }) => {
+const alpacaAttemptBuy = async ({ ticker, quantity, pickPrice, strategy, fallbackToMarket }) => {
 
     // limit
     const attemptedPrices = [];
@@ -72,3 +72,5 @@ module.exports = async ({ ticker, quantity, pickPrice, strategy, fallbackToMarke
     };
 
 };
+
+module.exports = alpacaAttemptBuy;

@@ -1,6 +1,6 @@
 const { alpaca } = require('.');
 
-module.exports = async ({ 
+const alpacaMarketBuy = async ({ 
     ticker = 'SCON', 
     quantity = 200,
     timeoutSeconds = 30
@@ -28,3 +28,5 @@ module.exports = async ({
     return alpaca.getOrder(order.id);
     
 };
+
+module.exports = alpacaMarketBuy;

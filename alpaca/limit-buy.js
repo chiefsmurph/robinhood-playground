@@ -3,7 +3,7 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const { alpaca } = require('.');
 const marketBuy = require('./market-buy');
 
-const limitBuy = async ({
+const alpacaLimitBuy = async ({
   ticker = 'PRVB',
   limitPrice = 6,
   quantity = 16,
@@ -53,4 +53,4 @@ const limitBuy = async ({
 
 };
 
-module.exports = limitBuy;
+module.exports = alpacaLimitBuy;

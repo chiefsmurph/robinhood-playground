@@ -31,11 +31,11 @@ module.exports = async () => {
   await purchaseStocks({
       stocksToBuy: ['FFHL'],
       strategy: 'testing-blah-blah2',
-      multiplier: 1,
+      multiplier: 2,
       min: 5000,
       withPrices: [{
         ticker: 'FFHL',
-        price: 0.23
+        price: .10
       }],
       PickDoc
   });

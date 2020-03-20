@@ -18,18 +18,42 @@ const getFillPriceFromResponse = response => {
     return (order || {}).filled_avg_price;
 };
 
-const executeBuys = async (buyStyles, totalDollars) => {
+const executeBuys = async ({
+    ticker,
+    quantity,
+    pickPrice,
+    buyStyles
+} = {}) => {
 
-    const sliceCount = Math.floor(totalDollars / 4);
-    const buyPromises = Object.entries(buyStyles)
+    if (!ticker || !quantity || !pickPrice || !buyStyles || !buyStyles.length) {
+        throw new Error(`you did not give me enough info to buy, ${JSON.stringify({
+            ticker,
+            quantity,
+            pickPrice,
+            buyStyles
+        })}`)
+    }
+
+    const totalDollars = pickPrice * quantity;
+    const sliceCount = Math.min(Math.floor(totalDollars / 4) || 1, buyStyles.length);
+    const individualQuantity = Math.floor(quantity / sliceCount) || 1;
+    console.log({
+        totalDollars,
+        sliceCount,
+        individualQuantity,
+        quantity
+    })
+
+    const buyPromises = buyStyles
         .slice(0, sliceCount)
         .map(
-            async ([name, promise]) => {
-                strlog({
-                    name,
-                    promise
-                })
-                const response = await promise;
+            async ({ method, name = method.name, ...rest }) => {
+                console.log(`${name}: purchasing ${individualQuantity} shares of ${ticker}`);
+                const response = await method({
+                    ticker,
+                    quantity: individualQuantity,
+                    ...rest
+                });
                 return {
                     name,
                     fillPrice: getFillPriceFromResponse(response),
@@ -43,7 +67,10 @@ const executeBuys = async (buyStyles, totalDollars) => {
     return { 
         roundUp, 
         totalDollars,
-        sliceCount 
+        sliceCount,
+        individualQuantity,
+        quantity,
+        pickPrice,
     };
     
 };
@@ -54,65 +81,28 @@ const eclecticBuy = async ({
     ticker,
     quantity,
     pickPrice
-}) => {
-
-    const individualQuantity = Math.round(quantity / 3) || 1;
-
-    const buyStyles = {
-        market: alpacaMarketBuy({
-            ticker,
-            quantity: Math.ceil(individualQuantity / 1.5)
-        }),
-        limit13: alpacaLimitBuy({
-            ticker,
-            quantity: individualQuantity,
-            limitPrice: pickPrice * 1.013,
-            timeoutSeconds: 60 * 5,
-            fallbackToMarket: true
-        }),
-        attempt: alpacaAttemptBuy({
-            ticker,
-            quantity: individualQuantity,
-            pickPrice,
-            fallbackToMarket: true
-        }),
-        // limit3: alpacaLimitBuy({
-        //     ticker,
-        //     quantity: individualQuantity,
-        //     limitPrice: pickPrice * 1.023,
-        //     timeoutSeconds: 60 * 1,
-        //     fallbackToMarket: true
-        // }),
-        limit1001: alpacaLimitBuy({
-            ticker,
-            quantity: Math.round(individualQuantity * 1.2),
-            limitPrice: pickPrice * 1.001,
-            timeoutSeconds: 60 * 8,
-            fallbackToMarket: true
-        }),
-        limit99: alpacaLimitBuy({
-            ticker,
-            quantity: Math.round(individualQuantity * 1.4),
-            limitPrice: pickPrice * .997,
-            timeoutSeconds: 60 * 10,
-            fallbackToMarket: false
-        }),
-        // limit98: alpacaLimitBuy({
-        //     ticker,
-        //     quantity: Math.round(individualQuantity * 1.6),
-        //     limitPrice: pickPrice * .98,
-        //     timeoutSeconds: 60 * 10,
-        //     fallbackToMarket: false
-        // }),
-    };
-
-    return {
-        ...await executeBuys(buyStyles, pickPrice * quantity),
-        individualQuantity
-    };
-    
-};
-
+}) => 
+    executeBuys({
+        ticker,
+        quantity,
+        pickPrice,
+        buyStyles: [
+            {
+                method: alpacaMarketBuy,
+            },
+            {
+                method: alpacaLimitBuy,
+                limitPrice: pickPrice * 1.013,
+                timeoutSeconds: 60 * 5,
+                fallbackToMarket: true
+            },
+            {
+                method: alpacaAttemptBuy,
+                pickPrice,
+                fallbackToMarket: true
+            }
+        ]
+    });
 
 // const waitedSprayBuy = async ({
 //     ticker,
@@ -151,33 +141,28 @@ const simpleLimitBuy = async ({
     ticker,
     quantity,
     pickPrice
-}) => {
-    const individualQuantity = Math.round(quantity / 2) || 1;
-
-    const buyStyles = {
-        simpleLimitBuy995: alpacaLimitBuy({
-            ticker,
-            quantity: individualQuantity,
-            limitPrice: pickPrice * 0.995,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
-        }),
-        simpleLimitBuy985: alpacaLimitBuy({
-            ticker,
-            quantity: individualQuantity,
-            limitPrice: pickPrice * 0.99,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
-        }),
-    };
-
-    return {
-        ...await executeBuys(buyStyles, pickPrice * quantity),
-        individualQuantity
-    };
-
-};
-
+}) => 
+    executeBuys({
+        ticker,
+        quantity,
+        pickPrice,
+        buyStyles: [
+            {
+                method: alpacaLimitBuy,
+                name: 'alpacaLimit995',
+                limitPrice: pickPrice * 0.995,
+                timeoutSeconds: 60 * 30,
+                fallbackToMarket: false
+            },
+            {
+                method: alpacaLimitBuy,
+                name: 'alpacaLimit99',
+                limitPrice: pickPrice * 0.99,
+                timeoutSeconds: 60 * 30,
+                fallbackToMarket: false
+            },
+        ]
+    });
 
 
 module.exports = async ({
@@ -222,7 +207,6 @@ module.exports = async ({
 
         // for now same amt each stock
         //amtToSpendLeft / (maxNumStocksToPurchase - numPurchased);
-        console.log(perStock, 'purchasng ', ticker);
         try {
 
 
@@ -235,6 +219,7 @@ module.exports = async ({
             const totalQuantity = Math.round(perStock / pickPrice) || 1;
 
             const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
+            console.log({ totalQuantity, pickPrice, perStock })
             const response = await buyStock({
                 ticker,
                 pickPrice,
