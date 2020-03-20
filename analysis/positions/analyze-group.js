@@ -5,6 +5,9 @@ const analyzeGroup = analyzedPositions => {
   const forConsideration = analyzedPositions.filter(position => (position.buys || []).length);
   const totalBought = sumArray(forConsideration.map(pos => pos.totalBuyAmt));
   const totalImpact = sumArray(forConsideration.map(pos => pos.netImpact));
+  strlog({
+    forConsideration
+  })
   return {
     // dollars
     totalBought,

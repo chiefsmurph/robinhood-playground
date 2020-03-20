@@ -41,14 +41,9 @@ const addUnrealizedPl = async positions => {
 
 module.exports = async () => {
   const holds = await Hold.find({}).lean();
-  return mapLimit(
-    holds,
-    2,
-    async hold => ({
-      ...hold,
-      ...analyzePosition(
-        await addUnrealizedPl(hold)
-      )
-    })
-  );
+  const withUnrealizedPl = await addUnrealizedPl(holds);
+  return mapLimit(withUnrealizedPl, 2, async position => ({
+    ...position,
+    ...await analyzePosition(position)
+  }));
 };
