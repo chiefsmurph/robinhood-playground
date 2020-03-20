@@ -6,7 +6,6 @@ const analyzePosition = require('./analyze-position');
 const addUnrealizedPl = async positions => {
   
   const alpacaPositions = await alpaca.getPositions();
-  console.log({ alpacaPositions })
   const withPositions = await mapLimit(positions, 1, position => {
     return {
       ...position,
@@ -41,11 +40,15 @@ const addUnrealizedPl = async positions => {
 
 
 module.exports = async () => {
+  const holds = await Hold.find({}).lean();
   return mapLimit(
-    await addUnrealizedPl(
-      await Hold.find({}).lean()
-    ),
+    holds,
     2,
-    analyzePosition
+    async hold => ({
+      ...hold,
+      ...analyzePosition(
+        await addUnrealizedPl(hold)
+      )
+    })
   );
 };
