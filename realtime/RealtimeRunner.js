@@ -247,13 +247,13 @@ module.exports = new (class RealtimeRunner {
         5 * 1000 * 60 // 5 minutes
       ),
 
-      setInterval(() => 
-        this.timedAsync(
-          'every 3 hours (daily)',
-          () => this.runDaily(),
-        ),
-        60 * 1000 * 60 * 3 // 3 hours
-      ),
+      // setInterval(() => 
+      //   this.timedAsync(
+      //     'every 3 hours (daily)',
+      //     () => this.runDaily(),
+      //   ),
+      //   60 * 1000 * 60 * 3 // 3 hours
+      // ),
     ];
 
     this.everyFiveMinutes();
@@ -418,8 +418,8 @@ module.exports = new (class RealtimeRunner {
   }
   async penniesAndRecs() {
 
-    console.log('RUNNING DAILY', nowStr);
-    await this.runDaily();
+    // console.log('RUNNING DAILY', nowStr);
+    // await this.runDaily();
     
     console.log('RUNNING PENNIES', nowStr);
     await this.runPennies();
@@ -470,59 +470,59 @@ module.exports = new (class RealtimeRunner {
     return picks;
   }
 
-  async runDaily(skipSave = false, runAll) {
+  // async runDaily(skipSave = false, runAll) {
 
-    console.log('RUNNING DAILY');
-    const dip = dayInProgress();
-    const allTickers = this.getAllTickers();
-    console.log({ dip, allTickers });
-    const tickersAndAllPrices = await daily({
-      tickers: allTickers,
-      includeCurrentPrice: dip
-    });
-    const withHandlers = this.strategies
-        .filter(strategy => strategy.handler)
-        .filter(strategy => runAll || (strategy.period && strategy.period.includes('d')));
-    // strlog({ withHandlers });
-    let picks = [];
-    for (let strategy of withHandlers) {
+  //   console.log('RUNNING DAILY');
+  //   const dip = dayInProgress();
+  //   const allTickers = this.getAllTickers();
+  //   console.log({ dip, allTickers });
+  //   const tickersAndAllPrices = await daily({
+  //     tickers: allTickers,
+  //     includeCurrentPrice: dip
+  //   });
+  //   const withHandlers = this.strategies
+  //       .filter(strategy => strategy.handler)
+  //       .filter(strategy => runAll || (strategy.period && strategy.period.includes('d')));
+  //   // strlog({ withHandlers });
+  //   let picks = [];
+  //   for (let strategy of withHandlers) {
 
-      picks = [
-        ...picks,
-        ...await this.runSingleStrategy(
-          tickersAndAllPrices,
-          strategy,
-          'd'
-        )
-      ];
+  //     picks = [
+  //       ...picks,
+  //       ...await this.runSingleStrategy(
+  //         tickersAndAllPrices,
+  //         strategy,
+  //         'd'
+  //       )
+  //     ];
         
-    }
+  //   }
 
-    console.log('daily picks count: ', picks.length);
+  //   console.log('daily picks count: ', picks.length);
 
-    if (!skipSave) {
-      for (let pick of picks) {
-        strlog({ pick })
-        pick._id = await this.handlePick(pick);
-      }
-    }
+  //   if (!skipSave) {
+  //     for (let pick of picks) {
+  //       strlog({ pick })
+  //       pick._id = await this.handlePick(pick);
+  //     }
+  //   }
 
 
-    await sendEmail(
-      'DAILY', 
-      JSON.stringify(
-        picks.map(pick => ({
-          strategyName: pick.strategyName,
-          ticker: pick.ticker,
-          keys: Object.keys(pick.keys).filter(key => pick.keys[key])
-        })), 
-        null, 
-        2
-      )
-    );
-    return picks;
+  //   await sendEmail(
+  //     'DAILY', 
+  //     JSON.stringify(
+  //       picks.map(pick => ({
+  //         strategyName: pick.strategyName,
+  //         ticker: pick.ticker,
+  //         keys: Object.keys(pick.keys).filter(key => pick.keys[key])
+  //       })), 
+  //       null, 
+  //       2
+  //     )
+  //   );
+  //   return picks;
 
-  }
+  // }
 
   async runSingleStrategy(tickersAndAllPrices, strategy, period) {
     const picks = [];

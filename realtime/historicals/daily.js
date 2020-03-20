@@ -41,7 +41,7 @@ const createTickerObj = async tickers => {
     }), {});
 };
 
-module.exports = async ({ tickers, includeCurrentPrice = true }) => {
+module.exports = async (tickers, x, y, includeCurrentPrice = true) => {
 
   console.log({ tickers: tickers.length, includeCurrentPrice })
   // tickers = tickers || await getTickersBetween(80, Number.POSITIVE_INFINITY);
@@ -50,7 +50,7 @@ module.exports = async ({ tickers, includeCurrentPrice = true }) => {
   const withHistoricals = (await addHistoricals(tickers, 'day', 'year'))
     .filter(buy => buy.yearHistoricals && buy.yearHistoricals.length);
 
-  const formattedPrices = withHistoricals.map(({ ticker, yearHistoricals }) => {
+  const formattedPrices = withHistoricals.reduce((acc, { ticker, yearHistoricals }) => {
     // strlog({
     //   ticker,
     //   yearHistoricals: yearHistoricals.length
@@ -65,10 +65,10 @@ module.exports = async ({ tickers, includeCurrentPrice = true }) => {
       });
     }
     return {
-      ticker,
-      allPrices,
+      ...acc,
+      [ticker]: allPrices
     };
-  });
+  }, {});
 
   return formattedPrices;
 

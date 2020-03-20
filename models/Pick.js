@@ -26,7 +26,7 @@ const schema = new Schema({
 
 schema.statics.getUniqueDates = async function() {
     const response = await this.distinct('date');
-    return response.sort((a, b) => new Date(a) - new Date(b));
+    return response.filter(Boolean).sort((a, b) => new Date(a) - new Date(b));
 };
 
 schema.statics.getRecentRecommendations = async function() {
