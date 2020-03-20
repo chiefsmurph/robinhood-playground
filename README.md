@@ -2,6 +2,26 @@
 
 a Node.js script that makes stock recommendations
 
+
+average of 
+  the absolute value of SPY trend (open to close) of previous day 
+  and
+  SPY distance (low to high) of previous day
+
+times the absolute value of the overnight trend (orevious close to the current day's open)
+
+* 4.5
+
+= number of picks in a day
+
+
+for example....
+
+1.92 * abs value of trend overnight * 4.5 = picks
+= ~ 15
+
+
+
 `npm install`
 
 create a config.js file that exports an object
