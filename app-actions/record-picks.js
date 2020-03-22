@@ -40,15 +40,15 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
     }
     
     const stratMin = `${strategy}-${min}`;
-    
     const hits = await pmsHit(null, stratMin);
 
     let isRecommended = hits.includes('forPurchase');
 
     const stocksToBuy = withPrices.map(t => t.ticker);
-    
     let forPurchaseData = {};
     let multiplier = 0;
+    const jimmyObj = await isJimmyPick(stocksToBuy[0]);
+
     if (isRecommended) {
         let forPurchasePms = forPurchase
             .filter(line => line.startsWith('['))
@@ -102,7 +102,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         }
 
 
-        if (isRecommended && (await isJimmyPick(ticker)).isJimmyPick) {
+        if (isRecommended && jimmyObj.isJimmyPick) {
             hits.push('isJimmyHit');
         }
         
@@ -210,9 +210,11 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                 const body = [
                     isRecommended ? multiplier : 'notrec',
                     (withPrices[0] || {}).price,
-                    ...forPurchaseData.interestingWords || []
+                    ...forPurchaseData.interestingWords || [],
+                    pm === 'isJimmyPick' && JSON.stringify(jimmyObj, null, 2)
                 ].join(' ');
                 await sendEmail(
+                    'force',
                     subject,
                     body,
                     email
