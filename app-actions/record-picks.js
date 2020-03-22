@@ -22,7 +22,7 @@ const {
 } = require('../settings');
 const pmsHit = require('../utils/pms-hit');
 const { emails } = require('../config');
-
+const isJimmyPick = require('../utils/is-jimmy-pick');
 
 const { throttle } = require('underscore')
 const throttledRefreshPositions = throttle(() => {
@@ -32,14 +32,18 @@ const throttledRefreshPositions = throttle(() => {
 
 
 
-const saveToFile = async (strategy, min, withPrices, { keys, data }) => {
+const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
     withPrices = withPrices.filter(tickerPrice => !!tickerPrice);
     if (!withPrices.length) {
         return console.log(`no stocks found for ${stratMin}`)
     }
     
-    const stratMin = `${strategy}-${min}`;
+    const stratMin = [
+        strategy, 
+        (await isJimmyPick(ticker)).isJimmyPick && 'isJimmyPick', 
+        min
+    ].filter(Boolean).join('-');
     const hits = await pmsHit(null, stratMin);
 
     let isRecommended = hits.includes('forPurchase');
@@ -244,7 +248,7 @@ module.exports = async (strategy, min, toPurchase, trendKey = '', { keys, data }
                 price
             };
         });
-        return saveToFile(strategyName, min, withPrices, { keys, data });
+        return handlePick(strategyName, min, withPrices, { keys, data });
     };
 
     if (!Array.isArray(toPurchase)) {

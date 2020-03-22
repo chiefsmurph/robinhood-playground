@@ -821,6 +821,7 @@ module.exports = new (class RealtimeRunner {
       'average-down-recommendation',
       'continue-down',
       'most-low',
+      'isJimmyPick',
       
       ...[
         'initial',

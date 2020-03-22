@@ -68,11 +68,7 @@ app.use('/user-strategies', express['static'](prependFolder('user-strategies/bui
 app.get('/is-jimmy-pick', async (req, res) => {
     const ticker = req.query.ticker;
     strlog({ ticker });
-    try {
-        res.json(await isJimmyPick(ticker));
-    } catch (e) {
-        res.error(`There was an error: ${e.toString()}`)
-    }
+    res.json(await isJimmyPick(ticker));
 });
 
 
