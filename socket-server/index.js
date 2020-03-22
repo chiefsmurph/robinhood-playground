@@ -22,6 +22,7 @@ const restartProcess = require('../app-actions/restart-process');
 const pmPerf = require('../analysis/pm-perf-for-real');
 const getHistoricals = require('../realtime/historicals/get');
 const alpacaMarketBuy = require('../alpaca/market-buy');
+const isJimmyPick = require('../utils/is-jimmy-pick');
 
 // const stratPerf = require('../analysis/strat-perf-for-real');
 const realtimeRunner = require('../realtime/RealtimeRunner');
@@ -62,6 +63,15 @@ app.use(compression({}));
 const prependFolder = folder => path.join(__dirname, `../${folder}`);
 app.use('/', express['static'](prependFolder('client/build')));
 app.use('/user-strategies', express['static'](prependFolder('user-strategies/build')));
+
+
+app.get('/is-jimmy-pick', async (req, res) => {
+    const ticker = req.query.ticker;
+    strlog({ ticker });
+    res.json(
+        await isJimmyPick(ticker)
+    );
+});
 
 
 io.on('connection', async socket => {
