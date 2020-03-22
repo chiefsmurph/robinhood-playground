@@ -183,7 +183,7 @@ module.exports = new (class RealtimeRunner {
 
     regCronIncAfterSixThirty({
         name: 'RealtimeRunner: stop',
-        run: [400],
+        run: [388],
         fn: () => this.stop()
     });
 
