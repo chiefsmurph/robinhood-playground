@@ -1,5 +1,7 @@
 const getBaseCollections = require('./base-collections');
 const deriveCollections = require('./derive-collections');
+const getJimmyCollection = require('./get-jimmy-collection');
+
 const { mapObject } = require('underscore');
 
 module.exports = async dontMerge => {
@@ -7,9 +9,11 @@ module.exports = async dontMerge => {
   const baseCollections = await getBaseCollections();
   console.log('getting derived collections....')
   const derivedCollections = {}; //await deriveCollections(baseCollections);
+  const jimmyCollection = await getJimmyCollection(baseCollections);
   const merged = {
     ...baseCollections,
-    ...derivedCollections
+    ...derivedCollections,
+    ...jimmyCollection
   };
   // strlog(
   //   mapObject(
@@ -20,6 +24,7 @@ module.exports = async dontMerge => {
   console.log('leaving collections index')
   return dontMerge ? {
     baseCollections,
-    derivedCollections
+    derivedCollections,
+    jimmyCollection
   } : merged;
 };

@@ -46,7 +46,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
     let isRecommended = hits.includes('forPurchase');
     const stocksToBuy = withPrices.map(t => t.ticker);
 
-    const jimmyObj = await isJimmyPick(stocksToBuy[0]);
+    const [jimmyObj] = await isJimmyPick(stocksToBuy[0]);
     const stratMin = [strategy, jimmyObj.isJimmyPick && 'isJimmyPick', min].filter(Boolean).join('-');
     const hits = await pmsHit(null, stratMin);
 
@@ -104,7 +104,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
 
         if (isRecommended && jimmyObj.isJimmyPick) {
-            hits.push('isJimmyHit');
+            hits.push('isRecommendedJimmyPick');
         }
         
         
@@ -212,7 +212,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                     isRecommended ? multiplier : 'notrec',
                     (withPrices[0] || {}).price,
                     ...forPurchaseData.interestingWords || [],
-                    pm === 'isJimmyPick' && JSON.stringify(jimmyObj, null, 2)
+                    pm.includes('Jimmy') && JSON.stringify(jimmyObj, null, 2)
                 ].join(' ');
                 await sendEmail(
                     'force',

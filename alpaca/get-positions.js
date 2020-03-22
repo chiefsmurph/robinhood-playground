@@ -78,11 +78,11 @@ module.exports = async (
   positions = await mapLimit(positions, 3, async position => {
     const { ticker } = position;
     const hold = await Holds.findOne({ ticker }).lean() || {};
-    if (!hold.buys) {
+    
+    const { buys = [] } = hold;
+    if (!buys.length) {
       console.log('hey! no buys?', ticker);
     }
-    const { buys = [] } = hold;
-
 
     const buyStrategies = buys.map(buy => buy.strategy).reduce((acc, strategy) => ({
       ...acc,
