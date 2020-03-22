@@ -64,14 +64,11 @@ const prependFolder = folder => path.join(__dirname, `../${folder}`);
 app.use('/', express['static'](prependFolder('client/build')));
 app.use('/user-strategies', express['static'](prependFolder('user-strategies/build')));
 
-
-app.get('/is-jimmy-pick', async (req, res) => {
+app.get('/jimmy-picks', async (req, res) => {
     const ticker = req.query.ticker;
-    strlog({ ticker });
-    res.json(await isJimmyPick(ticker));
-});
-
-app.get('/all-jimmy-picks', async (req, res) => {
+    if (ticker) {
+        return res.json(await isJimmyPick(ticker));
+    }
     const {
         lastCollectionRefresh,
         derivedCollections: {
