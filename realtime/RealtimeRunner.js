@@ -58,7 +58,8 @@ module.exports = new (class RealtimeRunner {
 
     const {
       baseCollections,
-      derivedCollections
+      derivedCollections,
+      jimmyCollection
     } = await getCollections(true);
     console.log('got the collections');
     
@@ -97,7 +98,7 @@ module.exports = new (class RealtimeRunner {
     // }
 
     this.collections = mapObject(baseCollections, collection => collection.map(t => t.ticker))
-    this.derivedCollections = derivedCollections;
+    this.derivedCollections = { ...derivedCollections, jimmyCollection };
     this.lastCollectionRefresh = Date.now();
 
     require('../socket-server/strat-manager').sendToAll(
