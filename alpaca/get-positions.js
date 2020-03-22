@@ -182,6 +182,10 @@ module.exports = async (
       return 0;
     }
 
+    if (min >= 0 && min < 10) {
+      return 50;
+    }
+
     if (daysOld >= 3 && market_value < 30) {
       return 100;
     }
