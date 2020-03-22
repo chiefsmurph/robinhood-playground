@@ -39,11 +39,8 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         return console.log(`no stocks found for ${stratMin}`)
     }
     
-    const stratMin = [
-        strategy, 
-        (await isJimmyPick(ticker)).isJimmyPick && 'isJimmyPick', 
-        min
-    ].filter(Boolean).join('-');
+    const stratMin = `${strategy}-${min}`;
+    
     const hits = await pmsHit(null, stratMin);
 
     let isRecommended = hits.includes('forPurchase');
@@ -93,8 +90,8 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         //     multiplier = 1;
         // }
 
-        const onlyMinor = interestingWords.includes('minorJump') && !interestingWords.includes('mediumJump') && !interestingWords.includes('majorJump');
-        if (onlyMinor) {
+        const isMinor = strategy.includes('minorJump');
+        if (isMinor) {
             multiplier = Math.max(3, multiplier);   // min
             if (!interestingWords.includes('downer')) {
                 multiplier = Math.min(5, multiplier);  // max ... if not avg downer
@@ -102,6 +99,11 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             if (disableOnlyMinors) {
                 isRecommended = false;
             }
+        }
+
+
+        if (isRecommended && (await isJimmyPick(ticker)).isJimmyPick) {
+            hits.push('isJimmyHit');
         }
         
         
