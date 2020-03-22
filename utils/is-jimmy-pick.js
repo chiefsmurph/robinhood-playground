@@ -7,7 +7,6 @@ module.exports = cacheThis(async (ticker = 'BPMX') => {
 
   try {
 
-
     const [withFundamentaks] = await addFundemantals([{ ticker }]);
 
     const importantData = {
@@ -38,7 +37,7 @@ module.exports = cacheThis(async (ticker = 'BPMX') => {
     return {
       importantData,
       passedChecks,
-      isJimmyPick: Object.values(isJimmyPick).every(Boolean)
+      isJimmyPick: Object.values(passedChecks).every(Boolean)
     };
 
   } catch (e) {
