@@ -71,6 +71,9 @@ app.get('/is-jimmy-pick', async (req, res) => {
     res.json(await isJimmyPick(ticker));
 });
 
+app.get('/all-jimmy-picks', async (req, res) => {
+    res.json(require('../realtime/RealtimeRunner').derivedCollections.jimmyCollection);
+});
 
 io.on('connection', async socket => {
 
