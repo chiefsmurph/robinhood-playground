@@ -72,7 +72,16 @@ app.get('/is-jimmy-pick', async (req, res) => {
 });
 
 app.get('/all-jimmy-picks', async (req, res) => {
-    res.json(require('../realtime/RealtimeRunner').derivedCollections.jimmyCollection);
+    const {
+        lastCollectionRefresh,
+        derivedCollections: {
+            jimmyCollection
+        }
+    } = require('../realtime/RealtimeRunner');
+    res.json({
+        lastCollectionRefresh,
+        allJimmyPicks: jimmyCollection
+    });
 });
 
 io.on('connection', async socket => {
