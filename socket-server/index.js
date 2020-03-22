@@ -76,7 +76,7 @@ app.get('/jimmy-picks', async (req, res) => {
         }
     } = require('../realtime/RealtimeRunner');
     res.json({
-        lastCollectionRefresh,
+        lastCollectionRefresh: (new Date(lastCollectionRefresh)).toLocaleString(),
         allJimmyPicks: jimmyCollection
     });
 });
