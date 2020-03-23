@@ -186,6 +186,7 @@ class App extends Component {
         value: 0,
         socket: null,
         tags: ['notManual'].map(createTag),
+        admin: localStorage.getItem('placate')
     };
 
     handleDelete = i => {
@@ -280,8 +281,11 @@ class App extends Component {
     auth = () => {
         const rabbit = window.prompt('heyyyy there?');
         if (rabbit === 'j') {
+            localStorage.setItem('placate', true);
             // console.log({ rabbit })
             this.setState({ admin: true }, () => console.log(this.state));
+        } else {
+            localStorage.clear();
         }
     }
     pullGit = () => {
