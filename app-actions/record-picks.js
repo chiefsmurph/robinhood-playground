@@ -48,7 +48,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
     const [jimmyObj] = await isJimmyPick(stocksToBuy[0]);
     const stratMin = [strategy, jimmyObj.isJimmyPick && 'isJimmyPick', min].filter(Boolean).join('-');
-    const hits = await pmsHit(null, stratMin);
+    let hits = await pmsHit(null, stratMin);
 
     if (isRecommended) {
         let forPurchasePms = forPurchase
@@ -102,9 +102,18 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             }
         }
 
-
-        if (isRecommended && jimmyObj.isJimmyPick) {
-            hits.push('isRecommendedJimmyPick');
+        try {
+            if (isRecommended && jimmyObj.isJimmyPick) {
+                console.log(`its recommended and is also a jimmy pick...`);
+                console.log(`current hits`, hits);
+                hits = [
+                    ...hits,
+                    'isRecommendedJimmyPick'
+                ];
+            }
+        } catch (e) {
+            console.log(`what the fluke!!!`)
+            console.error(e);
         }
         
         
