@@ -26,7 +26,7 @@ module.exports = {
 
     wordFlags: ['split', 'reverse split', 'halt', 'rocket', 'offering', 'delist', 'breakthrough', 'bankrupt', 'bankruptcy', 'coronavirus'],
 
-    continueDownForDays: 1,
+    continueDownForDays: 0,
 
     // selling
 
@@ -52,7 +52,7 @@ module.exports = {
     multiplierThreshold: 4, // wont recommend picks below this multiplier count even if they are a forPurchase pick
     overallOffset: 0,
 
-    overallMultiplierMultiplier: 0.3,
+    overallMultiplierMultiplier: 0.45,
     avgDownerMultiplier: 1.7,
     
     // maxMultiplier: 10,
