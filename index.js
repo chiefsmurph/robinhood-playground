@@ -79,7 +79,7 @@ process.on('unhandledRejection', async (reason, p) => {
 
 
 
-    await cancelAllOrders();
+    // await cancelAllOrders();         // no dont cancel robinhood
     await alpacaCancelAllOrders();
 
 
