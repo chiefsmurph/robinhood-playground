@@ -46,7 +46,10 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
     const stocksToBuy = withPrices.map(t => t.ticker);
     const [jimmyObj] = await isJimmyPick(stocksToBuy[0]);
-    const stratMin = [strategy, jimmyObj.isJimmyPick && 'isJimmyPick', min].filter(Boolean).join('-');
+    if (jimmyObj.isJimmyPick) {
+        strategy = strategy + '-isJimmyPick';
+    }
+    const stratMin = `${strategy}-${min}`;
     let hits = await pmsHit(null, stratMin);
     let isRecommended = hits.includes('forPurchase');
 
