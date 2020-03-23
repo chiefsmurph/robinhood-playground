@@ -12,9 +12,9 @@ module.exports = async (tickers, period, daysBack, includeAfterHours) => {
   console.log({ tickers, period, daysBack, includeAfterHours })
   const historicalMethods = {
     1: tiingoHistoricals,
-    5: tiingoHistoricals,//rhHistoricals,
-    10: tiingoHistoricals,//rhHistoricals,
-    30: tiingoHistoricals,//hHistoricals,
+    5: rhHistoricals,
+    10: rhHistoricals,
+    30: rhHistoricals,
     'd': dailyHistoricals
   };
   
