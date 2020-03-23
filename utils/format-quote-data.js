@@ -18,7 +18,7 @@ const formatQuoteData = (originalQuoteData) => {
     return {
         ...additionalData,
         instrument,
-        currentPrice: additionalData.lastTrade,
+        currentPrice: additionalData.afterHoursPrice || additionalData.lastTrade,
         rawQuote: originalQuoteData
     };
 };

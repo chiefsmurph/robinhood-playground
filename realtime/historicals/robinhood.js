@@ -33,7 +33,7 @@ module.exports = async (tickers, period, daysBack, includeAfterHours = true) => 
         async tickerStr => {
           return (
             await Robinhood.url(
-              `https://api.robinhood.com/quotes/historicals/?symbols=${tickerStr}&interval=${period}minute&span=week`
+              `https://api.robinhood.com/quotes/historicals/?symbols=${tickerStr}&interval=${period}minute&span=all`
             )
           ).results;
         },
@@ -41,7 +41,7 @@ module.exports = async (tickers, period, daysBack, includeAfterHours = true) => 
         `robinhood historicals ${period}minute week`
     );
 
-    // strlog({ allHistoricals })
+    strlog({ allHistoricals })
 
     const processHistoricals = historicals => {
       return historicals

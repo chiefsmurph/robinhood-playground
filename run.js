@@ -25,6 +25,7 @@ require('./utils/fix-locale-date-string');
         .map(arg => arg === 'true' ? true : arg)
         .map(arg => arg === 'false' ? false : arg)
         .map(arg => arg === 'undefined' ? undefined : arg)
+        .map(arg => arg === '_' ? undefined : arg)
         // .map(arg => arg.includes(',') && arg.split(','));
 
     strlog({
