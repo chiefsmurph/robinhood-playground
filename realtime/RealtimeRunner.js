@@ -730,7 +730,7 @@ module.exports = new (class RealtimeRunner {
     const min = getMinutesFromOpen();
     const minKey = (() => {
         if (min > 390) return 'afterhours';
-        if (min > 200) return 'dinner';
+        if (min > 240) return 'dinner';
         if (min > 120) return 'lunch';
         if (min > 45) return 'brunch';
         if (min > 0) return 'initial';
