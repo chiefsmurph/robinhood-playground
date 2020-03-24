@@ -88,6 +88,11 @@ module.exports = cacheThis(async ticker => {
   }, (fn, key) => fn(obj[key]));
   
 
+  if (!obj.straightDown) {
+    // this is real
+    obj.notStrai = 'ghtDowner';
+  }
+
   console.log(obj);
 
   obj = Object.entries(obj)
