@@ -41,7 +41,7 @@ module.exports = async (tickers, period, daysBack, includeAfterHours = true) => 
         `robinhood historicals ${period}minute week`
     );
 
-    strlog({ allHistoricals })
+    // strlog({ allHistoricals })
 
     const processHistoricals = historicals => {
       return historicals
