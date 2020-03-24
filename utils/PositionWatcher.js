@@ -40,8 +40,9 @@ module.exports = class PositionWatcher {
   }
   getRelatedPosition() {
     const { ticker } = this;
-    const stratManager = require('../socket-server/strat-manager');
-    return (stratManager.positions.alpaca || []).find(pos => pos.ticker === ticker) || {};
+    const { positions } = require('../socket-server/strat-manager');
+    if (!positions) return {};
+    return (positions.alpaca || []).find(pos => pos.ticker === ticker) || {};
   }
   async observe(isBeforeClose, buyPrice) {
 
