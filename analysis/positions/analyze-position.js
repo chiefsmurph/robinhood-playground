@@ -60,14 +60,16 @@ const analyzePosition = async position => {
   //   zeroPick: relatedPicks[0],
   //   zeroBuy: buys[0],
   // })
-  const allPmsHit = relatedPicks.map(pick => pick.pmsHit).flatten().filter(Boolean).uniq();
-  const allStrategiesHit = relatedPicks.map(pick => pick.strategyName).filter(Boolean).uniq();
-  const buyStrategies = buys.map(buy => buy.strategy).uniq();
+  const allPmsHit = relatedPicks.map(pick => pick.pmsHit).flatten();
+  const allStrategiesHit = relatedPicks.map(pick => pick.strategyName);
+  const allInterestingWords = relatedPicks.map(pick => pick.interestingWords).flatten();
+  const buyStrategies = buys.map(buy => buy.strategy);
   const interestingWords = ([
     ...allPmsHit,
     ...allStrategiesHit,
+    ...allInterestingWords,
     ...buyStrategies,
-  ]).map(dashDel => dashDel.split('-')).flatten().uniq();
+  ]).filter(Boolean).map(dashDel => dashDel.split('-')).flatten().uniq();
   const numAvgDowners = relatedPicks.filter(pick => pick.interestingWords.includes('downer')).length;
 
   const netImpact = Number(sellReturnDollars || 0) + Number(unrealizedPl || 0);
