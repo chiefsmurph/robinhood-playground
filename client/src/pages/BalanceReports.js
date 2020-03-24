@@ -209,7 +209,9 @@ class DayReports extends Component {
             numDaysToShow: 1,
             hoverIndex: null,
             afterHoursAnnotations: [],
-            fuzzFactor: 2
+            fuzzFactor: 2,
+            showBalance: false,
+            lowKey: false
         };
     }
     componentDidMount() {
@@ -230,9 +232,14 @@ class DayReports extends Component {
     }
     setTimeFilter = timeFilter => this.setState({ timeFilter });
     render () {
-        let { balanceReports, dayReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { buyingPower, daytradeCount } } = this.props;
+        let { balanceReports, dayReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { buyingPower, daytradeCount }, setAppState, lowKey, showBalance } = this.props;
         let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations } = this.state;
         if (!balanceReports || !balanceReports.length) return <b>LOADING</b>;
+
+        console.log({
+            lowKey,
+            showBalance
+        })
 
         // console.log({ balanceReports })
 
@@ -288,7 +295,7 @@ class DayReports extends Component {
             // nope not overall
             // data coming from balance reports
             
-            const chartData = reportsToChartData.balanceChart(balanceReports);
+            const chartData = reportsToChartData.balanceChart(balanceReports, showBalance);
             return chartData;
             // const withDiff = {
             //     ...chartData,
@@ -320,14 +327,12 @@ class DayReports extends Component {
             };
         };
 
-
-        const showAccountBalance = window.location.href.includes('balance');
         const stats = mapObject({
             alpaca: 'alpacaBalance',
-            ...showAccountBalance && { robinhood: 'accountBalance' },
+            ...showBalance && { robinhood: 'accountBalance' },
         }, getStats);
 
-        console.log({ showAccountBalance, stats })
+        console.log({ showBalance, stats })
 
         const indexStats = mapObject({
             nasdaq: 'indexPrices.nasdaq',
@@ -365,8 +370,6 @@ class DayReports extends Component {
         // console.log(getNewDayLines(balanceReports))
         // console.log('hi', (new Array(allDates.length)).map((_, i) => i))
 
-
-        const lowKey = window.location.href.includes('lowKey');
         return (
             <div style={{ height: '100%', padding: '1em' }}>
                 {/* <Ticker speed={7}>
@@ -395,7 +398,16 @@ class DayReports extends Component {
                                 }
                             </select>
                             <br/>
-                            <a href="#" onClick={() => this.setState({ numDaysToShow: 1 })}>[reset]</a>
+                            <a href="#" onClick={() => this.setState({ numDaysToShow: 1 })}>[reset]</a>&nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox" checked={showBalance} onClick={() => setAppState({ showBalance: !showBalance })} /> 
+                                &nbsp;&nbsp;Show Balance
+                            </label>
+                            &nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox" checked={lowKey} onClick={() => setAppState({ lowKey: !lowKey })} /> 
+                                &nbsp;&nbsp;Lowkey
+                            </label>
                         </div>
                         
 

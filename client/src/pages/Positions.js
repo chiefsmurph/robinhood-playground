@@ -214,6 +214,7 @@ class Positions extends Component {
             // admin, 
             positions, 
             relatedPrices,
+            lowKey
         } = this.props;
 
 
@@ -230,7 +231,7 @@ class Positions extends Component {
                             positions={positions}
                             name={name}
                             admin={true}
-                            lowKey={window.location.href.includes('lowKey')}
+                            lowKey={lowKey}
                         />
                     ))
                 }

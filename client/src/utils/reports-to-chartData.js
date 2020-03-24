@@ -78,11 +78,19 @@ const process = fieldsToInclude => (dayReports, dataSlice = 0) => {
 };
 
 export default {
-    balanceChart: process([
-        'alpaca balance', 
-        ...showAccountBalance ? ['account balance'] : [],
-        'russell2000', 'SP500', 'nasdaq'
-    ]),
+    balanceChart: (arg1, showBalance, arg2) => {
+        console.log({
+            arg1,
+            showBalance,
+            arg2,
+        });
+        const actualProcess = process([
+            'alpaca balance', 
+            ...showBalance ? ['account balance'] : [],
+            'russell2000', 'SP500', 'nasdaq'
+        ]);
+        return actualProcess(arg1, arg2);
+    },
     unrealizedVsRealized: process(['unrealized return', 'realized return']),
     spyVsForPurchase: process(['forPurchase PM avg trend %', 'forPurchase PM weighted trend %']),
     pickToExecutionPerc: process(['pick to execution %']),

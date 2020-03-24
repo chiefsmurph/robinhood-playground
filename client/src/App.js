@@ -356,6 +356,7 @@ class App extends Component {
         const passToPages = {
             ...this.state,
             handlePageChange: this.handlePageChange, 
+            setAppState: state => this.setState(state),
             // position analysis
             allPositions,
             filteredPositions,
