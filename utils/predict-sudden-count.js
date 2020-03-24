@@ -3,6 +3,7 @@ const getTrend = require('./get-trend');
 const { avgArray } = require('./array-math');
 const lookup = require('./lookup');
 const getBalance = require('../alpaca/get-balance');
+const { alpaca } = require('../alpaca');
 
 module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
   let { SPY: spyHistoricals } = await getHistoricals(['SPY'], 'd', 'year', false);
@@ -33,10 +34,14 @@ module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
   const predictedMultipliers = (predictedTotalPicks) * AVG_PICK_MULTIPLIER;
 
 
-  const balance = await getBalance();
-  const targetSpendAmt = balance * 0.75;
+  const {
+    equity,
+    cash
+  } = await alpaca.getAccount();
+  const targetSpendAmt = Number(equity) * 0.5 + Number(cash);
   strlog({ 
-    balance, 
+    equity,
+    cash, 
     targetSpendAmt, 
 
     begins_at,
@@ -53,7 +58,7 @@ module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
   let purchaseAmt = 1;
 
   if (predictedMultipliers > targetSpendAmt) {
-    overallMultiplierMultiplier = targetSpendAmt / predictedMultipliers;
+    overallMultiplierMultiplier = +(targetSpendAmt / predictedMultipliers).toFixed(2);
   } else {
     purchaseAmt = targetSpendAmt / predictedMultipliers;
   }

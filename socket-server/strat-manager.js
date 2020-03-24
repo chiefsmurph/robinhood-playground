@@ -76,7 +76,7 @@ const stratManager = {
 
 
         new CronJob(`59 6 * * 1-5`, () => this.newDay(), null, true);
-        new CronJob(`0 11 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
+        new CronJob(`0 10 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
 
         
         this.pmsAnalyzed = await require('../analysis/sep-2019/all-pm-analysis')()
