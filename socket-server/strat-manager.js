@@ -36,6 +36,7 @@ const getBalanceReport = require('./get-balance-report');
 const balanceReportManager = require('./balance-report-manager');
 const settings = require('../settings');
 const getAnalyzedClosed = require('../analysis/positions/get-closed');
+const dayInProgres = require('../realtime/day-in-progress');
 
 // const RealtimeRunner = ;
 
@@ -76,7 +77,6 @@ const stratManager = {
 
 
         new CronJob(`59 6 * * 1-5`, () => this.newDay(), null, true);
-        new CronJob(`0 10 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
 
         
         this.pmsAnalyzed = await require('../analysis/sep-2019/all-pm-analysis')()
@@ -99,7 +99,10 @@ const stratManager = {
         setInterval(() => this.refreshPositions(), 1000 * 60 * 15);
         await this.refreshPositions(true);
 
-        this.resetPositionWatchers();
+        new CronJob(`5 10 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
+        if (dayInProgres(35)) {
+            this.resetPositionWatchers();
+        }
 
         console.log('initd strat manager');
     },
