@@ -43,6 +43,7 @@ module.exports = {
         // TRIB: 1.21,
         // IBIO: 2.4,
         // XAIR: 6.4
+        JDST: 2.3
     },
     
     // sellAllStocksOnNthDay: 8,
