@@ -36,7 +36,7 @@ const getBalanceReport = require('./get-balance-report');
 const balanceReportManager = require('./balance-report-manager');
 const settings = require('../settings');
 const getAnalyzedClosed = require('../analysis/positions/get-closed');
-const dayInProgres = require('../realtime/day-in-progress');
+const dayInProgress = require('../realtime/day-in-progress');
 
 // const RealtimeRunner = ;
 
@@ -100,8 +100,10 @@ const stratManager = {
         await this.refreshPositions(true);
 
         new CronJob(`5 10 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
-        if (dayInProgres(35)) {
+        if (dayInProgress(35)) {
             this.resetPositionWatchers();
+        } else {
+            console.log('not starting position watchers bc not right time');
         }
 
         console.log('initd strat manager');
