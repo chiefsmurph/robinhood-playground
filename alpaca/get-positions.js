@@ -182,10 +182,6 @@ module.exports = async (
       return 0;
     }
 
-    if (min >= 0 && min < 10) {
-      return 50;
-    }
-
     if (daysOld >= 3 && market_value < 30) {
       return 100;
     }
@@ -218,10 +214,13 @@ module.exports = async (
     // }
 
 
+    const baseBasePerc = Number((min >= 0 && min < 10) && 30);
+
+
     // basePerc = dayVal + returnVal
     const dayVal = (daysOld + 1) * 4;
     const returnVal = Math.abs(returnPerc) / 3;
-    const basePercent = dayVal + returnVal;
+    const basePercent = baseBasePerc + dayVal + returnVal;
 
     // shouldVal is based on intraday pl
     const intraDayPl = Number(unrealized_intraday_plpc);
