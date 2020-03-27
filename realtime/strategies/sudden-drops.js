@@ -71,7 +71,7 @@ module.exports = {
               keys: {
                 ...(jumpKey = () => {
                     const key = (() => {
-                      if (trendFromMin > -9) return 'minorJump';
+                      if (trendFromMin > -8) return 'minorJump';
                       if (trendFromMin < -13) return 'majorJump';
                       return 'mediumJump';
                     })();

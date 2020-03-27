@@ -45,7 +45,7 @@ module.exports = async () => {
   const allDates = await Pick.getUniqueDates();
   strlog({ allDates })
   const byDate = await mapLimit(
-    allDates,
+    allDates.slice(-6),
     3,
     async date => {
       const picks = await getPicksForDate(date);
