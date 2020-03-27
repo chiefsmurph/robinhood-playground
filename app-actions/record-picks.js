@@ -119,7 +119,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             multiplier = Math.min(multiplier, maxMultiplier);
         }
         
-        multiplier = Math.max(multiplier, 1);           // MIN
+        multiplier = Math.max(multiplier, 5);           // MIN
         
         forPurchaseData = {
             forPurchasePms, 
