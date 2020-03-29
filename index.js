@@ -116,6 +116,8 @@ process.on('unhandledRejection', async (reason, p) => {
     await initModules();
     console.log(regCronIncAfterSixThirty.toString());
 
+    await log(`playground init'd`);
+
 
     // const accounts = await Robinhood.accounts();
     // // const ratioToSpend = Math.max(0.3, getMinutesFromOpen() / 390);

@@ -113,6 +113,7 @@ module.exports = new (class RealtimeRunner {
   }
 
   async collectionsAndHistoricals() {
+
     await this.timedAsync(
       'refreshing collections',
       () => this.refreshCollections(),
@@ -327,7 +328,7 @@ module.exports = new (class RealtimeRunner {
     console.log(`starting ${eventString}...`);
     const response = await asyncFn();
     const endTS = Date.now();
-    console.log(`finished ${eventString}, time took to run: ${(endTS - startTS) / 1000}`);
+    await log(`finished ${eventString}, time took to run: ${(endTS - startTS) / 1000}`);
     return response;
   }
 
