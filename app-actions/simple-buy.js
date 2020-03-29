@@ -42,7 +42,7 @@ module.exports = async ({
     let bidPrice = l.askPrice;
     const highestAllowed = pickPrice * (PERC_ALLOWED_ABOVE_PICK_PRICE / 100 + 1);
     if (pickPrice && bidPrice > highestAllowed){
-        log('bidPrice above highestAllowed', ticker, { bidPrice, pickPrice });
+        console.log('bidPrice above highestAllowed', ticker, { bidPrice, pickPrice });
         bidPrice = Math.min(highestAllowed, bidPrice);
     }
     
@@ -81,7 +81,7 @@ module.exports = async ({
         };
         await addToDailyTransactions(successObj);
     } else {
-        log('failed purchasing', {
+        console.log('failed purchasing', {
             ticker,
             strategy,   // strategy name
             maxPrice,   // total amount to spend

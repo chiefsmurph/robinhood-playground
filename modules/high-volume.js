@@ -2,7 +2,7 @@ const addOvernightJumpAndTSO = require('../app-actions/add-overnight-jump-and-ts
 module.exports = {
     name: 'high-volume',
     trendFilter: async (trend) => {
-        log('adding overnite jump')
+        console.log('adding overnite jump')
         let withOvernight = await addOvernightJumpAndTSO(trend);
         const withVolumeRatios = withOvernight
             .map(buy => ({
@@ -42,7 +42,7 @@ module.exports = {
 
                 const filterFn = trendPerms[key] || (() => true);
                 const filtered = withVolumeRatios.filter(filterFn);
-                log({
+                console.log({
                     key,
                     count: filtered.length
                 });

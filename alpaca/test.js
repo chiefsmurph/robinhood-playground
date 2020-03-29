@@ -5,7 +5,7 @@ module.exports = async _ => {
     console.log('Current Account:', account);
 
     // await alpaca.cancelOrder('c042dec8-3d52-4f86-b8fc-6061a8458e2f');
-    log(
+    console.log(
       await alpaca.getOrders()
     )
 
@@ -18,5 +18,5 @@ module.exports = async _ => {
     //     client_order_id: 'myorder' // optional
     // });
 
-    // log(order)
+    // console.log(order)
 };

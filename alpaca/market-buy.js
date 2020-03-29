@@ -5,7 +5,7 @@ const alpacaMarketBuy = async ({
     quantity = 200,
     timeoutSeconds = 30
 } = {}) => {
-    log('ALPACA MARKET BUY');
+    console.log('ALPACA MARKET BUY');
     str({ ticker, quantity });
     const data = {
         symbol: ticker, // any valid ticker symbol

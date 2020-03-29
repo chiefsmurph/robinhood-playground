@@ -13,7 +13,7 @@ const limitSell = async ({
     // limitNum
 }= {}) => {
 
-    log('ALPACA LIMIT SELL');
+    console.log('ALPACA LIMIT SELL');
     str({ ticker, quantity, limitPrice });
     // const min = getMinutesFromOpen();
     // const extendedHours = min < 0 || min > 390;
@@ -30,7 +30,7 @@ const limitSell = async ({
         //     time_in_force: 'day'
         // }
     };
-    log('data sell alpaca', data)
+    console.log('data sell alpaca', data)
     let order;
     try {
         order = await alpaca.createOrder(data);

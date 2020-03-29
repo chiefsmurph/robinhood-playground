@@ -27,7 +27,7 @@ module.exports = async () => {
         ...position,
         stSent: await (async () => {
             const { bullBearScore } = (await getStSentiment(null, position.symbol)) || {};
-            log(position.symbol, { bullBearScore })
+            console.log(position.symbol, { bullBearScore })
             return bullBearScore;
         })()
     });

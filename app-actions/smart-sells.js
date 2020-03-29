@@ -24,7 +24,7 @@ module.exports = async (dontSell) => {
         )
         .sort((a, b) => b.returnDollars - a.returnDollars);
 
-    log('to sell: ', toSell.map(pos => pos.ticker));
+        console.log('to sell: ', toSell.map(pos => pos.ticker));
     if (String(dontSell) === 'true') return;
     await mapLimit(toSell, 3, async pos => {
         const { ticker, quantity } = pos;

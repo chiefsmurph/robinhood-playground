@@ -89,7 +89,7 @@ module.exports = {
                             sma180trendingUp: analysis.sma180trendingUp
                         };
                         picks.push(data);
-                        log(data)
+                        console.log(data)
                     }
                 }
                 return picks.length > 4 ? [] : picks;
@@ -130,7 +130,7 @@ module.exports = {
                 await recordPicks(strategyName, 5000, [ticker]);
             },
             onEnd: async allPicks => {
-                log(allPicks);
+                console.log(allPicks);
                 const ls = await lookupMultiple(allPicks.map(p => p.ticker));
                 const withAnalysis = allPicks.map(pick => ({
                     ...pick,
@@ -138,7 +138,7 @@ module.exports = {
                 }))
                 console.log(withAnalysis.sort((a, b) => b.trendSincePick - a.trendSincePick));
                 const avg = avgArray(withAnalysis.map(o => o.trendSincePick));
-                log(avg)
+                console.log(avg)
             }
         });
 
@@ -187,7 +187,7 @@ module.exports = {
             console.log('starting below 35day ema', startingBelow35Ema.map(t => t.ticker))
 
             const sma180trending = startingBelow35Ema.filter(o => o.sma180trendingUp);
-            log(withEMA.length, startingBelow35Ema.length, sma180trending.length )
+            console.log(withEMA.length, startingBelow35Ema.length, sma180trending.length )
 
             tickerWatcher.addTickers(startingBelow35Ema.map(o => o.ticker));
         };

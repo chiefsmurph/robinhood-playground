@@ -5,7 +5,7 @@ module.exports = async ({
     quantity = 14,
     timeoutSeconds = 60, 
 } = {}) => {
-    log('ALPACA MARKET SELL');
+    console.log('ALPACA MARKET SELL');
     str({ ticker, quantity });
     const data = {
         symbol: ticker, // any valid ticker symbol

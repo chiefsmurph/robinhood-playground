@@ -25,7 +25,7 @@ global.log = async (title, data) => {
 
 
 
-global.str = global.strlog = obj => log(JSON.stringify(obj, null, 2));
+global.str = global.strlog = obj => console.log(JSON.stringify(obj, null, 2));
 global.mapLimit = require('promise-map-limit');
 
 Array.prototype.flatten = function() {

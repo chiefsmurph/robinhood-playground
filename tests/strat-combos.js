@@ -80,7 +80,7 @@ module.exports = () => {
                     );
                 })
             );
-            log(
+            console.log(
                 collection
             )
         // });
@@ -89,7 +89,7 @@ module.exports = () => {
     
 
 
-    log(
+    console.log(
         perms
     )
 

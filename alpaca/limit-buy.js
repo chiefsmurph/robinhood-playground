@@ -11,7 +11,7 @@ const alpacaLimitBuy = async ({
   fallbackToMarket = true,
 } = {}) => {
   // queue alpaca limit order 4% above pickPrice
-  log('ALPACA LIMIT BUY');
+  console.log('ALPACA LIMIT BUY');
   str({ ticker, quantity, limitPrice });
   const min = getMinutesFromOpen();
   const extendedHours = min < 0 || min > 390;
@@ -28,7 +28,7 @@ const alpacaLimitBuy = async ({
       //     time_in_force: 'day'
       // }
   };
-  log('data buy alpaca', data)
+  console.log('data buy alpaca', data)
   let order;
   try {
       order = await alpaca.createOrder(data);

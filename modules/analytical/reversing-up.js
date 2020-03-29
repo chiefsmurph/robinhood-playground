@@ -212,7 +212,7 @@ const strategy = async (trendWithHistoricals, daysBack, outerPermsLimit) => {
 
 
     const hists = trendWithHistoricals[0].yearHistoricals ;
-    log(
+    console.log(
         {
             daysBack,
             lastDate: hists[hists.length - 1].begins_at
@@ -232,7 +232,7 @@ const strategy = async (trendWithHistoricals, daysBack, outerPermsLimit) => {
     Object.keys(outerPerms).forEach(outerPermKey => {
         const outerPermFilter = outerPerms[outerPermKey];
         const filteredTrend = trendWithHistoricals.filter(outerPermFilter);
-        log(outerPermKey, filteredTrend.length);
+        console.log(outerPermKey, filteredTrend.length);
 
         let innerResults = {};
         dayPerms.forEach(dayCount => {

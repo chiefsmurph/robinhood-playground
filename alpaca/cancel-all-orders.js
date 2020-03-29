@@ -17,7 +17,7 @@ module.exports = async (ticker, side) => {
     str({ matchingOrders });
 
     for (let order of matchingOrders) {
-        log(await alpaca.cancelOrder(order.id));
+        console.log(await alpaca.cancelOrder(order.id));
     }
 
     if (matchingOrders.length && ticker && side) {

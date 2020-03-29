@@ -40,9 +40,9 @@ require('./utils/fix-locale-date-string');
             let trendKeyArg = 'under5';
             if (Object.keys(trendBreakdowns).includes(restArgs[0])) {
                 trendKeyArg = restArgs.shift();
-                log('supplied', trendKeyArg);
+                console.log('supplied', trendKeyArg);
             }
-            log({ trendKeyArg })
+            console.log({ trendKeyArg })
             const trend = trendBreakdowns[trendKeyArg];
             callArgs.push(trend);
         } else {

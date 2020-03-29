@@ -1,6 +1,6 @@
 const lookupMultiple = require('../utils/lookup-multiple');
 module.exports = async (rh) => {
-    log(
+    console.log(
         await lookupMultiple(
             rh, 
             ['AKER', 'BPMX', 'HSGX'],

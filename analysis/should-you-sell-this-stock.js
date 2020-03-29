@@ -10,7 +10,7 @@ module.exports = async (
     ticker = ticker.toUpperCase();
     pricePaid = Number(avgBuyPrice);
 
-    log(ticker, pricePaid )
+    console.log(ticker, pricePaid )
 
     const [stSent, l] = await Promise.all([
         getStSent(null, ticker),
@@ -19,7 +19,7 @@ module.exports = async (
     const trend = getTrend(l.currentPrice, avgBuyPrice);
     const { trend: dayTrend } = l;
 
-    log({ trend, dayTrend });
+    console.log({ trend, dayTrend });
 
     const stSentBullish = (stSent || {}).bullBearScore > 50;
     str({ stSentBullish, stSent });

@@ -104,7 +104,7 @@ const prepareTrend = async (trend, min) => {
     let histQS = `interval=5minute`;
     const isNotRegularTrading = min < 0 || min >= 390;
     if (false && isNotRegularTrading) histQS += '&bounds=extended';
-    // log({ isNotRegularTrading })
+    // console.log({ isNotRegularTrading })
     let allHistoricals = await getMultipleHistoricals(
         onlyWithFundamentals.map(buy => buy.ticker),
         histQS

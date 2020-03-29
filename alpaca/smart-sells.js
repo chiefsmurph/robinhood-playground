@@ -33,7 +33,7 @@ module.exports = async (dontSell) => {
     //     shouldSell: await shouldYouSellThisStock(pos.symbol, pos.avg_entry_price)
     // }));
 
-    // log('selling' + withShouldSells.map(p => p.symbol));
+    // console.log('selling' + withShouldSells.map(p => p.symbol));
 
     // str({ withShouldSells })
 

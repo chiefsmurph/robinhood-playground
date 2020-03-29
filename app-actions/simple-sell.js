@@ -62,6 +62,6 @@ module.exports = async ({
         // update daily transactions
         await addToDailyTransactions(data);
     } else {
-        log('failed selling', data);
+        console.log('failed selling', data);
     }
 };

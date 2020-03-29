@@ -4,7 +4,7 @@ const getTrend = require('../utils/get-trend');
 const { avgArray } = require('../utils/array-math');
 
 module.exports = async (date, strat) => {
-    log({ strat, date })
+    console.log({ strat, date })
     const allFound = await Pick.find({
         date,
         ...strat ? { strategyName: strat } : {}
@@ -49,7 +49,7 @@ module.exports = async (date, strat) => {
 
     formatted.forEach(str);
 
-    log(
+    console.log(
         'avg trend',
         avgArray(
             analyzed.map(p => p.trend)
@@ -58,7 +58,7 @@ module.exports = async (date, strat) => {
 
     // str(analyzed)
 
-    log(
+    console.log(
         'avg trend only goods',
         avgArray(
             analyzed
@@ -76,7 +76,7 @@ module.exports = async (date, strat) => {
         )
     )
 
-    log(
+    console.log(
         'avg trend only majorJumps',
         avgArray(
             analyzed
@@ -87,5 +87,5 @@ module.exports = async (date, strat) => {
         )
     )
 
-    // log(formatted)
+    // console.log(formatted)
 };

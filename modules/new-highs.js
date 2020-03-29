@@ -31,19 +31,19 @@ const trendFilter = async (trend) => {
 
     const response = {};
 
-    // log({ trend })
-    log('adding overnite jump')
+    // console.log({ trend })
+    console.log('adding overnite jump')
     let withOvernight = await addOvernightJumpAndTSO(trend);
-    log('adding historicals')
+    console.log('adding historicals')
     const withHistoricals = (
         await addTrendWithHistoricals(withOvernight, 'day', 'year')
     ).filter(b => b.yearHistoricals.length > 200);
-    log('adding risk')
+    console.log('adding risk')
     const withRisk = await mapLimit(withHistoricals, 20, async buy => ({
         ...buy,
         ...(await getRisk(buy)),
     }));
-    log('burrito wrap up');
+    console.log('burrito wrap up');
     const withEMAs = addEMAs(withRisk);
 
     const topQuarterBySort = (arr, sort) => {
@@ -123,8 +123,8 @@ const trendFilter = async (trend) => {
         Object.keys(sorts).forEach(key => {
             const sorted = filtered.sort(sorts[key]);
             const sliced = sorted.slice(0, 10);
-            log(`${name}-${key}`.toUpperCase());
-            log(`count: ${sorted.length}`);
+            console.log(`${name}-${key}`.toUpperCase());
+            console.log(`count: ${sorted.length}`);
             response[`${name}-${key}`] = sliced.slice(0, 3).map(t => t.ticker);
             console.table(
                 sliced.map(t => ({
@@ -148,7 +148,7 @@ const trendFilter = async (trend) => {
                 const count = exists.length;
                 const avg = avgArray(exists.map(t => t[key]));
                 const returnAbs = avg * count;
-                log(
+                console.log(
                     `avg ${key}`,
                     avg,
                     'returnAbs',
@@ -157,7 +157,7 @@ const trendFilter = async (trend) => {
                 );
             };
             ['trendSinceOpen', 'ts2down', 'ts2up'].forEach(analyze);
-            log('\n');
+            console.log('\n');
         });
     };
 

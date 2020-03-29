@@ -58,7 +58,7 @@ module.exports = {
                     }
                     t++;
                 }
-                log('done', sortKey);
+                console.log('done', sortKey);
                 str({ response: response.map(r => r.ticker) });
             });
             return response;
@@ -107,7 +107,7 @@ module.exports = {
         console.log('running best st-sentiment strategy', priceKey);
 
         const limitedByVolume = await limitTrendByVolume(trend);
-        // log(' done done o')
+        // console.log(' done done o')
         // str({ limitedByVolume })
         const withSentimented = (await addSentimentToTrend(limitedByVolume))
             .filter(o => o.bullBearScore);

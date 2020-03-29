@@ -34,7 +34,7 @@ module.exports = async (min) => {
 
     // sp 500
     sp500 = sp500 || await (async () => {
-        log('getting sp500 stocks')
+        console.log('getting sp500 stocks')
         const sp500url = 'https://pkgstore.datahub.io/core/s-and-p-500-companies/constituents_json/data/64dd3e9582b936b0352fdd826ecd3c95/constituents_json.json';
         return JSON.parse(
             await request(sp500url)

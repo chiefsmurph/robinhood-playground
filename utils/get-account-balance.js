@@ -13,7 +13,7 @@ module.exports = async (includeTrend, todaysDate) => {
         let lastPortVal = Object.keys(portCache).indexOf(todaysDate);
         lastPortVal = lastPortVal === -1 ? Object.keys(portCache).length : lastPortVal;
         const vl = portCache[Object.keys(portCache)[lastPortVal - 1]];
-        // log({portCache, vl, lastPortVal });
+        // console.log({portCache, vl, lastPortVal });
         return vl;
     };
 
