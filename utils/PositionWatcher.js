@@ -179,7 +179,7 @@ module.exports = class PositionWatcher {
           // trendToLowestAvg,
         }
       }, true);
-      await sendEmail(`avging down`, logLine);
+      await log(`avging down: ${logLine}`);
       // this.avgDownPrices.push(currentPrice);
       this.lastAvgDown = Date.now();
     } else if (!pendingSale && returnPerc >= 11 && !disableDayTrades) {
@@ -187,7 +187,7 @@ module.exports = class PositionWatcher {
       const { portfolio_value, daytrade_count } = account;
       if (Number(market_value) > Number(portfolio_value) * 0.29) {
         if (daytrade_count <= 2) {
-          await sendEmail(`Selling ${ticker} using a daytrade can we get 14% & 17% up?`);
+          await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 14% & 17% up?`);
           const firstChunk = Math.round(Number(quantity) / 2.2);
           const secondChunk = firstChunk;//Number(quantity) - firstChunk;
           alpacaLimitSell({
@@ -207,9 +207,10 @@ module.exports = class PositionWatcher {
           this.pendingSale = true;
         } else {
           // await sendEmail(`You are at three daytrades but you might want to take a look at ${ticker}`);
-          console.log('You are doing great')
+          await log(`You are doing great, check out ${ticker} but you at 3 daytrades`);
         }
       } else {
+        await log(`You are doing great, check out ${ticker} but small amt`);
         // await sendEmail(`It's not a big deal (small amt) but you might want to check out ${ticker}`);
       }
     }

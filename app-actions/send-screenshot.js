@@ -43,7 +43,7 @@ const sendScreenshot = async (numDays, queryString = '') => {
   });
   // await page.waitFor(12000);
   await browser.close();
-  await sendEmail(`daily trend screenshot for ${screenshotName}`, '', undefined, [
+  await sendEmail('force', `daily trend screenshot for ${screenshotName}`, '', undefined, [
     path
   ]);
 };
@@ -57,7 +57,7 @@ module.exports = async (numDays = 1) => {
   console.log({ days})
   for (let day of days) {
     await sendScreenshot(day);
-    // await sendScreenshot(day, 'balance');
+    await sendScreenshot(day, 'balance');
   }
   
 }

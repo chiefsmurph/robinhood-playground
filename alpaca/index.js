@@ -78,10 +78,10 @@ client.onOrderUpdate(async data => {
       await cancelAllOrders(ticker);
     }
 
-    const action = (closedPosition || Math.abs(returnDollars) > 1) ? sendEmail : console.log;
-    await action(
+    // const action = (closedPosition || Math.abs(returnDollars) > 1) ? sendEmail : console.log;
+    await log(
       `wow ${closedPosition ? 'CLOSED' : 'SOLD'} ${ticker} return... ${returnDollars} (${returnPerc}%)`, 
-      JSON.stringify({
+      {
           ticker,
           buyPrice,
           sellPrice,
@@ -90,8 +90,7 @@ client.onOrderUpdate(async data => {
           alpacaOrder: data.order,
           closedPosition,
           deletedHold,
-          position
-      }, null, 2)
+      }
     );
 
   }

@@ -44,9 +44,10 @@ mongoose.connect(mongoConnectionString, { useNewUrlParser: true });
 process.on('unhandledRejection', async (reason, p) => {
     // application specific logging, throwing an error, or other logic here
     console.log('we hit an error oh shit');
-    const log = `Unhandled Rejection at: ${p}, reason: ${reason}`;
-    console.log(log);
-    await sendEmail('force', 'unhandledRejection', log);
+    const logStr = `Unhandled Rejection at: ${p}, reason: ${reason}`;
+    console.log(logStr);
+    await log(`ERROR: unhandledRejection: ${logStr}`);
+    await sendEmail('force', 'unhandledRejection', logStr);
     return restartProcess();
 });
 

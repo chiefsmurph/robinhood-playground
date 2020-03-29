@@ -273,7 +273,7 @@ module.exports = new (class RealtimeRunner {
       const curPriceCache = this.priceCaches[period];
       if (!curPriceCache) {
         // we have a serious problem
-        await sendEmail('price caches got messed up!!! ahhh!!');
+        await log('ERROR: price caches got messed up!!! ahhh!!');
         return restartProcess();
       }
       const firstTicker = Object.keys(curPriceCache)[0];
@@ -343,13 +343,13 @@ module.exports = new (class RealtimeRunner {
     // })
     const firstTickerLastHistorical = firstTickerData[firstTickerData.length - 1];
     if (!firstTickerLastHistorical) {
-      sendEmail('NO LAST DATA', `no last data ${period}`);
+      log('NO LAST DATA', `no last data ${period}`);
       console.log('WHAT NO LAST DATA', {
         period,
         firstTicker,
         relatedPriceCache
       });
-      restartProcess();
+      setTimeout(() => restartProcess(), 2000);
     }
     return (firstTickerLastHistorical || {}).timestamp;
   }

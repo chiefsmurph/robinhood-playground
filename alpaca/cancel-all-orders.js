@@ -1,5 +1,3 @@
-const sendEmail = require('../utils/send-email');
-
 module.exports = async (ticker, side) => {
     console.log({ ticker, side})
     const { alpaca } = require('.');
@@ -21,7 +19,7 @@ module.exports = async (ticker, side) => {
     }
 
     if (matchingOrders.length && ticker && side) {
-        await sendEmail(`canceled ${matchingOrders.length} orders on ${ticker} canceled ${side}s`);
+        await log(`canceled ${matchingOrders.length} orders on ${ticker} canceled ${side}s`);
     }
 
 };

@@ -7,7 +7,6 @@ const { mapObject, pick } = require('underscore');
 const getPositions = require('./get-positions');
 const alpacaMarketSell = require('./market-sell');
 const alpacaAttemptSell = require('./attempt-sell');
-const sendEmail = require('../utils/send-email');
 const stratManager = require('../socket-server/strat-manager');
 
 module.exports = async (_, dontAct) => {

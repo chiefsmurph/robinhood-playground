@@ -234,11 +234,11 @@ module.exports = async ({
                 quantity: totalQuantity
             });
             
-            await sendEmail(`roundup for buying ${ticker}`, JSON.stringify({
+            await log(`roundup for buying ${ticker}`, {
                 ticker,
                 strategy,
                 response
-            }, null, 2));
+            });
             numPurchased++;
         } catch (e) {
             // failed

@@ -37,6 +37,7 @@ import Analysis from './pages/Analysis';
 import Scan from './pages/Scan';
 import Closed from './pages/Closed';
 import Derived from './pages/Derived';
+import Logs from './pages/Logs';
 
 import socketIOClient from "socket.io-client";
 import { partition, mapObject } from 'underscore';
@@ -120,6 +121,10 @@ const pages = [
         label: 'Home',
         component: BalanceReports,
         // render: state => 
+    },
+    {
+        label: 'Logs',
+        component: Logs
     },
     {
         label: "Strategies",
@@ -247,7 +252,13 @@ class App extends Component {
         //       handlePick(fakePick);
         // }, 5000)
         socket.on('server:log', data => {
-            console.log('log', data);
+            console.log({ data })
+            this.setState(({ mostRecentLogs }) => ({
+                mostRecentLogs: [
+                    data,
+                    ...mostRecentLogs || []
+                ]
+            }));
         })
         socket.on('server:data-update', data => {
             console.log(data, 'data-update')

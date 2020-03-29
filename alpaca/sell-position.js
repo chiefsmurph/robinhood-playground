@@ -41,9 +41,10 @@ module.exports = async position => {
      });
 
     const { alpacaOrder, attemptNum } = response || {};
-    console.log(`sold ${ticker} in ${attemptNum} attempts!!!`)
     if (!alpacaOrder || !alpacaOrder.filled_avg_price) {
-        return sendEmail(`unable to sell ${ticker}`);
+        await log(`unable to sell ${ticker}`);
+    } else {
+        await log(`sold ${ticker} (${alpacaOrder.quantity} @ ${alpacaOrder.filled_avg_price}) in ${attemptNum} attempts!!!`);
     }
     
   
