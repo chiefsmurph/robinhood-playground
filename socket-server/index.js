@@ -83,8 +83,11 @@ app.get('/jimmy-picks', async (req, res) => {
 
 io.on('connection', async socket => {
 
+    const ip = socket.request.connection.remoteAddress;
+    const userAgent = socket.request.headers['user-agent'];
+
     console.log('new connection');
-    log('new connection');
+    log(`new connection: ${ip} (${userAgent}`);
     
     socket.emit('server:data-update', await stratManager.getWelcomeData());
 
