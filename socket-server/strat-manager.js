@@ -4,6 +4,7 @@ const fs = require('mz/fs');
 const { uniq, pick } = require('underscore');
 
 // mongo
+const Log = require('../models/Log');
 const Pick = require('../models/Pick');
 const Holds = require('../models/Holds');
 const DateAnalysis = require('../models/DateAnalysis');
@@ -140,7 +141,8 @@ const stratManager = {
             dateAnalysis: await DateAnalysis.find({}).sort({ date: -1 }).lean(),
             overallAnalysis: JSON.parse(await fs.readFile('./json/overall-analysis.json')),
             ...require('../realtime/RealtimeRunner').getWelcomeData(),
-            additionalAccountInfo: (await getBalanceReport()).additionalAccountInfo
+            additionalAccountInfo: (await getBalanceReport()).additionalAccountInfo,
+            mostRecentLogs: await Log.getMostRecent()
         };
     },
     async refreshPositions(refreshClosed) {

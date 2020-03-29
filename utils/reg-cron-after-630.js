@@ -18,7 +18,9 @@ const regCronIncAfterSixThirty = ({ name, run = [], fn }) => {
         });
         // console.log('push all', allCrons);
         new CronJob(cronStr, () => {
-            console.log('starting cron: ', name);
+            const logStr = `starting cron: ${name}`;
+            console.log(logStr);
+            log(logStr);
             const callFn = () => fn(min, index);
             if (min === 0) {
                 setTimeout(callFn, 5000);

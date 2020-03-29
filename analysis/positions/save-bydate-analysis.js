@@ -32,7 +32,6 @@ module.exports = async () => {
   const byDateAnalysis = getByDateAnalysis(allPositions);
   // const overallAnalysis = getOverallAnalysis(allPositions);
   
-  
   await saveDateAnalysis(byDateAnalysis);
 
   return {

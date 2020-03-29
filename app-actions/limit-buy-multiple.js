@@ -219,7 +219,15 @@ module.exports = async ({
             const totalQuantity = Math.round(perStock / pickPrice) || 1;
 
             const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
-            console.log({ totalQuantity, pickPrice, perStock })
+            console.log({ totalQuantity, pickPrice, perStock });
+
+            await log(`buying ${ticker} $${Math.round(perStock)}`, {
+                ticker,
+                perStock,
+                totalQuantity,
+                pickPrice
+            });
+            
             const response = await buyStock({
                 ticker,
                 pickPrice,

@@ -207,7 +207,7 @@ class App extends Component {
         const urlParams = new URLSearchParams(window.location.search);
         const port = urlParams.get('p') || 3001;
 
-        const socketEndpoint = origin.includes('localhost') && false ? 'http://localhost:3000' : `http://23.237.87.144:${port}`;
+        const socketEndpoint = origin.includes('localhost') && true ? 'http://localhost:3000' : `http://23.237.87.144:${port}`;
         const socket = socketIOClient(socketEndpoint);
         
         const handlePick = data => {
@@ -246,6 +246,9 @@ class App extends Component {
         //       };
         //       handlePick(fakePick);
         // }, 5000)
+        socket.on('server:log', data => {
+            console.log('log', data);
+        })
         socket.on('server:data-update', data => {
             console.log(data, 'data-update')
             this.setState(data);

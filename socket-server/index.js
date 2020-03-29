@@ -84,6 +84,7 @@ app.get('/jimmy-picks', async (req, res) => {
 io.on('connection', async socket => {
 
     console.log('new connection');
+    log('new connection');
     
     socket.emit('server:data-update', await stratManager.getWelcomeData());
 

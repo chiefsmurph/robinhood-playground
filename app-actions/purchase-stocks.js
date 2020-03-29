@@ -34,7 +34,9 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         const fundsNeeded = (totalAmtToSpend * 1.3) - buying_power;
         await makeFundsAvailable(fundsNeeded);
         const afterCash = (await alpaca.getAccount()).buying_power;
-        await sendEmail('funds made available', JSON.stringify({ before: buying_power, fundsNeeded, after: afterCash }, null, 2));
+        const logObj = { before: buying_power, fundsNeeded, after: afterCash };
+        await log('funds made available', logObj);
+        await sendEmail('funds made available', JSON.stringify(logObj, null, 2));
     }
 
     if (dontBuy) return;
@@ -57,7 +59,6 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         strategy,
         min,
         withPrices,
-        strategy,
     });
 };
 

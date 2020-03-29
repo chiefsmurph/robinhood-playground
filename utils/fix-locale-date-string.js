@@ -1,6 +1,6 @@
 // fix because new server formats like - year-month-day
 // we want month-day-year
-
+const Log = require('../models/Log');
 const oldLocaleDateString = Date.prototype.toLocaleDateString;
 Date.prototype.toLocaleDateString = function() {
     // console.log('ouch baby.', this.getTime());
@@ -10,7 +10,21 @@ Date.prototype.toLocaleDateString = function() {
     return [month, day, year].join('-');
 };
 
-global.log = console.log;
+global.log = async (title, data) => {
+    const logObj = {
+        title,
+        data
+    };
+    const logDoc = await Log.create(logObj);
+    require('../socket-server/strat-manager').sendToAll(
+        'server:log',
+        logDoc
+    );
+};
+
+
+
+
 global.str = global.strlog = obj => log(JSON.stringify(obj, null, 2));
 global.mapLimit = require('promise-map-limit');
 
@@ -83,4 +97,3 @@ _.mixin({
         return b;
     }
 });
-  
