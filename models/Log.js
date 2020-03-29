@@ -8,10 +8,18 @@ const schema = new Schema({
 });
 
 schema.statics.getMostRecent = async function(limit = 100) {
+
+    const d = new Date();
+    d.setHours(0);
+    d.setMinutes(0);
+
     return this
-        .find({})
+        .find({
+            timestamp: {
+                $gt: d
+            }
+        })
         .sort({ _id: -1 })
-        .limit(limit)
         .lean();
 }
 
