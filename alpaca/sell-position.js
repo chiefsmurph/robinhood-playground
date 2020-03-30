@@ -44,7 +44,7 @@ module.exports = async position => {
     if (!alpacaOrder || !alpacaOrder.filled_avg_price) {
         await log(`unable to sell ${ticker}`);
     } else {
-        await log(`sold ${ticker} (${alpacaOrder.quantity} @ ${alpacaOrder.filled_avg_price}) in ${attemptNum} attempts!!!`);
+        await log(`sold ${ticker}: ${alpacaOrder.qty} shares (${percToSell}%) @ ${alpacaOrder.filled_avg_price}) in ${attemptNum} attempts!!!`);
     }
     
   
