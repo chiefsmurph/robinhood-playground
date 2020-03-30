@@ -25,10 +25,10 @@ module.exports = async () => {
   });
   const [headerRow, ...rest] = results;
   const headers = headerRow.map(camelize);
-  strlog({
-    headers,
-    rest
-  });
+  // strlog({
+  //   headers,
+  //   rest
+  // });
 
   const response = rest.map(values =>
     values.reduce((acc, value, index) => ({
