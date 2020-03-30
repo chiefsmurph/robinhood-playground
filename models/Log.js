@@ -21,7 +21,22 @@ schema.statics.getMostRecent = async function(limit = 100) {
         })
         .sort({ _id: -1 })
         .lean();
-}
+};
+
+
+schema.statics.boughtToday = async function(ticker) {
+
+    const d = new Date();
+    d.setHours(0);
+    d.setMinutes(0);
+
+    return this.countDocuments({
+        title: new RegExp(`buying ${ticker}`),
+        timestamp: {
+            $gt: d
+        }
+    });
+};
 
 
 const Log = mongoose.model('Log', schema, 'logs');

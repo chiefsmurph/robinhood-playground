@@ -19,7 +19,7 @@ module.exports = async (isRegularHours = true) => {
 
   const account = await alpaca.getAccount();
   console.log('Current Account:', account);
-  const { equity, buying_power, daytrade_count } = account;
+  const { equity, buying_power, cash, daytrade_count } = account;
   
   // lastBalance = accountBalance;
   const report = {
@@ -29,12 +29,13 @@ module.exports = async (isRegularHours = true) => {
       isRegularHours,
   };
   const additionalAccountInfo = {
-    buyingPower: +Number(buying_power).toFixed(2),
+    buyingPower: +Number(cash).toFixed(2),
     daytradeCount: daytrade_count,
   };
 
   if (lastDtCount && daytrade_count && lastDtCount !== daytrade_count) {
     await sendEmail('force', 'DAYTRADE ALERT!', `last: ${lastDtCount} now ${daytrade_count}`);
+    await log(`ERROR: DAYTRADE ALERT FROM ${lastDtCount} to ${daytrade_count}`);
   }
   lastDtCount = daytrade_count;
 

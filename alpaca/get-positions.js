@@ -105,7 +105,19 @@ module.exports = async (
       // 'IBIO'
     ];
 
-    const wouldBeDayTrade = DONTSELL.includes(ticker) || Boolean(mostRecentPurchase === 0);
+    let wouldBeDayTrade = DONTSELL.includes(ticker) || Boolean(mostRecentPurchase === 0);
+    if (!wouldBeDayTrade) {
+      const foundInLogs = await Log.boughtToday(ticker);
+      if (!!foundInLogs) {
+        wouldBeDayTrade = true;
+        await log(`ERROR: (not really) we thought ${ticker} was not a daytrade but found evidence of a daytrade in the logs.`, {
+          mostRecentPurchase,
+          daysOld,
+          buys,
+          uniqDates
+        });
+      }
+    }
     return {
       ...position,
       ...hold,
@@ -215,7 +227,7 @@ module.exports = async (
 
 
     const isInitialSell = (min >= 0 && min < 10);
-    const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 50 : 20;
+    const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 50 : 40;
     const baseBasePerc = Number(isInitialSell && initialSellPerc);
 
     // basePerc = dayVal + returnVal
