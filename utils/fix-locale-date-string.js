@@ -16,6 +16,7 @@ global.log = async (title, data) => {
         data
     };
     const logDoc = await Log.create(logObj);
+    console.log(`LOG --- ${title}`, data);
     require('../socket-server/strat-manager').sendToAll(
         'server:log',
         logDoc

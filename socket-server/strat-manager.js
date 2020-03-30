@@ -112,7 +112,7 @@ const stratManager = {
     async resetPositionWatchers() {
         for (let pos of this.positions.alpaca.sort((a, b) => b.equity - a.equity)) {
             if (pos.daysOld <= settings.continueDownForDays) {
-                console.log(`starting avg downer ${pos.ticker} bc less than continueDownForDays days old`)
+                await log(`starting avg downer ${pos.ticker} bc ${pos.daysOld} days old`);
                 watchThis({
                     ticker: pos.ticker,
                     initialTimeout: 6000 + Math.random() * 60000
