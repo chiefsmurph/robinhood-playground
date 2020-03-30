@@ -160,6 +160,8 @@ const stratManager = {
             const analyzedClosed = await getAnalyzedClosed();
             this.analyzedClosed = analyzedClosed;
         }
+
+        await log('done refreshing positions');
         
         this.sendToAll('server:data-update', { 
             positions, 
