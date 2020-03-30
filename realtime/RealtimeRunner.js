@@ -778,7 +778,7 @@ module.exports = new (class RealtimeRunner {
     // }
 
     // const strategyName = `ticker-watchers-under${priceKey}${watchoutKey}${jumpKey}${minKey}${historicalKey}`;
-    const isMajorJump = strategyName.includes('majorJump');
+    const isMajorJump = keyString.includes('majorJump');
     const activeHalt = isMajorJump && await (async () => {
       console.log(`major jump detected, looking for an active halt....`);
       const allActiveHalts = await getActiveHalts();
