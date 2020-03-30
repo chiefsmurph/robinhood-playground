@@ -38,7 +38,6 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
     if (!withPrices.length) {
         return console.log(`no stocks found for ${stratMin}`)
     }
-    
 
     let forPurchaseData = {};
     let multiplier = 0;

@@ -106,6 +106,7 @@ module.exports = async (pms, strategy, stocksToBuy) => {
 
   
   if (strategy.includes('majorJump')) {
+    // check for 3 daytrades
     const account = await alpacaModule.getAccount();
     const { daytrade_count } = account;
     if (daytrade_count === 3) {

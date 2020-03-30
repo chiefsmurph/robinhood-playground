@@ -122,6 +122,7 @@ module.exports = positions => {
       [word]: ({ interestingWords }) => interestingWords.includes(word)
     }), {}),
 
+
     // avg downers
     avgDowner: ({ interestingWords }) => interestingWords.includes('avg'),
     avgDowner0: ({ interestingWords }) => interestingWords.includes('0count'),

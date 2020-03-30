@@ -25,7 +25,7 @@ const pmsHit = require('../utils/pms-hit');
 const getStSentiment = require('../utils/get-stocktwits-sentiment');
 const getDailyKeys = require('../utils/get-daily-keys');
 const queryGoogleNews = require('../utils/query-google-news');
-
+const getActiveHalts = require('../utils/get-active-halts');
 
 const riskCache = {};
 
@@ -767,9 +767,9 @@ module.exports = new (class RealtimeRunner {
       watchoutKey = shouldWatchout ? 'watchout' : 'notWatchout';
       
       // stSent
-      if (strategyName.includes('drops')) {
+      // if (strategyName.includes('drops')) {
         stSent = await getStSentiment(ticker) || {};
-      }
+      // }
     }
 
     // const pms = await pmsHit(null, pickName);
@@ -778,7 +778,12 @@ module.exports = new (class RealtimeRunner {
     // }
 
     // const strategyName = `ticker-watchers-under${priceKey}${watchoutKey}${jumpKey}${minKey}${historicalKey}`;
-
+    const isMajorJump = strategyName.includes('majorJump');
+    const activeHalt = isMajorJump && (await getActiveHalts()).find(halt => halt.issueSymbol === ticker);
+    const haltKey = activeHalt && 'halt';
+    if (activeHalt) {
+      await log(`--- halt ALERT for ${ticker} ----`, { activeHalt });
+    }
     const pickName = [
         strategyName,
         collectionKey,
@@ -791,7 +796,8 @@ module.exports = new (class RealtimeRunner {
         ...strategyName.includes('sudden-drops') ? (await queryGoogleNews(ticker) || {}).wordFlags : [],
         watchoutKey,
         minKey,
-        volumeKey
+        volumeKey,
+        haltKey
     ].filter(Boolean).uniq().join('-');
     console.log({pickName});
 
