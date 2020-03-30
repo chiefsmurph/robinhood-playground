@@ -84,8 +84,9 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             multiplier = 6;
         }
         
-        const badWords = ['split', 'offering', 'bankrupt', 'afterhours'];
-        if (badWords.some(w => strategy.includes(w)) && !strategy.includes('downer')) {
+        const badWords = ['split', 'offering', 'bankrupt', 'afterhours', 'halt'];
+        const matchesWord = w => strategy.includes(w) || interestingWords.includes(w);
+        if (badWords.some(w => matchesWord(w)) && !strategy.includes('downer')) {
             isRecommended = false;
         }
 
