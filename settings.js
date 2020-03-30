@@ -24,7 +24,7 @@ let expectedPickCount = 0;
 module.exports = {
     // important settings
 
-    wordFlags: ['split', 'reverse split', 'halt', 'rocket', 'offering', 'delist', 'breakthrough', 'bankrupt', 'bankruptcy', 'coronavirus'],
+    wordFlags: ['split', 'reverse split', 'rocket', 'offering', 'delist', 'breakthrough', 'bankrupt', 'bankruptcy', 'coronavirus'],
 
     continueDownForDays: 3,
 
