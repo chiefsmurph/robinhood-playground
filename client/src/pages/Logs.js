@@ -5,7 +5,7 @@ class Logs extends Component {
         return (
             <div style={{ padding: '1em', font: 'monospace', backgroundColor: 'black' }}>
                 {
-                    this.props.mostRecentLogs.slice(0, 30).map(log => (
+                    this.props.mostRecentLogs.slice(0, 400).map(log => (
                         <div style={{ color: JSON.stringify(log).toLowerCase().includes('error') ? 'red' : 'white', borderBottom: '1px solid white' }}>
                             <b>{
                                 (new Date(log.timestamp)).toLocaleString()
