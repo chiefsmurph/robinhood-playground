@@ -4,6 +4,7 @@ const { avgArray } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
 const Holds = require('../models/Holds');
 const Pick = require('../models/Pick');
+const Log = require('../models/Log');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const analyzePosition = require('../analysis/positions/analyze-position');
 const { sellBelow = {}, sellAbove = {}, force: { keep }, continueDownForDays } = require('../settings');
