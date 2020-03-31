@@ -1,6 +1,6 @@
 const limitBuyMultiple = require('./limit-buy-multiple');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
-let { expectedPickCount, purchaseAmt, disableMakeFundsAvailable } = require('../settings');
+let { expectedPickCount, purchaseAmt, disableMakeFundsAvailable, onlyUseCash } = require('../settings');
 const { alpaca } = require('../alpaca');
 const makeFundsAvailable = require('../alpaca/make-funds-available');
 const sendEmail = require('../utils/send-email');
@@ -8,7 +8,7 @@ const sendEmail = require('../utils/send-email');
 const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}, dontBuy) => {
 
     const account = await alpaca.getAccount();
-    const { portfolio_value, buying_power, long_market_value } = account;
+    const { portfolio_value, cash, buying_power, long_market_value } = account;
 
     purchaseAmt = purchaseAmt || Math.ceil(portfolio_value / expectedPickCount);
     const amountPerBuy = purchaseAmt * multiplier;
@@ -19,22 +19,31 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     });
 
 
-    if (disableMakeFundsAvailable && amountPerBuy * 1.3 > Number(buying_power)) {
+    const amtLeft = Number(onlyUseCash ? cash : buying_power);
+
+
+    if (disableMakeFundsAvailable && amountPerBuy * 1.3 > amtLeft) {
         return console.log('YOU ARE OUT OF MONEY');
     }
 
-    const totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, buying_power);
+    const totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, cash);
     strlog({
         totalAmtToSpend,
-        buying_power,
+        amtLeft,
         strategy
     });
 
-    if (totalAmtToSpend * 1.3 > buying_power) {
-        const fundsNeeded = (totalAmtToSpend * 1.3) - buying_power;
+    if (totalAmtToSpend * 1.3 > cash) {
+        if (disableMakeFundsAvailable) {
+            return log('ERROR: TRIED TO PURCHASE, BUT YOU ARE OUT OF MONEY', {
+                strategy,
+                withPrices
+            });
+        }
+        const fundsNeeded = (totalAmtToSpend * 1.3) - amtLeft;
         await makeFundsAvailable(fundsNeeded);
-        const afterCash = (await alpaca.getAccount()).buying_power;
-        const logObj = { before: buying_power, fundsNeeded, after: afterCash };
+        const afterCash = (await alpaca.getAccount()).cash;
+        const logObj = { before: cash, fundsNeeded, after: afterCash };
         await log('funds made available', logObj);
         await sendEmail('funds made available', JSON.stringify(logObj, null, 2));
     }
