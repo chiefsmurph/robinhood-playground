@@ -233,7 +233,8 @@ module.exports = async (
     const baseBasePerc = Number(isInitialSell && initialSellPerc);
 
     // basePerc = dayVal + returnVal
-    const dayVal = (mostRecentPurchase + 1) * 4;
+    const sumDays = Number(daysOld + mostRecentPurchase);
+    const dayVal = sumDays * 4;
     const returnVal = Math.abs(returnPerc) / 3;
     const basePercent = baseBasePerc + dayVal + returnVal;
 
