@@ -43,11 +43,11 @@ module.exports = {
         // TRIB: 1.21,
         // IBIO: 2.4,
         // XAIR: 6.4
-        JDST: 2.3
+        // JDST: 2.3
     },
     
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 1,
+    purchaseAmt: 0.8,
     makeKeeperFundsAvailable: false,
     onlyUseCash: true,
     
@@ -55,7 +55,7 @@ module.exports = {
     multiplierThreshold: 4, // wont recommend picks below this multiplier count even if they are a forPurchase pick
     overallOffset: 0,
 
-    overallMultiplierMultiplier: 1,
+    overallMultiplierMultiplier: 1, /// DONT CHANGE NO MATTER WHAT (WELL UNLESS YOU NEED TO GET REAL SMALL MULTIPLIERS)
     avgDownerMultiplier: 1.7,
     
     // maxMultiplier: 10,

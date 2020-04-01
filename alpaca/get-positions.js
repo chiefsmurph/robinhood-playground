@@ -177,7 +177,8 @@ module.exports = async (
   const getPercToSell = position => {
 
     let { 
-      daysOld, 
+      daysOld,
+      mostRecentPurchase,
       returnPerc, 
       outsideBracket, 
       wouldBeDayTrade, 
@@ -232,7 +233,7 @@ module.exports = async (
     const baseBasePerc = Number(isInitialSell && initialSellPerc);
 
     // basePerc = dayVal + returnVal
-    const dayVal = (daysOld + 1) * 4;
+    const dayVal = (mostRecentPurchase + 1) * 4;
     const returnVal = Math.abs(returnPerc) / 3;
     const basePercent = baseBasePerc + dayVal + returnVal;
 
