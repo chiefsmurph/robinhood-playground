@@ -105,15 +105,15 @@ module.exports = async (pms, strategy, stocksToBuy) => {
     : await getSubsetOffset(fakePosition);
 
   
-  if (strategy.includes('majorJump')) {
-    // check for 3 daytrades
-    const account = await alpacaModule.getAccount();
-    const { daytrade_count } = account;
-    if (daytrade_count === 3) {
-      subsetOffsetMultiplier = Math.round(subsetOffsetMultiplier / 1.1);
-      interestingWords.push('dtmajcapped');
-    }
-  }
+  // if (strategy.includes('majorJump')) {
+  //   // check for 3 daytrades
+  //   const account = await alpacaModule.getAccount();
+  //   const { daytrade_count } = account;
+  //   if (daytrade_count === 3) {
+  //     subsetOffsetMultiplier = Math.round(subsetOffsetMultiplier / 1.1);
+  //     interestingWords.push('dtmajcapped');
+  //   }
+  // }
 
   return {
     pmAnalysisMultiplier,
