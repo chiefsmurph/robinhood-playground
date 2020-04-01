@@ -126,8 +126,8 @@ module.exports = class PositionWatcher {
 
 
     let shouldAvgDownWhen = [
-      -2.5 - numAvgDowners * 0.5,
-      -2 - numAvgDowners * 2
+      -3.5 - numAvgDowners * 1,
+      -3 - numAvgDowners * 2.5
     ];
     
     // let shouldAvgDownWhen = [
@@ -146,7 +146,7 @@ module.exports = class PositionWatcher {
     const trendLowerThanPerc = (t, perc) => isNaN(t) || t < perc;
     const passesCheck = ([fillPickLimit, returnLimit]) => [
       // askToLowestAvgDown, 
-      lowestFillTrend, 
+      lowestFillTrend,
       recentPickTrend
     ].every(trend => trendLowerThanPerc(trend, fillPickLimit)) && trendLowerThanPerc(returnPerc, returnLimit);
 
