@@ -10,8 +10,10 @@ const schema = new Schema({
 
 schema.statics.getMostRecent = async function(limit = 100) {
 
-    const recentDates = await Pick.getUniqueDates;
-    const d = new Date(recentDates[0]);
+    const recentDates = await Pick.getUniqueDates();
+    const date = recentDates.pop();
+    strlog({ date })
+    const d = new Date(date);
     d.setHours(0);
     d.setMinutes(0);
 
