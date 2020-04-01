@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const Pick = require('./Pick');
 
 const schema = new Schema({
     timestamp: { type : Date, default: Date.now },
@@ -9,7 +10,8 @@ const schema = new Schema({
 
 schema.statics.getMostRecent = async function(limit = 100) {
 
-    const d = new Date();
+    const recentDates = await Pick.getUniqueDates;
+    const d = new Date(recentDates[0]);
     d.setHours(0);
     d.setMinutes(0);
 
