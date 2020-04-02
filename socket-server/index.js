@@ -28,6 +28,7 @@ const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 
 // const stratPerf = require('../analysis/strat-perf-for-real');
 const realtimeRunner = require('../realtime/RealtimeRunner');
+const json2xls = require('json2xls');
 
 const pennyScans = {
     nowheres: require('../scans/nowheres'),
@@ -60,7 +61,7 @@ let sockets = {};
 // console.log(__dirname, 'dirname');
 
 app.use(compression({}));
-
+app.use(json2xls.middleware);
 
 const prependFolder = folder => path.join(__dirname, `../${folder}`);
 app.use('/', express['static'](prependFolder('client/build')));
@@ -83,15 +84,18 @@ app.get('/jimmy-picks', async (req, res) => {
     });
 });
 
-app.get('/by-date-analysis', (req, res) => {
+app.get('/by-date-analysis', async (req, res) => {
     const { 
         groupByDay = true,
         numDays = undefined,
-        excludeActual
+        excludeActual,
+        format
     } = req.query;
-    res.json(
-        await howManySuddenDrops(groupByDay, numDays, excludeActual)
-    );
+    const response = await howManySuddenDrops(groupByDay, numDays, excludeActual);
+    if (format === 'xls') {
+        return res.xls('byDateAnalysis.xlsx', response);
+    }
+    res.json(response);
 });
 
 io.on('connection', async socket => {
