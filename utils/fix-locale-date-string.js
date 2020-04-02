@@ -5,8 +5,10 @@ const oldLocaleDateString = Date.prototype.toLocaleDateString;
 Date.prototype.toLocaleDateString = function() {
     // console.log('ouch baby.', this.getTime());
     const prevOutput = oldLocaleDateString.apply(this);
-    const [year, month, day] = prevOutput.split(/[-/]/);
-    if (year.length !== 4) return prevOutput;
+    const year = this.getFullYear();
+    const month = this.getMonth() + 1;
+    const day = this.getDate();
+    // if (year.toString().length !== 4) return prevOutput;
     return [month, day, year].join('-');
 };
 
