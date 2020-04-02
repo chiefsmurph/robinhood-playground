@@ -1,11 +1,12 @@
 const Pick = require('../models/Pick');
+const DateAnalysis = require('../models/DateAnalysis');
 const getHistoricals = require('../realtime/historicals/get');
 const getTrend = require('../utils/get-trend');
 const tiingoHistoricals = require('../realtime/historicals/tiingo');
 const { partition } = require('underscore');
 const { sumArray } = require('../utils/array-math');
 
-module.exports = async () => {
+module.exports = async (groupByDay, numDays = Number.POSITIVE_INFINITY, excludeActual) => {
 
 
   const { SPY: thirtyHistoricals } = await tiingoHistoricals(['SPY'], 30, 360);
@@ -45,17 +46,22 @@ module.exports = async () => {
   const allDates = await Pick.getUniqueDates();
   strlog({ allDates })
   const byDate = await mapLimit(
-    allDates.slice(-6),
+    allDates.slice(0 - numDays),
     3,
     async date => {
       const picks = await getPicksForDate(date);
       console.log(`done with ${date}`);
       return {
         date,
-        picks
+        picks,
+        dateAnalysis: await DateAnalysis.findOne({ date }).lean()
       };
     }
   );
+
+  // strlog({
+  //   byDate
+  // })
 
   const periods = {
     initial: 0,
@@ -64,7 +70,7 @@ module.exports = async () => {
     dinner: 200,
     eod: 390
   };
-  return byDate.map(({ date, picks }, index) => {
+  return byDate.map(({ date, picks, dateAnalysis }, index) => {
 
 
     const prevIndex = index - 1;
@@ -73,11 +79,13 @@ module.exports = async () => {
       spyTrend: prevSpyTrend,
       spyDistance: prevSpyDistance,
     } = combined.find(o => o.date === prevDate) || {};
+    const { spyOvernight } = combined.find(o => o.date === date) || {};
     strlog({
       prevIndex,
       prevDate,
       prevSpyTrend,
-      prevSpyDistance
+      prevSpyDistance,
+      spyOvernight,
     })
     const createChunk = obj => ({
       date,
@@ -97,6 +105,7 @@ module.exports = async () => {
       }
 
       const numPicks = picks.filter(pick => pick.strategyName.includes(period)).map(pick => pick.strategyName).length;
+      console.log({ date })
       const openSPY = period === 'initial'
         ? getDaily(date).open_price
         : (() => {
@@ -136,8 +145,27 @@ module.exports = async () => {
       openSPY: middleChunks[0].openSPY
     });
     rest.splice(1, 0, combinedMiddle);
-    return rest;
 
+    if (groupByDay) {
+      console.log({ rest })
+      return {
+        date,
+        spyOvernight,
+        prevSpyTrend,
+        prevSpyDistance,
+        openSPY: rest[0].openSPY,
+        closePrice: rest[3].closePrice,
+        numSuddenDrops: sumArray(rest.map(c => c.numPicks).filter(Boolean)),
+        ...dateAnalysis && !excludeActual && {
+          numPicksBought: dateAnalysis.totalPicks,
+          percChange: dateAnalysis.percChange,
+          totalBought: dateAnalysis.totalBought,
+          totalImpact: dateAnalysis.totalImpact,
+        }
+      };
+    }
+
+    return rest;
 
   }).flatten();
 

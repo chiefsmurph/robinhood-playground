@@ -24,6 +24,8 @@ const getHistoricals = require('../realtime/historicals/get');
 const alpacaMarketBuy = require('../alpaca/market-buy');
 const isJimmyPick = require('../utils/is-jimmy-pick');
 
+const howManySuddenDrops = require('../tests/how-many-sudden-drops');
+
 // const stratPerf = require('../analysis/strat-perf-for-real');
 const realtimeRunner = require('../realtime/RealtimeRunner');
 
@@ -79,6 +81,17 @@ app.get('/jimmy-picks', async (req, res) => {
         lastCollectionRefresh: (new Date(lastCollectionRefresh)).toLocaleString(),
         allJimmyPicks: jimmyCollection
     });
+});
+
+app.get('/by-date-analysis', (req, res) => {
+    const { 
+        groupByDay = true,
+        numDays = undefined,
+        excludeActual
+    } = req.query;
+    res.json(
+        await howManySuddenDrops(groupByDay, numDays, excludeActual)
+    );
 });
 
 io.on('connection', async socket => {
