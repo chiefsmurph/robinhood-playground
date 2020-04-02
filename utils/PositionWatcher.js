@@ -66,7 +66,8 @@ module.exports = class PositionWatcher {
       buys,
       // returnPerc,
       numAvgDowners,
-      daysOld
+      daysOld,
+      mostRecentPurchase,
     } = this.getRelatedPosition();
     
     if (!avgEntry) return this.scheduleTimeout();
@@ -124,10 +125,10 @@ module.exports = class PositionWatcher {
     const lowestFillTrend = getTrend(comparePrice, lowestFill);
     const recentPickTrend = getTrend(comparePrice, mostRecentPrice);
 
-
+    const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
     let shouldAvgDownWhen = [
-      -3.5 - numAvgDowners * 1,
-      -3 - numAvgDowners * 2.5
+      -3.5 - totalNum * 1,
+      -3 - totalNum * 2.5
     ];
     
     // let shouldAvgDownWhen = [
