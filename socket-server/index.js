@@ -93,7 +93,7 @@ app.get('/by-date-analysis', async (req, res) => {
         format
     } = req.query;
     const response = await howManySuddenDrops(bool(groupByDay), Number(numDays), bool(excludeActual));
-    if (format.includes('xls')) {
+    if (format && format.includes('xls')) {
         return res.xls('byDateAnalysis.xlsx', response);
     }
     res.json(response);
