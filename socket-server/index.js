@@ -85,14 +85,15 @@ app.get('/jimmy-picks', async (req, res) => {
 });
 
 app.get('/by-date-analysis', async (req, res) => {
+    const bool = v => v === 'true';
     const { 
         groupByDay = true,
         numDays = undefined,
         excludeActual,
         format
     } = req.query;
-    const response = await howManySuddenDrops(groupByDay, numDays, excludeActual);
-    if (format === 'xls') {
+    const response = await howManySuddenDrops(bool(groupByDay), Number(numDays), bool(excludeActual));
+    if (format.includes('xls')) {
         return res.xls('byDateAnalysis.xlsx', response);
     }
     res.json(response);
