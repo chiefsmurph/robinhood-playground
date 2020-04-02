@@ -10,6 +10,9 @@ Date.prototype.toLocaleDateString = function() {
     return [month, day, year].join('-');
 };
 
+console.log('ATTENTION');
+console.log(`CURRENT DATE: ${(new Date()).toLocaleDateString()}`);
+
 global.log = async (title, data) => {
     const logObj = {
         title,
