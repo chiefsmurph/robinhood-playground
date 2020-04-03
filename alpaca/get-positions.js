@@ -196,7 +196,7 @@ module.exports = async (
       return 0;
     }
 
-    if (market_value <= daysOld * 10) {
+    if (market_value <= mostRecentPurchase * 15) {
       return 100;
     }
 
