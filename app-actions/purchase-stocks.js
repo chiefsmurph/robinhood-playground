@@ -1,6 +1,6 @@
 const limitBuyMultiple = require('./limit-buy-multiple');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
-let { expectedPickCount, purchaseAmt, disableMakeFundsAvailable, onlyUseCash } = require('../settings');
+let { expectedPickCount, purchaseAmt, disableMakeFundsAvailable, onlyUseCash, makeFundsOnlyForDowners } = require('../settings');
 const { alpaca } = require('../alpaca');
 const makeFundsAvailable = require('../alpaca/make-funds-available');
 const sendEmail = require('../utils/send-email');
@@ -34,8 +34,13 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     });
 
     if (totalAmtToSpend * 1.3 > cash) {
+        // time to make some funds available
+
+        if (makeFundsOnlyForDowners && !strategy.includes('avg-downer')) {
+            return log('WARNING: WANTED TO MAKE FUNDS AVAILABLE BUT ONLY MAKING FUNDS AVAILABLE FOR AVG DOWNERS');
+        }
         if (disableMakeFundsAvailable) {
-            return log('ERROR: TRIED TO PURCHASE, BUT YOU ARE OUT OF MONEY', {
+            return log('WARNING: TRIED TO PURCHASE, BUT YOU ARE OUT OF MONEY AND MAKE FUNDS AVAILABLE IS DISABLED', {
                 strategy,
                 withPrices
             });

@@ -49,6 +49,7 @@ module.exports = {
     // sellAllStocksOnNthDay: 8,
     purchaseAmt: 1,
     makeKeeperFundsAvailable: false,
+    makeFundsOnlyForDowners: true,
     onlyUseCash: true,
     
     // expectedPickCount: 200,
