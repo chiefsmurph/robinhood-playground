@@ -196,9 +196,10 @@ module.exports = async (
       return 0;
     }
 
-    if (daysOld >= 3 && market_value < 30) {
+    if (market_value <= daysOld * 10) 
       return 100;
     }
+
 
     if (sells.length === 0 && min < 0 && min > -200 && returnPerc < 30) {
       return 0;
@@ -229,12 +230,12 @@ module.exports = async (
 
 
     const isInitialSell = (min >= 0 && min < 10);
-    const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 30 : 20;
+    const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 10 : 5;
     const baseBasePerc = Number(isInitialSell && initialSellPerc);
 
     // basePerc = dayVal + returnVal
-    const sumDays = Number(daysOld + mostRecentPurchase);
-    const dayVal = sumDays * 4;
+    // const sumDays = Number(daysOld + mostRecentPurchase);
+    const dayVal = mostRecentPurchase * 4;
     const returnVal = Math.abs(returnPerc) / 3;
     const basePercent = baseBasePerc + dayVal + returnVal;
 

@@ -4,13 +4,17 @@ const lookupMultiple = require('../../utils/lookup-multiple');
 const addFundamentals = require('../../app-actions/add-fundamentals');
 const allStocks = require('../../json/stock-data/allStocks');
 const { isTradeable } = require('../../utils/filter-by-tradeable');
-const getMultipleHistoricals = require('../../app-actions/get-multiple-historicals');
 const getMinutesFromOpen = require('../../utils/get-minutes-from-open');
 const getTrend = require('../../utils/get-trend');
 const getStSent = require('../../utils/get-stocktwits-sentiment');
 const { uniq, get, mapObject } = require('underscore');
 const { avgArray, zScore } = require('../../utils/array-math');
 const dayInProgress = require('../../realtime/day-in-progress');
+const {
+  getDailyHistoricals,
+  addDailyHistoricals,
+  addDailyRSI
+} = require('../../realtime/historicals/add-daily-historicals');
 
 const getTickersBetween = async (min, max) => {
   const tickQuotes = await lookupMultiple(allStocks.filter(isTradeable).map(o => o.symbol), true);
@@ -379,59 +383,8 @@ const finalize = array => {
 
 };
 
-const getDailyHistoricals = async tickers => {
-  let allHistoricals = await getMultipleHistoricals(
-    tickers
-    // `interval=day`
-  );
-
-  let tickersToHistoricals = tickers.reduce((acc, ticker, index) => ({
-    ...acc,
-    [ticker]: allHistoricals[index]
-  }), {});
-
-  return tickersToHistoricals;
-
-};
-
-const addDailyHistoricals = async trend => {
-
-  const tickers = trend.map(t => t.ticker);
-  const tickersToHistoricals = await getDailyHistoricals(tickers);
-
-  return trend.map(buy => ({
-    ...buy,
-    dailyHistoricals: tickersToHistoricals[buy.ticker]
-  }))
-
-};
 
 
-const { RSI } = require('technicalindicators');
-const addDailyRSI = withDailyHistoricals => {
-
-  const getRSI = values => {
-      return RSI.calculate({
-          values,
-          period: 14
-      }) || [];
-  };
-
-  // strlog({
-  //   buys: withDailyHistoricals.map(buy => buy.dailyHistoricals)
-  // })
-  return withDailyHistoricals.map(buy => ({
-    ...buy,
-    computed: {
-      ...buy.computed,
-      dailyRSI: getRSI(
-        (buy.dailyHistoricals || []).map(hist => hist.close_price)
-      ).pop()
-    }
-  }));
-
-
-};
 
 
 module.exports = runScan;

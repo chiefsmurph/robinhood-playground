@@ -696,9 +696,14 @@ module.exports = new (class RealtimeRunner {
       return null;
     }
 
+    const {
+      values: dailyValues,
+      keys: dailyKeys
+    } = await getDailyKeys(ticker);
+
     keys = {
       ...keys,
-      ...await getDailyKeys(ticker)
+      ...dailyKeys
     };
 
     const collectionKey = !strategyName.includes('pennyscan') ? this.getCollectionForTicker(ticker) : undefined;
@@ -811,7 +816,8 @@ module.exports = new (class RealtimeRunner {
     data = {
       ...data,
       period,
-      stSent
+      stSent,
+      dailyValues,
     };
     recordPicks(pickName, 5000, [ticker], null, { keys, data });  // dont await?
     return;

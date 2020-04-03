@@ -4,6 +4,11 @@ const getTrend = require('./get-trend');
 const { avgArray, percUp } = require('./array-math');
 const { mapObject } = require('underscore');
 const getHistoricals = require('../realtime/historicals/get');
+const {
+  getDailyHistoricals,
+  addDailyHistoricals,
+  addDailyRSI
+} = require('../realtime/historicals/add-daily-historicals');
 
 const cachedLookup = cacheThis(lookup, 10);
 
@@ -16,6 +21,29 @@ const NUMS = [
 ];
 
 module.exports = cacheThis(async ticker => {
+
+  // daily rsi
+  const [{
+    computed: {
+      dailyRSI
+    }
+  }] = addDailyRSI(
+    await addDailyHistoricals([{ ticker }])
+  );
+  const dRSIkey = (() => {
+    if (dailyRSI > 70) return 'gt70';
+    if (dailyRSI > 50) return 'gt50';
+  })()
+  strlog({
+    dailyRSI
+  })
+
+
+
+
+
+
+  // other stuff
 
   let historicals = await getHistoricals([ticker], 5, undefined, true);
   historicals = historicals[ticker];
@@ -47,21 +75,24 @@ module.exports = cacheThis(async ticker => {
     bidPrice,
     askPrice
   } = await cachedLookup(ticker);
-
+  strlog({
+    askPrice,
+    bidPrice
+  })
   strlog({
     spread: getTrend(askPrice, bidPrice),
     askPrice,
     bidPrice
-  })
-  let obj = mapObject({
-    down: prevClose,
-    avgh: avgHigh,
-  }, val => getTrend(currentPrice, val));
+  });
 
-  obj = {
-    ...obj,
+  const values = {
+    ...mapObject({
+      down: prevClose,
+      avgh: avgHigh,
+    }, val => getTrend(currentPrice, val)),
     spread: getTrend(askPrice, bidPrice),
     avgDollarVolume,
+    dailyRSI,
   };
 
   const withAnalysis = historicals.map((hist, index, arr) => ({
@@ -70,8 +101,8 @@ module.exports = cacheThis(async ticker => {
       hist.close_price <= avgArray(historicals.slice(0, index).slice(-9).map(h => h.close_price))
     )
   })).filter(hist => hist.isHeadingDown !== null );
-  strlog({ obj })
-  obj = mapObject({
+  strlog({ values })
+  let keys = mapObject({
     down: val => NUMS.reverse().find(num => val <= 0 - num),
     avgh: val => NUMS.reverse().find(num => val <= 0 - num),
     straightDown: val => [120, 90, 60, 30].find(toConsider => {
@@ -84,21 +115,28 @@ module.exports = cacheThis(async ticker => {
       strlog({ num, spread})
       return spread < num
     }) || 'gt6',
-    avgDollarVolume: dollarVolume => [20000, 10000, 3500].find(num => dollarVolume > num)
-  }, (fn, key) => fn(obj[key]));
+    avgDollarVolume: dollarVolume => [20000, 10000, 3500].find(num => dollarVolume > num),
+    dailyRSI: rsi => {
+      const gtVal = [70, 50, 30].find(v => rsi > v);
+      return gtVal ? `gt${gtVal}` : 'lt30';
+    }
+  }, (fn, key) => fn(values[key]));
   
 
-  if (!obj.straightDown) {
+  if (!keys.straightDown) {
     // this is real
-    obj.notStrai = 'ghtDowner';
+    keys.notStrai = 'ghtDowner';
   }
 
-  console.log(obj);
+  console.log(keys);
 
-  obj = Object.entries(obj)
+  keys = Object.entries(keys)
     .filter(([key, val]) => val)
     .reduce((acc, [key, val]) => ({ ...acc, [`${key}${val}`]: true }), { })
 
   
-  return obj;
+  return {
+    values,
+    keys
+  };
 }, 3);
