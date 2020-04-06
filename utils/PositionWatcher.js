@@ -77,7 +77,7 @@ module.exports = class PositionWatcher {
       buyPrice || Number.POSITIVE_INFINITY
     );
 
-    const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker)) || {};
+    const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker, true)) || {};
     const mostRecentPrice = (recentPicks[0] || {}).price;
 
     strlog({
