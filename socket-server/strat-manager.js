@@ -204,6 +204,7 @@ const stratManager = {
         this.picks = this.picks.filter(pick => !pick.isRecommended);
         this.tickerWatcher.clearTickers();
         await this.initPicksAndPMs();
+        await this.refreshPositions(true);
         await this.tickerWatcher.lookupRelatedPrices();
         this.sendToAll('server:data-update', await this.getWelcomeData());
     },
