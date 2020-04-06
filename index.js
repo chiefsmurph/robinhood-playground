@@ -48,7 +48,9 @@ process.on('unhandledRejection', async (reason, p) => {
     console.log(logStr);
     await log(`ERROR: unhandledRejection: ${logStr}`);
     await sendEmail('force', 'unhandledRejection', logStr);
-    return restartProcess();
+    if (!reason.toString().includes('order_id')) {
+        return restartProcess();
+    }
 });
 
 (async () => {
