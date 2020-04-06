@@ -19,7 +19,7 @@ const {
     disableOnlyMinors,
     maxMultiplier = Number.POSITIVE_INFINITY,
     overallMultiplierMultiplier = 1,
-    dontPurchaseOpenSuddenDrops,
+    onlyAvgDownOpenPositions,
 } = require('../settings');
 const pmsHit = require('../utils/pms-hit');
 const { emails } = require('../config');
@@ -123,7 +123,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         multiplier = Math.max(multiplier, 5);           // MIN
 
         
-        if (dontPurchaseOpenSuddenDrops && strategy.includes('avg-downer')) {
+        if (onlyAvgDownOpenPositions && !strategy.includes('avg-downer')) {
             const { positions } = require('../socket-server/strat-manager');
             const openPosition = (positions.alpaca || []).find(pos => pos.ticker === ticker);
             if (openPosition) {
