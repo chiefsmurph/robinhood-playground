@@ -20,6 +20,7 @@ const {
     maxMultiplier = Number.POSITIVE_INFINITY,
     overallMultiplierMultiplier = 1,
     onlyAvgDownOpenPositions,
+    dontBuy
 } = require('../settings');
 const pmsHit = require('../utils/pms-hit');
 const { emails } = require('../config');
@@ -183,14 +184,15 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             if (isRecommended) {
                 console.log('strategy enabled: ', stratMin, 'purchasing', stocksToBuy, multiplier);
 
+                const includesDontBuyTicker = stocksToBuy.filter(s => dontBuy.includes(s));
                 await purchaseStocks({
                     strategy,
                     multiplier: !disableMultipliers ? multiplier: 1,
                     min,
                     withPrices,
                     PickDoc
-                });
-                throttledRefreshPositions();
+                }, includesDontBuyTicker);
+                !includesDontBuyTicker && throttledRefreshPositions();
 
 
                 // if (withPrices.length === 1) {

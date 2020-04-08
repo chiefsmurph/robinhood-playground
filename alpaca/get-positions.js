@@ -102,7 +102,7 @@ module.exports = async (
       'KEG',
       'TCON',
       'ASLN',
-      'SFET',
+      // 'SFET',
       // 'IBIO'
     ];
 

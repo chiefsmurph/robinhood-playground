@@ -45,6 +45,10 @@ module.exports = {
         // XAIR: 6.4
         // JDST: 2.3
     },
+
+    dontBuy: [
+        'STG'
+    ],
     
     // sellAllStocksOnNthDay: 8,
     purchaseAmt: 1.2,

@@ -1,7 +1,7 @@
 const jsonMgr = require('../utils/json-mgr');
 const { CronJob } = require('cron');
 const fs = require('mz/fs');
-const { uniq, pick } = require('underscore');
+const { uniq, pick, throttle } = require('underscore');
 
 // mongo
 const Log = require('../models/Log');
@@ -450,5 +450,11 @@ const stratManager = {
         };
     }
 };
+
+
+stratManager.refreshPositions = throttle(
+    stratManager.refreshPositions,
+    10000
+);
 
 module.exports = stratManager;

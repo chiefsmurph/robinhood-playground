@@ -23,7 +23,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
 
 
     if (disableMakeFundsAvailable && amountPerBuy * 1.3 > amtLeft) {
-        return console.log('YOU ARE OUT OF MONEY');
+        return log(`WANTED TO BUY ${withPrices.map(b => b.ticker).join(' and ')} BUT YOU ARE OUT OF MONEY`);
     }
 
     const totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, cash);
