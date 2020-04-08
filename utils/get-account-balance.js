@@ -6,6 +6,8 @@ const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.p
 const oneDec = roundTo(1);
 const twoDec = roundTo(2);
 
+let account;
+
 module.exports = async (includeTrend, todaysDate) => {
     
     const getPrevDateBalanceFromPortfolioCache = async () => {
@@ -17,10 +19,15 @@ module.exports = async (includeTrend, todaysDate) => {
         return vl;
     };
 
-    const [ account ] = (await Robinhood.accounts()).results;
-    const portfolio = await Robinhood.url(account.portfolio);
-    const { equity, extended_hours_equity } = portfolio;
 
+    account = account || (await Robinhood.accounts()).results[0];
+    const { account_number } = account;
+    const portfolio = await Robinhood.url(`https://api.robinhood.com/portfolios/${account_number}/`);
+    const { 
+        equity, 
+        extended_hours_equity,
+    } = portfolio;
+    
     const accountBalance = Number(extended_hours_equity || equity) || null;
 
     // console.log({ accountBalance });

@@ -85,7 +85,7 @@ function RobinhoodWebApi(opts, callback) {
         'Accept-Language': 'en;q=1, fr;q=0.9, de;q=0.8, ja;q=0.7, nl;q=0.6, it;q=0.5',
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         'Connection': 'keep-alive',
-        'X-Robinhood-API-Version': '1.152.0',
+        'X-Robinhood-API-Version': '1.315.0',//'1.152.0',
         'User-Agent': 'Robinhood/5.32.0 (com.robinhood.release.Robinhood; build:3814; iOS 10.3.3)'
     };
     _setHeaders();
