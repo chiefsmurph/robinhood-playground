@@ -230,7 +230,7 @@ module.exports = async (
 
 
     const isInitialSell = (min >= 0 && min < 10);
-    const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 20 : 5;
+    const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 23 : 10;
     const baseBasePerc = Number(isInitialSell && initialSellPerc);
 
     // basePerc = dayVal + returnVal
