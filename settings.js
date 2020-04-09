@@ -78,6 +78,20 @@ module.exports = {
 
         ...`
 
+
+        rsi-10min-rsilt5
+        rsi-10min-rsilt10
+        rsi-rsilt10-initial
+        rsi-rsilt5
+        stocktwits-fitty
+        rsi-rsilt5-lunch
+        sudden-drops-down40
+        overnight-drops-down40
+        sudden-drops-bullish
+        
+
+
+
         // WOAH NELLY!!
         sudden-drops
         sudden-drops-mediumJump

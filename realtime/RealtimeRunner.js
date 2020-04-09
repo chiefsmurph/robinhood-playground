@@ -701,9 +701,10 @@ module.exports = new (class RealtimeRunner {
       keys: dailyKeys
     } = await getDailyKeys(ticker);
 
+    const isNotAvgDowner = !strategyName.includes('avg-downer');
     keys = {
       ...keys,
-      ...dailyKeys
+      ...isNotAvgDowner && dailyKeys
     };
 
     const collectionKey = !strategyName.includes('pennyscan') ? this.getCollectionForTicker(ticker) : undefined;
