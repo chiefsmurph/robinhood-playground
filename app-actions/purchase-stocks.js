@@ -53,7 +53,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         await sendEmail('funds made available', JSON.stringify(logObj, null, 2));
     }
 
-    if (dontBuy) return;
+    if (dontBuy) return log('DONT BUY', dontBuy);
 
     // const totalAmtToSpend = cashAvailable * ratioToSpend;
 

@@ -99,10 +99,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
         const isMinor = strategy.includes('minorJump');
         if (isMinor) {
-            multiplier = Math.max(3, multiplier);   // min
-            if (!interestingWords.includes('downer')) {
-                multiplier = Math.min(5, multiplier);  // max ... if not avg downer
-            }
+            multiplier = Math.max(3, multiplier);   // minFv
             if (disableOnlyMinors) {
                 isRecommended = false;
             }
@@ -184,7 +181,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             if (isRecommended) {
                 console.log('strategy enabled: ', stratMin, 'purchasing', stocksToBuy, multiplier);
 
-                const includesDontBuyTicker = stocksToBuy.filter(s => dontBuy.includes(s));
+                const includesDontBuyTicker = stocksToBuy.filter(s => dontBuy.includes(s)).length;
                 await purchaseStocks({
                     strategy,
                     multiplier: !disableMultipliers ? multiplier: 1,
