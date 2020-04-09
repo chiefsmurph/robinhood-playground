@@ -140,6 +140,10 @@ module.exports = positions => {
     avgDownerUnder30Min: ({ interestingWords }) => interestingWords.includes('under30min'),
     avgDownerUnder60Min: ({ interestingWords }) => interestingWords.includes('under60min'),
     avgDownerUnder120Min: ({ interestingWords }) => interestingWords.includes('under120min'),
+
+
+    isJimmyPick: ({ interestingWords }) => interestingWords.includes('isJimmyPick'),
+    rsi: ({ interestingWords }) => interestingWords.includes('rsi'),
     
   };
 };

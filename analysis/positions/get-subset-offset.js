@@ -98,6 +98,11 @@ const subsetOffsets = {
   coronavirus: 3,
   split: -3,
 
+
+  isJimmyPick: 3,
+  rsi: 6,
+
+
 };
 
 
