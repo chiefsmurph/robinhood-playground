@@ -233,10 +233,11 @@ module.exports = async (
     const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 23 : 10;
     const baseBasePerc = Number(isInitialSell && initialSellPerc);
 
-    // basePerc = dayVal + returnVal
-    // const sumDays = Number(daysOld + mostRecentPurchase);
-    const dayVal = mostRecentPurchase * 4;
-    const returnVal = Math.abs(returnPerc) / 3;
+    const dayVal = mostRecentPurchase * 4 + daysOld * 2;
+    let returnVal = Math.abs(returnPerc) / 3;
+    if (returnPerc < 0) {
+      returnVal *= 2;
+    }
     const basePercent = baseBasePerc + dayVal + returnVal;
 
     // shouldVal is based on intraday pl
