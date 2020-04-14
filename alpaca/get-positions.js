@@ -208,10 +208,6 @@ module.exports = async (
     // if (min > 150 && Number(unrealized_intraday_plpc) * 100 < -6 && Number(unrealized_intraday_plpc) * 100 > -30) {
     //   return 35;
     // }
-
-    if (Math.abs(returnPerc) < 2.5) {
-      return 0;
-    }
     
     // synonymous with prev
     // if (min < 50 && returnPerc < -4) {
@@ -263,7 +259,12 @@ module.exports = async (
     const weightedByDayInProgress = halfSum + ratioDayPast * halfSum;
 
     const RAND_VARY_PERC = 3;
-    const randomized = weightedByDayInProgress + (Math.random() * RAND_VARY_PERC) - (RAND_VARY_PERC / 2);
+    let randomized = weightedByDayInProgress + (Math.random() * RAND_VARY_PERC) - (RAND_VARY_PERC / 2);
+
+
+    if (Math.abs(returnPerc) < 2.5) {
+      randomized = randomized / 4;
+    }
 
     // strlog({
     //   ticker,
