@@ -17,7 +17,8 @@ const {
     forPurchase, 
     multiplierThreshold,
     disableOnlyMinors,
-    maxMultiplier = Number.POSITIVE_INFINITY,
+    maxOrigMultiplier = Number.POSITIVE_INFINITY,
+    minMultiplier = 2,
     overallMultiplierMultiplier = 1,
     onlyAvgDownOpenPositions,
     dontBuy
@@ -115,10 +116,10 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         
         if (!interestingWords.includes('downer')) {     // MAX (ONLY FOR NON DOWNERS)
             multiplier = Math.round(multiplier * overallMultiplierMultiplier);
-            multiplier = Math.min(multiplier, maxMultiplier);
+            multiplier = Math.min(multiplier, maxOrigMultiplier);
         }
         
-        multiplier = Math.max(multiplier, 5);           // MIN
+        multiplier = Math.max(multiplier, minMultiplier);           // MIN
 
         
         if (onlyAvgDownOpenPositions && !strategy.includes('avg-downer')) {
