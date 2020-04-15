@@ -42,7 +42,7 @@ const limitSell = async ({
     order = order && order.id ? await alpaca.getOrder(order.id) : {};
 
     if (!order.filled_at) {
-        await alpaca.cancelOrder(order.id);
+        order.id && await alpaca.cancelOrder(order.id);
         order = fallbackToMarket ? await marketSell({ ticker, quantity }) : order;
     }
 
