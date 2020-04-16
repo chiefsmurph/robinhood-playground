@@ -37,7 +37,7 @@ schema.statics.getRecentRecommendations = async function() {
     }).lean();
 };
 
-schema.statics.getRecentPickForTicker = async function(ticker, isRecommended) {
+schema.statics.getRecentPickForTicker = async function(ticker, isRecommended, date) {
     const list = await this
         .find(
             {
@@ -49,7 +49,9 @@ schema.statics.getRecentPickForTicker = async function(ticker, isRecommended) {
                 },
                 ...isRecommended 
                     ? { isRecommended: true }
-                    : { strategyName: /.*(sudden.*drops|rsi|downer).*/i  }
+                    : { strategyName: /.*(sudden.*drops|rsi|downer).*/i  },
+
+            ...date && { date }
             },
         )
         .sort({ _id: -1 })
