@@ -90,7 +90,8 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         const badWords = [
             // 'split',
             // 'offering', 
-            // 'bankrupt', 
+            'bankrupt', 
+            'bankruptcy', 
             'afterhours', 
             // 'halt'
         ];
