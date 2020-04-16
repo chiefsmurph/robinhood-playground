@@ -226,15 +226,20 @@ module.exports = async (
 
 
     const isInitialSell = (min >= 0 && min < 10);
-    const initialSellPerc = returnPerc < -7 && returnPerc > -29 ? 23 : 10;
-    const baseBasePerc = Number(isInitialSell && initialSellPerc);
+    const initialSellPerc = (() => {
+      if (returnPerc < -40 || returnPerc > 20) return 60;
+      return 95;
+    })(); // johnny cash out at the opening bell
+    if (isInitialSell) {
+      return initialSellPerc;
+    }
 
     const dayVal = mostRecentPurchase * 4 + daysOld * 2;
     let returnVal = Math.abs(returnPerc) / 3;
     if (returnPerc < 0) {
       returnVal *= 2;
     }
-    const basePercent = baseBasePerc + dayVal + returnVal;
+    const basePercent = dayVal + returnVal;
 
     // shouldVal is based on intraday pl
     const intraDayPl = Number(unrealized_intraday_plpc);
