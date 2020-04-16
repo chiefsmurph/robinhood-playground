@@ -110,11 +110,11 @@ const stratManager = {
         console.log('initd strat manager');
     },
     async resetPositionWatchers() {
-        console.log(
-            this.positions.alpaca.sort((a, b) => Number(b.market_value) - Number(a.market_value)).map(({ ticker, market_value }) => ({ ticker, market_value })),
-            'hey over heres'
-        );
-        for (let pos of this.positions.alpaca.sort((a, b) => Number(b.market_value) - Number(a.market_value))) {
+        // console.log(
+        //     this.positions.alpaca.sort((a, b) => Number(b.market_value) - Number(a.market_value)).map(({ ticker, market_value }) => ({ ticker, market_value })),
+        //     'hey over heres'
+        // );
+        for (let pos of this.positions.alpaca.sort((a, b) => Number(a.market_value) - Number(b.market_value))) {
             if (pos.daysOld <= settings.continueDownForDays) {
                 await log(`starting avg downer ${pos.ticker} bc ${pos.daysOld} days old`);
                 watchThis({
