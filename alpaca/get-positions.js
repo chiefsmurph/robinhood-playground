@@ -196,7 +196,7 @@ module.exports = async (
       return 0;
     }
 
-    if (market_value <= mostRecentPurchase * 15) {
+    if (market_value <= mostRecentPurchase * 7 && daysOld >= 2) {
       return 100;
     }
 
@@ -204,6 +204,21 @@ module.exports = async (
     if (sells.length === 0 && min < 0 && min > -200 && returnPerc < 30) {
       return 0;
     }
+
+
+
+
+    const isInitialSell = (min >= 0 && min < 10);
+    const initialSellPerc = (() => {
+      if (returnPerc < -40 || returnPerc > 20) return 60;
+      return 95;
+    })(); // johnny cash out at the opening bell
+    if (isInitialSell) {
+      return initialSellPerc;
+    }
+
+
+
 
     // if (min > 150 && Number(unrealized_intraday_plpc) * 100 < -6 && Number(unrealized_intraday_plpc) * 100 > -30) {
     //   return 35;
@@ -224,15 +239,6 @@ module.exports = async (
     //   return 0;
     // }
 
-
-    const isInitialSell = (min >= 0 && min < 10);
-    const initialSellPerc = (() => {
-      if (returnPerc < -40 || returnPerc > 20) return 60;
-      return 95;
-    })(); // johnny cash out at the opening bell
-    if (isInitialSell) {
-      return initialSellPerc;
-    }
 
     const dayVal = mostRecentPurchase * 4 + daysOld * 2;
     let returnVal = Math.abs(returnPerc) / 3;
@@ -268,7 +274,7 @@ module.exports = async (
 
 
     if (Math.abs(returnPerc) < 2.5) {
-      randomized = randomized / 4;
+      randomized = randomized / 3;
     }
 
     // strlog({
