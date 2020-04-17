@@ -253,12 +253,12 @@ class DayReports extends Component {
         // const numDaysToShow = timeFilter === 'onlyToday' ? 1 : allDates.length;
 
         const startIndex = (() => {
-            const startDate = allDates[allDates.length - numDaysToShow - 1];
-            const lastRegularReport = !startDate ? 0 : balanceReports.length - balanceReports.slice().reverse().findIndex(report =>
+            const startDate = allDates[allDates.length - numDaysToShow];
+            const first = !startDate ? 0 : balanceReports.slice().findIndex(report =>
                 (new Date(report.time)).toLocaleDateString() === startDate && isRegularHours(report)
             );
             // console.log({ allDates, startDate, lastRegularReport })
-            return lastRegularReport;
+            return first;
         })();
 
         balanceReports = balanceReports.slice(startIndex);
@@ -287,7 +287,7 @@ class DayReports extends Component {
         // more code!
 
         let firstOfDay;
-        const chartData = (() => {
+        let chartData = (() => {
             // console.log({timeFilter})
             if (timeFilter === '2019') {
                 return reportsToChartData.balanceChart(dayReports ? dayReports : []);
@@ -314,6 +314,37 @@ class DayReports extends Component {
             // return withDiff
         })();
 
+
+        const mods = {
+            // 1: [
+            //     { label: "alpaca balance", mod: v => v + 4 - 0.5},
+            //     { label: "russell2000", mod: v => v + 2 - 0.5 },
+            //     { label: "nasdaq", mod: v => v - 1 },
+            // ]
+        };
+
+        Object.keys(mods).forEach(day => {
+            if (Number(day) === numDaysToShow) {
+                mods[day].forEach(mod => {
+                    const ind = chartData.datasets.findIndex(({ label }) => label === mod.label);
+                    const cur = chartData.datasets[ind];
+                    chartData.datasets[ind] = {
+                        ...cur,
+                        data: cur.data.map(v => mod.mod(v))
+                    };
+                });
+
+            }
+        });
+
+        const CENTER_ON_OPEN = true;
+
+        if (CENTER_ON_OPEN) {
+            
+        }
+       
+
+        console.log({ chartData})
 
         // stats!
         const getStats = prop => {
@@ -369,6 +400,12 @@ class DayReports extends Component {
         // console.log({ afterHoursAnnotations, chartData })
         // console.log(getNewDayLines(balanceReports))
         // console.log('hi', (new Array(allDates.length)).map((_, i) => i))
+
+
+        // last minute mods
+
+
+
 
         return (
             <div style={{ height: '100%', padding: '1em' }}>
