@@ -21,9 +21,9 @@ module.exports = async (_, dontAct) => {
 
 
     await sendEmail(
-        'force', 
+        'force',
         'acting on positions', 
-        JSON.stringify(positions.map(position => pick(position, ['ticker', 'percToSell', 'returnPerc', 'daysOld'])))
+        JSON.stringify(positions.map(position => pick(position, ['ticker', 'percToSell', 'returnPerc', 'daysOld'])), null, 2)
     );
 
     Promise.all(
