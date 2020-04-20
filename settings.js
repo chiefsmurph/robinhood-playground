@@ -51,7 +51,7 @@ module.exports = {
     ],
     
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 2,
+    purchaseAmt: 2.1,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: true,
     onlyUseCash: true,
@@ -63,7 +63,7 @@ module.exports = {
 
     overallMultiplierMultiplier: 1, /// DONT CHANGE NO MATTER WHAT (WELL UNLESS YOU NEED TO GET REAL SMALL MULTIPLIERS)
     avgDownerMultiplier: 1.35,
-    minMultiplier: 13,
+    minMultiplier: 10,
     maxOrigMultiplier: 40,
 
     disableDayTrades: false,
