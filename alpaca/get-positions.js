@@ -196,7 +196,7 @@ module.exports = async (
       return 0;
     }
 
-    if (market_value <= mostRecentPurchase * 7 && daysOld >= 2) {
+    if (market_value <= mostRecentPurchase * 10 && daysOld >= 2) {
       return 100;
     }
 
@@ -213,9 +213,9 @@ module.exports = async (
 
 
 
-    // if (sells.length === 0 && min < 0 && min > -200 && returnPerc < 30) {
-    //   return 20;
-    // }
+    if (sells.length === 0 && min < 0 && min > -200 && returnPerc < 2) {
+      return 0;
+    }
 
 
 
