@@ -201,21 +201,23 @@ module.exports = async (
     }
 
 
-    if (sells.length === 0 && min < 0 && min > -200 && returnPerc < 30) {
-      return 0;
-    }
+
+    // const isInitialSell = (min >= -5 && min < 5);
+    // const initialSellPerc = (() => {
+    //   if (returnPerc < -40 || returnPerc > 20) return 40;
+    //   return 72;
+    // })(); // johnny cash out at the opening bell
+    // if (isInitialSell) {
+    //   return initialSellPerc;
+    // }
 
 
 
+    // if (sells.length === 0 && min < 0 && min > -200 && returnPerc < 30) {
+    //   return 20;
+    // }
 
-    const isInitialSell = (min >= 0 && min < 10);
-    const initialSellPerc = (() => {
-      if (returnPerc < -40 || returnPerc > 20) return 60;
-      return 95;
-    })(); // johnny cash out at the opening bell
-    if (isInitialSell) {
-      return initialSellPerc;
-    }
+
 
 
 

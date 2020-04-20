@@ -8,6 +8,7 @@ const getPositions = require('./get-positions');
 const alpacaMarketSell = require('./market-sell');
 const alpacaAttemptSell = require('./attempt-sell');
 const stratManager = require('../socket-server/strat-manager');
+const sendEmail = require('../utils/send-email');
 
 module.exports = async (_, dontAct) => {
     
@@ -17,6 +18,13 @@ module.exports = async (_, dontAct) => {
     if (dontAct) {
         return strlog({ positions });
     }
+
+
+    await sendEmail(
+        'force', 
+        'acting on positions', 
+        JSON.stringify(positions.map(position => pick(position, ['ticker', 'percToSell', 'returnPerc', 'daysOld'])))
+    );
 
     Promise.all(
         positions
