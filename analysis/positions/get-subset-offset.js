@@ -22,9 +22,9 @@ const subsetOffsets = {
 
   // bullishMajorJump: 4,
 
-  majorJump: 8,
-  mediumJump: 5,
-  minorJump: -3,
+  majorJump: 3,
+  mediumJump: 7,
+  minorJump: -4,
   onlyMinorJump: -3,
 
   // singleMultiplier: -0.5,
@@ -40,27 +40,30 @@ const subsetOffsets = {
   notStraightDowner: 9,
   // straightDowner: ({ interestingWords }) => interestingWords.some(val => val.startsWith('straightDown')),
 
+  bigDowner: 6,
+
   straightDownerWatchout: 5,
   notStraightDownerNotWatchout: 15,
 
   
   firstAlert: 1,
   // notFirstAlert: 0,
-  avgh: 1,
-  notAvgh: -1,
+  avgh: 0,
+  notAvgh: 7,
   // hotSt: -1,
-  // notHotSt: 1,
+  notHotSt: 2,
   // collections
-  zeroToOne: 2,
+  zeroToOne: 4,
+  lowVolFitty: 3,
   oneToTwo: 2,
-  // fitty: -4,
-  // fiveToTen: ({ interestingWords }) => interestingWords.includes('fiveToTen'),
+  fitty: 4,
+  fiveToTen: 3,
 
   // minKey
-  initial: -8,
-  brunch: 2,
-  lunch: 5,
-  dinner: 1,
+  initial: 0,
+  brunch: 6,
+  lunch: 0,
+  dinner: 8,
   afterhours: Number.NEGATIVE_INFINITY,
 
   initialNotWatchout: 5,
@@ -68,6 +71,7 @@ const subsetOffsets = {
   // combos
   oneToTwoAndLunch: 5,
   overnightDrops: -5,
+  
 
   spread1: 4,
   spread2: -1,
@@ -79,6 +83,7 @@ const subsetOffsets = {
   down10: 1,
   down20: 2,
   down40: 4,
+  down30: 4,
 
   tenMinMinors: -10,
 
@@ -86,13 +91,16 @@ const subsetOffsets = {
   rocket: 3,
   delist: -3,
 
-  avgDowner: 7,
+  avgDowner: -20,
   avgDowner0: 1,
   avgDowner1: 1,
   avgDowner2: 1,
   avgDowner3: 3,
   avgDowner6: 3,
   avgDownerUnder120Min: 5,
+  avgDownerUnder1Min: 22,
+  avgDownerUnder5Min: 25,
+  avgDownerUnder30Min: 25,
   
   'reverse split': -3,
   coronavirus: 3,

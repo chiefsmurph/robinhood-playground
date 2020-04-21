@@ -93,6 +93,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             'bankrupt', 
             'bankruptcy', 
             'afterhours', 
+            'straightDown30',
             // 'halt'
         ];
         const matchesWord = w => strategy.includes(w) || interestingWords.includes(w);

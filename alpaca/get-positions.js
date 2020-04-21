@@ -213,7 +213,7 @@ module.exports = async (
 
 
 
-    if (sells.length === 0 && min < 0 && min > -200 && returnPerc < 2) {
+    if (min < 0 && min > -200 && returnPerc < 2) {
       return 0;
     }
 
