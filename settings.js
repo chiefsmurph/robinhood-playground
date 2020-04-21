@@ -62,9 +62,9 @@ module.exports = {
     overallOffset: 0,
 
     overallMultiplierMultiplier: 1, /// DONT CHANGE NO MATTER WHAT (WELL UNLESS YOU NEED TO GET REAL SMALL MULTIPLIERS)
-    avgDownerMultiplier: 1.35,
+    avgDownerMultiplier: 1,
     minMultiplier: 10,
-    maxOrigMultiplier: 40,
+    maxOrigMultiplier: 50,
 
     disableDayTrades: false,
     disableMakeFundsAvailable: false,
@@ -183,27 +183,29 @@ module.exports = {
 
 
         // avg downers
-        avg-downer
+        // avg-downer
         avg-downer-under1min
         avg-downer-under1min
         avg-downer-under1min
-        avg-downer-under10min
+        avg-downer-under5min
+        avg-downer-under5min
+        avg-downer-under5min
         avg-downer-under10min
         avg-downer-under10min
 
 
-        avg-downer-1count
-        avg-downer-2count
-        avg-downer-2count
-        avg-downer-3count
-        avg-downer-3count
-        avg-downer-3count
-        avg-downer-4count
-        avg-downer-4count
-        avg-downer-4count
-        avg-downer-5count
-        avg-downer-5count
-        avg-downer-5count
+        // avg-downer-1count
+        // avg-downer-2count
+        // avg-downer-2count
+        // avg-downer-3count
+        // avg-downer-3count
+        // avg-downer-3count
+        // avg-downer-4count
+        // avg-downer-4count
+        // avg-downer-4count
+        // avg-downer-5count
+        // avg-downer-5count
+        // avg-downer-5count
 
         // all majorJumps
 

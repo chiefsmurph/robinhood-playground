@@ -106,7 +106,7 @@ module.exports = async (groupByDay, numDays = Number.POSITIVE_INFINITY, excludeA
 
       const numPicks = picks.filter(pick => pick.strategyName.includes(period)).map(pick => pick.strategyName).length;
       console.log({ date })
-      const openSPY = period === 'initial'
+      const openSPY = period === 'initial' && getDaily(date)
         ? getDaily(date).open_price
         : (() => {
 
