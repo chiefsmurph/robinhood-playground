@@ -127,8 +127,8 @@ module.exports = class PositionWatcher {
 
     const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
     let shouldAvgDownWhen = [
-      -4 - (daysOld * 1.2),    // fillPickLimit
-      -3 - totalNum * 1.2     // returnLimit
+      -6 - (daysOld * 2.2),    // fillPickLimit
+      -4 - totalNum * 1.2     // returnLimit
     ];
     
     // let shouldAvgDownWhen = [
