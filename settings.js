@@ -52,10 +52,10 @@ module.exports = {
     
     // sellAllStocksOnNthDay: 8,
     purchaseAmt: 2,
-    makeKeeperFundsAvailable: false,
-    makeFundsOnlyForDowners: true,
-    onlyUseCash: true,
     onlyAvgDownOpenPositions: false,
+    makeKeeperFundsAvailable: false,
+    makeFundsOnlyForDowners: false,
+    onlyUseCash: true,
     
     // expectedPickCount: 200,
     multiplierThreshold: 4, // wont recommend picks below this multiplier count even if they are a forPurchase pick
