@@ -38,7 +38,7 @@ module.exports = async (groupByDay, numDays = Number.POSITIVE_INFINITY, excludeA
     Pick.find(
       { 
         date,
-        strategyName: /.*sudden.*drops.*(medium|major).*/i
+        strategyName: /sudden.*drops/i  // .*(medium|major)
       },
       { data: 0 }
     ).lean();
