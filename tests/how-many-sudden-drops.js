@@ -97,7 +97,7 @@ module.exports = async (groupByDay, numDays = Number.POSITIVE_INFINITY, excludeA
 
     const getChunk = period => {
 
-      if (period === 'eod') {
+      if (period === 'eod' && getDaily(date)) {
         return {
           date,
           closePrice: getDaily(date).close_price
