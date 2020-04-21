@@ -60,7 +60,7 @@ const subsetOffsets = {
   fiveToTen: 3,
 
   // minKey
-  initial: 0,
+  initial: -10,
   brunch: 6,
   lunch: 0,
   dinner: 8,
