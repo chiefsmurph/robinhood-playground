@@ -218,7 +218,7 @@ module.exports = async (
     }
 
 
-    if (returnPerc < 0) {
+    if (returnPerc < 5) {
       return 100;
     }
 

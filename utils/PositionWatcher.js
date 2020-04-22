@@ -145,12 +145,11 @@ module.exports = class PositionWatcher {
     // }
 
     const trendLowerThanPerc = (t, perc) => isNaN(t) || t < perc;
-    const passesCheck = ([fillPickLimit, returnLimit]) => [
-      // askToLowestAvgDown, 
-      lowestFillTrend,
-      recentPickTrend
-    ].every(trend => trendLowerThanPerc(trend, fillPickLimit)) && trendLowerThanPerc(returnPerc, returnLimit);
-
+    const passesCheck = ([fillPickLimit, returnLimit]) => (
+      trendLowerThanPerc(Math.max(lowestFillTrend, recentPickTrend), fillPickLimit)
+      && trendLowerThanPerc(returnPerc, returnLimit)
+    );
+    
     const hitAvgDownWhen = passesCheck(shouldAvgDownWhen);
     const shouldAvgDown = Boolean(hitAvgDownWhen);
 
