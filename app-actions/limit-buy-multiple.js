@@ -87,11 +87,17 @@ const eclecticBuy = async ({
         quantity,
         pickPrice,
         buyStyles: [
+            // {
+            //     method: async (...args) => {
+            //         await new Promise(resolve => setTimeout(resolve, 20000))
+            //         return alpacaMarketBuy(...args);
+            //     },
+            // },
             {
-                method: async (...args) => {
-                    await new Promise(resolve => setTimeout(resolve, 20000))
-                    return alpacaMarketBuy(...args);
-                },
+                method: alpacaLimitBuy,
+                limitPrice: pickPrice * 1.033,
+                timeoutSeconds: 60 * 30,
+                fallbackToMarket: false
             },
             {
                 method: alpacaLimitBuy,
