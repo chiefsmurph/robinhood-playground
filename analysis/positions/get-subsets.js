@@ -144,6 +144,7 @@ module.exports = positions => {
 
     isJimmyPick: ({ interestingWords }) => interestingWords.includes('isJimmyPick'),
     rsi: ({ interestingWords }) => interestingWords.includes('rsi'),
+    dailyRSIgt70: ({ interestingWords }) => interestingWords.includes('dailyRSIgt70'),
     
   };
 };

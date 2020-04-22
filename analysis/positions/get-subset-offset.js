@@ -18,9 +18,9 @@ const subsetOffsets = {
 
   bullish: 2,
   neutral: 1,
-  bearish: 0,
+  bearish: -2,
 
-  // bullishMajorJump: 4,
+  bullishMajorJump: 4,
 
   majorJump: 3,
   mediumJump: 7,
@@ -109,6 +109,8 @@ const subsetOffsets = {
 
   isJimmyPick: 3,
   rsi: 6,
+
+  dailyRSIgt70: 5,
 
 
 };
