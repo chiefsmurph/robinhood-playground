@@ -49,6 +49,7 @@ const executeBuys = async ({
         .map(
             async ({ method, name = method.name, ...rest }) => {
                 console.log(`${name}: purchasing ${individualQuantity} shares of ${ticker}`);
+                await new Promise(resolve => setTimeout(resolve, 1000 * Math.random() * 10))
                 const response = await method({
                     ticker,
                     quantity: individualQuantity,
