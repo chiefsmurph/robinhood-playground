@@ -182,8 +182,8 @@ module.exports = {
 
 
 
-        // avg downers
-        // avg-downer
+        avg downer
+        avg-downer
         avg-downer-under1min
         avg-downer-under1min
         avg-downer-under1min
