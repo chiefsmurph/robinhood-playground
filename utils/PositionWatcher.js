@@ -126,8 +126,20 @@ module.exports = class PositionWatcher {
     const recentPickTrend = getTrend(comparePrice, mostRecentPrice);
 
     const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
+
+
+
+    const msPast = Date.now() - this.startTime;
+    const minPast = Math.floor(msPast / 60000);
+    const fillPickLimit = (() => {
+      if (minPast < 5) return -4;
+      if (minPast < 10) return -5;
+      return -6 - (daysOld * 2.2)
+    })();
+
+
     let shouldAvgDownWhen = [
-      -6 - (daysOld * 2.2),    // fillPickLimit
+      fillPickLimit,    // fillPickLimit
       -4 - totalNum * 1.2     // returnLimit
     ];
     
