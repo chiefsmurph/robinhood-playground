@@ -190,7 +190,7 @@ class App extends Component {
     state = {
         value: 0,
         socket: null,
-        tags: ['notManual'].map(createTag),
+        tags: ['notManual', 'lastTen'].map(createTag),
         admin: localStorage.getItem('placate')
     };
 

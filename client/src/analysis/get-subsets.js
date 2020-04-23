@@ -158,6 +158,11 @@ module.exports = positions => {
             'dailyRSIgt30',
             'dailyRSIlt30',
 
+
+            'stocktwits',
+            'mostBullish',
+            'mostBearish',
+
         ].reduce((acc, word) => ({
             ...acc,
             [word]: ({ interestingWords }) => interestingWords.includes(word)

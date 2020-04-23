@@ -158,7 +158,13 @@ module.exports = class PositionWatcher {
 
     const trendLowerThanPerc = (t, perc) => isNaN(t) || t < perc;
     const passesCheck = ([fillPickLimit, returnLimit]) => (
-      trendLowerThanPerc(Math.min(lowestFillTrend, recentPickTrend), fillPickLimit)
+      trendLowerThanPerc(
+        Math.min(
+          // lowestFillTrend, 
+          recentPickTrend
+        ),
+        fillPickLimit
+      )
       && trendLowerThanPerc(returnPerc, returnLimit)
     );
     
