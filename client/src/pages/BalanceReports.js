@@ -253,9 +253,9 @@ class DayReports extends Component {
         // const numDaysToShow = timeFilter === 'onlyToday' ? 1 : allDates.length;
 
         const startIndex = (() => {
-            const startDate = allDates[allDates.length - numDaysToShow];
-            const first = !startDate ? 0 : balanceReports.slice().findIndex(report =>
-                (new Date(report.time)).toLocaleDateString() === startDate && isRegularHours(report)
+            const startDate = allDates[allDates.length - numDaysToShow - 1];
+            const first = !startDate ? 0 : balanceReports.length - balanceReports.slice().reverse().findIndex(report =>
+                (new Date(report.time)).toLocaleDateString() === startDate && !isRegularHours(report)
             );
             // console.log({ allDates, startDate, lastRegularReport })
             return first;
