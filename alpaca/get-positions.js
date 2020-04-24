@@ -196,9 +196,9 @@ module.exports = async (
       return 0;
     }
 
-    if (market_value <= mostRecentPurchase * 10 && daysOld >= 2) {
-      return 100;
-    }
+    // if (market_value <= mostRecentPurchase * 10 && daysOld >= 2) {
+    //   return 100;
+    // }
 
 
 
