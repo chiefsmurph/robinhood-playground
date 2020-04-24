@@ -131,9 +131,11 @@ module.exports = class PositionWatcher {
 
     const msPast = Date.now() - this.startTime;
     const minPast = Math.floor(msPast / 60000);
+    const isLessThan5Min = (minPast <= 5);
+    const isLessThan20Min = (minPast <= 20);
     const fillPickLimit = (() => {
-      if (minPast < 5) return -4;
-      if (minPast < 10) return -5;
+      if (isLessThan5Min) return -4;
+      if (isLessThan20Min) return -5;
       return -6 - (daysOld * 2.2)
     })();
 
@@ -188,6 +190,8 @@ module.exports = class PositionWatcher {
           [`${daysOld}daysOld`]: Boolean(daysOld),  // only >= 1
           [`${numAvgDowners}count`]: true,
           [this.getMinKey()]: true,
+          isLessThan5Min,
+          isLessThan20Min: isLessThan20Min && !isLessThan5Min,
           isBeforeClose,
           // quickAvgDown,
         },
