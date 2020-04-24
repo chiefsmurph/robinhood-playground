@@ -176,7 +176,8 @@ module.exports = async (
 
   const getPercToSell = position => {
 
-    let { 
+    let {
+      symbol,
       daysOld,
       mostRecentPurchase,
       returnPerc, 
@@ -218,9 +219,9 @@ module.exports = async (
     }
 
 
-    if (returnPerc < 5) {
-      return 100;
-    }
+    // if (returnPerc < 5) {
+    //   return 100;
+    // }
 
 
 
