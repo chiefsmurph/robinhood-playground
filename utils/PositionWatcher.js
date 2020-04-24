@@ -142,7 +142,7 @@ module.exports = class PositionWatcher {
 
     let shouldAvgDownWhen = [
       fillPickLimit,    // fillPickLimit
-      -4 - totalNum * 1.2     // returnLimit
+      -3.5 - totalNum * 1.2     // returnLimit
     ];
     
     // let shouldAvgDownWhen = [
