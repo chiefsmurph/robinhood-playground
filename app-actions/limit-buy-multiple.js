@@ -108,7 +108,7 @@ const eclecticBuy = async ({
             },
             {
                 method: alpacaLimitBuy,
-                limitPrice: pickPrice * .98,
+                limitPrice: pickPrice * .997,
                 timeoutSeconds: 60 * 30,
                 fallbackToMarket: false
             },
