@@ -268,6 +268,10 @@ class DayReports extends Component {
         let numDaysToPrune = smallDevice ? Math.ceil(numReports / 350) : numDaysToShow;
         balanceReports = pruneByDays(balanceReports, numDaysToPrune);
         balanceReports = pruneByDays(balanceReports, fuzzFactor);
+
+
+
+        const numNotReg = balanceReports.findIndex(isRegularHours);
         
         // console.log({ numReports, smallDevice, numDaysToPrune, afterCount: balanceReports.length })
 
