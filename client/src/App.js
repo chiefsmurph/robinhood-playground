@@ -191,7 +191,8 @@ class App extends Component {
         value: 0,
         socket: null,
         tags: ['notManual', 'lastTen'].map(createTag),
-        admin: localStorage.getItem('placate')
+        admin: localStorage.getItem('placate'),
+        onlyRegHrs: true
     };
 
     handleDelete = i => {
@@ -370,7 +371,10 @@ class App extends Component {
         const passToPages = {
             ...this.state,
             handlePageChange: this.handlePageChange, 
-            setAppState: state => this.setState(state),
+            setAppState: state => {
+                console.log({ update: state })
+                this.setState(state);
+            },
             // position analysis
             allPositions,
             filteredPositions,

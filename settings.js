@@ -99,6 +99,17 @@ module.exports = {
         continue-down
         most-low
 
+
+        overnight-drops-mediumJump-down10
+        overnight-drops-mediumJump-initial
+        overnight-drops-mediumJump-down10
+        overnight-drops-watchout-down30
+        overnight-drops-down20-straightDown30
+        overnight-drops-watchout-down30
+        overnight-drops-down30
+        overnight-drops-majorJump-down20
+        overnight-drops-!watchout-down20
+
         // overnight-drops-down40
         // overnight-drops-down40
         // overnight-drops-down40

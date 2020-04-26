@@ -11,7 +11,7 @@ import './odometer.css';
 import reportsToChartData from '../utils/reports-to-chartData';
 import TrendPerc from '../components/TrendPerc';
 import getTrend from '../utils/get-trend';
-import _, { mapObject, throttle, } from 'underscore';
+import _, { mapObject, throttle, flatten } from 'underscore';
 
 function get(obj, path) {
     var nPath, remainingPath;
@@ -87,13 +87,14 @@ const isRegularHours = ({ time, isRegularHours }) => {
     return date.getTime() > open.getTime() && date.getTime() < close.getTime();
 };
 
-const getNewDayLines = balanceReports => {
+const getNewDayLines = chartData => {
+    const allDates = chartData.labels;
     const lines = [];
-    const getDate = report => (new Date(report.time)).toLocaleDateString();
-    balanceReports.forEach((report, index, arr) => {
+    const getDate = date => (new Date(date)).toLocaleDateString();
+    allDates.forEach((date, index, arr) => {
         const prev = arr[index - 1];
-        if (prev && getDate(report) != getDate(prev)) {
-            lines.push((new Date(report.time)).toLocaleString())
+        if (prev && getDate(date) != getDate(prev)) {
+            lines.push((new Date(date)).toLocaleString())
         }
     });
     return lines;
@@ -121,6 +122,21 @@ const getAfterHoursBoxes = balanceReports => {
         ])
     }
     return boxes;
+};
+
+const removeAfterHours = (chartData, afterHoursBoxes) => {
+    const { datasets, labels } = chartData;
+    const correspondingIndexes = afterHoursBoxes.map(([startDate, endDate]) => 
+        [startDate, endDate].map(ahDate => labels.findIndex(labelDate => labelDate === ahDate))
+    );
+    correspondingIndexes.reverse().forEach(([startIndex, endIndex]) => {
+        chartData.labels.splice(startIndex, endIndex - startIndex);
+        datasets.forEach(dataset => {
+            dataset.data.splice(startIndex, endIndex - startIndex);
+        });
+    });
+    console.log({correspondingIndexes})
+    return chartData;
 };
 
 const annotateBoxes = boxes => boxes.map(([left, right], index) => ({
@@ -201,6 +217,7 @@ const pruneByDays = (balanceReports, numDays) => {
 };
 
 
+const smallDevice = window.innerWidth < 600;
 class DayReports extends Component {
     constructor() {
         super();
@@ -211,7 +228,8 @@ class DayReports extends Component {
             afterHoursAnnotations: [],
             fuzzFactor: 2,
             showBalance: false,
-            lowKey: false
+            lowKey: false,
+            onlyRegHrs: false
         };
     }
     componentDidMount() {
@@ -230,10 +248,15 @@ class DayReports extends Component {
             });
         }
     }
+    componentDidMount() {
+        this.setState({
+            fuzzFactor: smallDevice && this.state.numDaysToShow === 1 ? 2 : 1
+        })
+    }
     setTimeFilter = timeFilter => this.setState({ timeFilter });
     render () {
-        let { balanceReports, dayReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { buyingPower, daytradeCount }, setAppState, lowKey, showBalance } = this.props;
-        let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations } = this.state;
+        let { balanceReports, dayReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { buyingPower, daytradeCount }, setAppState, lowKey, showBalance, onlyRegHrs } = this.props;
+        let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations,  } = this.state;
         if (!balanceReports || !balanceReports.length) return <b>LOADING</b>;
 
         console.log({
@@ -264,7 +287,6 @@ class DayReports extends Component {
         balanceReports = balanceReports.slice(startIndex);
 
         const numReports = balanceReports.length;
-        const smallDevice = window.innerWidth < 600;
         let numDaysToPrune = smallDevice ? Math.ceil(numReports / 350) : numDaysToShow;
         balanceReports = pruneByDays(balanceReports, numDaysToPrune);
         balanceReports = pruneByDays(balanceReports, fuzzFactor);
@@ -384,15 +406,6 @@ class DayReports extends Component {
         //     same: afterHoursBoxes === [["10/4/2019, 3:00:15 PM","10/7/2019, 8:29:54 AM"],["10/7/2019, 3:00:15 PM","10/8/2019, 8:29:48 AM"],["10/8/2019, 3:00:04 PM","10/9/2019, 8:29:47 AM"],["10/9/2019, 3:00:16 PM","10/10/2019, 8:29:59 AM"]]
         // })
 
-        const allDatas = chartData.datasets.map(dataset => dataset.data);
-        const allValues = allDatas.reduce((acc, vals) => [...acc, ...vals], []);
-        
-        const min = Math.floor(_.min(allValues));
-        const max = Math.ceil(_.max(allValues));
-
-        const stepSize = Math.ceil((max - min) / 13);
-        
-        console.log({ d: chartData.datasets, allDatas, allValues,min,max, stepSize })
         // let afterHoursAnnotations = annotateBoxes(afterHoursBoxes);
 
         // const expected = [["10/2/2019, 5:00:01 AM","10/2/2019, 8:29:49 AM"],["10/2/2019, 3:00:08 PM","10/3/2019, 8:29:48 AM"],["10/3/2019, 3:00:13 PM","10/4/2019, 8:29:54 AM"],["10/4/2019, 3:00:15 PM","10/7/2019, 8:29:54 AM"],["10/7/2019, 3:00:15 PM","10/8/2019, 8:29:48 AM"],["10/8/2019, 3:00:04 PM","10/9/2019, 8:29:47 AM"],["10/9/2019, 3:00:16 PM","10/10/2019, 8:29:59 AM"]];
@@ -409,7 +422,22 @@ class DayReports extends Component {
         // last minute mods
 
 
+        const afterHoursBoxes = getAfterHoursBoxes(balanceReports);
+        console.log({ onlyRegHrs })
+        if (onlyRegHrs) {
+            removeAfterHours(chartData, afterHoursBoxes);
+        }
 
+        const allDatas = chartData.datasets.map(dataset => dataset.data);
+        const allValues = allDatas.reduce((acc, vals) => [...acc, ...vals], []);
+        
+        const min = Math.floor(_.min(allValues));
+        const max = Math.ceil(_.max(allValues));
+        
+
+        const stepSize = Math.ceil((max - min) / 13);
+        
+        console.log({ d: chartData.datasets, allDatas, allValues,min,max, stepSize })
 
         return (
             <div style={{ height: '100%', padding: '1em' }}>
@@ -448,6 +476,13 @@ class DayReports extends Component {
                             <label>
                                 <input type="checkbox" checked={lowKey} onClick={() => setAppState({ lowKey: !lowKey })} /> 
                                 &nbsp;&nbsp;Lowkey
+                            </label>
+                            &nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox" checked={onlyRegHrs} onClick={() => {
+                                    setAppState({ onlyRegHrs: !onlyRegHrs })
+                                }} /> 
+                                &nbsp;&nbsp;Only Reg Hrs
                             </label>
                         </div>
                         
@@ -594,8 +629,8 @@ class DayReports extends Component {
 
 
                                         
-                                        ...annotateBoxes(getAfterHoursBoxes(balanceReports)),
-                                        ...annotateLines(getNewDayLines(balanceReports)),
+                                        ...annotateBoxes(afterHoursBoxes),
+                                        ...annotateLines(getNewDayLines(chartData)),
 
                                     ]
                                 },
