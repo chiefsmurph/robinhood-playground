@@ -109,6 +109,16 @@ module.exports = {
         overnight-drops-down30
         overnight-drops-majorJump-down20
         overnight-drops-!watchout-down20
+        overnight-drops-down40-straightDown30
+        overnight-drops-mediumJump-down20
+
+        
+        sudden-drops-holds
+
+
+        rsi-30min-rsilt15-dinner
+        rsi-30min-notWatchout-rsilt15
+
 
         // overnight-drops-down40
         // overnight-drops-down40
