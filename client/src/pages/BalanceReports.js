@@ -97,7 +97,7 @@ const getNewDayLines = chartData => {
             lines.push((new Date(date)).toLocaleString())
         }
     });
-    return lines;
+    return lines.slice(1);
 };
 
 const getAfterHoursBoxes = balanceReports => {
@@ -279,7 +279,7 @@ class DayReports extends Component {
             const startDate = allDates[allDates.length - numDaysToShow - 1];
             const first = !startDate ? 0 : balanceReports.length - balanceReports.slice().reverse().findIndex(report =>
                 (new Date(report.time)).toLocaleDateString() === startDate && !isRegularHours(report)
-            );
+            ) - 1;
             // console.log({ allDates, startDate, lastRegularReport })
             return first;
         })();

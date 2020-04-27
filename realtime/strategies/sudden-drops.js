@@ -18,7 +18,7 @@ const stSents = [
 module.exports = {
     period: [5],
     // collections: ['spy', 'options', 'fitty', 'lowVolFitty', 'zeroToOne', 'oneToTwo', 'twoToFive', 'fiveToTen'],
-    excludeCollections: ['holds'],
+    // excludeCollections: ['holds'],
     handler: async ({ ticker, allPrices }) => {
 
         // const onlyToday = (() => {

@@ -26,7 +26,7 @@ module.exports = {
 
     wordFlags: ['split', 'reverse split', 'rocket', 'offering', 'delist', 'breakthrough', 'bankrupt', 'bankruptcy', 'coronavirus'],
 
-    continueDownForDays: 3,
+    continueDownForDays: 1,
 
     // selling
 
@@ -52,7 +52,7 @@ module.exports = {
     
     // sellAllStocksOnNthDay: 8,
     purchaseAmt: 3,
-    onlyAvgDownOpenPositions: true,
+    onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
     onlyUseCash: true,

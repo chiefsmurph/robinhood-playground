@@ -22,7 +22,7 @@ module.exports = async (numDays = 10, ...words) => {
   const count = matches.length;
   const agg = matches.map(stratPerf => ({
     ...stratPerf,
-    avgNextDayPerf: avgArray(stratPerf.perfs.filter(perf => !perf.period.includes('same')).map(perf => perf.avgTrend)),
+    avgNextDayPerf: avgArray(stratPerf.perfs.filter(perf => perf.period.includes('same')).map(perf => perf.avgTrend)),
   }));
 
   strlog({

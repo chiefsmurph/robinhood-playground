@@ -52,6 +52,6 @@ module.exports = async (dontSell) => {
         })
     });
 
-    console.log('done selling, sending refresh positions to strat manager');
-    stratManager.refreshPositions()
+    // console.log('done selling, sending refresh positions to strat manager');
+    // stratManager.refreshPositions()
 };
