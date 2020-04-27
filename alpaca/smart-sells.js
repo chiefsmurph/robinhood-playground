@@ -1,7 +1,7 @@
 const { alpaca } = require('.');
 const { force: { keep }} = require('../settings');
-// const shouldYouSellThisStock = require('../analysis/should-you-sell-this-stock');
-const shouldSellPosition = require('../utils/should-sell-position');
+const shouldYouSellThisStock = require('../analysis/should-you-sell-this-stock');
+// const shouldSellPosition = require('../utils/should-sell-position');
 const getStSent = require('../utils/get-stocktwits-sentiment');
 const sellPosition = require('./sell-position');
 
@@ -16,26 +16,26 @@ module.exports = async (dontSell) => {
         ticker: pos.symbol
     }));
     
-    positions = await mapLimit(positions, 3, async pos => ({
-        ...pos,
-        stSent: (await getStSent(pos.ticker) || {}).bullBearScore || 0
-    }));
-
-    positions = positions.map(pos => ({
-        ...pos,
-        shouldSell: shouldSellPosition(pos)
-    }));
-
-    // positions = positions.filter(pos => !keep.includes(pos.symbol));
-    // str({ positions })
-    // const withShouldSells = await mapLimit(positions, 3, async pos => ({
+    // positions = await mapLimit(positions, 3, async pos => ({
     //     ...pos,
-    //     shouldSell: await shouldYouSellThisStock(pos.symbol, pos.avg_entry_price)
+    //     stSent: (await getStSent(pos.ticker) || {}).bullBearScore || 0
     // }));
 
-    // console.log('selling' + withShouldSells.map(p => p.symbol));
+    // positions = positions.map(pos => ({
+    //     ...pos,
+    //     shouldSell: shouldSellPosition(pos)
+    // }));
 
-    // str({ withShouldSells })
+    positions = positions.filter(pos => !keep.includes(pos.symbol));
+    // str({ positions })
+    const withShouldSells = await mapLimit(positions, 3, async pos => ({
+        ...pos,
+        shouldSell: await shouldYouSellThisStock(pos.symbol, pos.avg_entry_price)
+    }));
+
+    console.log('selling' + withShouldSells.map(p => p.symbol));
+
+    str({ withShouldSells })
 
     const toSell = positions.filter(pos => pos.shouldSell);
     strlog({

@@ -18,9 +18,9 @@ const subsetOffsets = {
 
   bullish: 2,
   neutral: 1,
-  bearish: -2,
+  bearish: -5,
 
-  bullishMajorJump: 4,
+  bullishMajorJump: 6,
 
   majorJump: 3,
   mediumJump: 7,
@@ -45,6 +45,8 @@ const subsetOffsets = {
   straightDownerWatchout: 5,
   notStraightDownerNotWatchout: 15,
 
+  onlyMinorJumpBigDowner: 10,
+
   
   firstAlert: 1,
   // notFirstAlert: 0,
@@ -54,7 +56,7 @@ const subsetOffsets = {
   notHotSt: 2,
   // collections
   zeroToOne: 4,
-  lowVolFitty: 3,
+  lowVolFitty: 7,
   oneToTwo: 2,
   fitty: 4,
   fiveToTen: 3,
@@ -80,10 +82,12 @@ const subsetOffsets = {
   spread5: 1,
   spread6: 0,
 
-  down10: 1,
+  down10: 2,
+  down15: 0,
   down20: 2,
+  down30: 3,
   down40: 4,
-  down30: 4,
+  notDown: 9,
 
   tenMinMinors: -10,
 
@@ -111,7 +115,9 @@ const subsetOffsets = {
   rsi: 6,
 
   dailyRSIgt70: 5,
-
+  dailyRSIgt50: 1,
+  dailyRSIgt50: 2,
+  dailyRSIlt30: -2,
 
 };
 

@@ -15,7 +15,7 @@ const { default: recordStratPerfs } = require('../app-actions/record-strat-perfs
 const alpacaActOnPositions = require('../alpaca/act-on-positions');
 const alpacaContinueDown = require('../alpaca/continue-down');
 const alpacaMostLow = require('../alpaca/most-low');
-// const alpacaSmartSells = require('../alpaca/smart-sells');
+const alpacaSmartSells = require('../alpaca/smart-sells');
 // const saveDayReport = require('../app-actions/save-day-report');
 const restartProcess = require('../app-actions/restart-process');
 const sendScreenshot = require('../app-actions/send-screenshot');
@@ -63,12 +63,12 @@ const additionalCron = [
     //     ],
     //     fn: () => alpacaMostLow()
     // },
-    // {
-    //     name: 'alpaca smart sells',
-    //     run: [1],
-    //     // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
-    //     fn: () => alpacaSmartSells()
-    // },
+    {
+        name: 'alpaca smart sells',
+        run: [-5],
+        // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
+        fn: () => alpacaSmartSells()
+    },
 
 
     // {

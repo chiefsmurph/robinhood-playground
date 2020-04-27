@@ -62,9 +62,9 @@ module.exports = {
     overallOffset: 0,
 
     overallMultiplierMultiplier: 1, /// DONT CHANGE NO MATTER WHAT (WELL UNLESS YOU NEED TO GET REAL SMALL MULTIPLIERS)
-    avgDownerMultiplier: 1.2,
+    avgDownerMultiplier: 1.35,
     minMultiplier: 10,
-    maxOrigMultiplier: 50,
+    maxOrigMultiplier: 60,
 
     disableDayTrades: false,
     disableMakeFundsAvailable: false,
@@ -100,6 +100,12 @@ module.exports = {
         most-low
 
 
+        overnight-drops-mediumJump-down15
+        overnight-drops-mediumJump-down15
+        overnight-drops-mediumJump-down15
+        overnight-drops-mediumJump-down15
+        overnight-drops-mediumJump-down15
+            
         overnight-drops-mediumJump-down10
         overnight-drops-mediumJump-initial
         overnight-drops-mediumJump-down10
@@ -112,7 +118,7 @@ module.exports = {
         overnight-drops-down40-straightDown30
         overnight-drops-mediumJump-down20
 
-        
+
         sudden-drops-holds
 
 
