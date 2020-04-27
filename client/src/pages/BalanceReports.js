@@ -97,7 +97,7 @@ const getNewDayLines = chartData => {
             lines.push((new Date(date)).toLocaleString())
         }
     });
-    return lines.slice(1);
+    return lines;
 };
 
 const getAfterHoursBoxes = balanceReports => {
@@ -630,7 +630,7 @@ class DayReports extends Component {
 
                                         
                                         ...annotateBoxes(afterHoursBoxes),
-                                        ...annotateLines(getNewDayLines(chartData)),
+                                        ...annotateLines(getNewDayLines(chartData).slice(Number(!onlyRegHrs))),
 
                                     ]
                                 },

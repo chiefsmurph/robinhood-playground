@@ -205,8 +205,8 @@ module.exports = async (
 
     const isInitialSell = (min >= -5 && min < 5);
     const initialSellPerc = (() => {
-      if (returnPerc < -40 || returnPerc > 20) return 80;
-      return 100;
+      if (returnPerc < -15 || returnPerc > 20) return 60;
+      return 80;
     })(); // johnny cash out at the opening bell
     if (isInitialSell) {
       return initialSellPerc;
