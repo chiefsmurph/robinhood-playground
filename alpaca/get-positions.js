@@ -203,7 +203,7 @@ module.exports = async (
 
 
 
-    const isInitialSell = (min >= -5 && min < 5);
+    const isInitialSell = (min >= -5 && min <= 5);
     const initialSellPerc = (() => {
       if (daysOld > continueDownForDays) return 100;
       if (returnPerc < -15 || returnPerc > 20) return 60;
@@ -220,9 +220,9 @@ module.exports = async (
     }
 
 
-    if (returnPerc < 5 && min > 0) {
-      return 100;
-    }
+    // if (returnPerc < 5 && min > 0) {
+    //   return 100;
+    // }
 
 
 
