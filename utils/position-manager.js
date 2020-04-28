@@ -28,15 +28,15 @@ module.exports = {
 
 // observe all right before close
 const regCronIncAfterSixThirty = require('./reg-cron-after-630');
-regCronIncAfterSixThirty({
-  name: `restart all position watchers`,
-  run: [1],
-  fn: async (min) => {
-    for (let positionWatcher of Object.values(allPositionWatchers)) {
-      await positionWatcher.newBuy();
-    }
-  }
-});
+// regCronIncAfterSixThirty({
+//   name: `restart all position watchers`,
+//   run: [1],
+//   fn: async (min) => {
+//     for (let positionWatcher of Object.values(allPositionWatchers)) {
+//       await positionWatcher.newBuy();
+//     }
+//   }
+// });
 regCronIncAfterSixThirty({
   name: `final before close observe all position watchers`,
   run: [387],
