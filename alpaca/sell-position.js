@@ -66,7 +66,7 @@ module.exports = async position => {
         });
 
 
-    await log('SOLD POSITION ${ticker}', {
+    await log(`SOLD POSITION ${ticker}`, {
         ticker,
         sellQuantity,
         method,

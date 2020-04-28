@@ -16,7 +16,7 @@ class Logs extends Component {
                     this.props.mostRecentLogs
                         .filter(log => !filter || JSON.stringify(log).includes(filter))
                         .slice(0, numLines).map(log => (
-                            <div style={{ color: JSON.stringify(log).toLowerCase().includes('error') ? 'red' : 'white', borderBottom: '1px solid white' }}>
+                            <div onClick={() => console.log(log)} style={{ color: JSON.stringify(log).toLowerCase().includes('error') ? 'red' : 'white', borderBottom: '1px solid white' }}>
                                 <b>{
                                     (new Date(log.timestamp)).toLocaleString()
                                 }:&nbsp;</b>
