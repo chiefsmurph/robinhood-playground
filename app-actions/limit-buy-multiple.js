@@ -99,28 +99,28 @@ const eclecticBuy = async ({
                 method: alpacaLimitBuy,
                 name: 'limit3p3',
                 limitPrice: pickPrice * 1.033,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
+                timeoutSeconds: 60 * 8,
+                fallbackToMarket: true
             },
             {
                 method: alpacaLimitBuy,
                 name: 'limit1p3',
                 limitPrice: pickPrice * 1.013,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
+                timeoutSeconds: 60 * 10,
+                fallbackToMarket: true
             },
             {
                 method: alpacaLimitBuy,
                 name: 'limitp997',
                 limitPrice: pickPrice * .997,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
+                timeoutSeconds: 60 * 12,
+                fallbackToMarket: true
             },
             {
                 method: alpacaAttemptBuy,
                 name: 'attemptBuy',
                 pickPrice,
-                fallbackToMarket: false
+                fallbackToMarket: true
             }
         ]
     });
