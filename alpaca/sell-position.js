@@ -1,9 +1,29 @@
 const attemptSell = require('./attempt-sell');
+const spraySell = require('./spray-sell');
 const lookup = require('../utils/lookup');
 const Holds = require('../models/Holds');
 const sendEmail = require('../utils/send-email');
 const getTrend = require('../utils/get-trend');
 const alpacaCancelAllOrders = require('./cancel-all-orders');
+const getMinFromOpen = require('../utils/get-minutes-from-open');
+
+
+const bothAttemptAndSpray = ({ ticker, quantity }) => {
+    const halfQuantity = Math.floor(quantity / 2);
+    return Promise.all([
+        attemptSell({ 
+            ticker, 
+            quantity: halfQuantity,
+            // limitPrice: currentPrice * .995,
+            // timeoutSeconds: 60,
+            fallbackToMarket: true
+         }),
+         spraySell({
+             ticker,
+             quantity: halfQuantity
+         })
+    ]);
+};
 
 module.exports = async position => {
 
@@ -22,7 +42,8 @@ module.exports = async position => {
     
     // const { currentPrice } = await lookup(ticker);
 
-    await log(`selling ${ticker}`, {
+    const method = getMinFromOpen() >= 0 ? 'attemptandspray' : 'attemptnofallback';
+    await log(`selling ${ticker} via ${method}`, {
         ticker,
         beforeQuantity: quantity,
         percToSell,
@@ -31,21 +52,26 @@ module.exports = async position => {
         mostRecentPurchase,
         wouldBeDayTrade,
     });
+    const halfQuantity = Math.ceil(sellQuantity / 2);
 
-    const response = await attemptSell({ 
-        ticker, 
-        quantity: sellQuantity,
-        // limitPrice: currentPrice * .995,
-        // timeoutSeconds: 60,
-        fallbackToMarket: true
-     });
+    const response = getMinFromOpen() >= 0 
+        ? await bothAttemptAndSpray({   // reg hours
+            ticker,
+            quantity: sellQuantity
+        })
+        : await attemptSell({       // premarket
+            ticker,
+            quantity: sellQuantity,
+            fallbackToMarket: false     
+        });
 
-    const { alpacaOrder, attemptNum } = response || {};
-    if (!alpacaOrder || !alpacaOrder.filled_avg_price) {
-        await log(`unable to sell ${ticker}`);
-    } else {
-        await log(`sold ${ticker}: ${alpacaOrder.qty} shares (${percToSell}%) @ ${alpacaOrder.filled_avg_price}) in ${attemptNum} attempts!!!`);
-    }
+
+    await log('SOLD POSITION ${ticker}', {
+        ticker,
+        sellQuantity,
+        method,
+        response
+    })
     
   
 };
