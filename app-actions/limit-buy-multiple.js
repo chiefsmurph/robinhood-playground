@@ -90,7 +90,7 @@ const eclecticBuy = async ({
         buyStyles: [
             {
                 method: async (...args) => {
-                    await new Promise(resolve => setTimeout(resolve, 60000))
+                    await new Promise(resolve => setTimeout(resolve, 60000 * 3))
                     return alpacaMarketBuy(...args);
                 },
                 name: 'marketBuy',

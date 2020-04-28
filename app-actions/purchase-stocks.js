@@ -1,6 +1,6 @@
 const limitBuyMultiple = require('./limit-buy-multiple');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
-let { expectedPickCount, purchaseAmt, disableMakeFundsAvailable, onlyUseCash, makeFundsOnlyForDowners } = require('../settings');
+let { expectedPickCount, purchaseAmt, onlyUseCash, makeFundsOnlyForDowners } = require('../settings');
 const { alpaca } = require('../alpaca');
 const makeFundsAvailable = require('../alpaca/make-funds-available');
 const sendEmail = require('../utils/send-email');
@@ -22,7 +22,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     const amtLeft = Number(onlyUseCash ? cash : buying_power);
 
 
-    if (disableMakeFundsAvailable && amountPerBuy * 1.3 > amtLeft) {
+    if (onlyUseCash && amountPerBuy * 1.3 > amtLeft) {
         return log(`WANTED TO BUY ${withPrices.map(b => b.ticker).join(' and ')} BUT YOU ARE OUT OF MONEY`);
     }
 
