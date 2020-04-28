@@ -51,7 +51,7 @@ const additionalCron = [
 
     {
         name: 'alpacaActOnPositions',
-        run: [-28, 0, 120, 250, 360],
+        run: [-28, 0, 250, 360],
         fn: () => alpacaActOnPositions()
     },
 
@@ -65,7 +65,7 @@ const additionalCron = [
     // },
     {
         name: 'alpaca smart sells',
-        run: [-5],
+        run: [120],
         // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
         fn: () => alpacaSmartSells()
     },

@@ -215,7 +215,7 @@ module.exports = async (
 
 
 
-    if (min < 0 && min > -200 && returnPerc < 2) {
+    if (min < 0 && min > -200 && returnPerc < 2) {  // premarket only sell winners
       return 0;
     }
 
