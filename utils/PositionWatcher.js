@@ -72,6 +72,8 @@ module.exports = class PositionWatcher {
     
     if (!avgEntry) return this.scheduleTimeout();
 
+    const firstBuy = buys.find(b => b.timestamp);
+    const firstBuyDate = new Date(firstBuy.timestamp);
     const lowestFill = Math.min(
       ...(buys || []).map(buy => buy.fillPrice),
       buyPrice || Number.POSITIVE_INFINITY
@@ -131,8 +133,8 @@ module.exports = class PositionWatcher {
 
     const msPast = Date.now() - this.startTime;
     const minPast = Math.floor(msPast / 60000);
-    const isLessThan5Min = (minPast <= 5);
-    const isLessThan20Min = (minPast <= 20);
+    const isLessThan5Min = !daysOld && (minPast <= 5);
+    const isLessThan20Min = !daysOld && (minPast <= 20);
     const fillPickLimit = (() => {
       if (isLessThan5Min) return -3.6;
       if (isLessThan20Min) return -4.6;
