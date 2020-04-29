@@ -12,7 +12,7 @@ module.exports = async ({
         qty: Number(quantity),
         side: 'sell',
         type: 'market',
-        time_in_force: 'day',
+        time_in_force: 'day',   // fok??
     };
     strlog({ data})
     let order;

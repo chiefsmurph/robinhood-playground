@@ -18,7 +18,7 @@ const subsetOffsets = {
 
   bullish: 2,
   neutral: 1,
-  bearish: -5,
+  bearish: -7,
 
   bullishMajorJump: 6,
 
