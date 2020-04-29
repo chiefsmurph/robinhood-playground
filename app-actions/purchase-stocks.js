@@ -22,9 +22,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     const amtLeft = Number(onlyUseCash ? cash : buying_power);
 
 
-    if (onlyUseCash && amountPerBuy * 1.3 > amtLeft) {
-        return log(`WANTED TO BUY ${withPrices.map(b => b.ticker).join(' and ')} BUT YOU ARE OUT OF MONEY`);
-    }
+    
 
     const totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, cash);
     strlog({
@@ -35,16 +33,19 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
 
     if (totalAmtToSpend * 1.3 > cash) {
         // time to make some funds available
+        if (onlyUseCash) {
+            return log(`WANTED TO BUY ${withPrices.map(b => b.ticker).join(' and ')} BUT YOU ARE OUT OF MONEY`);
+        }
 
         if (makeFundsOnlyForDowners && !strategy.includes('avg-downer')) {
             return log('WARNING: WANTED TO MAKE FUNDS AVAILABLE BUT ONLY MAKING FUNDS AVAILABLE FOR AVG DOWNERS');
         }
-        if (disableMakeFundsAvailable) {
-            return log('WARNING: TRIED TO PURCHASE, BUT YOU ARE OUT OF MONEY AND MAKE FUNDS AVAILABLE IS DISABLED', {
-                strategy,
-                withPrices
-            });
-        }
+        // if (disableMakeFundsAvailable) {
+        //     return log('WARNING: TRIED TO PURCHASE, BUT YOU ARE OUT OF MONEY AND MAKE FUNDS AVAILABLE IS DISABLED', {
+        //         strategy,
+        //         withPrices
+        //     });
+        // }
         const fundsNeeded = (totalAmtToSpend * 1.3) - amtLeft;
         await makeFundsAvailable(fundsNeeded);
         const afterCash = (await alpaca.getAccount()).cash;
