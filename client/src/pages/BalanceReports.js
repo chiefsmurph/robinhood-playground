@@ -130,13 +130,22 @@ const removeAfterHours = (chartData, afterHoursBoxes) => {
         [startDate, endDate].map(ahDate => labels.findIndex(labelDate => labelDate === ahDate))
     );
     correspondingIndexes.reverse().forEach(([startIndex, endIndex]) => {
-        chartData.labels.splice(startIndex, endIndex - startIndex);
-        datasets.forEach(dataset => {
-            dataset.data.splice(startIndex, endIndex - startIndex);
-        });
+        removeReports(chartData, startIndex, endIndex- startIndex);
+        // chartData.labels.splice(startIndex, endIndex - startIndex);
+        // datasets.forEach(dataset => {
+        //     dataset.data.splice(startIndex, endIndex - startIndex);
+        // });
     });
     console.log({correspondingIndexes})
     return chartData;
+};
+
+const removeReports = (chartData, startIndex, count) => {
+    const { datasets, labels } = chartData;
+    chartData.labels.splice(startIndex, count);
+    datasets.forEach(dataset => {
+        dataset.data.splice(startIndex, count);
+    });
 };
 
 const annotateBoxes = boxes => boxes.map(([left, right], index) => ({
@@ -278,7 +287,7 @@ class DayReports extends Component {
         const startIndex = (() => {
             const startDate = allDates[allDates.length - numDaysToShow - 1];
             const first = !startDate ? 0 : balanceReports.length - balanceReports.slice().reverse().findIndex(report =>
-                (new Date(report.time)).toLocaleDateString() === startDate && !isRegularHours(report)
+                (new Date(report.time)).toLocaleDateString() === startDate && isRegularHours(report)
             ) - 1;
             // console.log({ allDates, startDate, lastRegularReport })
             return first;
@@ -427,6 +436,7 @@ class DayReports extends Component {
         if (onlyRegHrs) {
             removeAfterHours(chartData, afterHoursBoxes);
         }
+        removeReports(chartData, 0, 1);
 
         const allDatas = chartData.datasets.map(dataset => dataset.data);
         const allValues = allDatas.reduce((acc, vals) => [...acc, ...vals], []);
@@ -630,7 +640,7 @@ class DayReports extends Component {
 
                                         
                                         ...annotateBoxes(afterHoursBoxes),
-                                        ...annotateLines(getNewDayLines(chartData).slice(Number(!onlyRegHrs))),
+                                        ...annotateLines(getNewDayLines(chartData)),
 
                                     ]
                                 },

@@ -263,7 +263,7 @@ module.exports = class PositionWatcher {
       const multiplier = actualPercChange / 100 + 1;
       return num * multiplier;
     };
-    this.timeout = Math.min(changeSlightly(this.timeout * 2), 1000 * 60 * 6);
+    this.timeout = Math.min(changeSlightly(this.timeout * 2), 1000 * 60 * 5);
   }
   newBuy(buyPrice) {
     this.timeout = INITIAL_TIMEOUT;
