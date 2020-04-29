@@ -72,8 +72,9 @@ module.exports = class PositionWatcher {
     
     if (!avgEntry) return this.scheduleTimeout();
 
-    const firstBuy = buys.find(b => b.timestamp);
-    const firstBuyDate = new Date(firstBuy.timestamp);
+    // const firstBuy = buys.find(b => b.timestamp);
+    // const firstBuyDate = new Date(firstBuy.timestamp);
+    
     const lowestFill = Math.min(
       ...(buys || []).map(buy => buy.fillPrice),
       buyPrice || Number.POSITIVE_INFINITY
