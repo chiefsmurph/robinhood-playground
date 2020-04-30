@@ -54,7 +54,7 @@ module.exports = {
     purchaseAmt: 3,
     onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
-    makeFundsOnlyForDowners: false,
+    makeFundsOnlyForDowners: true,
     onlyUseCash: true,
     
     // expectedPickCount: 200,
