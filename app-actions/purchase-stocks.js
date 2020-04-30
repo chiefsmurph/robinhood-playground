@@ -33,9 +33,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
 
     if (totalAmtToSpend * 1.3 > cash) {
         // time to make some funds available
-        if (onlyUseCash) {
-            return log(`WANTED TO BUY ${withPrices.map(b => b.ticker).join(' and ')} BUT YOU ARE OUT OF MONEY`);
-        }
+        
 
         if (makeFundsOnlyForDowners && !strategy.includes('avg-downer')) {
             return log('WARNING: WANTED TO MAKE FUNDS AVAILABLE BUT ONLY MAKING FUNDS AVAILABLE FOR AVG DOWNERS');
