@@ -295,6 +295,42 @@ class DayReports extends Component {
 
         balanceReports = balanceReports.slice(startIndex);
 
+
+
+        // stats!
+        const getStats = prop => {
+            const first = get(balanceReports[0], prop);
+            let copy = [...balanceReports];
+            if (onlyRegHrs) {
+                copy = copy.filter(report => report.isRegularHours);
+            }
+            console.log({ copy})
+            const compareIndex = hoverIndex ? hoverIndex : copy.length - 1;
+            const compare = get(copy[compareIndex], prop);
+            return {
+                current: compare,
+                absolute: compare - first,
+                trend: getTrend(compare, first)
+            };
+        };
+
+        const stats = mapObject({
+            alpaca: 'alpacaBalance',
+            ...showBalance && { robinhood: 'accountBalance' },
+        }, getStats);
+
+        console.log({ showBalance, stats })
+
+        const indexStats = mapObject({
+            nasdaq: 'indexPrices.nasdaq',
+            russell2000: 'indexPrices.russell2000',
+            sp500: 'indexPrices.sp500'
+        }, getStats)
+
+
+
+        // day pruning
+
         const numReports = balanceReports.length;
         let numDaysToPrune = smallDevice ? Math.ceil(numReports / 350) : numDaysToShow;
         balanceReports = pruneByDays(balanceReports, numDaysToPrune);
@@ -381,30 +417,6 @@ class DayReports extends Component {
 
         console.log({ chartData})
 
-        // stats!
-        const getStats = prop => {
-            const first = get(balanceReports[0], prop);
-            const compareIndex = hoverIndex ? hoverIndex : balanceReports.length - 1;
-            const compare = get(balanceReports[compareIndex], prop);
-            return {
-                current: compare,
-                absolute: compare - first,
-                trend: getTrend(compare, first)
-            };
-        };
-
-        const stats = mapObject({
-            alpaca: 'alpacaBalance',
-            ...showBalance && { robinhood: 'accountBalance' },
-        }, getStats);
-
-        console.log({ showBalance, stats })
-
-        const indexStats = mapObject({
-            nasdaq: 'indexPrices.nasdaq',
-            russell2000: 'indexPrices.russell2000',
-            sp500: 'indexPrices.sp500'
-        }, getStats)
 
         // console.log({ indexStats})
         const showingSince = firstOfDay ? firstOfDay : balanceReports[0];
@@ -431,12 +443,17 @@ class DayReports extends Component {
         // last minute mods
 
 
+        // deal with afterhours
         const afterHoursBoxes = getAfterHoursBoxes(balanceReports);
         console.log({ onlyRegHrs })
         if (onlyRegHrs) {
             removeAfterHours(chartData, afterHoursBoxes);
+            removeReports(chartData, chartData.labels.length - 1, 1);
         }
         removeReports(chartData, 0, 1);
+
+
+        // tablet formatting
 
         const allDatas = chartData.datasets.map(dataset => dataset.data);
         const allValues = allDatas.reduce((acc, vals) => [...acc, ...vals], []);
