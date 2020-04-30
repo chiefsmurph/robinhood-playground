@@ -18,7 +18,7 @@ const subsetOffsets = {
 
   bullish: 2,
   neutral: 1,
-  bearish: -7,
+  bearish: -8,
 
   bullishMajorJump: 6,
 
@@ -52,7 +52,7 @@ const subsetOffsets = {
   // notFirstAlert: 0,
   avgh: 0,
   notAvgh: 7,
-  // hotSt: -1,
+  hotSt: -19,
   notHotSt: 2,
   // collections
   zeroToOne: 4,
