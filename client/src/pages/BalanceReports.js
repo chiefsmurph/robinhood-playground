@@ -448,7 +448,9 @@ class DayReports extends Component {
         console.log({ onlyRegHrs })
         if (onlyRegHrs) {
             removeAfterHours(chartData, afterHoursBoxes);
-            removeReports(chartData, chartData.labels.length - 1, 1);
+            if (!balanceReports[balanceReports.length - 1].isRegularHours) {
+                removeReports(chartData, chartData.labels.length - 1, 1);
+            }
         }
         removeReports(chartData, 0, 1);
 
