@@ -36,11 +36,11 @@ const stBrackets = {
     bearish: [-7, 7],     // stSent < 70
 };
 
-const getStBracket = ({ bullishCount, bearishCount, totalCount }) => {
+const getStBracket = ({ bullBearScore, bullishCount, bearishCount, totalCount }) => {
     const ratio = bullishCount / (bullishCount + bearishCount);
     const stBracket = (() => {
-        if (ratio > 0.78 && totalCount > 18) return 'bullish';
-        if (ratio < 0.5) return 'bearish';
+        if (ratio > 0.88 && totalCount > 18 && bullBearScore > 80) return 'bullish';
+        if (ratio < 0.7) return 'bearish';
         return 'neutral';
     })();
     const [lowerLimit, upperLimit] = stBrackets[stBracket];
