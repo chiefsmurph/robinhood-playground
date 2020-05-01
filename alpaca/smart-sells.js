@@ -1,20 +1,15 @@
 const { alpaca } = require('.');
-const { force: { keep }} = require('../settings');
+const { force: { keep }, continueDownForDays } = require('../settings');
 const shouldYouSellThisStock = require('../analysis/should-you-sell-this-stock');
 // const shouldSellPosition = require('../utils/should-sell-position');
 const getStSent = require('../utils/get-stocktwits-sentiment');
 const sellPosition = require('./sell-position');
+const getPositions = require('./get-positions');
 
 module.exports = async (dontSell) => {
 
     console.log({ dontSell })
-    let positions = (
-        await alpaca.getPositions()
-    ).map(pos => ({
-        ...pos,
-        returnPerc: Number(pos.unrealized_plpc) * 100,
-        ticker: pos.symbol
-    }));
+    let positions = await getPositions();
     
     // positions = await mapLimit(positions, 3, async pos => ({
     //     ...pos,
@@ -27,19 +22,22 @@ module.exports = async (dontSell) => {
     // }));
 
     positions = positions.filter(pos => !keep.includes(pos.symbol));
+    positions = positions.filter(pos => !pos.wouldBeDayTrade && pos.daysOld > continueDownForDays + 1);
+
     // str({ positions })
     const withShouldSells = await mapLimit(positions, 3, async pos => ({
         ...pos,
-        shouldSell: await shouldYouSellThisStock(pos.symbol, pos.avg_entry_price)
+        shouldSell: await shouldYouSellThisStock(pos.ticker, pos.avgEntry)
     }));
 
-    console.log('selling' + withShouldSells.map(p => p.symbol));
+    console.log('selling' + withShouldSells.map(p => p.ticker));
 
     str({ withShouldSells })
 
-    const toSell = positions.filter(pos => pos.shouldSell);
+    const toSell = withShouldSells.filter(pos => pos.shouldSell);
+    console.log('len', toSell)
     strlog({
-        toSell: toSell.map(pos => pos.symbol)
+        toSell: toSell.map(pos => pos.ticker)
     })
     if (dontSell) {
         console.log('dont sell alpaca....returning!')

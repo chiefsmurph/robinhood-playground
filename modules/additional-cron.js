@@ -16,6 +16,8 @@ const alpacaActOnPositions = require('../alpaca/act-on-positions');
 const alpacaContinueDown = require('../alpaca/continue-down');
 const alpacaMostLow = require('../alpaca/most-low');
 const alpacaSmartSells = require('../alpaca/smart-sells');
+const alpacaSellOnOpen = require('../alpaca/sell-on-open');
+
 // const saveDayReport = require('../app-actions/save-day-report');
 const restartProcess = require('../app-actions/restart-process');
 const sendScreenshot = require('../app-actions/send-screenshot');
@@ -53,6 +55,12 @@ const additionalCron = [
         name: 'alpacaActOnPositions',
         run: [0, 230, 370],
         fn: () => alpacaActOnPositions()
+    },
+
+    {
+        name: 'alpacaSellOnOpen',
+        run: [-8],
+        fn: () => alpacaSellOnOpen()
     },
 
     // {
