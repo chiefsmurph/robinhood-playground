@@ -187,7 +187,7 @@ module.exports = async (
       market_value, 
       unrealized_intraday_plpc,
       notSelling,
-      stSent: { stBracket } = {},
+      stSent: { stBracket, bullBearScore } = {},
       sells = []
     } = position;
 
@@ -205,6 +205,7 @@ module.exports = async (
 
     const isInitialSell = (min >= -5 && min <= 5);
     const initialSellPerc = (() => {
+      if (bullBearScore > 100) return 50;
       if (returnPerc < -15 || returnPerc > 20) return 60;
       return 80;
     })(); // johnny cash out at the opening bell
