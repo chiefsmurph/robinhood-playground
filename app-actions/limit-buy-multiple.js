@@ -88,40 +88,40 @@ const eclecticBuy = async ({
         quantity,
         pickPrice,
         buyStyles: [
+            // {
+            //     method: async (...args) => {
+            //         await new Promise(resolve => setTimeout(resolve, 60000 * 3))
+            //         return alpacaMarketBuy(...args);
+            //     },
+            //     name: 'marketBuy',
+            // },
             {
-                method: async (...args) => {
-                    await new Promise(resolve => setTimeout(resolve, 60000 * 3))
-                    return alpacaMarketBuy(...args);
-                },
-                name: 'marketBuy',
+                method: alpacaLimitBuy,
+                name: 'limitd3',
+                limitPrice: pickPrice * .97,
+                timeoutSeconds: 60 * 30,
+                fallbackToMarket: false
             },
             {
                 method: alpacaLimitBuy,
-                name: 'limit3p3',
-                limitPrice: pickPrice * 1.033,
-                timeoutSeconds: 60 * 5,
-                fallbackToMarket: true
+                name: 'limitd4',
+                limitPrice: pickPrice * .96,
+                timeoutSeconds: 60 * 30,
+                fallbackToMarket: false
             },
             {
                 method: alpacaLimitBuy,
-                name: 'limit1p3',
-                limitPrice: pickPrice * 1.013,
-                timeoutSeconds: 60 * 10,
-                fallbackToMarket: true
+                name: 'limitd5',
+                limitPrice: pickPrice * .95,
+                timeoutSeconds: 60 * 30,
+                fallbackToMarket: false
             },
-            {
-                method: alpacaLimitBuy,
-                name: 'limitp997',
-                limitPrice: pickPrice * .997,
-                timeoutSeconds: 60 * 12,
-                fallbackToMarket: true
-            },
-            {
-                method: alpacaAttemptBuy,
-                name: 'attemptBuy',
-                pickPrice,
-                fallbackToMarket: true
-            }
+            // {
+            //     method: alpacaAttemptBuy,
+            //     name: 'attemptBuy',
+            //     pickPrice,
+            //     fallbackToMarket: true
+            // }
         ]
     });
 
