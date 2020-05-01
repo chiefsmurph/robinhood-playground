@@ -236,7 +236,7 @@ module.exports = class PositionWatcher {
           this.pendingSale = true;
         } else {
           // await sendEmail(`You are at three daytrades but you might want to take a look at ${ticker}`);
-          // console.log(`You are doing great, check out ${ticker} but you at 3 daytrades`);
+w         await log(`You are doing great, check out ${ticker} but you at 3 daytrades`);
         }
       } else {
         // console.log(`You are doing great, check out ${ticker} but small amt`);

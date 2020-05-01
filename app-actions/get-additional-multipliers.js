@@ -100,7 +100,8 @@ module.exports = async (pms, strategy, stocksToBuy) => {
       : isNaN(zeroMultMult) ? 20 : zeroMultMult
   );
 
-  let subsetOffsetMultiplier = strategy.includes('avg-downer') 
+  const isOvernightHold = strategy.includes('overnight') && strategy.includes('holds');
+  let subsetOffsetMultiplier = strategy.includes('avg-downer') || isOvernightHold
     ? getAvgDownMultiplier()
     : await getSubsetOffset(fakePosition);
 
