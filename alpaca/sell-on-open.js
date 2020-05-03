@@ -1,11 +1,12 @@
 const getPositions = require('./get-positions');
 const { alpaca } = require('.');
+const { continueDownForDays } = require('../settings');
 
 module.exports = async () => {
   const positions = await getPositions();
   strlog({ positions});
 
-  const ofInterest = positions.filter(p => Number(p.market_value) > 100);
+  const ofInterest = positions.filter(p => Number(p.market_value) > 100 && p.mostRecentPurchase > continueDownForDays);
   for (let p of ofInterest) {
     const { ticker, quantity } = p;
     const qToSell = Math.floor(Number(quantity) * 0.05);

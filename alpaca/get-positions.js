@@ -205,6 +205,7 @@ module.exports = async (
 
     const isInitialSell = (min >= -5 && min <= 5);
     const initialSellPerc = (() => {
+      if (mostRecentPurchase > continueDownForDays * 2) return 100;
       if (bullBearScore > 100) return 50;
       if (returnPerc < -15 || returnPerc > 20) return 60;
       return 80;
@@ -213,6 +214,7 @@ module.exports = async (
       return initialSellPerc;
     }
 
+    if (mostRecentPurchase <= continueDownForDays) return 0;
 
 
     if (min < 0 && min > -200 && returnPerc < 2) {  // premarket only sell winners

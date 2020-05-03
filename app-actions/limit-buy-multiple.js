@@ -95,10 +95,24 @@ const eclecticBuy = async ({
             //     },
             //     name: 'marketBuy',
             // },
+            // {
+            //     method: alpacaLimitBuy,
+            //     name: 'limitu2',
+            //     limitPrice: pickPrice * 1.02,
+            //     timeoutSeconds: 60 * 30,
+            //     fallbackToMarket: false
+            // },
+            {
+                method: alpacaLimitBuy,
+                name: 'limitu1',
+                limitPrice: pickPrice * 1.01,
+                timeoutSeconds: 60 * 30,
+                fallbackToMarket: false
+            },
             {
                 method: alpacaLimitBuy,
                 name: 'limit100',
-                limitPrice: pickPrice,
+                limitPrice: pickPrice * 1.00,
                 timeoutSeconds: 60 * 30,
                 fallbackToMarket: false
             },
@@ -127,13 +141,6 @@ const eclecticBuy = async ({
                 method: alpacaLimitBuy,
                 name: 'limitd4',
                 limitPrice: pickPrice * .96,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
-            },
-            {
-                method: alpacaLimitBuy,
-                name: 'limitd5',
-                limitPrice: pickPrice * .95,
                 timeoutSeconds: 60 * 30,
                 fallbackToMarket: false
             },
@@ -191,15 +198,15 @@ const simpleLimitBuy = async ({
         buyStyles: [
             {
                 method: alpacaLimitBuy,
-                name: 'alpacaLimit995',
-                limitPrice: pickPrice * 0.995,
+                name: 'simple99',
+                limitPrice: pickPrice * 0.99,
                 timeoutSeconds: 60 * 30,
                 fallbackToMarket: false
             },
             {
                 method: alpacaLimitBuy,
-                name: 'alpacaLimit99',
-                limitPrice: pickPrice * 0.99,
+                name: 'simple98',
+                limitPrice: pickPrice * 0.98,
                 timeoutSeconds: 60 * 30,
                 fallbackToMarket: false
             },
@@ -260,7 +267,7 @@ module.exports = async ({
             const pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
             const totalQuantity = Math.round(perStock / pickPrice) || 1;
 
-            const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
+            const buyStock = strategy.includes('sudden') ? eclecticBuy : simpleLimitBuy;
             console.log({ totalQuantity, pickPrice, perStock });
 
             await log(`buying ${ticker} $${Math.round(perStock)}`, {

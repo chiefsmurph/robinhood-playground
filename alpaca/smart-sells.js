@@ -22,7 +22,7 @@ module.exports = async (dontSell) => {
     // }));
 
     positions = positions.filter(pos => !keep.includes(pos.symbol));
-    positions = positions.filter(pos => !pos.wouldBeDayTrade && pos.daysOld > continueDownForDays + 1);
+    positions = positions.filter(pos => !pos.wouldBeDayTrade && pos.mostRecentPurchase > continueDownForDays);
 
     // str({ positions })
     const withShouldSells = await mapLimit(positions, 3, async pos => ({

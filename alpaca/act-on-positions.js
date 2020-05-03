@@ -1,5 +1,5 @@
 const { alpaca } = require('.');
-const { force: { keep }} = require('../settings');
+const { force: { keep }, continueDownForDays } = require('../settings');
 const sellPosition = require('./sell-position');
 const Holds = require('../models/Holds');
 const { mapObject, pick } = require('underscore');
@@ -28,7 +28,7 @@ module.exports = async (_, dontAct) => {
 
     Promise.all(
         positions
-            .filter(({ wouldBeDayTrade, percToSell }) =>!wouldBeDayTrade && percToSell > 0)
+            .filter(({ wouldBeDayTrade, percToSell, mostRecentPurchase }) =>!wouldBeDayTrade && percToSell > 0)
             .map(async position => {
                 const { ticker, recommendation, daysOld, stBracket, wouldBeDayTrade } = position;
 
