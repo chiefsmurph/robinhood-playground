@@ -202,24 +202,27 @@ module.exports = async (
     // }
 
 
+    // const isInitialSell = (min >= -5 && min <= 5);
+    // const initialSellPerc = (() => {
+    //   if (mostRecentPurchase > continueDownForDays * 2) return 100;
+    //   if (mostRecentPurchase <= continueDownForDays / 2) return 0;
+    //   if (bullBearScore > 100) return 35;
+    //   if (returnPerc < -15 || returnPerc > 20) return 60;
+    //   return 80;
+    // })(); // johnny cash out at the opening bell
+    // if (isInitialSell) {
+    //   return initialSellPerc;
+    // }
 
-    const isInitialSell = (min >= -5 && min <= 5);
-    const initialSellPerc = (() => {
-      if (mostRecentPurchase > continueDownForDays * 2) return 100;
-      if (bullBearScore > 100) return 50;
-      if (returnPerc < -15 || returnPerc > 20) return 60;
-      return 80;
-    })(); // johnny cash out at the opening bell
-    if (isInitialSell) {
-      return initialSellPerc;
-    }
-
-    if (mostRecentPurchase <= continueDownForDays) return 0;
+    if (mostRecentPurchase <= continueDownForDays / 2 && returnPerc < 35) return 0;
 
 
     if (min < 0 && min > -200 && returnPerc < 2) {  // premarket only sell winners
       return 0;
     }
+
+
+    if (mostRecentPurchase > continueDownForDays * 2) return 100;
 
 
     // if (returnPerc < 5 && min > 0) {

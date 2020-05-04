@@ -22,7 +22,10 @@ module.exports = async (dontSell) => {
     // }));
 
     positions = positions.filter(pos => !keep.includes(pos.symbol));
-    positions = positions.filter(pos => !pos.wouldBeDayTrade && pos.mostRecentPurchase > continueDownForDays);
+    positions = positions.filter(pos => 
+        !pos.wouldBeDayTrade
+        && pos.mostRecentPurchase >= continueDownForDays / 2
+    );
 
     // str({ positions })
     const withShouldSells = await mapLimit(positions, 3, async pos => ({
@@ -43,11 +46,11 @@ module.exports = async (dontSell) => {
         console.log('dont sell alpaca....returning!')
         return;
     };
-    await mapLimit(toSell, 3, async ({ ticker, qty }) => {
+    await mapLimit(toSell, 3, async pos => {
         return sellPosition({
-            ticker,
-            quantity: qty
-        })
+            ...pos,
+            percToSell: 7
+        });
     });
 
     // console.log('done selling, sending refresh positions to strat manager');

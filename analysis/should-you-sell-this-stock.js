@@ -5,6 +5,7 @@ module.exports = async (
     ticker, 
     avgBuyPrice,
     bullishLimits = [8, -8],
+    neutralLimits = [8, -8],
     bearishLimits = [5, -5],
 ) => {
     ticker = ticker.toUpperCase();
@@ -23,7 +24,11 @@ module.exports = async (
 
     const stSentBullish = (stSent || {}).bullBearScore > 50;
     str({ stSentBullish, stSent });
-    const [upper, lower] = stSentBullish ? bullishLimits : bearishLimits;
-    const hitDayTrendLimit = dayTrend > upper;
-    return trend > upper || trend < lower || hitDayTrendLimit;
+
+    const {
+        upperLimit,
+        lowerLimit
+    } = stSent;
+    const hitDayTrendLimit = dayTrend > upperLimit;
+    return trend > upperLimit || trend < lowerLimit || hitDayTrendLimit;
 }

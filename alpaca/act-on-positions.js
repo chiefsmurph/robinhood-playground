@@ -28,7 +28,7 @@ module.exports = async (_, dontAct) => {
 
     Promise.all(
         positions
-            .filter(({ wouldBeDayTrade, percToSell, mostRecentPurchase }) =>!wouldBeDayTrade && percToSell > 0)
+        .filter(({ wouldBeDayTrade, percToSell }) => !wouldBeDayTrade && percToSell > 0)
             .map(async position => {
                 const { ticker, recommendation, daysOld, stBracket, wouldBeDayTrade } = position;
 

@@ -32,7 +32,7 @@ const stReq = cacheThis(
 
 const stBrackets = {
     bullish: [-12, 15],    // stSent > 130
-    neutral: [-9, 9],     // stSent > 70
+    neutral: [-9, 10],     // stSent > 70
     bearish: [-7, 7],     // stSent < 70
 };
 
