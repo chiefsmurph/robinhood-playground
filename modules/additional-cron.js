@@ -10,7 +10,7 @@ const { default: recordStratPerfs } = require('../app-actions/record-strat-perfs
 // const sellAllOlderThanTwoDays = require('../app-actions/sell-all-older-than-two-days');
 // const sellAllBasedOnPlayout = require('../app-actions/sell-all-based-on-playout');
 // const sellAllIfWentUp = require('../app-actions/sell-all-if-went-up');
-// const sellAllStocks = require('../app-actions/sell-all-stocks');
+const alpacaSellAllStocks = require('../alpaca/sell-all-stocks');
 // const smartSells = require('../app-actions/smart-sells');
 const alpacaActOnPositions = require('../alpaca/act-on-positions');
 const alpacaContinueDown = require('../alpaca/continue-down');
@@ -53,7 +53,7 @@ const additionalCron = [
 
     {
         name: 'alpacaActOnPositions',
-        run: [0, 230, 370],
+        run: [230, 370],
         fn: () => alpacaActOnPositions()
     },
 
@@ -73,32 +73,25 @@ const additionalCron = [
     // },
     {
         name: 'alpaca smart sells',
-        run: [60, 145, 263],
+        run: [58, 145, 263],
         // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
         fn: () => alpacaSmartSells()
     },
 
 
-    // {
-    //     name: 'sell all stocks',
-    //     run: [0],
-    //     fn: () => {
+    {
+        name: 'alpaca sell all stocks',
+        run: [0],
+        fn: () => {
     
-    //         setTimeout(async () => {
-    //             // daily at 6:30AM + 4 seconds
-    //             await sellAllStocks();
-    //             console.log('done selling all');
-    //             //
-    //             // timeoutPromise(5000);
-    //             // console.log('selling all stocks that went up');
-    //             // await sellAllIfWentUp();
-    //             // console.log('logging portfolio value');
-    //             // await logPortfolioValue();
+            setTimeout(async () => {
+                // daily at 6:30AM + 4 seconds
+                await alpacaSellAllStocks();
+                await log('done selling all');
+            }, 4000);
     
-    //         }, 100);
-    
-    //     }
-    // },
+        }
+    },
     // {
     //     name: 'smartSells',
     //     run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300].map(n => n + 5),

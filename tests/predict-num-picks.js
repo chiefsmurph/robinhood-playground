@@ -7,8 +7,8 @@ const getExpectedCountForPm = pm => {
 
 module.exports = async () => {
 
-  const pmPerf = await pmJson(4);
-
+  const pmPerf = await pmJson(20);
+  strlog({pmPerf})
   const forPurchasePms = forPurchase
     .filter(
       line => line.startsWith('[') && line.endsWith(']')

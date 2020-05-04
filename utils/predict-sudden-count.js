@@ -4,6 +4,7 @@ const { avgArray } = require('./array-math');
 const lookup = require('./lookup');
 const getBalance = require('../alpaca/get-balance');
 const { alpaca } = require('../alpaca');
+// const { continueDownForDays } = require('../settings');
 
 module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
   let { SPY: spyHistoricals } = await getHistoricals(['SPY'], 'd', 'year', false);
@@ -24,13 +25,14 @@ module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
   const quote = await lookup('SPY');
   const  { afterHoursPrice, currentPrice } = quote;
   const trendSincePrevClose = forceTrendSincePrevClose || getTrend(currentPrice, close_price);
+  console.log({ currentPrice, afterHoursPrice, close_price, trendSincePrevClose})
   const predictedSuddenDrops = Math.round(avgDistance * Math.abs(trendSincePrevClose) * 4.5);
-  strlog({ spyHistoricals: spyHistoricals.reverse(), distances, avgDistance, currentPrice, quote, trendSincePrevClose });
+  // strlog({ spyHistoricals: spyHistoricals.reverse(), distances, avgDistance, currentPrice, quote, trendSincePrevClose });
 
 
 
-  const AVG_PICK_MULTIPLIER = 40;
-  const predictedTotalPicks = predictedSuddenDrops * 1.3;
+  const AVG_PICK_MULTIPLIER = 28;
+  const predictedTotalPicks = Math.max(predictedSuddenDrops * 1.3, 20);
   const predictedMultipliers = (predictedTotalPicks) * AVG_PICK_MULTIPLIER;
 
 
@@ -38,7 +40,8 @@ module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
     equity,
     cash
   } = await alpaca.getAccount();
-  const targetSpendAmt = Number(equity) * 0.5 + Number(cash);
+  const targetSpendAmt = Number(equity) / 4;
+  // const targetSpendAmt = Number(equity) * 0.5 + Number(cash);
   strlog({ 
     equity,
     cash, 
@@ -66,9 +69,13 @@ module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
   const recommendedSettings = {
     overallMultiplierMultiplier,
     purchaseAmt
-  }
+  };
 
 
 
-  return recommendedSettings;
+  return {
+    predictedTotalPicks, 
+    predictedMultipliers,
+    ...recommendedSettings
+  };
 };
