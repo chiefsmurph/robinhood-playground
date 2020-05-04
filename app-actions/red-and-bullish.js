@@ -4,7 +4,7 @@ module.exports = async () => {
 
   // strlog({ positions });
 
-  const red = positions.filter(({ returnPerc }) => returnPerc < 0);
+  const red = positions.filter(({ returnPerc }) => returnPerc < -2);
   const andBullish = red.filter(({ stSent: { stBracket }}) => stBracket === 'bullish');
 
   // strlog({ andBullish })
