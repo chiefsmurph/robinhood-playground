@@ -11,6 +11,7 @@ const recordPicks = require('../app-actions/record-picks');
 const runAllPennyScans = require('./run-all-penny-scans');
 const sendRecs = require('../app-actions/send-recs');
 const restartProcess = require('../app-actions/restart-process');
+const redAndBullish = require('../app-actions/red-and-bullish');
 
 // rh-actions
 const getRisk = require('../rh-actions/get-risk');
@@ -187,6 +188,12 @@ module.exports = new (class RealtimeRunner {
         name: 'RealtimeRunner: stop',
         run: [388],
         fn: () => this.stop()
+    });
+
+    regCronIncAfterSixThirty({
+        name: 'RealtimeRunner: red-and-bullish',
+        run: [45, 130, 200, 300],
+        fn: () => this.redAndBullishPicks()
     });
 
     if (dayInProgress(START_MIN)) {
@@ -444,6 +451,18 @@ module.exports = new (class RealtimeRunner {
     );
     
     
+  }
+
+  async redAndBullishPicks() {
+    const radPositions = await redAndBullish();
+    const picks = radPositions.map(({ ticker }) => ({
+      strategyName: 'red-and-bullish',
+      ticker,
+    }));
+    await log(`red and bullish picks: ${picks.map(p => p.ticker)}`);
+    await mapLimit(picks, 5, async pick => {
+      pick._id = await this.handlePick(pick);
+    });
   }
 
   async runPennies(skipSave = false) {
@@ -844,6 +863,7 @@ module.exports = new (class RealtimeRunner {
       'most-low',
       'isJimmyPick',
       'isRecommendedJimmyPick',
+      'red-and-bullish',
       
       ...[
         'initial',
