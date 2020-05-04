@@ -163,7 +163,10 @@ class TodaysStrategies extends Component {
             
 
         const byTickerSorted = Object.keys(byTicker).sort((a, b) => byTicker[b].count - byTicker[a].count);
-
+        const numMultipliers = Object.keys(byTicker).reduce((acc, key) => {
+            const { multiplierCount } = byTicker[key];
+            return multiplierCount ? acc + multiplierCount : acc
+        }, 0);
       console.log({ byTicker })
 
 
@@ -219,6 +222,7 @@ class TodaysStrategies extends Component {
                 <thead>
                     <tr colspan="3" style={{ textAlign: 'center' }}>
                         <i>ticker count: {byTickerSorted.length}</i>
+                        <i>multiplier count: {numMultipliers}</i>
                         <hr/>
                     </tr>
                 </thead>
