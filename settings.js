@@ -77,7 +77,8 @@ module.exports = {
 
         ...`
 
-
+        red-and-bullish
+        
         rsi-10min-rsilt5
         rsi-10min-rsilt10
         rsi-rsilt10-initial

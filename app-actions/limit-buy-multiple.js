@@ -267,7 +267,7 @@ module.exports = async ({
             const pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
             const totalQuantity = Math.round(perStock / pickPrice) || 1;
 
-            const buyStock = strategy.includes('sudden') ? eclecticBuy : simpleLimitBuy;
+            const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
             console.log({ totalQuantity, pickPrice, perStock });
 
             await log(`buying ${ticker} $${Math.round(perStock)}`, {
