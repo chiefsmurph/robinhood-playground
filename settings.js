@@ -51,7 +51,7 @@ module.exports = {
     ],
     
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 0.37,
+    purchaseAmt: 0.5,
     onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: true,
