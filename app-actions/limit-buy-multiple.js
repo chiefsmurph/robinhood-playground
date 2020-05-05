@@ -81,77 +81,84 @@ const executeBuys = async ({
 const eclecticBuy = async ({
     ticker,
     quantity,
-    pickPrice
-}) => 
-    executeBuys({
+    pickPrice,
+    strategy
+}) => {
+    let buyStyles = [
+        // {
+        //     method: async (...args) => {
+        //         await new Promise(resolve => setTimeout(resolve, 60000 * 3))
+        //         return alpacaMarketBuy(...args);
+        //     },
+        //     name: 'marketBuy',
+        // },
+        // {
+        //     method: alpacaLimitBuy,
+        //     name: 'limitu2',
+        //     limitPrice: pickPrice * 1.02,
+        //     timeoutSeconds: 60 * 30,
+        //     fallbackToMarket: false
+        // },
+        {
+            method: alpacaLimitBuy,
+            name: 'limitu1',
+            limitPrice: pickPrice * 1.01,
+            timeoutSeconds: 60 * 30,
+            fallbackToMarket: false
+        },
+        {
+            method: alpacaLimitBuy,
+            name: 'limit100',
+            limitPrice: pickPrice * 1.00,
+            timeoutSeconds: 60 * 30,
+            fallbackToMarket: false
+        },
+        {
+            method: alpacaLimitBuy,
+            name: 'limitd1',
+            limitPrice: pickPrice * .99,
+            timeoutSeconds: 60 * 30,
+            fallbackToMarket: false
+        },
+        {
+            method: alpacaLimitBuy,
+            name: 'limitd2',
+            limitPrice: pickPrice * .98,
+            timeoutSeconds: 60 * 30,
+            fallbackToMarket: false
+        },
+        {
+            method: alpacaLimitBuy,
+            name: 'limitd3',
+            limitPrice: pickPrice * .97,
+            timeoutSeconds: 60 * 30,
+            fallbackToMarket: false
+        },
+        {
+            method: alpacaLimitBuy,
+            name: 'limitd4',
+            limitPrice: pickPrice * .96,
+            timeoutSeconds: 60 * 30,
+            fallbackToMarket: false
+        },
+        // {
+        //     method: alpacaAttemptBuy,
+        //     name: 'attemptBuy',
+        //     pickPrice,
+        //     fallbackToMarket: true
+        // }
+    ];
+    if (!strategy.includes('sudden')) {
+        buyStyles.shift()   // remove limitu1
+    }
+    return executeBuys({
         ticker,
         quantity,
         pickPrice,
-        buyStyles: [
-            // {
-            //     method: async (...args) => {
-            //         await new Promise(resolve => setTimeout(resolve, 60000 * 3))
-            //         return alpacaMarketBuy(...args);
-            //     },
-            //     name: 'marketBuy',
-            // },
-            // {
-            //     method: alpacaLimitBuy,
-            //     name: 'limitu2',
-            //     limitPrice: pickPrice * 1.02,
-            //     timeoutSeconds: 60 * 30,
-            //     fallbackToMarket: false
-            // },
-            {
-                method: alpacaLimitBuy,
-                name: 'limitu1',
-                limitPrice: pickPrice * 1.01,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
-            },
-            {
-                method: alpacaLimitBuy,
-                name: 'limit100',
-                limitPrice: pickPrice * 1.00,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
-            },
-            {
-                method: alpacaLimitBuy,
-                name: 'limitd1',
-                limitPrice: pickPrice * .99,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
-            },
-            {
-                method: alpacaLimitBuy,
-                name: 'limitd2',
-                limitPrice: pickPrice * .98,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
-            },
-            {
-                method: alpacaLimitBuy,
-                name: 'limitd3',
-                limitPrice: pickPrice * .97,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
-            },
-            {
-                method: alpacaLimitBuy,
-                name: 'limitd4',
-                limitPrice: pickPrice * .96,
-                timeoutSeconds: 60 * 30,
-                fallbackToMarket: false
-            },
-            // {
-            //     method: alpacaAttemptBuy,
-            //     name: 'attemptBuy',
-            //     pickPrice,
-            //     fallbackToMarket: true
-            // }
-        ]
+        buyStyles
     });
+}
+    
 
 // const waitedSprayBuy = async ({
 //     ticker,
@@ -280,7 +287,8 @@ module.exports = async ({
             const response = await buyStock({
                 ticker,
                 pickPrice,
-                quantity: totalQuantity
+                quantity: totalQuantity,
+                strategy
             });
             
             await log(`roundup for buying ${ticker}`, {
