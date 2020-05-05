@@ -79,19 +79,19 @@ const additionalCron = [
     },
 
 
-    {
-        name: 'alpaca sell all stocks',
-        run: [0],
-        fn: () => {
+    // {
+    //     name: 'alpaca sell all stocks',
+    //     run: [0],
+    //     fn: () => {
     
-            setTimeout(async () => {
-                // daily at 6:30AM + 4 seconds
-                await alpacaSellAllStocks();
-                await log('done selling all');
-            }, 4000);
+    //         setTimeout(async () => {
+    //             // daily at 6:30AM + 4 seconds
+    //             await alpacaSellAllStocks();
+    //             await log('done selling all');
+    //         }, 4000);
     
-        }
-    },
+    //     }
+    // },
     // {
     //     name: 'smartSells',
     //     run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300].map(n => n + 5),
