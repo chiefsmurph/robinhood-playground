@@ -82,7 +82,7 @@ const eclecticBuy = async ({
     ticker,
     quantity,
     pickPrice,
-    strategy
+    urgency
 }) => {
     let buyStyles = [
         // {
@@ -148,8 +148,15 @@ const eclecticBuy = async ({
         //     fallbackToMarket: true
         // }
     ];
-    if (!strategy.includes('sudden') && !strategy.includes('red-and-bullish')) {
-        buyStyles.shift()   // remove limitu1
+    if (urgency === 'casual') {
+        // remove limitu1
+        buyStyles.shift();  
+    } else if (urgency === 'aggressive') {
+        // increase prices by 1 percent
+        buyStyles = buyStyles.map(( limitPrice, ...buy ) => ({
+            ...buy,
+            limitPrice: limitPrice * 1.01
+        }));
     }
     return executeBuys({
         ticker,
@@ -284,11 +291,15 @@ module.exports = async ({
                 pickPrice
             });
             
+            const urgency = (() => {
+                if (strategy.includes('red-and-bullish')) return 'agressive';
+                if (!strategy.includes('sudden-drops')) return 'casual';
+            })();
             const response = await buyStock({
                 ticker,
                 pickPrice,
                 quantity: totalQuantity,
-                strategy
+                urgency
             });
             
             await log(`roundup for buying ${ticker}`, {
