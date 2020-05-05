@@ -103,42 +103,42 @@ const eclecticBuy = async ({
             method: alpacaLimitBuy,
             name: 'limitu1',
             limitPrice: pickPrice * 1.01,
-            timeoutSeconds: 60 * 30,
+            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limit100',
             limitPrice: pickPrice * 1.00,
-            timeoutSeconds: 60 * 30,
+            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd1',
             limitPrice: pickPrice * .99,
-            timeoutSeconds: 60 * 30,
+            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd2',
             limitPrice: pickPrice * .98,
-            timeoutSeconds: 60 * 30,
+            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd3',
             limitPrice: pickPrice * .97,
-            timeoutSeconds: 60 * 30,
+            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd4',
             limitPrice: pickPrice * .96,
-            timeoutSeconds: 60 * 30,
+            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
             fallbackToMarket: false
         },
         // {
@@ -148,7 +148,7 @@ const eclecticBuy = async ({
         //     fallbackToMarket: true
         // }
     ];
-    if (!strategy.includes('sudden')) {
+    if (!strategy.includes('sudden') && !strategy.includes('red-and-bullish')) {
         buyStyles.shift()   // remove limitu1
     }
     return executeBuys({

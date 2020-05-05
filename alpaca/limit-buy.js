@@ -31,7 +31,9 @@ const alpacaLimitBuy = async ({
   console.log('data buy alpaca', data)
   let order;
   try {
-      order = await alpaca.createOrder(data);
+    order = await alpaca.createOrder(data);
+
+    if (timeoutSeconds === Number.POSITIVE_INFINITY) return order;
 
     await new Promise(resolve => setTimeout(resolve, 1000 * timeoutSeconds));
     order = order && order.id ? await alpaca.getOrder(order.id) : {};
