@@ -100,60 +100,60 @@ const eclecticBuy = async ({
         //     fallbackToMarket: false
         // },
         {
+            method: alpacaAttemptBuy,
+            name: 'attemptBuy',
+            pickPrice,
+            fallbackToMarket: true
+        },
+        {
             method: alpacaLimitBuy,
             name: 'limitu17',
             limitPrice: pickPrice * 1.017,
-            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
+            timeoutSeconds: 60 * 60,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitu1',
             limitPrice: pickPrice * 1.01,
-            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
+            timeoutSeconds: 60 * 60,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limit100',
             limitPrice: pickPrice * 1.00,
-            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
+            timeoutSeconds: 60 * 60,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd1',
             limitPrice: pickPrice * .99,
-            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
+            timeoutSeconds: 60 * 60,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd2',
             limitPrice: pickPrice * .98,
-            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
+            timeoutSeconds: 60 * 60,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd3',
             limitPrice: pickPrice * .97,
-            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
+            timeoutSeconds: 60 * 60,
             fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd4',
             limitPrice: pickPrice * .96,
-            timeoutSeconds: Number.POSITIVE_INFINITY,//60 * 30,
+            timeoutSeconds: 60 * 60,
             fallbackToMarket: false
         },
-        // {
-        //     method: alpacaAttemptBuy,
-        //     name: 'attemptBuy',
-        //     pickPrice,
-        //     fallbackToMarket: true
-        // }
     ];
     if (urgency === 'casual') {
         // remove limitu1
