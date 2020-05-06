@@ -791,11 +791,12 @@ module.exports = new (class RealtimeRunner {
       const { shouldWatchout } = risk;
       watchoutKey = shouldWatchout ? 'watchout' : 'notWatchout';
       
-      // stSent
-      // if (strategyName.includes('drops')) {
-        stSent = await getStSentiment(ticker) || {};
-      // }
+     
     }
+
+    // stSent
+    stSent = await getStSentiment(ticker) || {};
+
 
     // const pms = await pmsHit(null, pickName);
     // if (pms && pms.length && pms.includes('forPurchase') && !minimalist) {

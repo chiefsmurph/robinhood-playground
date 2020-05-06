@@ -94,12 +94,12 @@ module.exports = async (pms, strategy, stocksToBuy) => {
 
 
   const zeroMultMult = totalEquity / 3.5;
-  const getAvgDownMultiplier = () => Math.round(
-    avgMultipliersPerPick
-      ? avgMultipliersPerPick * avgDownerMultiplier
-      : isNaN(zeroMultMult) ? 20 : zeroMultMult
-  );
-
+  const getAvgDownMultiplier = () => 
+    Math.round(
+      avgMultipliersPerPick
+        ? avgMultipliersPerPick * avgDownerMultiplier
+        : isNaN(zeroMultMult) ? 20 : zeroMultMult
+    );
   const isOvernightHold = strategy.includes('overnight') && strategy.includes('holds');
   let subsetOffsetMultiplier = strategy.includes('avg-downer') || isOvernightHold
     ? getAvgDownMultiplier()
@@ -116,9 +116,15 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   //   }
   // }
 
+
+  const [_, stMultiplier = 1] = Object.entries({
+    bullish: 1.2,
+    bearish: 0.7,
+  }).find(([word]) => s.includes(word)) || [];
+
   return {
-    pmAnalysisMultiplier,
-    subsetOffsetMultiplier,
+    pmAnalysisMultiplier: pmAnalysisMultiplier * stMultiplier,
+    subsetOffsetMultiplier: subsetOffsetMultiplier * stMultiplier,
     interestingWords
   };
 };

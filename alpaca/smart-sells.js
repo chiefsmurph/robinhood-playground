@@ -24,7 +24,7 @@ module.exports = async (dontSell) => {
     positions = positions.filter(pos => !keep.includes(pos.symbol));
     positions = positions.filter(pos => 
         !pos.wouldBeDayTrade
-        && pos.mostRecentPurchase >= continueDownForDays / 2
+        // && pos.mostRecentPurchase >= continueDownForDays / 2
     );
 
     // str({ positions })

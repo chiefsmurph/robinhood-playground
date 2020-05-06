@@ -51,18 +51,18 @@ module.exports = {
     ],
     
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 2.5,
+    purchaseAmt: 1.6,
     onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: true,
-    onlyUseCash: true,
+    onlyUseCash: false,
     
     // expectedPickCount: 200,
     multiplierThreshold: 4, // wont recommend picks below this multiplier count even if they are a forPurchase pick
     overallOffset: 0,
 
     overallMultiplierMultiplier: 1, /// DONT CHANGE NO MATTER WHAT (WELL UNLESS YOU NEED TO GET REAL SMALL MULTIPLIERS)
-    avgDownerMultiplier: 1,
+    avgDownerMultiplier: 1.15,
     minMultiplier: 11,
     maxOrigMultiplier: 60,
 
@@ -77,7 +77,7 @@ module.exports = {
 
         ...`
 
-        red-and-bullish
+        // red-and-bullish
         
         rsi-10min-rsilt5
         rsi-10min-rsilt10
