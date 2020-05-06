@@ -106,6 +106,15 @@ const eclecticBuy = async ({
             fallbackToMarket: true
         },
         {
+            method: async (...args) => {
+                await new Promise(resolve => setTimeout(resolve, 60000 * 3));
+                return alpacaAttemptBuy(...args);
+            },
+            name: 'attemptBuy3MinDelay',
+            pickPrice,
+            fallbackToMarket: true
+        },
+        {
             method: alpacaLimitBuy,
             name: 'limitu17',
             limitPrice: pickPrice * 1.017,
@@ -157,12 +166,12 @@ const eclecticBuy = async ({
     ];
     if (urgency === 'casual') {
         // remove limitu1
-        buyStyles.shift();  
+        buyStyles.splice(0, 3);
     } else if (urgency === 'aggressive') {
         // increase prices by 1 percent
         buyStyles = buyStyles.map(( limitPrice, ...buy ) => ({
             ...buy,
-            limitPrice: limitPrice * 1.01
+            ...limitPrice && { limitPrice: limitPrice * 1.01 }
         }));
     }
     return executeBuys({
