@@ -132,11 +132,11 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         multiplier = Math.max(multiplier, minMultiplier);           // MIN
 
         
-        if (onlyAvgDownOpenPositions && !strategy.includes('avg-downer')) {
+        if (strategy.includes('rsi-') || (onlyAvgDownOpenPositions && !strategy.includes('avg-downer'))) {
             const { positions = {} } = require('../socket-server/strat-manager');
             const openPosition = (positions.alpaca || []).find(pos => pos.ticker === stocksToBuy[0]);
             if (openPosition) {
-                await log(`WARNING: UNRECOMMENDING ${stocksToBuy[0]} because this ain't an avg-downer and we already have a position open.  LETS let avg-downing take it from here, ok bucko!`)
+                await log(`WARNING: UNRECOMMENDING ${stocksToBuy[0]} because we already have a position open, ok bucko!`)
                 isRecommended = false;
             }
         }
