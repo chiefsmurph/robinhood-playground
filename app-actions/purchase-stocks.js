@@ -31,7 +31,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         strategy
     });
 
-    if (totalAmtToSpend * 1.3 > cash) {
+    if (totalAmtToSpend * 1.3 > amtLeft) {
         // time to make some funds available
         
 
@@ -46,6 +46,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         // }
         const fundsNeeded = (totalAmtToSpend * 1.3) - amtLeft;
         await makeFundsAvailable(fundsNeeded);
+        await log(`making $${fundsNeeded} available`);
         const afterCash = (await alpaca.getAccount()).cash;
         const logObj = { before: cash, fundsNeeded, after: afterCash };
         await log('funds made available', logObj);

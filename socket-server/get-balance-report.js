@@ -4,6 +4,7 @@ const getIndexes = require('../utils/get-indexes');
 const getTrend = require('../utils/get-trend');
 const { alpaca } = require('../alpaca');
 const sendEmail = require('../utils/send-email');
+const { onlyUseCash } = require('../settings');
 
 let lastDtCount;
 
@@ -20,6 +21,8 @@ module.exports = async (isRegularHours = true) => {
   const account = await alpaca.getAccount();
   console.log('Current Account:', account);
   const { equity, buying_power, cash, daytrade_count } = account;
+
+  const amtLeft = Number(onlyUseCash ? cash : buying_power);
   
   // lastBalance = accountBalance;
   const report = {
@@ -29,7 +32,7 @@ module.exports = async (isRegularHours = true) => {
       isRegularHours,
   };
   const additionalAccountInfo = {
-    buyingPower: +Number(cash).toFixed(2),
+    buyingPower: +amtLeft.toFixed(2),
     daytradeCount: daytrade_count,
   };
 
