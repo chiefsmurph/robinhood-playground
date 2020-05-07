@@ -123,8 +123,8 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   }).find(([word]) => strategy.includes(word)) || [];
 
   return {
-    pmAnalysisMultiplier: pmAnalysisMultiplier * stMultiplier,
-    subsetOffsetMultiplier: subsetOffsetMultiplier * stMultiplier,
+    pmAnalysisMultiplier: Math.round(pmAnalysisMultiplier * stMultiplier),
+    subsetOffsetMultiplier: Math.round(subsetOffsetMultiplier * stMultiplier),
     interestingWords
   };
 };

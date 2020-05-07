@@ -30,7 +30,7 @@ module.exports = async ({
   strlog({ qAmts })
   const numShots = qAmts.length;
   
-  const NUM_SECONDS_TOTAL = 60 * 4;
+  const NUM_SECONDS_TOTAL = 60 * 20;
   const numMs = NUM_SECONDS_TOTAL * 1000;
   const spaceApart = numMs / numShots;
   console.log({ secApart: spaceApart / 1000})
