@@ -55,7 +55,7 @@ module.exports = {
     onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: true,
-    onlyUseCash: false,
+    onlyUseCash: true,
     
     // expectedPickCount: 200,
     multiplierThreshold: 4, // wont recommend picks below this multiplier count even if they are a forPurchase pick

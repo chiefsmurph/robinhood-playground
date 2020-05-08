@@ -144,7 +144,7 @@ module.exports = class PositionWatcher {
       if (lessThanTime === 'isLessThan5Min') return -2.6;
       if (lessThanTime === 'isLessThan20Min') return -3.6;
       if (lessThanTime === 'isLessThan2Hrs') return -4.6;
-      return -5.6 - (daysOld * 2)
+      return -5.6 - (daysOld * 1.7)
     })();
 
 
