@@ -543,10 +543,14 @@ class DayReports extends Component {
                             ))
                         } */}
                     </div>
-                    <div>
-                        Buying Power: ${buyingPower}<br/>
-                        Daytrade Count: {daytradeCount}
-                    </div>
+                    {
+                        !lowKey && (
+                            <div>
+                                Buying Power: ${buyingPower}<br/>
+                                Daytrade Count: {daytradeCount}
+                            </div>
+                        )
+                    }
                     <div style={{ paddingLeft: '5em' }}>
                         fuzz factor
                         <InputRange

@@ -10,5 +10,5 @@ module.exports = async baseCollections => {
     ofInterest.map(({ ticker }) => ticker)
   );
   // strlog({ analyzed })
-  return analyzed.filter(({ isJimmyPick }) => isJimmyPick);
+  return (analyzed || []).filter(({ isJimmyPick }) => isJimmyPick);
 };

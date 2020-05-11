@@ -226,7 +226,9 @@ module.exports = async (
     }
 
 
-    if (mostRecentPurchase > continueDownForDays * 1.5) return 100;
+    const numDaysNeeded = (continueDownForDays * 0.5) + (daysOld - mostRecentPurchase);
+    const sellOff = mostRecentPurchase >   numDaysNeeded;
+    if (min > 200 && sellOff) return 100;
 
 
     // if (returnPerc < 5 && min > 0) {
