@@ -9,6 +9,6 @@ module.exports = async baseCollections => {
   const analyzed = await isJimmyPick(
     ofInterest.map(({ ticker }) => ticker)
   );
-  // strlog({ analyzed })
+  strlog({ analyzed })
   return (analyzed || []).filter(({ isJimmyPick }) => isJimmyPick);
 };

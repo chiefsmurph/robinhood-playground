@@ -90,10 +90,12 @@ module.exports = async (trend) => {
         console.log('error with tickersToLookup',e, tickersToLookup );
     }
 
-    let withFundamentals = trend.map(obj => ({
-        ...obj,
-        fundamentals: (fundamentalCache[obj.ticker] || {}).data
-    }));
+    let withFundamentals = trend
+        .map(obj => ({
+            ...obj,
+            fundamentals: (fundamentalCache[obj.ticker] || {}).data
+        }))
+        .filter(({ fundamentals }) => fundamentals);
 
     return withFundamentals;
 
