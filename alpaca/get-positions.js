@@ -221,8 +221,12 @@ module.exports = async (
       return 0;
     }
 
+    if (min >= 0 && returnPerc > 60) {
+      return 80;
+    }
 
-    if (mostRecentPurchase > continueDownForDays * 2) return 100;
+
+    if (mostRecentPurchase > continueDownForDays * 1.5) return 100;
 
 
     // if (returnPerc < 5 && min > 0) {
