@@ -30,6 +30,7 @@ const sellAllOlderThanTwoDays = require('./app-actions/sell-all-older-than-two-d
 
 const mongoose = require('mongoose');
 const { mongoConnectionString } = require('./config');
+const { onlyUseCash } = require('./settings');
 
 const Pick = require('./models/Pick');
 const stocktwits = require('./utils/stocktwits');
@@ -83,7 +84,7 @@ process.on('unhandledRejection', async (reason, p) => {
 
 
     // await cancelAllOrders();         // no dont cancel robinhood
-    await alpacaCancelAllOrders();
+    onlyUseCash && await alpacaCancelAllOrders();
 
 
     await RealtimeRunner.init(DISABLE_REALTIME);
