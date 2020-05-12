@@ -15,7 +15,7 @@ const stratPerfOverall = require('../analysis/strategy-perf-overall');
 const createPredictionModels = require('./create-prediction-models');
 
 const getTrend = require('../utils/get-trend');
-const { avgArray, percUp } = require('../utils/array-math');
+const { avgArray, percUp, sumArray } = require('../utils/array-math');
 const sendEmail = require('../utils/send-email');
 const getSettingsString = require('../utils/get-settings-string');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
