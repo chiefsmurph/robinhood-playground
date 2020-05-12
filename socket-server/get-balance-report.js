@@ -24,7 +24,9 @@ module.exports = async (isRegularHours = true) => {
 
   const offsetByRs = balance => {
       const curRsOffset = require('./strat-manager').getReverseSplitOffset();
-      return balance - curRsOffset;
+      return curRsOffset === null
+        ? null
+        : balance - curRsOffset;
   };
 
   // lastBalance = accountBalance;

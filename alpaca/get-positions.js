@@ -247,7 +247,7 @@ module.exports = async (
     }
 
     if (min >= 0 && returnPerc > 60) {
-      return 80;
+      return 60;
     }
 
 

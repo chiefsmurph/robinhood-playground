@@ -173,8 +173,10 @@ const stratManager = {
         });
     },
     getReverseSplitOffset() {
+        const { alpaca } = this.positions || {};
+        if (!alpaca) return null;
         return sumArray(
-            ((this.positions || {}).alpaca || []).map(pos => pos.rsOffset).filter(Boolean)
+            (alpaca || []).map(pos => pos.rsOffset).filter(Boolean)
         );
     },
     newPick(data) {

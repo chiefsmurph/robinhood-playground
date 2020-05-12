@@ -90,6 +90,7 @@ const getAndSaveBalanceReport = async () => {
     // console.log('hereee');
     try {
         const { report, additionalAccountInfo } = await getBalanceReport(isRegularHours);
+        if (report.alpacaBalance === null) return log('still initializing positions, skipping report');
         const mongoDoc = await BalanceReport.create(report);
         // console.log(
         //     'mongodb',
