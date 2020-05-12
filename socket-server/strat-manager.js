@@ -172,6 +172,11 @@ const stratManager = {
             analyzedClosed: this.analyzedClosed 
         });
     },
+    getReverseSplitOffset() {
+        return sumArray(
+            this.positions(pos => pos.rsOffset).filter(Boolean)
+        );
+    },
     newPick(data) {
 
         data.timestamp = Date.now();

@@ -31,7 +31,16 @@ module.exports = async (includeTrend, todaysDate) => {
     const accountBalance = Number(extended_hours_equity || equity) || null;
 
     // console.log({ accountBalance });
-    let returnObj = { accountBalance };
+
+    const offsetByRs = balance => {
+        const curRsOffset = require('../socket-server/strat-manager').getReverseSplitOffset();
+        return balance - curRsOffset;
+    };
+
+
+    let returnObj = { 
+        accountBalance: offsetByRs(accountBalance)
+    };
 
     if (includeTrend && false) {
         const uniqDates = await DayReport.getUniqueDates();
