@@ -36,6 +36,18 @@ const checkForHugeDrop = position => {
   }
 };
 
+const activeRS = {
+  FTSI: 20
+};
+const handleRS = ({ ticker, avgEntry }) => {
+  const found = activeRS[ticker];
+  if (found) {
+    return {
+      avgEntry: avgEntry * found
+    };
+  }
+};
+
 
 module.exports = async (
   skipStSent = false
@@ -135,6 +147,11 @@ module.exports = async (
   positions = positions.map(position => ({
     ...position,
     ...checkForHugeDrop(position)
+  }));
+
+  positions = positions.map(position => ({
+    ...position,
+    ...handleRS(position)
   }));
 
   positions = positions.map(position => {
