@@ -30,8 +30,8 @@ module.exports = async (isRegularHours = true) => {
       isRegularHours,
   };
   const additionalAccountInfo = {
-    cash: +cash.toFixed(2),
-    buyingPower: +buying_power.toFixed(2),
+    cash: +Number(cash).toFixed(2),
+    buyingPower: +Number(buying_power).toFixed(2),
     daytradeCount: daytrade_count,
   };
 
