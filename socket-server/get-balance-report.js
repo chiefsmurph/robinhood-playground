@@ -29,9 +29,9 @@ module.exports = async (isRegularHours = true) => {
 
   // lastBalance = accountBalance;
   const report = {
-      accountBalance: offsetByRs(accountBalance),
+      accountBalance,
       indexPrices: await getIndexes(),
-      alpacaBalance: Number(equity),
+      alpacaBalance: offsetByRs(Number(equity)),
       isRegularHours,
   };
   const additionalAccountInfo = {
