@@ -13,6 +13,8 @@ const { alpaca } = require('../alpaca');
 const getBalance = require('../alpaca/get-balance');
 
 
+const { onlyUseCash } = require('../settings');
+
 const getFillPriceFromResponse = response => {
     const order = response && response.alpacaOrder ? response.alpacaOrder : response;
     return (order || {}).filled_avg_price;
@@ -84,6 +86,10 @@ const eclecticBuy = async ({
     pickPrice,
     urgency
 }) => {
+    const defaults = {
+        timeoutSeconds: onlyUseCash ? 60 * 30 : Number.POSITIVE_INFINITY,
+        fallbackToMarket: false
+    };
     let buyStyles = [
         // {
         //     method: async (...args) => {
@@ -118,52 +124,41 @@ const eclecticBuy = async ({
             method: alpacaLimitBuy,
             name: 'limitu17',
             limitPrice: pickPrice * 1.017,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitu1',
             limitPrice: pickPrice * 1.01,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limit100',
             limitPrice: pickPrice * 1.00,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd1',
             limitPrice: pickPrice * .99,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd2',
             limitPrice: pickPrice * .98,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd3',
             limitPrice: pickPrice * .97,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd4',
             limitPrice: pickPrice * .96,
-            timeoutSeconds: 60 * 30,
-            fallbackToMarket: false
         },
-    ];
+    ].map(style => ({
+        ...defaults,
+        ...style
+    }));
     if (urgency === 'casual') {
         // remove limitu1
         buyStyles.splice(0, 3);
@@ -171,7 +166,7 @@ const eclecticBuy = async ({
         // increase prices by 1 percent
         buyStyles = buyStyles.map(( limitPrice, ...buy ) => ({
             ...buy,
-            ...limitPrice && { limitPrice: limitPrice * 1.01 }
+            ...limitPrice && { limitPrice: limitPrice * 1.01 },
         }));
     }
     return executeBuys({
