@@ -78,7 +78,7 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   const interestingWords = [
     ...existingInterestingWords,
     ...newInterestingWords
-  ].uniq();
+  ].uniq().filter(Boolean);
   console.log({ existingInterestingWords, newInterestingWords, interestingWords });
 
   const fakePosition = { 
