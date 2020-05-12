@@ -39,11 +39,12 @@ const checkForHugeDrop = position => {
 const activeRS = {
   FTSI: 20
 };
-const handleRS = ({ ticker, avgEntry }) => {
+const handleRS = ({ ticker, avgEntry, quantity }) => {
   const found = activeRS[ticker];
   if (found) {
     return {
-      avgEntry: avgEntry * found
+      avgEntry: avgEntry * found,
+      quantity: quantity / 20
     };
   }
 };
