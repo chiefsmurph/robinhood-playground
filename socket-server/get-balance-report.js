@@ -22,9 +22,14 @@ module.exports = async (isRegularHours = true) => {
   console.log('Current Account:', account);
   const { equity, buying_power, cash, daytrade_count } = account;
 
+  const offsetByRs = balance => {
+      const curRsOffset = require('./strat-manager').getReverseSplitOffset();
+      return balance - curRsOffset;
+  };
+
   // lastBalance = accountBalance;
   const report = {
-      accountBalance,
+      accountBalance: offsetByRs(accountBalance),
       indexPrices: await getIndexes(),
       alpacaBalance: Number(equity),
       isRegularHours,
