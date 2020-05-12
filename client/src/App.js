@@ -331,9 +331,18 @@ class App extends Component {
                     pos.impactPerc = +(netImpact / pos.totalBuyAmt * 100).toFixed(2);
                     return pos;
                 })
-                .sort((a, b) => {
-                    if (isNaN(a.equity)) return 1-isNaN(b.equity);
-                    return b.equity - a.equity
+                .sort(({ equity: a }, { equity: b }) => {
+
+                    if( !isFinite(a) && !isFinite(b) ) {
+                        return 0;
+                    }
+                    if( !isFinite(a) ) {
+                        return 1;
+                    }
+                    if( !isFinite(b) ) {
+                        return -1;
+                    }
+                    return b - a;
                 })
         );
 
