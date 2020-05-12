@@ -214,7 +214,7 @@ module.exports = async (
     //   return initialSellPerc;
     // }
 
-    if (mostRecentPurchase <= continueDownForDays / 2 && returnPerc < 20) return 0;
+    if (mostRecentPurchase < continueDownForDays / 2 && returnPerc < 20) return 0;
 
 
     if (min < 0 && min > -200 && returnPerc < 2) {  // premarket only sell winners
