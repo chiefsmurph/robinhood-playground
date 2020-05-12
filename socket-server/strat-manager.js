@@ -174,7 +174,7 @@ const stratManager = {
     },
     getReverseSplitOffset() {
         return sumArray(
-            this.positions(pos => pos.rsOffset).filter(Boolean)
+            (this.positions || []).map(pos => pos.rsOffset).filter(Boolean)
         );
     },
     newPick(data) {
