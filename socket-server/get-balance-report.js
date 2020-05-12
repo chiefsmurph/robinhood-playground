@@ -22,8 +22,6 @@ module.exports = async (isRegularHours = true) => {
   console.log('Current Account:', account);
   const { equity, buying_power, cash, daytrade_count } = account;
 
-  const amtLeft = Number(onlyUseCash ? cash : buying_power);
-  
   // lastBalance = accountBalance;
   const report = {
       accountBalance,
@@ -32,7 +30,8 @@ module.exports = async (isRegularHours = true) => {
       isRegularHours,
   };
   const additionalAccountInfo = {
-    buyingPower: +amtLeft.toFixed(2),
+    cash: +cash.toFixed(2),
+    buyingPower: +buying_power.toFixed(2),
     daytradeCount: daytrade_count,
   };
 
