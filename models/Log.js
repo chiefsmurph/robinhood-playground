@@ -11,7 +11,7 @@ const schema = new Schema({
 schema.statics.getMostRecent = async function(limit = 100) {
 
     const recentDates = await Pick.getUniqueDates();
-    const date = recentDates.pop();
+    const date = recentDates[recentDates.length - 2];
     strlog({ date })
     const d = new Date(date);
     d.setHours(0);

@@ -116,6 +116,9 @@ module.exports = async (
       buys[buys.length - 1]
     ].map(buy => getDaysOld(buy.date)) : [0, 0];
 
+    const numDaysNeeded = Math.max(continueDownForDays, (continueDownForDays * 0.5) + (daysOld - mostRecentPurchase));
+    const sellOffDaysLeft = mostRecentPurchase - numDaysNeeded;
+
     // strlog({ buys});
 
     const DONTSELL = [
@@ -145,6 +148,7 @@ module.exports = async (
       buyStrategies,
       daysOld,
       mostRecentPurchase,
+      sellOffDaysLeft,
       wouldBeDayTrade,
       ...!skipStSent && {
         stSent: await getStSentiment(ticker) || {}
@@ -205,6 +209,7 @@ module.exports = async (
       symbol,
       daysOld,
       mostRecentPurchase,
+      sellOffDaysLeft,
       returnPerc, 
       outsideBracket, 
       wouldBeDayTrade, 
@@ -226,18 +231,21 @@ module.exports = async (
     //   return 100;
     // }
 
+    
+    const sellOffToday = Boolean(sellOffDaysLeft);
 
-    // const isInitialSell = (min >= -5 && min <= 5);
-    // const initialSellPerc = (() => {
-    //   if (mostRecentPurchase > continueDownForDays * 2) return 100;
-    //   if (mostRecentPurchase <= continueDownForDays / 2) return 0;
-    //   if (bullBearScore > 100) return 35;
-    //   if (returnPerc < -15 || returnPerc > 20) return 60;
-    //   return 80;
-    // })(); // johnny cash out at the opening bell
-    // if (isInitialSell) {
-    //   return initialSellPerc;
-    // }
+
+    const isInitialSell = (min >= -5 && min <= 5);
+    const initialSellPerc = (() => {
+      if (bullBearScore > 100) return 0;
+      if (returnPerc < -15 || returnPerc > 20) return 60;
+      return 80;
+    })();
+    if (isInitialSell) {
+      return initialSellPerc;
+    } else if (sellOffToday) {
+      return 100;
+    }
 
     if (mostRecentPurchase < continueDownForDays / 2 && returnPerc < 20) return 0;
 
@@ -251,9 +259,7 @@ module.exports = async (
     }
 
 
-    const numDaysNeeded = Math.max(continueDownForDays, (continueDownForDays * 0.5) + (daysOld - mostRecentPurchase));
-    const sellOff = mostRecentPurchase > numDaysNeeded;
-    if (min > 250 && sellOff) return 100;
+    
 
 
     // if (returnPerc < 5 && min > 0) {

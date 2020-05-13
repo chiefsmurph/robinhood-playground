@@ -26,7 +26,7 @@ const stReq = cacheThis(
         }
         
     },
-    10
+    30
 );
 
 

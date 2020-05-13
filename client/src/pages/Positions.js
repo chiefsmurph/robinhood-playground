@@ -28,6 +28,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
         // 'days old': 'dayAge',
         daysOld: 'daysOld',
         bought: 'mostRecentPurchase',
+        sellOffDaysLeft: 'sellOffDaysLeft',
         ticker: pos => {
             const tooltipText = (pos.interestingWords || []).join(' ');
             return <span {...tooltipText && { 'data-custom': true, 'data-tooltip-str': tooltipText }}>{pos.ticker}</span>
