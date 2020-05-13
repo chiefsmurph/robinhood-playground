@@ -94,6 +94,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             'bankruptcy', 
             'afterhours', 
             'bearish',
+            'gnewssplit',
             // 'hotSt'
             // 'straightDown30',
             // 'halt'

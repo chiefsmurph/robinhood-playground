@@ -461,7 +461,7 @@ const stratManager = {
 
 stratManager.refreshPositions = throttle(
     stratManager.refreshPositions,
-    10000
+    60000
 );
 
 module.exports = stratManager;
