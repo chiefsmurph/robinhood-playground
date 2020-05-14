@@ -236,14 +236,14 @@ module.exports = async (
 
 
     const isInitialSell = (min >= -5 && min <= 5);
-    const initialSellPerc = (() => {
-      if (bullBearScore > 100) return 0;
-      if (returnPerc < -15 || returnPerc > 20) return 60;
-      return 80;
-    })();
-    if (isInitialSell) {
-      return initialSellPerc;
-    } else if (sellOffToday) {
+    // const initialSellPerc = (() => {
+    //   if (bullBearScore > 100) return 0;
+    //   if (returnPerc < -15 || returnPerc > 20) return 60;
+    //   return 80;
+    // })();
+
+    if (sellOffToday) {
+      if (isInitialSell && bullBearScore > 100) return 0;
       return 100;
     }
 
@@ -253,12 +253,6 @@ module.exports = async (
     if (min < 0 && min > -200 && returnPerc < 2) {  // premarket only sell winners
       return 0;
     }
-
-    if (min >= 0 && returnPerc > 60) {
-      return 60;
-    }
-
-
     
 
 
@@ -289,25 +283,25 @@ module.exports = async (
 
 
     const dayVal = mostRecentPurchase * 4 + daysOld * 2;
-    let returnVal = Math.abs(returnPerc) / 3;
-    if (returnPerc < 0) {
-      returnVal *= 2;
-    }
+    let returnVal = Math.abs(returnPerc) / 2;
+    // if (returnPerc < 0) {
+    //   returnVal *= 2;
+    // }
     const basePercent = dayVal + returnVal;
 
     // shouldVal is based on intraday pl
     const intraDayPl = Number(unrealized_intraday_plpc);
     const weightedIntraday = intraDayPl < 0 
-      ? intraDayPl * 2  // cut losses quickly let winners run
-      : intraDayPl;
+      ? intraDayPl
+      : intraDayPl * 2;
 
     let shouldVal = Math.abs(weightedIntraday) * 100;
-    if (outsideBracket) {
-      shouldVal += returnPerc ? 4 : 28;
-    }
+    // if (outsideBracket) {
+    //   shouldVal += returnPerc ? 4 : 28;
+    // }
     // subtract perc if looking good?
     const stBracketNumbers = {
-      bullish: 0.5,
+      bullish: 0.65,
       neutral: 0.8
     };
     const stOffset = stBracketNumbers[stBracket] || 1;
