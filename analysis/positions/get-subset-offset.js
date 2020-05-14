@@ -114,7 +114,7 @@ const subsetOffsets = {
   isJimmyPick: 3,
   rsi: 6,
 
-  dailyRSIgt70: 5,
+  dailyRSIgt70: 10,
   dailyRSIgt50: 1,
   dailyRSIgt50: 2,
   dailyRSIlt30: -2,

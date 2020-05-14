@@ -46,8 +46,8 @@ const handleRS = ({ ticker, avgEntry, quantity, unrealizedPl, currentPrice }) =>
       avgEntry: avgEntry * found,
       quantity: quantity / found
     };
-    const actualPl = (newProps.avgEntry - currentPrice) * newProps.quantity;
-    const rsOffset = unrealizedPl + actualPl;
+    const actualPl = (currentPrice - newProps.avgEntry) * newProps.quantity;
+    const rsOffset = unrealizedPl -  actualPl;
     return {
       ...newProps,
       actualPl,
