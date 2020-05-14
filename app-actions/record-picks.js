@@ -73,6 +73,9 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             strategy, 
             stocksToBuy
         );
+
+        if (subsetOffsetMultiplier == undefined) return log('not ready yet');
+
         multiplier = Math.round(
             forPurchaseMultiplier + pmAnalysisMultiplier + subsetOffsetMultiplier
         );
