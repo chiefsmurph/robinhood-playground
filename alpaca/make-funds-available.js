@@ -35,18 +35,24 @@ module.exports = async amt => {
 
   const buyTickers = await getBuyTickers();
   strlog({ buyTickers})
-  const notActiveBuys = notDTs.filter(({ ticker }) => !buyTickers.includes(ticker));
+  const notActiveBuys = maxTen.filter(({ ticker }) => !buyTickers.includes(ticker));
   strlog({ notActiveBuys})
 
-  const totalAvailableToSell = sumArray(notActiveBuys.map(p => Number(p.market_value)));
+
+
+  const maxTen = notActiveBuys
+    .sort((a, b) => Number(b.market_value) - Number(a.market_value))
+    .slice(0, 10);
+
+  const totalAvailableToSell = sumArray(maxTen.map(p => Number(p.market_value)));
 
 
   const percToSell = Math.max(5, Math.min(100, Math.round((amt * 1.3) / totalAvailableToSell * 100)));
   console.log({ amt, totalAvailableToSell, percToSell })
   await stratManager.init({ lowKey: true });
   return Promise.all(
-    notActiveBuys.map(async ({ ticker, quantity }, index) => {
-      await new Promise(resolve => setTimeout(resolve, index * 250))
+    maxTen.map(async ({ ticker, quantity }, index) => {
+      await new Promise(resolve => setTimeout(resolve, index * 350))
       console.log(`about to sell ${ticker} ... ${quantity} shares`);
       await alpacaCancelAllOrders(ticker, 'buy');
       return alpacaMarketSell({
