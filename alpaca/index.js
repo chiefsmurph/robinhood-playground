@@ -54,7 +54,7 @@ client.onOrderUpdate(async data => {
     });
     
   } else if (side === 'sell') {
-    const position = stratManager.positions.alpaca.find(pos => pos.ticker === ticker) || {};
+    const position = ((stratManager.positions || {}).alpaca || []).find(pos => pos.ticker === ticker) || {};
     const {
       avgEntry: buyPrice,
       buyStrategies,
