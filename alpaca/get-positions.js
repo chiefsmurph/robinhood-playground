@@ -117,7 +117,7 @@ module.exports = async (
     ].map(buy => getDaysOld(buy.date)) : [0, 0];
 
     const numDaysNeeded = Math.max(continueDownForDays, (continueDownForDays * 0.5) + (daysOld - mostRecentPurchase));
-    const sellOffDaysLeft = mostRecentPurchase - numDaysNeeded;
+    const sellOffDaysLeft = numDaysNeeded - mostRecentPurchase;
 
     // strlog({ buys});
 
@@ -232,7 +232,7 @@ module.exports = async (
     // }
 
     
-    const sellOffToday = Boolean(sellOffDaysLeft);
+    const sellOffToday = Boolean(sellOffDaysLeft <= 0);
 
 
     const isInitialSell = (min >= -5 && min <= 5);
