@@ -1,6 +1,6 @@
 const cacheThis = (asyncFn, minRefresh = 20) => {
     const cache = {};
-    return async (...args) => {
+    const responseFn = async (...args) => {
         const strArgs = JSON.stringify(args);
         if (cache[strArgs]) {
             const { timestamp, value } = cache[strArgs];
@@ -22,6 +22,13 @@ const cacheThis = (asyncFn, minRefresh = 20) => {
         };
         return value;
     };
+    responseFn.clearCache = (...args) => {
+        const strArgs = JSON.stringify(args);
+        cache[strArgs] = undefined;
+        delete cache[strArgs];
+        console.log(`cleared cache for ${strArgs}`);
+    };
+    return responseFn;
 };
 
 module.exports = cacheThis;
