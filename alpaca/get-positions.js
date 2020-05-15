@@ -2,6 +2,8 @@ const { alpaca } = require('.');
 const getStSentiment = require('../utils/get-stocktwits-sentiment');
 const { avgArray } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
+const getSpyTrend = require('../utils/get-spy-trend');
+
 const Holds = require('../models/Holds');
 const Pick = require('../models/Pick');
 const Log = require('../models/Log');
@@ -62,6 +64,7 @@ module.exports = async (
   skipStSent = false
 ) => {
 
+  const spyTrend = await getSpyTrend();
   const balance = await getBalance();
 
   const min = getMinutesFromOpen();
@@ -244,6 +247,10 @@ module.exports = async (
     //   if (returnPerc < -15 || returnPerc > 20) return 60;
     //   return 80;
     // })();
+
+    if (isInitialSell && spyTrend < 0) {
+      return 0;
+    }
 
     if (sellOffToday) {
       if (isInitialSell && bullBearScore > 100) return 0;

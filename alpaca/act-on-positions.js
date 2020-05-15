@@ -11,7 +11,7 @@ const stratManager = require('../socket-server/strat-manager');
 const sendEmail = require('../utils/send-email');
 
 module.exports = async (_, dontAct) => {
-    
+
     let positions = await getPositions();
     positions = positions.filter(({ ticker }) => !keep.includes(ticker));
 
@@ -28,7 +28,7 @@ module.exports = async (_, dontAct) => {
 
     Promise.all(
         positions
-        .filter(({ wouldBeDayTrade, percToSell }) => !wouldBeDayTrade && percToSell > 0)
+            .filter(({ wouldBeDayTrade, percToSell }) => !wouldBeDayTrade && percToSell > 0)
             .map(async position => {
                 const { ticker, recommendation, daysOld, stBracket, wouldBeDayTrade } = position;
 
