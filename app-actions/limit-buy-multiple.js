@@ -137,28 +137,28 @@ const eclecticBuy = async ({
         {
             method: alpacaLimitBuy,
             name: 'limit100',
-            limitPrice: pickPrice * 1.00,
+            limitPrice: pickPrice * 1.003,
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd1',
-            limitPrice: pickPrice * .99,
+            limitPrice: pickPrice * .996,
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd2',
-            limitPrice: pickPrice * .98,
+            limitPrice: pickPrice * .989,
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd3',
-            limitPrice: pickPrice * .97,
+            limitPrice: pickPrice * .982,
             timeoutSeconds: 60 * 45,
         },
         {
             method: alpacaLimitBuy,
             name: 'limitd4',
-            limitPrice: pickPrice * .96,
+            limitPrice: pickPrice * .975,
             timeoutSeconds: 60 * 60,
         },
     ].map(style => ({
