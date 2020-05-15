@@ -5,9 +5,16 @@ const {
   getDailyHistoricals,
 } = require('../realtime/historicals/add-daily-historicals');
 
-module.exports = cacheThis(async () => {
+
+const getPrevClose = cacheThis(async () => {
   const { SPY: daily } = await getDailyHistoricals(['SPY']);
   const prevClose = daily[daily.length - 1].close_price;
+  return prevClose;
+}, 400);
+
+
+module.exports = cacheThis(async () => {
+  const prevClose = await getPrevClose();
   const { currentPrice } = await lookup('SPY');
   console.log({ prevClose, currentPrice })
   const trend = getTrend(currentPrice, prevClose);
