@@ -303,11 +303,11 @@ module.exports = async (
 
     // shouldVal is based on intraday pl
     const intraDayPl = Number(unrealized_intraday_plpc);
-    const weightedIntraday = intraDayPl < 0 
-      ? intraDayPl
-      : intraDayPl * 2;
+    // const weightedIntraday = intraDayPl < 0 
+    //   ? intraDayPl
+    //   : intraDayPl * 2;
 
-    let shouldVal = Math.abs(weightedIntraday) * 100;
+    let shouldVal = Math.abs(intraDayPl) * 100;
     // if (outsideBracket) {
     //   shouldVal += returnPerc ? 4 : 28;
     // }
