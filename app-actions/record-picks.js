@@ -26,6 +26,7 @@ const {
 const pmsHit = require('../utils/pms-hit');
 const { emails } = require('../config');
 const isJimmyPick = require('../utils/is-jimmy-pick');
+const getSpyTrend = require('../utils/get-spy-trend');
 
 const { throttle } = require('underscore')
 const throttledRefreshPositions = throttle(() => {
@@ -141,6 +142,17 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             const openPosition = (positions.alpaca || []).find(pos => pos.ticker === stocksToBuy[0]);
             if (openPosition) {
                 await log(`WARNING: UNRECOMMENDING ${stocksToBuy[0]} because we already have a position open, ok bucko!`)
+                isRecommended = false;
+            }
+        }
+
+        if (strategy.includes('drop')) {
+            const { trendFromMin } = data;
+            const spyTrend = await getSpyTrend();
+            const limitOffset = spyTrend < 0 ? Math.abs(Math.round(spyTrend)) : 0;
+
+            if (trendFromMin > -5 - limitOffset) {
+                await log(`BELOW SPY TREND UNRECOMMENDING ${trendFromMin} with ${spyTrend} spyTrend (${limitOffset} limitOffset)`, { ticker: stocksToBuy[0] });
                 isRecommended = false;
             }
         }

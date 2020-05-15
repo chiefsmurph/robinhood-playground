@@ -46,7 +46,7 @@ module.exports = {
       const mostRecent = allCurrents.pop();
       const min = Math.min(...allCurrents);
       const trendFromMin = getTrend(mostRecent, min);
-      const bigJump = trendFromMin < -5 - limitOffset;
+      const bigJump = trendFromMin < -5;
 
       if (!bigJump) return;
 
@@ -61,7 +61,7 @@ module.exports = {
           'interval=5minute&span=day'
       );
       fiveMinuteHistoricals = fiveMinuteHistoricals.map(o => o.close_price);
-      const failedHistoricalCheck = fiveMinuteHistoricals.slice(0, -1).some(p => getTrend(p, mostRecent) < 5 + limitOffset);
+      const failedHistoricalCheck = fiveMinuteHistoricals.slice(0, -1).some(p => getTrend(p, mostRecent) < 5);
       if (failedHistoricalCheck) {
         return log('failed historical check', { ticker, mostRecent });
       }
