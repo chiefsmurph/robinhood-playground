@@ -19,6 +19,18 @@ let isRunning;
 let allBalanceReports = [];
 let onReport;
 
+const { RSI } = require('technicalindicators');
+
+
+let prevRSI;
+const getBalanceRSI = () => {
+    const rsiSeries = RSI.calculate({
+        values: allBalanceReports.map(report => report.alpacaBalance),
+        period: 14
+    }) || [];
+    return rsiSeries.pop();
+};
+
 const init = async (onReportFn) => {
     onReport = onReportFn;
     let foundReports = await BalanceReport.find().lean();
@@ -36,6 +48,8 @@ const init = async (onReportFn) => {
     // console.log('init balance reports', Object.keys(stratManager));
     console.log('foundReports', foundReports.length);
     allBalanceReports = foundReports;
+    prevRSI = getBalanceRSI();
+    await log(`current balance RSI - ${prevRSI}`);
     regCronIncAfterSixThirty({
         name: 'start balance report manager',
         run: [START_MIN],
@@ -97,6 +111,13 @@ const getAndSaveBalanceReport = async () => {
         //     mongoDoc
         // );
         allBalanceReports.push(mongoDoc);
+        const newRSI = getBalanceRSI();
+        const rsiBreaks = [50, 60, 70, 80, 90];
+        const hitBreak = rsiBreaks.find(num => prevRSI < num && newRSI >= num);
+        if (hitBreak) {
+            await log(`hit BALANCE RSI break - ${hitBreak}`);
+        }
+        prevRSI = newRSI;
         onReport(mongoDoc, additionalAccountInfo);
     } catch (e) {
         console.error(e);

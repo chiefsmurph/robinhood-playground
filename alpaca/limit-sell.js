@@ -13,11 +13,6 @@ const limitSell = async ({
     // limitNum
 }= {}) => {
 
-    if (ticker === 'FTSI') {
-        await log('FTSI no selling today');
-        return null;
-    }
-
     console.log('ALPACA LIMIT SELL');
     str({ ticker, quantity, limitPrice });
     // const min = getMinutesFromOpen();
