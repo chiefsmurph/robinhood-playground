@@ -120,14 +120,14 @@ module.exports = async (
     ].map(buy => getDaysOld(buy.date)) : [0, 0];
 
     const numDaysNeeded = Math.max(continueDownForDays, (continueDownForDays * 0.5) + (daysOld - mostRecentPurchase));
-    const sellOffDaysLeft = numDaysNeeded - mostRecentPurchase;
+    const sellOffDaysLeft = Math.floor(numDaysNeeded - mostRecentPurchase);
 
     // strlog({ buys});
 
     const DONTSELL = [
-      'KEG',
-      'TCON',
-      'ASLN',
+      // 'KEG',
+      // 'TCON',
+      // 'ASLN',
       // 'SFET',
       // 'IBIO'
     ];
