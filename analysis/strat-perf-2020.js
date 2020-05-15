@@ -26,8 +26,8 @@ module.exports = async (numDays = 10, ...words) => {
   }));
 
   strlog({
-    count,
     perfs: agg.map(perf => pick(perf, ['date', 'stratMin', 'avgNextDayPerf'])),
+    count,
     agg: avgArray(agg.map(perf => perf.avgNextDayPerf).filter(Boolean))
   })
 };

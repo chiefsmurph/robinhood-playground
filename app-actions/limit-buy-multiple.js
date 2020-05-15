@@ -112,15 +112,6 @@ const eclecticBuy = async ({
             fallbackToMarket: true
         },
         {
-            method: async (...args) => {
-                await new Promise(resolve => setTimeout(resolve, 60000 * 3));
-                return alpacaAttemptBuy(...args);
-            },
-            name: 'attemptBuy3MinDelay',
-            pickPrice,
-            fallbackToMarket: true
-        },
-        {
             method: alpacaLimitBuy,
             name: 'limitu17',
             limitPrice: pickPrice * 1.017,
@@ -139,6 +130,17 @@ const eclecticBuy = async ({
             name: 'limit100',
             limitPrice: pickPrice * 1.003,
         },
+
+        {
+            method: async (...args) => {
+                await new Promise(resolve => setTimeout(resolve, 60000 * 3));
+                return alpacaAttemptBuy(...args);
+            },
+            name: 'attemptBuy3MinDelay',
+            pickPrice,
+            fallbackToMarket: true
+        },
+        
         {
             method: alpacaLimitBuy,
             name: 'limitd1',
