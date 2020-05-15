@@ -8,6 +8,7 @@ const Log = require('../models/Log');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const analyzePosition = require('../analysis/positions/analyze-position');
 const { sellBelow = {}, sellAbove = {}, force: { keep }, continueDownForDays } = require('../settings');
+const getBalance = require('./get-balance');
 
 const checkForHugeDrop = position => {
   let { currentPrice, returnPerc: actualReturnPerc, avgEntry: actualEntry, buys = [], ticker } = position;
@@ -60,6 +61,8 @@ const handleRS = ({ ticker, avgEntry, quantity, unrealizedPl, currentPrice }) =>
 module.exports = async (
   skipStSent = false
 ) => {
+
+  const balance = await getBalance();
 
   const min = getMinutesFromOpen();
 
@@ -253,6 +256,8 @@ module.exports = async (
     if (min < 0 && min > -200 && returnPerc < 2) {  // premarket only sell winners
       return 0;
     }
+
+    if (Number(market_value) < balance / 420) return 100;
     
 
 
