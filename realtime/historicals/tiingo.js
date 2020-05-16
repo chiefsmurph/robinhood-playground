@@ -16,9 +16,7 @@ const getHistoricals = async (ticker, period, daysBack = 7) => {
   })
   const sevenDaysDate = (new Date());
   sevenDaysDate.setDate(sevenDaysDate.getDate() - daysBack);
-  const [month, day, year] = sevenDaysDate.toLocaleDateString().split('/');
-  const formatted = [year, month, day].join('-');
-  strlog({ formatted })
+  const formatted = sevenDaysDate.toLocaleDateString();
   const requestOptions = {
     url: `https://api.tiingo.com/iex/${ticker}/prices?startDate=${formatted}&resampleFreq=${period}min&token=${token}&afterHours=true`,
     headers: {
