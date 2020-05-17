@@ -213,8 +213,11 @@ class App extends Component {
         const urlParams = new URLSearchParams(window.location.search);
         const port = urlParams.get('p') || 3001;
 
-        const socketEndpoint = origin.includes('localhost') && false ? 'http://localhost:3000' : `http://23.237.87.144:${port}`;
-        const socket = socketIOClient(socketEndpoint);
+        // const socketEndpoint = origin.includes('localhost') && false ? 'http://localhost:3000' : `http://23.237.87.144:${port}`;
+        const socket = socketIOClient(`https://chiefsmurph.com`, {
+            path: '/rh/socket.io',
+            secure: true
+        });
         
         const handlePick = data => {
             const { settings, pms } = this.state;

@@ -41,19 +41,7 @@ const pennyScans = {
 };
 
 let app = express();
-let server = http.Server(app);
-let io = new SocketIO(server, {
-    handlePreflightRequest: (req, res) => {
-        console.log(req.headers.origin)
-        const headers = {
-            "Access-Control-Allow-Headers": "Content-Type, Authorization, Pragma",
-            "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
-            "Access-Control-Allow-Credentials": true
-        };
-        res.writeHead(200, headers);
-        res.end();
-    }
-});
+
 let port = process.env.PORT || 3000;
 let users = [];
 let sockets = {};
@@ -99,170 +87,185 @@ app.get('/by-date-analysis', async (req, res) => {
     res.json(response);
 });
 
-io.on('connection', async socket => {
 
-    const ip = socket.request.connection.remoteAddress;
-    const userAgent = socket.request.headers['user-agent'];
-
-    console.log('new connection');
-    log(`new connection: ${ip} (${userAgent}`);
-    
-    socket.emit('server:data-update', await stratManager.getWelcomeData());
-
-    socket.on('get-current-prices', async tickers => {
-        const response = await lookupMultiple(tickers, true);
-        console.log('got current pricessss', response);
-        socket.emit('server:current-prices', response);
-    });
-
-    socket.on('lookup', async (ticker, cb) => {
-        cb(await lookup(ticker));
-    });
-
-    socket.on('historicals', async (ticker, period, daysBack, cb) => {
-        cb(await getHistoricals(ticker, period, daysBack, true));
-    });
-
-    socket.on('slapTheAsk', async (ticker, cb) => {
-        const l = await lookup(ticker);
-        const amt = 5;
-        const quantity = Math.ceil(amt / l.currentPrice);
-        cb(await alpacaMarketBuy({
-            ticker,
-            quantity,
-            timeoutSeconds: 10
-        }));
-    });
-
-    socket.on('getRecentTrends', async (cb) => {
-        const mostPopularFiles = (await getFilesSortedByDate('100-most-popular')).slice(-3);
-        console.log({ mostPopularFiles })
-        const withJSON = await mapLimit(mostPopularFiles, 1, async file => ({
-            file,
-            json: await jsonMgr.get(`./json/100-most-popular/${file}.json`)
-        }));
-        console.log({ withJSON})
-        const obj = withJSON.reduce((acc, { file, json }) => ({
-            ...acc,
-            [file]: json
-        }), {});
-
-        for (let userStrat of withJSON) {
-            socket.emit('server:user-strat', userStrat);
-        }
-
-        return cb(obj);
-    });
-
-    socket.on('getDayReports', async cb => {
-        console.log('getting day reports');
-        cb({ dayReports: await DayReport.find() });
-    });
-
-    socket.on('getPickData', async (id, cb) => {
-        const pickData = await Pick.findById(id, { data: 1 });
-        if (pickData) {
-            if (!pickData.data) {
-                console.log('uh oh problem getting pick data for ', id);
-                strlog({
-                    id,
-                    pickData
-                });
-            }
-            console.log('sending ', pickData.data);
-            cb(pickData.data);
-        }
-        cb(pickData);
-    });
-
-    socket.on('getStScore', async (ticker, cb) => {
-        console.log(`getting st sent for ${ticker}`);
-        cb(
-            await getStSentiment(ticker)
-        );
-    });
-
-
-    socket.on('pullGit', async cb => {
-        console.log('pulling git')
-        await exec('git pull origin master');
-        cb && cb('DONE PULLING');
-    });
-
-    socket.on('restartProcess', async cb => {
-        console.log('restarting process')
-        await restartProcess();
-        cb && cb('DONE RESTARTING');
-    });
-
-    socket.on('client:get-pm-analysis', async cb => {
-        console.log('get pm analysis');
-        const data = await pmPerf();
-        console.log('got pm perf')
-        socket.emit('server:pm-analysis', data);
-    });
-
-    socket.on('client:get-strat-analysis', async cb => {
-        console.log('get strat analysis');
-        const data = await require('../analysis/spm-recent')();
-        console.log('got strat analysis');
-        socket.emit('server:strat-analysis', data);
-    });
-
-    socket.on('client:run-scan', async ({ period }) => {
-        console.log('run-scan', period);
-        const results = period === 'd' 
-            ? await require('../realtime/RealtimeRunner').runDaily(true, true)    // skip save
-            : await require('../realtime/RealtimeRunner').runAllStrategies([Number(period)], true);
-        const stepTwo = results
-            .filter(({ strategyName }) => strategyName !== 'baseline')
-            .map(pick => ({
-                ...pick,
-                keys: Object.keys(pick.keys).filter(key => pick.keys[key]),
-            }))
-            .filter(({ keys }) => keys.every(k => !k.toLowerCase().includes("bear")));
-
-        // const withStSent = await mapLimit(
-        //     stepTwo,
-        //     3, 
-        //     async pick => ({
-        //         ...pick,
-        //         data: {
-        //             ...pick.data,
-        //             stSent: await getStSentiment(pick.ticker)
-        //         }
-        //     })
-        // );
-
-        socket.emit('server:scan-results', {
-            results: stepTwo
-        });
-    });
-
-
-    socket.on('client:run-penny', async ({ type, priceRange: { min, max }}) => {
-        console.log('running penny scan', type, min, max);
-        const scan = pennyScans[type];
-        const results = await scan({
-            minPrice: min,
-            maxPrice: max
-        });
-        socket.emit('server:penny-results', { results });
-    });
-
-    socket.on('disconnect', () => {
-        socket.broadcast.emit('userDisconnect');
-    });
-
-});
 
 
 module.exports = new Promise(resolve => {
 
-    server.listen(port, async () => {
+    const server = app.listen(port, async () => {
         await stratManager.init({ io });
         console.log('[INFO] Listening on *:' + port);
         resolve();
     });
-    
+        
+    let io = new SocketIO(server, {
+        handlePreflightRequest: (req, res) => {
+            console.log(req.headers.origin)
+            const headers = {
+                "Access-Control-Allow-Headers": "Content-Type, Authorization, Pragma",
+                "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
+                "Access-Control-Allow-Credentials": true
+            };
+            res.writeHead(200, headers);
+            res.end();
+        }
+    });
+
+    io.on('connection', async socket => {
+
+        const ip = socket.request.connection.remoteAddress;
+        const userAgent = socket.request.headers['user-agent'];
+
+        console.log('new connection');
+        log(`new connection: ${ip} (${userAgent}`);
+        
+        socket.emit('server:data-update', await stratManager.getWelcomeData());
+
+        socket.on('get-current-prices', async tickers => {
+            const response = await lookupMultiple(tickers, true);
+            console.log('got current pricessss', response);
+            socket.emit('server:current-prices', response);
+        });
+
+        socket.on('lookup', async (ticker, cb) => {
+            cb(await lookup(ticker));
+        });
+
+        socket.on('historicals', async (ticker, period, daysBack, cb) => {
+            cb(await getHistoricals(ticker, period, daysBack, true));
+        });
+
+        socket.on('slapTheAsk', async (ticker, cb) => {
+            const l = await lookup(ticker);
+            const amt = 5;
+            const quantity = Math.ceil(amt / l.currentPrice);
+            cb(await alpacaMarketBuy({
+                ticker,
+                quantity,
+                timeoutSeconds: 10
+            }));
+        });
+
+        socket.on('getRecentTrends', async (cb) => {
+            const mostPopularFiles = (await getFilesSortedByDate('100-most-popular')).slice(-3);
+            console.log({ mostPopularFiles })
+            const withJSON = await mapLimit(mostPopularFiles, 1, async file => ({
+                file,
+                json: await jsonMgr.get(`./json/100-most-popular/${file}.json`)
+            }));
+            console.log({ withJSON})
+            const obj = withJSON.reduce((acc, { file, json }) => ({
+                ...acc,
+                [file]: json
+            }), {});
+
+            for (let userStrat of withJSON) {
+                socket.emit('server:user-strat', userStrat);
+            }
+
+            return cb(obj);
+        });
+
+        socket.on('getDayReports', async cb => {
+            console.log('getting day reports');
+            cb({ dayReports: await DayReport.find() });
+        });
+
+        socket.on('getPickData', async (id, cb) => {
+            const pickData = await Pick.findById(id, { data: 1 });
+            if (pickData) {
+                if (!pickData.data) {
+                    console.log('uh oh problem getting pick data for ', id);
+                    strlog({
+                        id,
+                        pickData
+                    });
+                }
+                console.log('sending ', pickData.data);
+                cb(pickData.data);
+            }
+            cb(pickData);
+        });
+
+        socket.on('getStScore', async (ticker, cb) => {
+            console.log(`getting st sent for ${ticker}`);
+            cb(
+                await getStSentiment(ticker)
+            );
+        });
+
+
+        socket.on('pullGit', async cb => {
+            console.log('pulling git')
+            await exec('git pull origin master');
+            cb && cb('DONE PULLING');
+        });
+
+        socket.on('restartProcess', async cb => {
+            console.log('restarting process')
+            await restartProcess();
+            cb && cb('DONE RESTARTING');
+        });
+
+        socket.on('client:get-pm-analysis', async cb => {
+            console.log('get pm analysis');
+            const data = await pmPerf();
+            console.log('got pm perf')
+            socket.emit('server:pm-analysis', data);
+        });
+
+        socket.on('client:get-strat-analysis', async cb => {
+            console.log('get strat analysis');
+            const data = await require('../analysis/spm-recent')();
+            console.log('got strat analysis');
+            socket.emit('server:strat-analysis', data);
+        });
+
+        socket.on('client:run-scan', async ({ period }) => {
+            console.log('run-scan', period);
+            const results = period === 'd' 
+                ? await require('../realtime/RealtimeRunner').runDaily(true, true)    // skip save
+                : await require('../realtime/RealtimeRunner').runAllStrategies([Number(period)], true);
+            const stepTwo = results
+                .filter(({ strategyName }) => strategyName !== 'baseline')
+                .map(pick => ({
+                    ...pick,
+                    keys: Object.keys(pick.keys).filter(key => pick.keys[key]),
+                }))
+                .filter(({ keys }) => keys.every(k => !k.toLowerCase().includes("bear")));
+
+            // const withStSent = await mapLimit(
+            //     stepTwo,
+            //     3, 
+            //     async pick => ({
+            //         ...pick,
+            //         data: {
+            //             ...pick.data,
+            //             stSent: await getStSentiment(pick.ticker)
+            //         }
+            //     })
+            // );
+
+            socket.emit('server:scan-results', {
+                results: stepTwo
+            });
+        });
+
+
+        socket.on('client:run-penny', async ({ type, priceRange: { min, max }}) => {
+            console.log('running penny scan', type, min, max);
+            const scan = pennyScans[type];
+            const results = await scan({
+                minPrice: min,
+                maxPrice: max
+            });
+            socket.emit('server:penny-results', { results });
+        });
+
+        socket.on('disconnect', () => {
+            socket.broadcast.emit('userDisconnect');
+        });
+
+    });
+
 });
