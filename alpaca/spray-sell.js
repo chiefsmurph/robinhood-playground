@@ -18,7 +18,7 @@ module.exports = async ({
 
 
 
-  const sharesAtATime = Math.min(4, quantity);
+  const sharesAtATime = Math.min(20, quantity);
   const qAmts = [];
   let qLeft = quantity;
   while (qLeft > 0) {

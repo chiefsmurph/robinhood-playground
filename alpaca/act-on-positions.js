@@ -29,7 +29,7 @@ module.exports = async (_, dontAct) => {
     Promise.all(
         positions
             .filter(({ wouldBeDayTrade, percToSell }) => !wouldBeDayTrade && percToSell > 0)
-            .map(async position => {
+            .map(async (position, index) => {
                 const { ticker, recommendation, daysOld, stBracket, wouldBeDayTrade } = position;
 
                 // if (recommendation === 'average down') {
@@ -48,6 +48,8 @@ module.exports = async (_, dontAct) => {
                 // }
 
                 if (wouldBeDayTrade) return;
+
+                await new Promise(resolve => setTimeout(resolve, 1000 * index));
                 return sellPosition(position);
                 
                 

@@ -237,7 +237,7 @@ class DayReports extends Component {
             afterHoursAnnotations: [],
             fuzzFactor: 2,
             showBalance: false,
-            lowKey: false,
+            lowKey: true,
             onlyRegHrs: false
         };
     }
