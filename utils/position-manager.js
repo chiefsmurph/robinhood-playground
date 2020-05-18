@@ -22,6 +22,7 @@ module.exports = {
     if (!allPositionWatchers[ticker]) return;
     allPositionWatchers[ticker].stop();
     allPositionWatchers[ticker] = null;
+    delete allPositionWatchers[ticker];
   } 
 }
 
