@@ -6,10 +6,10 @@ module.exports = async () => {
   const positions = await getPositions();
   strlog({ positions});
 
-  const ofInterest = positions.filter(p => Number(p.market_value) > 100 && p.mostRecentPurchase > continueDownForDays);
+  const ofInterest = positions.filter(p => p.percToSell === 100);
   for (let p of ofInterest) {
     const { ticker, quantity } = p;
-    const qToSell = Math.floor(Number(quantity) * 0.05);
+    const qToSell = quantity//Math.floor(Number(quantity) * 0.05);
     if (!qToSell) continue;
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol

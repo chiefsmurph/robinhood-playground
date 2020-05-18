@@ -241,16 +241,16 @@ module.exports = async (
     const sellOffToday = Boolean(sellOffDaysLeft <= 0);
 
 
-    const isInitialSell = (min >= -5 && min <= 5);
+    const isInitialSell = (min >= -10 && min <= 5);
     // const initialSellPerc = (() => {
     //   if (bullBearScore > 100) return 0;
     //   if (returnPerc < -15 || returnPerc > 20) return 60;
     //   return 80;
     // })();
 
-    if (isInitialSell && spyTrend < 0) {
-      return 0;
-    }
+    // if (isInitialSell && spyTrend < 0) {
+    //   return 0;
+    // }
 
     if (sellOffToday) {
       if (isInitialSell && bullBearScore > 100) return 0;
