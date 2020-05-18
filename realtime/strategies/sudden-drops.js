@@ -62,9 +62,9 @@ module.exports = {
       );
       fiveMinuteHistoricals = fiveMinuteHistoricals.map(o => o.close_price);
       const failedHistoricalCheck = fiveMinuteHistoricals.slice(0, -1).some(p => getTrend(p, mostRecent) < 5);
-      if (failedHistoricalCheck) {
-        return log('failed historical check', { ticker, mostRecent });
-      }
+      // if (failedHistoricalCheck) {
+      //   return log('failed historical check', { ticker, mostRecent });
+      // }
 
       
 
@@ -82,7 +82,7 @@ module.exports = {
                   return { [key]: true };
               })(),
               // lowVolWarning,
-              // [failedHistoricalCheck]: failedHistoricalCheck
+              failedHistoricalCheck,
               isOvernight: isOvernight(allPrices)
             },
             data: {
