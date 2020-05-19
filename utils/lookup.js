@@ -11,7 +11,7 @@ const formatQuoteData = require('./format-quote-data');
 module.exports = async (ticker) => {
     // console.log('looking up', ticker);
     const quoteDataResponse = await Robinhood.quote_data(ticker);
-    const originalQuoteData = quoteDataResponse.results[0];
+    const originalQuoteData = (quoteDataResponse.results || [])[0];
     
     // add yahoo price
     try {
