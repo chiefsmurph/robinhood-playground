@@ -241,7 +241,7 @@ module.exports = async (
     const sellOffToday = Boolean(sellOffDaysLeft <= 0);
 
 
-    const isInitialSell = (min >= -10 && min <= 5);
+    const isInitialSell = (min >= -15 && min <= 5);
     // const initialSellPerc = (() => {
     //   if (bullBearScore > 100) return 0;
     //   if (returnPerc < -15 || returnPerc > 20) return 60;

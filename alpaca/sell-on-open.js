@@ -24,6 +24,7 @@ module.exports = async () => {
       // }
     });
     await log(`put ${qToSell} shares of ${ticker} out to sell at market open... good luck!`);
+    await new Promise(resolve => setTimeout(resolve, 2000));
   }
   
 };
