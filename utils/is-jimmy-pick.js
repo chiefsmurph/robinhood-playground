@@ -62,9 +62,9 @@ module.exports = cacheThis(async (tickers = 'BPMX') => {
     // }), {});
 
   } catch (e) {
-    return {
+    return [{
       error: e.toString()
-    };
+    }];
   }
   
 })
