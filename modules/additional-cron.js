@@ -53,13 +53,13 @@ const additionalCron = [
 
     {
         name: 'alpacaActOnPositions',
-        run: [230, 370],
+        run: [220, 365],
         fn: () => alpacaActOnPositions()
     },
 
     {
         name: 'alpacaSellOnOpen',
-        run: [-8],
+        run: [-12],
         fn: () => alpacaSellOnOpen()
     },
 
