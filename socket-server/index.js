@@ -139,6 +139,7 @@ module.exports = new Promise(resolve => {
             const l = await lookup(ticker);
             const amt = 5;
             const quantity = Math.ceil(amt / l.currentPrice);
+            await log(`slapping ${ticker}`);
             cb(await alpacaMarketBuy({
                 ticker,
                 quantity,
@@ -196,13 +197,13 @@ module.exports = new Promise(resolve => {
 
 
         socket.on('pullGit', async cb => {
-            console.log('pulling git')
+            await log('pulling git')
             await exec('git pull origin master');
             cb && cb('DONE PULLING');
         });
 
         socket.on('restartProcess', async cb => {
-            console.log('restarting process')
+            await log('restarting process')
             await restartProcess();
             cb && cb('DONE RESTARTING');
         });
