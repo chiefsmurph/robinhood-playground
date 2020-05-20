@@ -33,7 +33,8 @@ module.exports = async position => {
         percToSell,
         daysOld,
         mostRecentPurchase,
-        wouldBeDayTrade
+        wouldBeDayTrade,
+        market_value
     } = position;
 
     const sellQuantity = Math.ceil(quantity * (percToSell / 100));
@@ -54,7 +55,7 @@ module.exports = async position => {
     });
     const halfQuantity = Math.ceil(sellQuantity / 2);
 
-    const response = getMinFromOpen() >= 0 
+    const response = getMinFromOpen() >= 0 && market_value > 30
         ? await bothAttemptAndSpray({   // reg hours
             ticker,
             quantity: sellQuantity
