@@ -3,7 +3,7 @@ const lookup = require('../utils/lookup');
 const limitBuy = require('./limit-buy');
 const marketBuy = require('./market-buy');
 
-const ATTEMPT_TIMEOUTS = [20, 20, 20, 20, 20, 20, 20, 20, 20];     // seconds
+const ATTEMPT_TIMEOUTS = [30, 30, 30, 30, 30, 30, 30, 30, 30];     // seconds
 const ATTEMPT_PERCS = [-1, -0.6, -0.34, 0, 0.3, 0.5, 1, 1.5, 2];  // percents
 const MAX_ATTEMPTS = ATTEMPT_TIMEOUTS.length;
 
