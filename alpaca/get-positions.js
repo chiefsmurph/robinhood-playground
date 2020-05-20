@@ -257,12 +257,15 @@ module.exports = async (
       return 100;
     }
 
-    if (mostRecentPurchase < continueDownForDays / 2 && returnPerc < 20) return 0;
 
 
-    if (min < 0 && min > -200 && returnPerc < 2) {  // premarket only sell winners
-      return 0;
+    if (min < 0 && min > -200) {  // premarket only sell winners
+      return returnPerc > 5 && unrealized_intraday_plpc > 5 && market_value > 60 && !sellOffToday ? 6 : 0;
     }
+
+
+
+    if (mostRecentPurchase < continueDownForDays / 2 && returnPerc < 20) return 0;
 
     if (Number(market_value) < balance / 420) return 100;
     

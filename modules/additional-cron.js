@@ -53,7 +53,7 @@ const additionalCron = [
 
     {
         name: 'alpacaActOnPositions',
-        run: [220, 365],
+        run: [-25, 220, 365],
         fn: () => alpacaActOnPositions()
     },
 
