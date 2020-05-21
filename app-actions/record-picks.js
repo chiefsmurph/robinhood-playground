@@ -21,7 +21,8 @@ const {
     minMultiplier = 2,
     overallMultiplierMultiplier = 1,
     onlyAvgDownOpenPositions,
-    dontBuy
+    dontBuy,
+    skipPurchasing
 } = require('../settings');
 const pmsHit = require('../utils/pms-hit');
 const { emails } = require('../config');
@@ -206,6 +207,8 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
             // forPurchase
             if (isRecommended) {
+
+                if (skipPurchasing) return log(`skipping purchasing of ${stocksToBuy.join(', ')}`);
                 console.log('strategy enabled: ', stratMin, 'purchasing', stocksToBuy, multiplier);
 
                 const includesDontBuyTicker = stocksToBuy.filter(s => dontBuy.includes(s)).length;
