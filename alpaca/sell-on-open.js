@@ -22,7 +22,7 @@ module.exports = async () => {
       // } : {
       //     time_in_force: 'day'
       // }
-    });
+    }).catch(console.error);
     await log(`put ${qToSell} shares of ${ticker} out to sell at market open... good luck!`);
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
