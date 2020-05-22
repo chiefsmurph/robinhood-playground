@@ -1,6 +1,8 @@
 const INITIAL_TIMEOUT = 16 * 1000;      // 10 seconds
 const END_AFTER = 2 * 1000 * 60 * 60;   // 2 hr
 
+const { RSI } = require('technicalindicators');
+
 const getMinutesFromOpen = require('./get-minutes-from-open');
 const lookup = require('./lookup');
 const getTrend = require('./get-trend');
@@ -28,7 +30,8 @@ module.exports = class PositionWatcher {
       pendingSale: false,
       // avgDownPrices: [],
       lastAvgDown: null,
-      id: randomString()
+      id: randomString(),
+      observedPrices: []
     });
     console.log('hey whats up from here')
     this.start();
@@ -43,6 +46,25 @@ module.exports = class PositionWatcher {
     const { positions } = require('../socket-server/strat-manager');
     if (!positions) return {};
     return (positions.alpaca || []).find(pos => pos.ticker === ticker) || {};
+  }
+  checkRSI() {
+    const getRSI = values => {
+        const rsiSeries = RSI.calculate({
+            values,
+            period: 14
+        }) || [];
+        return rsiSeries.pop();
+    };
+    const { ticker, observedPrices } = this;
+    const [prevRSI, curRSI] = [
+      observedPrices.slice(0, observedPrices.length - 1),
+      observedPrices
+    ].map(getRSI);
+    const breaks = [60, 70, 80, 90];
+    const foundBreak = breaks.find(b => prevRSI < b && curRSI > b);
+    if (foundBreak) {
+      return log(`${ticker} hit an RSI break - ${foundBreak}`);
+    }
   }
   async observe(isBeforeClose, buyPrice) {
 
@@ -98,6 +120,8 @@ module.exports = class PositionWatcher {
     const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
     const comparePrice = Math.max(...prices);
     this.lastPrices = prices;
+    this.observedPrices.push(currentPrice);
+    this.checkRSI();
 
     // const lowestPrice = Math.min(...prices);
     // const lowestAvgDownPrice = Math.min(...this.avgDownPrices);
