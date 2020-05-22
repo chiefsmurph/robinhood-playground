@@ -25,6 +25,7 @@ const getBuyTickers = async () => {
 
 module.exports = async amt => {
 
+  return log('ERROR: SHOULDNT BE HERE...FORCE DISABLE MAKE FUNDS AVAILABLE WHAT THE HECK')
 
   console.log(`making funds available: ${amt}`);
   let positions = await getPositions(true);

@@ -56,14 +56,14 @@ module.exports = {
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
     onlyUseCash: false,
-    skipPurchasing: false,   /// really?????
+    skipPurchasing: true,   /// really?????
     
     // expectedPickCount: 200,
     multiplierThreshold: 4, // wont recommend picks below this multiplier count even if they are a forPurchase pick
     overallOffset: 0,
 
     overallMultiplierMultiplier: 1, /// DONT CHANGE NO MATTER WHAT (WELL UNLESS YOU NEED TO GET REAL SMALL MULTIPLIERS)
-    avgDownerMultiplier: 1.35,
+    avgDownerMultiplier: 1.55,
     minMultiplier: 11,
     maxOrigMultiplier: 60,
 

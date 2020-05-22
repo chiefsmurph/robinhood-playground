@@ -141,10 +141,10 @@ module.exports = class PositionWatcher {
       if (minPast <= 120) return 'isLessThan2Hrs';
     })();
     const fillPickLimit = (() => {
-      if (lessThanTime === 'isLessThan5Min') return -2.6;
-      if (lessThanTime === 'isLessThan20Min') return -3.6;
-      if (lessThanTime === 'isLessThan2Hrs') return -4.6;
-      return -5.6 - (daysOld * 1.7)
+      if (lessThanTime === 'isLessThan5Min') return -2.2;
+      if (lessThanTime === 'isLessThan20Min') return -3.2;
+      if (lessThanTime === 'isLessThan2Hrs') return -4.2;
+      return -5 - (daysOld * 1.7)
     })();
 
 
