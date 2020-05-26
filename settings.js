@@ -67,7 +67,7 @@ module.exports = {
     minMultiplier: 11,
     maxOrigMultiplier: 60,
 
-    disableDayTrades: false,
+    disableDayTrades: true,
     disableMultipliers: false,
     disableOnlyMinors: false,
 
