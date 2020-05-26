@@ -37,7 +37,7 @@ module.exports = class PositionWatcher {
     console.log('hey whats up from here')
     this.start();
   }
-  start() {
+  async start() {
     this.running = true;
     this.startTime = Date.now();
     await this.loadHistoricals();
