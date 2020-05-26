@@ -58,11 +58,11 @@ const additionalCron = [
         fn: () => alpacaActOnPositions()
     },
 
-    {
-        name: 'alpacaSellOnOpen',
-        run: [-12],
-        fn: () => alpacaSellOnOpen()
-    },
+    // {
+    //     name: 'alpacaSellOnOpen',
+    //     run: [-12],
+    //     fn: () => alpacaSellOnOpen()
+    // },
 
     {
         name: 'alpacaHopefulSells',
