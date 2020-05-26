@@ -28,7 +28,7 @@ module.exports = class PositionWatcher {
       ticker,
       initialTimeout,
       timeout: initialTimeout,
-      pendingSale: false,
+      alreadyDayTraded: false,
       // avgDownPrices: [],
       lastAvgDown: null,
       id: randomString(),
@@ -86,7 +86,7 @@ module.exports = class PositionWatcher {
 
     const {
       ticker,
-      pendingSale,
+      alreadyDayTraded,
       id
     } = this;
 
@@ -244,7 +244,7 @@ module.exports = class PositionWatcher {
       await log(`avging down: ${logLine}`);
       // this.avgDownPrices.push(currentPrice);
       this.lastAvgDown = Date.now();
-    } else if (!pendingSale && returnPerc >= 11 && !disableDayTrades) {
+    } else if (!alreadyDayTraded && returnPerc >= 11 && !disableDayTrades) {
       const account = await alpaca.getAccount();
       const { portfolio_value, daytrade_count } = account;
       if (Number(market_value) > Number(portfolio_value) * 0.29) {
@@ -266,10 +266,7 @@ module.exports = class PositionWatcher {
             timeoutSeconds: 60 * 20,
             fallbackToMarket: false
           });
-          this.pendingSale = true;
-          setTimeout(() => {
-            this.pendingSale = false;
-          }, 1000 * 60 * 19);
+          this.alreadyDayTraded = true;
         } else {
           // await sendEmail(`You are at three daytrades but you might want to take a look at ${ticker}`);
           await log(`If I had a daytrade I would use it on ${ticker} but you at 3 daytrades`);
