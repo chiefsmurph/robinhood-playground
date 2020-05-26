@@ -222,7 +222,7 @@ module.exports = class PositionWatcher {
       return this.scheduleTimeout();
     }
 
-    if (shouldAvgDown) {
+    if (shouldAvgDown && getMinutesFromOpen() > 35) {
       const realtimeRunner = require('../realtime/RealtimeRunner');
       await realtimeRunner.handlePick({
         strategyName: 'avg-downer',
