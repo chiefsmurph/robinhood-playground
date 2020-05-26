@@ -25,7 +25,7 @@ const getBuyTickers = async () => {
 
 module.exports = async amt => {
 
-  return log('ERROR: SHOULDNT BE HERE...FORCE DISABLE MAKE FUNDS AVAILABLE WHAT THE HECK')
+  // return log('ERROR: SHOULDNT BE HEsRE...FORCE DISABLE MAKE FUNDS AVAILABLE WHAT THE HECK')
 
   console.log(`making funds available: ${amt}`);
   let positions = await getPositions(true);
@@ -36,7 +36,7 @@ module.exports = async amt => {
 
   const buyTickers = await getBuyTickers();
   strlog({ buyTickers})
-  const notActiveBuys = maxTen.filter(({ ticker }) => !buyTickers.includes(ticker));
+  const notActiveBuys = notDTs.filter(({ ticker }) => !buyTickers.includes(ticker));
   strlog({ notActiveBuys})
 
 

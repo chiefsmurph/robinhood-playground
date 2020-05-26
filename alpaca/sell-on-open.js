@@ -6,7 +6,7 @@ module.exports = async () => {
   const positions = await getPositions();
   strlog({ positions});
 
-  const ofInterest = positions.filter(p => p.percToSell === 100);
+  const ofInterest = positions.filter(p => p.ticker !== 'LK');
   for (let p of ofInterest) {
     const { ticker, quantity } = p;
     const qToSell = quantity//Math.floor(Number(quantity) * 0.05);

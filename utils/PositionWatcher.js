@@ -3,6 +3,7 @@ const END_AFTER = 2 * 1000 * 60 * 60;   // 2 hr
 
 const { RSI } = require('technicalindicators');
 
+const getHistoricals = require('../realtime/historicals/get');
 const getMinutesFromOpen = require('./get-minutes-from-open');
 const lookup = require('./lookup');
 const getTrend = require('./get-trend');
@@ -39,7 +40,15 @@ module.exports = class PositionWatcher {
   start() {
     this.running = true;
     this.startTime = Date.now();
+    await this.loadHistoricals();
     this.observe();
+  }
+  async loadHistoricals() {
+    const { ticker } = this;
+    const historicals = await getHistoricals(ticker, 5, 5, true);
+    const prices = (historicals[ticker] || []).map(hist => hist.currentPrice);
+    await log(`loaded historicals for ${ticker}`, { prices });
+    this.observedPrices = prices;
   }
   getRelatedPosition() {
     const { ticker } = this;
@@ -51,7 +60,7 @@ module.exports = class PositionWatcher {
     const getRSI = values => {
         const rsiSeries = RSI.calculate({
             values,
-            period: 14
+            period: 30
         }) || [];
         return rsiSeries.pop();
     };
@@ -278,7 +287,7 @@ module.exports = class PositionWatcher {
     return Object.entries({
       notRunning: !this.running,
       hitEndAfter: this.timeout > END_AFTER,
-      marketClosed: min > 390 || min < -100
+      marketClosed: min > 420 || min < -100
     }).filter(([reason, boolean]) => boolean).map(([ reason ]) => reason).shift();
   }
   stop() {
@@ -294,7 +303,10 @@ module.exports = class PositionWatcher {
       const multiplier = actualPercChange / 100 + 1;
       return num * multiplier;
     };
-    this.timeout = Math.min(changeSlightly(this.timeout * 2), 1000 * 60 * 5);
+    this.timeout = Math.min(
+      changeSlightly(this.timeout * 2), 
+      (getMinutesFromOpen() < 0 ? 3 : 5) * 1000 * 60
+    );
   }
   newBuy(buyPrice) {
     this.timeout = INITIAL_TIMEOUT;

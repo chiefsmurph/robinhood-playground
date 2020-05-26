@@ -100,8 +100,8 @@ const stratManager = {
         setInterval(() => this.refreshPositions(), 1000 * 60 * 15);
         await this.refreshPositions(true);
 
-        new CronJob(`5 10 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
-        if (dayInProgress(35)) {
+        new CronJob(`0 9 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
+        if (dayInProgress(-30)) {
             this.resetPositionWatchers();
         } else {
             console.log('not starting position watchers bc not right time');
