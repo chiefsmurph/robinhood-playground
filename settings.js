@@ -877,8 +877,8 @@ module.exports = {
         sell: [
         ],
         keep: [
-            'LK',
-            'CIDM'
+            // 'LK',
+            // 'CIDM'
             // 'ADMS',
         ]
     },
