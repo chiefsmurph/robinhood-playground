@@ -57,7 +57,7 @@ module.exports = class PositionWatcher {
     if (!positions) return {};
     return (positions.alpaca || []).find(pos => pos.ticker === ticker) || {};
   }
-  checkRSI() {
+  async checkRSI() {
     const getRSI = values => {
         const rsiSeries = RSI.calculate({
             values,
@@ -150,7 +150,7 @@ module.exports = class PositionWatcher {
     const comparePrice = Math.max(...prices);
     this.lastPrices = prices;
     this.observedPrices.push(currentPrice);
-    this.checkRSI();
+    await this.checkRSI();
 
     // const lowestPrice = Math.min(...prices);
     // const lowestAvgDownPrice = Math.min(...this.avgDownPrices);
