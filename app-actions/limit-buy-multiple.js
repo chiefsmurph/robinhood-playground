@@ -49,12 +49,13 @@ const executeBuys = async ({
     const buyPromises = buyStyles
         .slice(0, sliceCount)
         .map(
-            async ({ method, name = method.name, ...rest }) => {
-                console.log(`${name}: purchasing ${individualQuantity} shares of ${ticker}`);
+            async ({ method, name = method.name, ...rest }, index) => {
+                const actualQuantity = Math.round(individualQuantity * ((100 + index) / 100));
+                console.log(`${name}: purchasing ${actualQuantity} shares of ${ticker}`);
                 // await new Promise(resolve => setTimeout(resolve, 1000 * Math.random() * 10))
                 const response = await method({
                     ticker,
-                    quantity: individualQuantity,
+                    quantity: actualQuantity,
                     ...rest
                 });
                 return {
