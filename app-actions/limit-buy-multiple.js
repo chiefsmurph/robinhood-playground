@@ -37,7 +37,7 @@ const executeBuys = async ({
     }
 
     const totalDollars = pickPrice * quantity;
-    const sliceCount = Math.min(Math.floor(totalDollars / 4) || 1, buyStyles.length);
+    const sliceCount = Math.min(Math.floor(totalDollars / 3) || 1, buyStyles.length);
     const individualQuantity = Math.floor(quantity / sliceCount) || 1;
     console.log({
         totalDollars,
@@ -131,6 +131,13 @@ const eclecticBuy = async ({
             name: 'limit100',
             limitPrice: pickPrice * 1.003,
         },
+        
+        {
+            method: alpacaLimitBuy,
+            name: 'limitd1',
+            limitPrice: pickPrice * .996,
+        },
+
 
         {
             method: async (...args) => {
@@ -141,12 +148,7 @@ const eclecticBuy = async ({
             pickPrice,
             fallbackToMarket: true
         },
-        
-        {
-            method: alpacaLimitBuy,
-            name: 'limitd1',
-            limitPrice: pickPrice * .996,
-        },
+
         {
             method: alpacaLimitBuy,
             name: 'limitd2',
