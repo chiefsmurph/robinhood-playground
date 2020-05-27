@@ -222,7 +222,8 @@ module.exports = class PositionWatcher {
       return this.scheduleTimeout();
     }
 
-    if (shouldAvgDown && getMinutesFromOpen() > 35) {
+    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 35);
+    if (shouldAvgDown && okToAvgDown) {
       const realtimeRunner = require('../realtime/RealtimeRunner');
       await realtimeRunner.handlePick({
         strategyName: 'avg-downer',
@@ -262,7 +263,7 @@ module.exports = class PositionWatcher {
           alpacaLimitSell({
             ticker,
             quantity: secondChunk,
-            limitPrice: avgEntry * 1.17,
+            limitPrice: avgEntry * 1.26,
             timeoutSeconds: 60 * 20,
             fallbackToMarket: false
           });
