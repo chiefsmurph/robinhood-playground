@@ -9,6 +9,7 @@ const lookup = require('./lookup');
 const getTrend = require('./get-trend');
 // const { avgArray } = require('./array-math');
 const alpacaLimitSell = require('../alpaca/limit-sell');
+const alpacaAttemptSell = require('../alpaca/attempt-sell');
 const { alpaca } = require('../alpaca');
 const sendEmail = require('./send-email');
 const { disableDayTrades } = require('../settings');
@@ -72,7 +73,29 @@ module.exports = class PositionWatcher {
     const breaks = [60, 70, 80, 90];
     const foundBreak = breaks.find(b => prevRSI < b && curRSI > b);
     if (foundBreak) {
-      return log(`${ticker} hit an RSI break - ${foundBreak}`);
+      await log(`${ticker} hit an RSI break - ${foundBreak}`);
+      const breakSellPercents = {
+        60: 15,
+        70: 30,
+        80: 40,
+        90: 60
+      };
+      const { returnPerc, quantity } = this.getRelatedPosition();
+      if (returnPerc > 3) {
+        // only sell green positions
+        const perc = breakSellPercents[foundBreak]; // perc to sell
+        const q = Math.round(quantity * perc / 100);
+        await alpacaAttemptSell({
+          ticker,
+          quantity: q,
+          fallbackToMarket: true
+        });
+        await log(`rsi break ${ticker} selling ${q} shares (${perc}%)`);
+      }
+      return 
+
+
+
     }
   }
   async observe(isBeforeClose, buyPrice) {
