@@ -80,7 +80,7 @@ const additionalCron = [
     // },
     {
         name: 'alpaca smart sells',
-        run: [58, 145, 263],
+        run: [145, 263],
         // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
         fn: () => alpacaSmartSells()
     },
