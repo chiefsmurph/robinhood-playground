@@ -121,7 +121,7 @@ const stratManager = {
                     ticker: pos.ticker,
                     initialTimeout: 6000 + Math.random() * 60000
                 });
-                await new Promise(resolve => setTimeout(resolve, 15000));
+                await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
     },
