@@ -61,7 +61,7 @@ module.exports = class PositionWatcher {
     const getRSI = values => {
         const rsiSeries = RSI.calculate({
             values,
-            period: 30
+            period: 20w
         }) || [];
         return rsiSeries.pop();
     };
