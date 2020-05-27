@@ -74,14 +74,15 @@ module.exports = class PositionWatcher {
     const foundBreak = breaks.find(b => prevRSI < b && curRSI > b);
     if (foundBreak) {
       await log(`${ticker} hit an RSI break - ${foundBreak}`);
-      const breakSellPercents = {
-        60: 15,
-        70: 30,
-        80: 40,
-        90: 60
-      };
-      const { returnPerc, quantity } = this.getRelatedPosition();
-      if (returnPerc > 3) {
+      const { returnPerc, quantity, wouldBeDayTrade } = this.getRelatedPosition();
+      const canSellBreaks = Boolean(returnPerc > 3 && !wouldBeDayTrade);
+      if (canSellBreaks) {
+        const breakSellPercents = {
+          60: 15,
+          70: 30,
+          80: 40,
+          90: 60
+        };
         // only sell green positions
         const perc = breakSellPercents[foundBreak]; // perc to sell
         const q = Math.round(quantity * perc / 100);
@@ -92,10 +93,6 @@ module.exports = class PositionWatcher {
         });
         await log(`rsi break ${ticker} selling ${q} shares (${perc}%)`);
       }
-      return 
-
-
-
     }
   }
   async observe(isBeforeClose, buyPrice) {
