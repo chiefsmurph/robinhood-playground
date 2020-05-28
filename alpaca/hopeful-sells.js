@@ -5,19 +5,19 @@ module.exports = async () => {
 
   const positions = await getPositions(true);
 
-  const ofInterest = positions.filter(pos => pos.sellOffDaysLeft > 0 && !pos.wouldBeDayTrade);
+  const ofInterest = positions.filter(pos => pos.sellOffDaysLeft > 0 && !pos.wouldBeDayTrade & pos.returnPerc > 0);
 
   for (let { ticker, currentPrice, quantity } of ofInterest) {
     await limitSell({
       ticker,
-      limitPrice: currentPrice * 1.01,
+      limitPrice: currentPrice * 1.02,
       quantity: Math.ceil(quantity * .02),
       timeoutSeconds: Number.POSITIVE_INFINITY
     });
     await new Promise(resolve => setTimeout(resolve, 200));
     await limitSell({
       ticker,
-      limitPrice: currentPrice * 1.02,
+      limitPrice: currentPrice * 1.03,
       quantity: Math.ceil(quantity * .05),
       timeoutSeconds: Number.POSITIVE_INFINITY
     });
