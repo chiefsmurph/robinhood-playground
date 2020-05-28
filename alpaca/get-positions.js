@@ -330,7 +330,7 @@ module.exports = async (
     let randomized = weightedByDayInProgress + (Math.random() * RAND_VARY_PERC) - (RAND_VARY_PERC / 2);
 
 
-    if (Math.abs(returnPerc) < 2.5) {
+    if (Math.abs(returnPerc) < 4.5) {
       randomized = randomized / 3;
     }
 

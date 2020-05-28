@@ -75,7 +75,7 @@ module.exports = class PositionWatcher {
     if (!foundBreak) return;
     const { returnPerc, quantity, wouldBeDayTrade } = this.getRelatedPosition();
     const canSellBreaks = Boolean(returnPerc > 3 && !wouldBeDayTrade);
-    await log(`${ticker} hit an RSI break - ${foundBreak}`, {
+    await log(`${ticker} hit an RSI break - ${foundBreak}${canSellBreaks ? ' & selling' : ''}`, {
       returnPerc,
       wouldBeDayTrade,
       canSellBreaks
