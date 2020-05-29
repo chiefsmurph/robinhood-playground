@@ -66,7 +66,7 @@ const additionalCron = [
 
     {
         name: 'alpacaHopefulSells',
-        run: [20, 80, 170, 240, 291],
+        run: [20, 120, 240, 291],
         fn: () => alpacaHopefulSells()
     },
 

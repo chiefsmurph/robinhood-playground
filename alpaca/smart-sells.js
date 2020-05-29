@@ -50,7 +50,7 @@ module.exports = async (dontSell) => {
     await mapLimit(toSell, 3, async pos => {
         return sellPosition({
             ...pos,
-            percToSell: 7
+            percToSell: 3
         });
     });
 
