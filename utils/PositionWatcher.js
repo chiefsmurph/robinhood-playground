@@ -73,13 +73,9 @@ module.exports = class PositionWatcher {
     const breaks = [60, 70, 80, 90];
     const foundBreak = breaks.find(b => prevRSI < b && curRSI > b);
     if (!foundBreak) return;
-    const { returnPerc, quantity, wouldBeDayTrade, mostRecentPurchase } = this.getRelatedPosition();
+    const { returnPerc, quantity, wouldBeDayTrade, mostRecentPurchase, stSent: { bullBearScore } } = this.getRelatedPosition();
     const canSellBreaks = Boolean(returnPerc > 3 && !wouldBeDayTrade);
-    await log(`${ticker} hit an RSI break - ${foundBreak}${canSellBreaks ? ' & selling' : ''}`, {
-      returnPerc,
-      wouldBeDayTrade,
-      canSellBreaks
-    });
+    // only sell green positions
     if (!canSellBreaks) return;
     const breakSellPercents = {
       60: 15,
@@ -87,12 +83,16 @@ module.exports = class PositionWatcher {
       80: 40,
       90: 60
     };
-    // only sell green positions
     let perc = breakSellPercents[foundBreak]; // perc to sell
-    if (mostRecentPurchase <= 1) { 
+    if (mostRecentPurchase <= 1 || bullBearScore > 200) { 
       perc = perc / 2;
     }
-    const q = Math.round(quantity * perc / 100);
+    const q = Math.ceil(quantity * perc / 100);
+    await log(`${ticker} hit an RSI break - ${foundBreak}${canSellBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
+      returnPerc,
+      wouldBeDayTrade,
+      canSellBreaks
+    });
     await alpacaAttemptSell({
       ticker,
       quantity: q,
