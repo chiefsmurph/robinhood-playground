@@ -84,8 +84,14 @@ module.exports = class PositionWatcher {
       90: 60
     };
     let perc = breakSellPercents[foundBreak]; // perc to sell
-    if (mostRecentPurchase <= 1 || bullBearScore > 200) { 
-      perc = perc / 2;
+
+    const slowSellConditions = [
+      mostRecentPurchase <= 1,
+      bullBearScore > 200
+    ];
+    const slowSellCount = slowSellConditions.filter(Boolean).length;
+    for (let i = 0; i < slowSellCount; i++) { 
+      perc = perc / 1.2;
     }
     const q = Math.ceil(quantity * perc / 100);
     await log(`${ticker} hit an RSI break - ${foundBreak}${canSellBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
