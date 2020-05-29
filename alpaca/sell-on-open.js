@@ -14,13 +14,23 @@ module.exports = async () => {
 
   const ofInterest = positions.filter(p => !p.wouldBeDayTrade);
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell } = p;
+    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket } = {} } = p;
     
-    const actualPercToSell = (() => {
+    let actualPercToSell = (() => {
       if (percToSell === 100) return percToSell;
       if (definedPercent[ticker]) return definedPercent[ticker];
       return defaultPercToSellAtOpen;
     })();
+
+    if (returnPerc < 0) {
+      actualPercToSell = actualPercToSell / 1.5;
+    }
+
+    if (stBracket === 'bearish') {
+      actualPercToSell = stBracket * 1.5;
+    }
+
+    actualPercToSell = Math.min(actualPercToSell, 100);
 
     const qToSell = Math.max(1, Math.floor(Number(quantity) * (actualPercToSell / 100) ));
     await alpaca.createOrder({
