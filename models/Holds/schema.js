@@ -6,6 +6,7 @@ const Pick = require('../Pick');
 const schema = new Schema({
     ticker: String,
     buys: [{
+        timestamp: { type : Date, default: Date.now },
         date: String,
         fillPrice: Number,
         quantity: Number,
@@ -14,10 +15,12 @@ const schema = new Schema({
         data: Schema.Types.Mixed
     }],
     sells: [{
+        timestamp: { type : Date, default: Date.now },
         date: String,
         fillPrice: Number,
         quantity: Number
-    }]
+    }],
+    additionalWords: [String]
 });
 
 

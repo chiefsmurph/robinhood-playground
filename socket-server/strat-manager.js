@@ -114,14 +114,14 @@ const stratManager = {
         //     this.positions.alpaca.sort((a, b) => Number(b.market_value) - Number(a.market_value)).map(({ ticker, market_value }) => ({ ticker, market_value })),
         //     'hey over heres'
         // );
-        for (let pos of this.positions.alpaca.sort((a, b) => Number(a.market_value) - Number(b.market_value))) {
+        for (let pos of this.positions.alpaca.sort((a, b) => Number(b.market_value) - Number(a.market_value))) {
             if (pos.daysOld <= settings.continueDownForDays) {
                 await log(`starting avg downer ${pos.ticker} bc ${pos.daysOld} days old`);
                 watchThis({
                     ticker: pos.ticker,
                     initialTimeout: 6000 + Math.random() * 60000
                 });
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 5000));
             }
         }
     },

@@ -104,7 +104,6 @@ module.exports = class PositionWatcher {
       quantity: q,
       fallbackToMarket: true
     });
-    await log(`rsi break ${ticker} selling ${q} shares (${perc}%)`);
   }
   async observe(isBeforeClose, buyPrice) {
 
