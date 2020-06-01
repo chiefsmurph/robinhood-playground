@@ -4,7 +4,7 @@ const { defaultPercToSellAtOpen } = require('../settings');
 
 
 const definedPercent = {
-  TUES: 53,
+  TUES: 25,
   MARK: 30,
   XTNT: 20,
   CIDM: 15
