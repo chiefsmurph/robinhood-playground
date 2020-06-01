@@ -252,7 +252,7 @@ module.exports = class PositionWatcher {
       return this.scheduleTimeout();
     }
 
-    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 35);
+    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 25);
     if (shouldAvgDown && okToAvgDown) {
       const realtimeRunner = require('../realtime/RealtimeRunner');
       await realtimeRunner.handlePick({
