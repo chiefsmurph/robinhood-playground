@@ -117,10 +117,32 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   // }
 
 
-  const [_, stMultiplier = 1] = Object.entries({
+  let [_, stMultiplier = 1] = Object.entries({
     bullish: 1.2,
     bearish: 0.7,
   }).find(([word]) => strategy.includes(word)) || [];
+
+
+  const existingBullBearScore = avgArray(
+    existingPositions
+      .map(({ stSent = {} }) => stSent.bullBearScore)
+      .filter(Boolean)
+  );
+
+  let [nothing, stBullishOverload = 1] = Object.entries({
+    200: 1.2,
+    300: 1.7,
+  }).find(([hundred]) => existingBullBearScore > Number(hundred)) || [];
+
+  if (stBullishOverload !== 1) {
+    await log(`we got an stBullishOverload for ${stocksToBuy.join(', ')}`, {
+      stocksToBuy,
+      stMultiplier,
+      existingBullBearScore,
+      stBullishOverload
+    });
+  }
+  stMultiplier = stMultiplier * stBullishOverload;
 
   return {
     pmAnalysisMultiplier: Math.round(pmAnalysisMultiplier * stMultiplier),
