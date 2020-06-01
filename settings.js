@@ -51,14 +51,14 @@ module.exports = {
     ],
     
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 2.7,
+    purchaseAmt: 2.3,
     onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
     onlyUseCash: false,
     skipPurchasing: false,   /// really?????
 
-    defaultPercToSellAtOpen: 14,
+    defaultPercToSellAtOpen: 19,
     
     // expectedPickCount: 200,
     multiplierThreshold: 4, // wont recommend picks below this multiplier count even if they are a forPurchase pick
