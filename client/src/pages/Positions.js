@@ -138,6 +138,16 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
     }));
     // const daysOldKeys = Object.keys(daysOldStats[0]);
 
+    Object.keys(toDisplay).forEach(header => {
+        const render = toDisplay[header];
+        if (positions.every(pos => {
+            const v = typeof render === 'function' ? render(pos) : pos[render]; 
+            return !v;
+        })) {
+            delete toDisplay[header];
+        }
+    });
+
     return (
         <div>
             <h2>{name}</h2>
