@@ -42,7 +42,7 @@ module.exports = {
 
 
 
-      const allCurrents = allPrices.slice(-34).map(({ currentPrice }) => currentPrice);
+      const allCurrents = allPrices.slice(-27).map(({ currentPrice }) => currentPrice);
       const mostRecent = allCurrents.pop();
       const min = Math.min(...allCurrents);
       const trendFromMin = getTrend(mostRecent, min);
