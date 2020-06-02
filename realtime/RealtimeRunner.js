@@ -28,6 +28,9 @@ const getDailyKeys = require('../utils/get-daily-keys');
 const queryGoogleNews = require('../utils/query-google-news');
 const getActiveHalts = require('../utils/get-active-halts');
 
+
+const alpacaActOnSt = require('../alpaca/act-on-st');
+
 const riskCache = {};
 
 module.exports = new (class RealtimeRunner {
@@ -180,7 +183,7 @@ module.exports = new (class RealtimeRunner {
 
     regCronIncAfterSixThirty({
         name: 'RealtimeRunner: collectionsAndHistoricals',
-        run: [-147, -137, -127, -117, -97, -67, -47, -25, -15, -8, 2, 8, 16, 27, 45, 60, 397, 415, 430, 445, 470, 500, 600, 700],
+        run: [-147, -137, -127, -117, -97, -67, -47, -25, -15, -8, 2, 8, 16, 27, 45, 60, 100, 200, 397, 415, 430, 445, 470, 500, 600, 700],
         fn: () => this.collectionsAndHistoricals()
     });
 
@@ -263,6 +266,15 @@ module.exports = new (class RealtimeRunner {
       //   ),
       //   60 * 1000 * 60 * 3 // 3 hours
       // ),
+
+      setInterval(() => 
+        this.timedAsync(
+          'every 15 minutes - alpaca act on st',
+          () => alpacaActOnSt(),
+        ),
+        60 * 1000 * 15 // 15 min
+      ),
+
     ];
 
     this.everyFiveMinutes();

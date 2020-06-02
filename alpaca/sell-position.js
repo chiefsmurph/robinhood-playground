@@ -27,7 +27,7 @@ const bothAttemptAndSpray = ({ ticker, quantity }) => {
 
 module.exports = async position => {
 
-    const { 
+    let { 
         ticker, 
         quantity,
         percToSell,
@@ -36,6 +36,10 @@ module.exports = async position => {
         wouldBeDayTrade,
         market_value
     } = position;
+
+    if (market_value < 10) {
+        percToSell = 100;
+    }
 
     const sellQuantity = Math.ceil(quantity * (percToSell / 100));
 

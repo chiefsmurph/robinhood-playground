@@ -1,7 +1,7 @@
 const getPositions = require('./get-positions');
 const { alpaca } = require('.');
 const { defaultPercToSellAtOpen } = require('../settings');
-
+const alpacaAttemptSell = require('./attempt-sell')
 
 const definedPercent = {
   TUES: 35,
@@ -25,21 +25,35 @@ module.exports = async () => {
       actualPercToSell = actualPercToSell / 1.5;
     }
 
-    if (stBracket === 'bearish') {
-      actualPercToSell = stBracket * 1.5;
-    }
+    const stMultiplier = {
+      bullish: 0.8,
+      bearish: 1.5
+    }[stBracket] || 1;
+
+    actualPercToSell = stBracket * stMultiplier;
 
     actualPercToSell = Math.min(actualPercToSell, 100);
 
     const qToSell = Math.max(1, Math.floor(Number(quantity) * (actualPercToSell / 100) ));
+    const halfQ = Math.ceil(qToSell / 2);
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
-      qty: Number(qToSell),
+      qty: halfQ,
       side: 'sell',
       type: 'market',
       time_in_force: 'opg',
     }).catch(console.error);
-    await log(`put ${qToSell} shares of ${ticker} (${actualPercToSell}%) out to sell at market open... good luck!`);
+    alpacaAttemptSell({
+      ticker,
+      quantity: halfQ,
+      fallbackToMarket: true,
+    });
+    await log(`selling ${qToSell} shares of ${ticker} (${actualPercToSell}%) out to sell - half attempt, half at market open... good luck!`, {
+      ticker,
+      stMultiplier,
+      qToSell,
+      actualPercToSell
+    });
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
   
