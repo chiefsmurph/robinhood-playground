@@ -57,6 +57,7 @@ module.exports = async () => {
   });
   for (let position of toBuy) {
     const { ticker, stSent, currentPrice } = position;
+    await log(`buying ${ticker}`);
     const { bullBearScore } = stSent;
     const multiplier = bullBearScore > BULLBEARSUPERBLASTLIMIT ? 2 : 1;
     const quantity = Math.ceil((dollarsToBuyPerStock * multiplier) / currentPrice);

@@ -129,6 +129,7 @@ module.exports = class PositionWatcher {
       numAvgDowners,
       daysOld,
       mostRecentPurchase,
+      stSent: { stBracket } = {}
     } = this.getRelatedPosition();
     
     if (!avgEntry) return this.scheduleTimeout();
@@ -212,7 +213,7 @@ module.exports = class PositionWatcher {
 
 
     let shouldAvgDownWhen = [
-      fillPickLimit,    // fillPickLimit
+      fillPickLimit - Number(stBracket === 'bullish'),    // fillPickLimit
       -3.5 - totalNum * 1.2     // returnLimit
     ];
     
