@@ -4,10 +4,7 @@ const { defaultPercToSellAtOpen } = require('../settings');
 
 
 const definedPercent = {
-  TUES: 25,
-  MARK: 30,
-  XTNT: 20,
-  CIDM: 15
+  TUES: 35,
 };
 
 module.exports = async () => {
