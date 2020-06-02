@@ -124,7 +124,7 @@ module.exports = class PositionWatcher {
       avgEntry,
       market_value,
       quantity,
-      buys,
+      buys = [],
       // returnPerc,
       numAvgDowners,
       daysOld,
@@ -137,10 +137,11 @@ module.exports = class PositionWatcher {
     // const firstBuy = buys.find(b => b.timestamp);
     // const firstBuyDate = new Date(firstBuy.timestamp);
     
-    const lowestFill = Math.min(
-      ...(buys || []).map(buy => buy.fillPrice),
-      buyPrice || Number.POSITIVE_INFINITY
-    );
+    // const lowestFill = Math.min(
+    //   ...(buys || []).map(buy => buy.fillPrice),
+    //   buyPrice || Number.POSITIVE_INFINITY
+    // );
+    const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
 
     const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker, true)) || {};
     const mostRecentPrice = (recentPicks[0] || {}).price;
@@ -189,8 +190,8 @@ module.exports = class PositionWatcher {
     // const shouldAvgDown = [trendToLowestAvg, returnPerc].every(trend => isNaN(trend) || trend < -3.7);
     
     // const askToLowestAvgDown = getTrend(askPrice, lowestAvgDownPrice);
-    const lowestFillTrend = getTrend(comparePrice, lowestFill);
-    const recentPickTrend = getTrend(comparePrice, mostRecentPrice);
+    const mostRecentBuyTrend = getTrend(comparePrice, mostRecentBuyPrice);
+    // const recentPickTrend = getTrend(comparePrice, mostRecentPrice);
 
     const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
 
@@ -234,7 +235,7 @@ module.exports = class PositionWatcher {
     const passesCheck = ([fillPickLimit, returnLimit]) => (
       trendLowerThanPerc(
         Math.min(
-          lowestFillTrend, 
+          mostRecentBuyTrend, 
           // recentPickTrend
         ),
         fillPickLimit
