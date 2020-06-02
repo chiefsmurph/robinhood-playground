@@ -269,10 +269,10 @@ module.exports = new (class RealtimeRunner {
 
       setInterval(() => 
         this.timedAsync(
-          'every 15 minutes - alpaca act on st',
+          'every 20 minutes - alpaca act on st',
           () => alpacaActOnSt(),
         ),
-        60 * 1000 * 15 // 15 min
+        60 * 1000 * 20 // 15 min
       ),
 
     ];
