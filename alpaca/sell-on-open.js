@@ -30,7 +30,7 @@ module.exports = async () => {
       bearish: 1.5
     }[stBracket] || 1;
 
-    actualPercToSell = stBracket * stMultiplier;
+    actualPercToSell = actualPercToSell * stMultiplier;
 
     actualPercToSell = Math.min(actualPercToSell, 100);
 
