@@ -247,7 +247,7 @@ module.exports = class PositionWatcher {
     const shouldAvgDown = Boolean(hitAvgDownWhen);
 
 
-    const logLine = `AVG-DOWNER: ${ticker} (${id}) observed at ${currentPrice} / ${askPrice} ...numAvgDowners ${numAvgDowners}, mostRecentPrice ${mostRecentPrice}, recentPickTrend ${recentPickTrend}, lowestFill ${lowestFill}, lowestFillTrend ${lowestFillTrend}%, returnPerc ${returnPerc}%, shouldAvgDown ${shouldAvgDown}, hitAvgDownWhen ${hitAvgDownWhen}, shouldAvgDownWhen ${shouldAvgDownWhen}`;
+    const logLine = `AVG-DOWNER: ${ticker} (${id}) observed at ${currentPrice} / ${askPrice} ...numAvgDowners ${numAvgDowners}, mostRecentPrice ${mostRecentPrice}, mostRecentBuyPrice ${mostRecentBuyPrice}, mostRecentBuyTrend ${mostRecentBuyTrend}, returnPerc ${returnPerc}%, shouldAvgDown ${shouldAvgDown}, hitAvgDownWhen ${hitAvgDownWhen}, shouldAvgDownWhen ${shouldAvgDownWhen}`;
     console.log(logLine);
     
     if (skipChecks) {
