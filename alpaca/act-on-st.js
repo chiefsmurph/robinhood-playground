@@ -2,15 +2,20 @@ const getPositions = require('./get-positions');
 const { alpaca } = require('.');
 const { partition } = require('underscore');
 const { sumArray } = require('../utils/array-math');
-const { actOnStPercent } = require('../settings');
+const { actOnStPercent, onlyUseCash } = require('../settings');
 const sellPosition = require('./sell-position');
 const attemptBuy = require('./attempt-buy');
 
 module.exports = async () => {
   const account = await alpaca.getAccount();
   const maxDollarsToSpendAllowed = Number(account.cash) / 2;
+
   let amtToSpend = Number(account.equity * actOnStPercent / 100);
-  amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
+
+  if (onlyUseCash) {
+    amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
+  }
+  
 
   strlog({ account})
 
