@@ -234,8 +234,8 @@ module.exports = class PositionWatcher {
     const passesCheck = ([fillPickLimit, returnLimit]) => (
       trendLowerThanPerc(
         Math.min(
-          // lowestFillTrend, 
-          recentPickTrend
+          lowestFillTrend, 
+          // recentPickTrend
         ),
         fillPickLimit
       )
