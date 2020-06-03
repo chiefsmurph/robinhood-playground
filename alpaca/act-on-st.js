@@ -16,6 +16,9 @@ module.exports = async () => {
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
   }
   
+  if (amtToSpend <= 10) {
+    return log('not enough money to act on st');
+  }
 
   strlog({ account})
 
@@ -34,14 +37,20 @@ module.exports = async () => {
   for (let position of toSell) {
     sellPosition({
       ...position,
-      percToSell: actOnStPercent
+      percToSell: actOnStPercent * 2
     });
   }
 
   // buy bullish dayTrades
   const BULLBEARSUPERBLASTLIMIT = 270;
-  const bullishDayTrades = daytrades.filter(p => (p.stSent || {}).stBracket === 'bullish');
-  const specialExceptions = notDaytrades.filter(p => (p.stSent || {}).bullBearScore > 05 * 1.5);
+  const bullishDayTrades = daytrades
+    .filter(p => (p.stSent || {}).stBracket === 'bullish')
+    .sort((a, b) => (b.stSent || {}).bullBearScore - (a.stSent || {}).bullBearScore)
+    .slice(0, 7);
+  const specialExceptions = notDaytrades.filter(p =>
+    (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.5  // 405
+    && p.recommendation !== 'take profit'
+  );
   if (specialExceptions.length) {
     await log(`actonst special exceptions (super bullish not daytrades) - ${label(specialExceptions)}`);
   }
