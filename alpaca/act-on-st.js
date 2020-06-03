@@ -41,7 +41,7 @@ module.exports = async () => {
   // buy bullish dayTrades
   const BULLBEARSUPERBLASTLIMIT = 270;
   const bullishDayTrades = daytrades.filter(p => (p.stSent || {}).stBracket === 'bullish');
-  const specialExceptions = notDaytrades.filter(p => (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.1);
+  const specialExceptions = notDaytrades.filter(p => (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.5);
   if (specialExceptions.length) {
     await log(`actonst special exceptions (super bullish not daytrades) - ${label(specialExceptions)}`);
   }
