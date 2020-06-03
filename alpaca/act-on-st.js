@@ -4,6 +4,7 @@ const { partition } = require('underscore');
 const { sumArray } = require('../utils/array-math');
 const { actOnStPercent, onlyUseCash } = require('../settings');
 const sellPosition = require('./sell-position');
+const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
 
 module.exports = async () => {
@@ -35,6 +36,7 @@ module.exports = async () => {
     actOnStPercent
   });
   for (let position of toSell) {
+    await cancelAllOrders(position.ticker, 'buy');
     sellPosition({
       ...position,
       percToSell: actOnStPercent * 2
@@ -71,6 +73,7 @@ module.exports = async () => {
   });
   for (let position of toBuy) {
     const { ticker, stSent, currentPrice } = position;
+    await cancelAllOrders(ticker, 'sell');
     await log(`buying ${ticker}`);
     const { bullBearScore } = stSent;
     const multiplier = Math.min(3, Math.max(1, Math.floor((bullBearScore - 100) / 100)));
