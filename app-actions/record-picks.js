@@ -185,7 +185,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                 recentRecPrice,
                 price
             });
-            return;
+            isRecommended = false;
         }
     }
 
