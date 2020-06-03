@@ -179,8 +179,8 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         const recentPick = await Pick.getRecentPickForTicker(ticker, true, dateStr);
         if (!recentPick) continue;
         const recentRecPrice = ((recentPick.picks || []).find(pick => pick.ticker === ticker) || {}).price;
-        if (recentRecPrice && recentRecPrice > price) {
-            await log(`unrecommending ${ticker} because ticker was recommended today already at a higher price...`, {
+        if (recentRecPrice && recentRecPrice < price) {
+            await log(`unrecommending ${ticker} because ticker was recommended today already at a lower price...`, {
                 recentPick,
                 recentRecPrice,
                 price
