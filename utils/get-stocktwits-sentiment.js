@@ -39,7 +39,7 @@ const stBrackets = {
 const getStBracket = ({ bullBearScore, bullishCount, bearishCount, totalCount }) => {
     const ratio = bullishCount / (bullishCount + bearishCount);
     const stBracket = (() => {
-        if (ratio > 0.88 && totalCount > 18 && bullBearScore > 80) return 'bullish';
+        if (ratio > 0.88 && totalCount > 18 && bullBearScore > 120) return 'bullish';
         if (ratio < 0.7) return 'bearish';
         return 'neutral';
     })();
