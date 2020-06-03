@@ -41,7 +41,7 @@ module.exports = async () => {
   // buy bullish dayTrades
   const BULLBEARSUPERBLASTLIMIT = 270;
   const bullishDayTrades = daytrades.filter(p => (p.stSent || {}).stBracket === 'bullish');
-  const specialExceptions = notDaytrades.filter(p => (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.5);
+  const specialExceptions = notDaytrades.filter(p => (p.stSent || {}).bullBearScore > 05 * 1.5);
   if (specialExceptions.length) {
     await log(`actonst special exceptions (super bullish not daytrades) - ${label(specialExceptions)}`);
   }
@@ -64,11 +64,13 @@ module.exports = async () => {
     const { ticker, stSent, currentPrice } = position;
     await log(`buying ${ticker}`);
     const { bullBearScore } = stSent;
-    const multiplier = bullBearScore > BULLBEARSUPERBLASTLIMIT ? 2 : 1;
+    const multiplier = Math.min(3, Math.max(1, Math.floor((bullBearScore - 100) / 100)));
     const quantity = Math.ceil((dollarsToBuyPerStock * multiplier) / currentPrice);
     attemptBuy({
       ticker,
       quantity,
+      bullBearScore,
+      multiplier,
       pickPrice: currentPrice,
       fallbackToMarket: true
     });
