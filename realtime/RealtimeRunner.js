@@ -202,7 +202,7 @@ module.exports = new (class RealtimeRunner {
     regCronIncAfterSixThirty({
         name: 'RealtimeRunner: first act on st',
         run: [8],
-        fn: () => this.alpacaActOnSt()
+        fn: () => alpacaActOnSt()
     });
 
     if (dayInProgress(START_MIN)) {
