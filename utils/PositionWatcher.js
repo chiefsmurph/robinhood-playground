@@ -193,7 +193,7 @@ module.exports = class PositionWatcher {
     
     // const askToLowestAvgDown = getTrend(askPrice, lowestAvgDownPrice);
     const mostRecentBuyTrend = getTrend(comparePrice, mostRecentBuyPrice);
-    // const recentPickTrend = getTrend(comparePrice, mostRecentPrice);
+    const recentPickTrend = getTrend(comparePrice, mostRecentPrice);
 
     const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
 
