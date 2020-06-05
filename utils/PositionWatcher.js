@@ -144,7 +144,9 @@ module.exports = class PositionWatcher {
     const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
 
     const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker, true)) || {};
-    const mostRecentPrice = (recentPicks[0] || {}).price;
+    const mostRecentPick = recentPicks[0] || {};
+    const mostRecentPrice = mostRecentPick.price;
+    const minSinceMostRecentPick = mostRecentPick.timestamp ? Math.round((Date.now() - (new Date(mostRecentPick.timestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
 
     strlog({
       recentPicks,
@@ -182,7 +184,7 @@ module.exports = class PositionWatcher {
     const minNeededToPass = isSame ?  baseTime : baseTime * 2;
 
 
-    const minSinceLastAvgDown = this.lastAvgDown ? Math.round((Date.now() - this.lastAvgDown) * 1000 * 60): undefined;
+    const minSinceLastAvgDown = this.lastAvgDown ? Math.round((Date.now() - this.lastAvgDown) / (1000 * 60)): undefined;
     // const isRushed = Boolean(msSinceLastAvgDown < 1000 * 60 * minNeededToPass);
     const skipChecks = isSame;
 
@@ -234,9 +236,9 @@ module.exports = class PositionWatcher {
     const trendLowerThanPerc = (t, perc) => isNaN(t) || t < perc;
     const passesCheck = ([fillPickLimit, returnLimit]) => (
       trendLowerThanPerc(
-        Math.min(
+        Math.max(
           mostRecentBuyTrend, 
-          // recentPickTrend
+          recentPickTrend
         ),
         fillPickLimit
       )
@@ -254,7 +256,7 @@ module.exports = class PositionWatcher {
       return this.scheduleTimeout();
     }
 
-    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 25);
+    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 25) && minSinceMostRecentPick > 3;
     if (shouldAvgDown && okToAvgDown) {
       const realtimeRunner = require('../realtime/RealtimeRunner');
       await realtimeRunner.handlePick({

@@ -199,6 +199,12 @@ module.exports = new (class RealtimeRunner {
         fn: () => this.redAndBullishPicks()
     });
 
+    regCronIncAfterSixThirty({
+        name: 'RealtimeRunner: first act on st',
+        run: [8],
+        fn: () => this.alpacaActOnSt()
+    });
+
     if (dayInProgress(START_MIN)) {
       console.log('in progress');
 
