@@ -13,7 +13,7 @@ module.exports = async () => {
 
   const ofInterest = positions.filter(p => !p.wouldBeDayTrade);
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket } = {} } = p;
+    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {} } = p;
     
     let actualPercToSell = (() => {
       if (percToSell === 100) return percToSell;
@@ -23,6 +23,10 @@ module.exports = async () => {
 
     if (returnPerc < 0) {
       actualPercToSell = actualPercToSell / 1.5;
+    }
+
+    if (bullBearScore > 280) {
+      actualPercToSell = Math.min(80, bullBearScore);
     }
 
     const stMultiplier = {

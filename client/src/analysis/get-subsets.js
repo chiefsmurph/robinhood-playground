@@ -22,7 +22,7 @@ const bigDowner = p => straightDown60(p) || straightDown120(p);
 
 const spread1 = ({ interestingWords }) => interestingWords.includes('spread1');
 
-const wordFlags = ['split', 'reverse split', 'halt', 'rocket', 'offering'];
+const wordFlags = ['split', 'reverse split', 'rocket', 'offering', 'delist', 'breakthrough', 'bankrupt', 'bankruptcy', 'coronavirus'];
 
 module.exports = positions => {
 

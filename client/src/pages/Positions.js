@@ -159,7 +159,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
                         )
                     }
                 </thead>
-                <tbody>
+                <tbody style={{ whiteSpace: 'nowrap'}}>
                     {
                         positions
                             .map(pos => (
