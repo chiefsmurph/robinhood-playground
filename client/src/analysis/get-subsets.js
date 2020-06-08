@@ -137,7 +137,8 @@ module.exports = positions => {
 
         ...wordFlags.reduce((acc, word) => ({
             ...acc,
-            [word]: ({ interestingWords }) => interestingWords.includes(word)
+            [word]: ({ interestingWords }) => interestingWords.includes(word),
+            [`gnews${word}`]: ({ interestingWords }) => interestingWords.includes(`gnews${word}`),
         }), {}),
 
         // more words
