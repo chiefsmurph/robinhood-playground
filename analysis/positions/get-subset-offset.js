@@ -119,6 +119,10 @@ const subsetOffsets = {
   dailyRSIgt50: 2,
   dailyRSIlt30: -2,
 
+
+
+  gnewscoronavirus: 30
+
 };
 
 
