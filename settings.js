@@ -51,8 +51,8 @@ module.exports = {
     ],
     
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 1.8,//2.6,
-    actOnStPercent: 0.6,//1.2,
+    purchaseAmt: 2,//2.6,
+    actOnStPercent: 0.75,//1.2,
     defaultPercToSellAtOpen: 105,
     
     onlyAvgDownOpenPositions: false,
