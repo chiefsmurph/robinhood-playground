@@ -237,7 +237,7 @@ module.exports = class PositionWatcher {
     const passesCheck = ([fillPickLimit, returnLimit]) => (
       trendLowerThanPerc(
         Math.min(
-          mostRecentBuyTrend,
+          // mostRecentBuyTrend,
           recentPickTrend
         ),
         fillPickLimit
@@ -256,7 +256,7 @@ module.exports = class PositionWatcher {
       return this.scheduleTimeout();
     }
 
-    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 25) && minSinceMostRecentPick > 3 && minSinceLastAvgDown > 1;
+    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 25) && minSinceMostRecentPick > 1 && (minSinceLastAvgDown > 1 || minSinceLastAvgDown === undefined);
     if (shouldAvgDown && okToAvgDown) {
       const realtimeRunner = require('../realtime/RealtimeRunner');
       await realtimeRunner.handlePick({
@@ -273,6 +273,7 @@ module.exports = class PositionWatcher {
         data: {
           returnPerc,
           minSinceLastAvgDown,
+          minSinceMostRecentPick,
           // trendToLowestAvg,
         }
       }, true);
