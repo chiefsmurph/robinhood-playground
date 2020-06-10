@@ -4,7 +4,7 @@ const { defaultPercToSellAtOpen } = require('../settings');
 const alpacaAttemptSell = require('./attempt-sell')
 
 const definedPercent = {
-  TUES: 35,
+  TLRD: 115,
 };
 
 module.exports = async () => {
@@ -32,7 +32,7 @@ module.exports = async () => {
     const stMultiplier = {
       bullish: 0.8,
       bearish: 1.5
-    }[stBracket] || 1;``
+    }[stBracket] || 1;
 
     actualPercToSell = actualPercToSell * stMultiplier;
 
