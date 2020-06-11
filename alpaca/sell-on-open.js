@@ -4,7 +4,7 @@ const { defaultPercToSellAtOpen } = require('../settings');
 const alpacaAttemptSell = require('./attempt-sell')
 
 const definedPercent = {
-  TLRD: 115,
+  TLRD: 80,
 };
 
 module.exports = async () => {
