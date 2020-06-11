@@ -21,9 +21,9 @@ module.exports = async () => {
       return defaultPercToSellAtOpen;
     })();
 
-    // if (returnPerc < 0) {
-    //   actualPercToSell = actualPercToSell / 1.5;
-    // }
+    if (returnPerc < 0) {
+      actualPercToSell = actualPercToSell / 1.5;
+    }
 
     if (bullBearScore > 280) {
       actualPercToSell = Math.min(80, bullBearScore);
