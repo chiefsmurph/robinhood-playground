@@ -55,7 +55,7 @@ module.exports = {
     actOnStPercent: 1.1,
     defaultPercToSellAtOpen: 105,
     
-    onlyAvgDownOpenPositions: false,
+    onlyAvgDownOpenPositions: true,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
     onlyUseCash: false,
