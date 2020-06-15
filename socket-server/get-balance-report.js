@@ -39,6 +39,7 @@ module.exports = async (isRegularHours = true) => {
   const additionalAccountInfo = {
     cash: +Number(cash).toFixed(2),
     buyingPower: +Number(buying_power).toFixed(2),
+    maintenanceMargin: +Number(maintenance_margin).toFixed(2),
     daytradeCount: daytrade_count,
   };
 
