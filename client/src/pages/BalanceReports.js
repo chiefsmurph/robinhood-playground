@@ -548,7 +548,7 @@ class DayReports extends Component {
                             <div>
                                 Cash: ${cash}<br/>
                                 Buying Power: ${buyingPower}<br/>
-                                Daytrade Count: {daytradeCount}
+                                Daytrade Count: {daytradeCount}<br/>
                                 Maintanence Amt : ${maintenanceMargin}
                             </div>
                         )
