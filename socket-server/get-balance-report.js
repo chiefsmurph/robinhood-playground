@@ -20,7 +20,7 @@ module.exports = async (isRegularHours = true) => {
 
   const account = await alpaca.getAccount();
   console.log('Current Account:', account);
-  const { equity, buying_power, cash, daytrade_count } = account;
+  const { equity, buying_power, cash, daytrade_count, maintenance_margin } = account;
 
   const offsetByRs = balance => {
       const curRsOffset = require('./strat-manager').getReverseSplitOffset();
