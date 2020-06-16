@@ -14,10 +14,11 @@ module.exports = async () => {
   let amtToSpend = Number(account.equity * actOnStPercent / 100);
 
   if (onlyUseCash) {
+    amtToSpend *= 0.6;
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
   }
   
-  if (amtToSpend <= 10) {
+  if (amtToSpend <= 20) {
     return log('not enough money to act on st');
   }
 

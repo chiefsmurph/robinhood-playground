@@ -1,6 +1,7 @@
 const lookup = require('./lookup');
 const cacheThis = require('./cache-this');
 const getTrend = require('./get-trend');
+
 const {
   getDailyHistoricals,
 } = require('../realtime/historicals/add-daily-historicals');
