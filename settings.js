@@ -51,14 +51,14 @@ module.exports = {
     ],
     
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 0.8,
+    purchaseAmt: 1,
     actOnStPercent: 2.4,
-    defaultPercToSellAtOpen: 115,
+    defaultPercToSellAtOpen: 110,
     
     onlyAvgDownOpenPositions: true,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
-    onlyUseCash: true,
+    onlyUseCash: false,
     skipPurchasing: false,   /// really?????
 
     
