@@ -85,7 +85,9 @@ module.exports = class PositionWatcher {
       quantity, 
       wouldBeDayTrade, 
       mostRecentPurchase, 
-      stSent: { bullBearScore } 
+      stSent: { bullBearScore },
+      numMultipliers,
+      avgMultipliersPerPick
     } = this.getRelatedPosition();
     if (curRSI > 60) {
       const breaks = [60, 70, 80, 90];
@@ -126,9 +128,10 @@ module.exports = class PositionWatcher {
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
       if (brokeDown && wouldBeDayTrade) {
-        let brokeDownQuantity = Math.max(1, Math.round(quantity / 3));
-        const mult = Math.max(1, Math.ceil((bullBearScore - 100) / 100));
-        brokeDownQuantity = brokeDownQuantity * mult;
+        const thirdQuantity = Math.max(1, Math.round(quantity / 5));
+        const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
+        const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
+        const brokeDownQuantity = thirdQuantity * mult;
         const approxValue = this.observedPrices[this.observedPrices.length - 1] * brokeDownQuantity;
         await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue})`, {
           brokeDown,
