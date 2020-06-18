@@ -127,12 +127,14 @@ module.exports = class PositionWatcher {
       const brokeDown = [30, 20, 15, 10, 5].some(rsiBreak => 
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
-      if (brokeDown && wouldBeDayTrade) {
+      if (brokeDown && wouldBeDayTrade && getMinutesFromOpen() > 6) {
+        const lastObserved = this.observedPrices[this.observedPrices.length - 1];
+        const minQuantity = Math.ceil(15 / lastObserved);
         const thirdQuantity = Math.max(1, Math.round(quantity / 7));
         const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
-        const brokeDownQuantity = thirdQuantity * mult;
-        const approxValue = this.observedPrices[this.observedPrices.length - 1] * brokeDownQuantity;
+        const brokeDownQuantity = Math.max(minQuantity, thirdQuantity * mult);
+        const approxValue = lastObserved * brokeDownQuantity;
         await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue})`, {
           ticker,
           brokeDown,
