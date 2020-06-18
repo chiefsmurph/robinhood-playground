@@ -227,7 +227,7 @@ module.exports = class PositionWatcher {
 
     // const lowestPrice = Math.min(...prices);
     // const lowestAvgDownPrice = Math.min(...this.avgDownPrices);
-    // const returnPerc = getTrend(comparePrice, avgEntry);
+    const returnPerc = getTrend(observePrice, avgEntry);
 
     // strlog({
     //   ticker,
