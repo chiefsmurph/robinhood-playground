@@ -1,6 +1,6 @@
 const getPositions = require('./get-positions');
 const { alpaca } = require('.');
-const { defaultPercToSellAtOpen } = require('../settings');
+const { maxPerPositionAfterOpenPerc } = require('../settings');
 const alpacaAttemptSell = require('./attempt-sell')
 
 const definedPercent = {
@@ -8,18 +8,25 @@ const definedPercent = {
 };
 
 module.exports = async () => {
+  const { equity } = await alpaca.getAccount();
+  const maxPerPositionAfterSell = equity * (maxPerPositionAfterOpenPerc / 100);
+
   const positions = await getPositions();
   strlog({ positions});
 
+  await log(`sell on open... maxPerPositionAfterSell: ${maxPerPositionAfterSell}`, { maxPerPositionAfterOpenPerc });
+
   const ofInterest = positions.filter(p => !p.wouldBeDayTrade);
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {} } = p;
+    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value} = p;
     
     let actualPercToSell = (() => {
       if (percToSell === 100) return percToSell;
       if (definedPercent[ticker]) return definedPercent[ticker];
-      return defaultPercToSellAtOpen;
+      return (1 - maxPerPositionAfterSell / Number(market_value)) * 100;
     })();
+    
+    if (actualPercToSell < 2) continue;
 
     // if (returnPerc < 0) {
     //   actualPercToSell = actualPercToSell / 1.5;
@@ -48,7 +55,7 @@ module.exports = async () => {
       type: 'market',
       time_in_force: 'opg',
     }).catch(console.error);
-    alpacaAttemptSell({
+    secondQ && alpacaAttemptSell({
       ticker,
       quantity: secondQ,
       fallbackToMarket: true,

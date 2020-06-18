@@ -10,6 +10,7 @@ const getTrend = require('./get-trend');
 // const { avgArray } = require('./array-math');
 const alpacaLimitSell = require('../alpaca/limit-sell');
 const alpacaAttemptSell = require('../alpaca/attempt-sell');
+const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const { alpaca } = require('../alpaca');
 const sendEmail = require('./send-email');
 const { disableDayTrades } = require('../settings');
@@ -33,6 +34,7 @@ module.exports = class PositionWatcher {
       // avgDownPrices: [],
       lastAvgDown: null,
       id: randomString(),
+      historicalPrices: [],
       observedPrices: []
     });
     console.log('hey whats up from here')
@@ -42,14 +44,19 @@ module.exports = class PositionWatcher {
     this.running = true;
     this.startTime = Date.now();
     await this.loadHistoricals();
+    // await this.initComparePrice();
     this.observe();
   }
+  // async initComparePrice() {
+  //   const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker, true)) || {};
+  //   this.comparePrice = 
+  // }
   async loadHistoricals() {
     const { ticker } = this;
     const historicals = await getHistoricals(ticker, 5, 5, true);
     const prices = (historicals[ticker] || []).map(hist => hist.currentPrice);
     await log(`loaded historicals for ${ticker}`, { prices });
-    this.observedPrices = prices;
+    this.historicalPrices = prices;
   }
   getRelatedPosition() {
     const { ticker } = this;
@@ -60,7 +67,10 @@ module.exports = class PositionWatcher {
   async checkRSI() {
     const getRSI = values => {
         const rsiSeries = RSI.calculate({
-            values,
+            values: [
+              ...this.historicalPrices,
+              ...values
+            ],
             period: 20
         }) || [];
         return rsiSeries.pop();
@@ -70,40 +80,70 @@ module.exports = class PositionWatcher {
       observedPrices.slice(0, observedPrices.length - 1),
       observedPrices
     ].map(getRSI);
-    const breaks = [60, 70, 80, 90];
-    const foundBreak = breaks.find(b => prevRSI < b && curRSI > b);
-    if (!foundBreak) return;
-    const { returnPerc, quantity, wouldBeDayTrade, mostRecentPurchase, stSent: { bullBearScore } } = this.getRelatedPosition();
-    const canSellBreaks = Boolean(returnPerc > 3 && !wouldBeDayTrade);
-    // only sell green positions
-    if (!canSellBreaks) return;
-    const breakSellPercents = {
-      60: 15,
-      70: 30,
-      80: 40,
-      90: 60
-    };
-    let perc = breakSellPercents[foundBreak]; // perc to sell
+    const { 
+      returnPerc, 
+      quantity, 
+      wouldBeDayTrade, 
+      mostRecentPurchase, 
+      stSent: { bullBearScore } 
+    } = this.getRelatedPosition();
+    if (curRSI > 60) {
+      const breaks = [60, 70, 80, 90];
+      const foundBreak = breaks.find(b => prevRSI < b && curRSI > b);
+      if (!foundBreak) return;
+      const canSellBreaks = Boolean(returnPerc > 3 && !wouldBeDayTrade);
+      // only sell green positions
+      if (!canSellBreaks) return;
+      const breakSellPercents = {
+        60: 15,
+        70: 30,
+        80: 40,
+        90: 60
+      };
+      let perc = breakSellPercents[foundBreak]; // perc to sell
 
-    const slowSellConditions = [
-      mostRecentPurchase <= 1,
-      bullBearScore > 200
-    ];
-    const slowSellCount = slowSellConditions.filter(Boolean).length;
-    for (let i = 0; i < slowSellCount; i++) { 
-      perc = perc / 1.2;
+      const slowSellConditions = [
+        mostRecentPurchase <= 1,
+        bullBearScore > 200
+      ];
+      const slowSellCount = slowSellConditions.filter(Boolean).length;
+      for (let i = 0; i < slowSellCount; i++) { 
+        perc = perc / 1.2;
+      }
+      const q = Math.ceil(quantity * perc / 100);
+      await log(`${ticker} hit an RSI break - ${foundBreak}${canSellBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
+        returnPerc,
+        wouldBeDayTrade,
+        canSellBreaks
+      });
+      await alpacaAttemptSell({
+        ticker,
+        quantity: q,
+        fallbackToMarket: true
+      });
+    } else {
+      const brokeDown = [30, 20, 10, 5].some(rsiBreak => 
+        prevRSI > rsiBreak && curRSI < rsiBreak
+      );
+      if (brokeDown && wouldBeDayTrade) {
+        let brokeDownQuantity = Math.max(1, Math.round(quantity / 3));
+        const mult = Math.max(1, Math.ceil((bullBearScore - 100) / 100));
+        brokeDownQuantity = brokeDownQuantity * mult;
+        const approxValue = this.observedPrices[this.observedPrices.length - 1] * brokeDownQuantity;
+        await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue})`, {
+          brokeDown,
+          brokeDownQuantity,
+          mult,
+          approxValue
+        });
+        await alpacaAttemptBuy({
+          ticker,
+          quantity: brokeDownQuantity,
+          fallbackToMarket: true
+        });
+      }
     }
-    const q = Math.ceil(quantity * perc / 100);
-    await log(`${ticker} hit an RSI break - ${foundBreak}${canSellBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
-      returnPerc,
-      wouldBeDayTrade,
-      canSellBreaks
-    });
-    await alpacaAttemptSell({
-      ticker,
-      quantity: q,
-      fallbackToMarket: true
-    });
+    
   }
   async observe(isBeforeClose, buyPrice) {
 
@@ -141,16 +181,24 @@ module.exports = class PositionWatcher {
     //   ...(buys || []).map(buy => buy.fillPrice),
     //   buyPrice || Number.POSITIVE_INFINITY
     // );
-    const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
+    // const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
 
     const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker, true)) || {};
     const mostRecentPick = recentPicks[0] || {};
     const mostRecentPrice = mostRecentPick.price;
     const minSinceMostRecentPick = mostRecentPick.timestamp ? Math.round((Date.now() - (new Date(mostRecentPick.timestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
 
+
+    const comparePrice = minSinceMostRecentPick > 60 * 4 
+      ? this.observedPrices[0]
+      : mostRecentPrice;
+
     strlog({
       recentPicks,
-      mostRecentPrice
+      mostRecentPrice,
+      minSinceMostRecentPick,
+      observedPrices: this.observedPrices,
+      comparePrice,
     });
 
     const l = await lookup(ticker);
@@ -161,14 +209,14 @@ module.exports = class PositionWatcher {
       askPrice
     ];
     const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
-    const comparePrice = Math.max(...prices);
+    const observePrice = Math.max(...prices);
     this.lastPrices = prices;
     this.observedPrices.push(currentPrice);
     await this.checkRSI();
 
     // const lowestPrice = Math.min(...prices);
     // const lowestAvgDownPrice = Math.min(...this.avgDownPrices);
-    const returnPerc = getTrend(comparePrice, avgEntry);
+    // const returnPerc = getTrend(comparePrice, avgEntry);
 
     // strlog({
     //   ticker,
@@ -180,8 +228,8 @@ module.exports = class PositionWatcher {
     //   returnPerc
     // });
 
-    const baseTime = (numAvgDowners + 0.2) * .75;
-    const minNeededToPass = isSame ?  baseTime : baseTime * 2;
+    // const baseTime = (numAvgDowners + 0.2) * .75;
+    // const minNeededToPass = isSame ?  baseTime : basesTime * 2;
 
 
     const minSinceLastAvgDown = this.lastAvgDown ? Math.round((Date.now() - this.lastAvgDown) / (1000 * 60)): undefined;
@@ -189,15 +237,8 @@ module.exports = class PositionWatcher {
     const skipChecks = isSame;
 
 
-    // const shouldAvgDown = [trendToLowestAvg, returnPerc].every(trend => isNaN(trend) || trend < -3.7);
-    
-    // const askToLowestAvgDown = getTrend(askPrice, lowestAvgDownPrice);
-    const mostRecentBuyTrend = getTrend(comparePrice, mostRecentBuyPrice);
-    const recentPickTrend = getTrend(comparePrice, mostRecentPrice);
 
-    const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
-
-
+    // const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
 
     const msPast = Date.now() - this.startTime;
     const minPast = Math.floor(msPast / 60000);
@@ -207,49 +248,44 @@ module.exports = class PositionWatcher {
       if (minPast <= 20) return 'isLessThan20Min';
       if (minPast <= 120) return 'isLessThan2Hrs';
     })();
-    const fillPickLimit = (() => {
-      if (lessThanTime === 'isLessThan5Min') return -2.2;
-      if (lessThanTime === 'isLessThan20Min') return -3.2;
-      if (lessThanTime === 'isLessThan2Hrs') return -4.2;
-      return -5 - (daysOld * 1.7)
+    let avgDownWhenPercDown = (() => {
+      if (lessThanTime === 'isLessThan5Min') return -2.5;
+      if (lessThanTime === 'isLessThan20Min') return -3.7;
+      if (lessThanTime === 'isLessThan2Hrs') return -5.2;
+      return -6;
     })();
 
+    const stOffset = {
+      bearish: -2,
+      bullish: 1,
+    }[stBracket] || 0;
 
-    let shouldAvgDownWhen = [
-      fillPickLimit - Number(stBracket === 'bullish'),    // fillPickLimit
-      -3.5 - totalNum * 1.2     // returnLimit
-    ];
-    
-    // let shouldAvgDownWhen = [
-    //   [-2.5, -12],
-    //   [-3, -7],
-    //   [-2.5, -4]
-    // ];
+    avgDownWhenPercDown = avgDownWhenPercDown + stOffset;
 
-    // const quickAvgDown = Boolean(minSinceLastAvgDown <= 6);
-    // if (quickAvgDown) {
-    //   shouldAvgDownWhen = shouldAvgDownWhen.map(limits =>
-    //     limits.map(n => n / 2)
-    //   );
-    // }
-
-    const trendLowerThanPerc = (t, perc) => isNaN(t) || t < perc;
-    const passesCheck = ([fillPickLimit, returnLimit]) => (
-      trendLowerThanPerc(
-        Math.min(
-          // mostRecentBuyTrend,
-          recentPickTrend
-        ),
-        fillPickLimit
-      )
-      && trendLowerThanPerc(returnPerc, returnLimit)
-    );
-    
-    const hitAvgDownWhen = passesCheck(shouldAvgDownWhen);
-    const shouldAvgDown = Boolean(hitAvgDownWhen);
+    const avgDownPrice = comparePrice * (100 + avgDownWhenPercDown) / 100;
 
 
-    const logLine = `AVG-DOWNER: ${ticker} (${id}) observed at ${currentPrice} / ${askPrice} ...numAvgDowners ${numAvgDowners}, mostRecentPrice ${mostRecentPrice}, mostRecentBuyPrice ${mostRecentBuyPrice}, mostRecentBuyTrend ${mostRecentBuyTrend}, returnPerc ${returnPerc}%, shouldAvgDown ${shouldAvgDown}, hitAvgDownWhen ${hitAvgDownWhen}, shouldAvgDownWhen ${shouldAvgDownWhen}`;
+
+    const shouldAvgDown = observePrice <= avgDownPrice;
+
+
+    let logLine = `AVG-DOWNER: ${ticker} (${id}) observed at ${currentPrice} / ${askPrice}...`;
+    const logData = {
+      comparePrice,
+      minSinceMostRecentPick,
+      mostRecentPrice,
+      firstObserved: this.observedPrices[0],
+      avgDownWhenPercDown,
+      stOffset,
+      observePrice,
+      avgDownPrice,
+      shouldAvgDown
+    };
+    logLine += Object.entries(logData)
+      .join(keyVal => keyVal
+        .map(JSON.stringify)
+        .join(': ')
+      ).join(', ');
     console.log(logLine);
     
     if (skipChecks) {
@@ -266,16 +302,11 @@ module.exports = class PositionWatcher {
           [`${daysOld}daysOld`]: Boolean(daysOld),  // only >= 1
           [`${numAvgDowners}count`]: true,
           [this.getMinKey()]: true,
-          [lessThanTime]: true,
+          [lessThanTime]: lessThanTime,
           isBeforeClose,
           // quickAvgDown,
         },
-        data: {
-          returnPerc,
-          minSinceLastAvgDown,
-          minSinceMostRecentPick,
-          // trendToLowestAvg,
-        }
+        data: logData
       }, true);
       await log(`avging down: ${logLine}`);
       // this.avgDownPrices.push(currentPrice);
