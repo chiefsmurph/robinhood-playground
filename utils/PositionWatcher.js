@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const INITIAL_TIMEOUT = 16 * 1000;      // 10 seconds
 const END_AFTER = 2 * 1000 * 60 * 60;   // 2 hr
 
@@ -197,7 +199,8 @@ module.exports = class PositionWatcher {
     const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker, true)) || {};
     const mostRecentPick = recentPicks[0] || {};
     const mostRecentPrice = mostRecentPick.price;
-    const minSinceMostRecentPick = mostRecentPick.timestamp ? Math.round((Date.now() - (new Date(mostRecentPick.timestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
+    const mostRecentTimestamp = new mongoose.Types.ObjectId(mostRecentPick._id).getTimestamp();
+    const minSinceMostRecentPick = mostRecentTimestamp ? Math.round((Date.now() - (new Date(mostRecentTimestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
 
 
     const comparePrice = minSinceMostRecentPick > 60 * 4 
