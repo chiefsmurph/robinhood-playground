@@ -208,7 +208,7 @@ module.exports = class PositionWatcher {
       : mostRecentPrice;
 
     strlog({
-      recentPicks,
+      recentPick,
       mostRecentPrice,
       minSinceMostRecentPick,
       observedPrices: this.observedPrices,
