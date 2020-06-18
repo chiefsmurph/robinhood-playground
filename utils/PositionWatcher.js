@@ -293,10 +293,8 @@ module.exports = class PositionWatcher {
       shouldAvgDown
     };
     logLine += Object.entries(logData)
-      .join(keyVal => keyVal
-        .map(JSON.stringify)
-        .join(': ')
-      ).join(', ');
+      .map(keyVal => keyVal.join(': '))
+      .join(', ');
     console.log(logLine);
     
     if (skipChecks) {
