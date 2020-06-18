@@ -4,7 +4,7 @@ const { maxPerPositionAfterOpenPerc } = require('../settings');
 const alpacaAttemptSell = require('./attempt-sell')
 
 const definedPercent = {
-  TLRD: 80,
+  DGLY: 50,
 };
 
 module.exports = async () => {
