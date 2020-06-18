@@ -124,19 +124,25 @@ module.exports = class PositionWatcher {
         fallbackToMarket: true
       });
     } else {
-      const brokeDown = [30, 20, 10, 5].some(rsiBreak => 
+      const brokeDown = [30, 20, 15, 10, 5].some(rsiBreak => 
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
       if (brokeDown && wouldBeDayTrade) {
-        const thirdQuantity = Math.max(1, Math.round(quantity / 5));
+        const thirdQuantity = Math.max(1, Math.round(quantity / 7));
         const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
         const brokeDownQuantity = thirdQuantity * mult;
         const approxValue = this.observedPrices[this.observedPrices.length - 1] * brokeDownQuantity;
         await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue})`, {
+          ticker,
           brokeDown,
-          brokeDownQuantity,
+          thirdQuantity,
+          totalPoints,
+          bullBearScore,
+          numMultipliers,
+          avgMultipliersPerPick,
           mult,
+          brokeDownQuantity,
           approxValue
         });
         await alpacaAttemptBuy({
