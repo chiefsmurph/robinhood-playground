@@ -196,10 +196,10 @@ module.exports = class PositionWatcher {
     // );
     // const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
 
-    const { picks: recentPicks = [] } = (await Pick.getRecentPickForTicker(ticker, true)) || {};
-    const mostRecentPick = recentPicks[0] || {};
+    const recentPick = (await Pick.getRecentPickForTicker(ticker, true)) || {};
+    const mostRecentPick = (recentPick.picks || []).find(p => p.ticker === ticker) || {};
     const mostRecentPrice = mostRecentPick.price;
-    const mostRecentTimestamp = new mongoose.Types.ObjectId(mostRecentPick._id).getTimestamp();
+    const mostRecentTimestamp = recentPick.timestamp;
     const minSinceMostRecentPick = mostRecentTimestamp ? Math.round((Date.now() - (new Date(mostRecentTimestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
 
 
