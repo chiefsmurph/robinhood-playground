@@ -137,7 +137,15 @@ module.exports = class PositionWatcher {
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
         const brokeDownQuantity = Math.max(minQuantity, thirdQuantity * mult);
         const approxValue = lastObserved * brokeDownQuantity;
-        await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue})${onlyUseCash ? '....NOT BC ONLYUSECASHENABLED' : ''}`, {
+
+
+        const account = await alpaca.getAccount();
+        const { cash, buying_power } = account;
+        const amtLeft = Number(onlyUseCash ? cash : buying_power);
+        const fundsToBuy = amtLeft > approxValue * 1.5;
+
+        
+        await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue}, last seen ${lastObserved})${fundsToBuy ? '' : '--NO FUNDS TO BUY SORRRY AMIGO'}`, {
           ticker,
           brokeDown,
           thirdQuantity,
@@ -147,9 +155,10 @@ module.exports = class PositionWatcher {
           avgMultipliersPerPick,
           mult,
           brokeDownQuantity,
-          approxValue
+          approxValue,
+          lastObserved
         });
-        !onlyUseCash && await alpacaAttemptBuy({
+        fundsToBuy && await alpacaAttemptBuy({
           ticker,
           quantity: brokeDownQuantity,
           fallbackToMarket: true
