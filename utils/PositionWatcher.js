@@ -15,7 +15,7 @@ const alpacaAttemptSell = require('../alpaca/attempt-sell');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const { alpaca } = require('../alpaca');
 const sendEmail = require('./send-email');
-const { disableDayTrades } = require('../settings');
+const { disableDayTrades, onlyUseCash } = require('../settings');
 const { get } = require('underscore');
 
 const Pick = require('../models/Pick');
@@ -126,7 +126,7 @@ module.exports = class PositionWatcher {
         fallbackToMarket: true
       });
     } else {
-      const brokeDown = [30, 20, 15, 10, 5].some(rsiBreak => 
+      const brokeDown = [30, 20, 15, 10, 5].find(rsiBreak => 
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
       if (brokeDown && wouldBeDayTrade && getMinutesFromOpen() > 6) {
@@ -137,7 +137,7 @@ module.exports = class PositionWatcher {
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
         const brokeDownQuantity = Math.max(minQuantity, thirdQuantity * mult);
         const approxValue = lastObserved * brokeDownQuantity;
-        await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue})`, {
+        await log(`daytrader ${ticker} broke down ${brokeDown} RSI purchasing ${brokeDownQuantity} shares (${mult} mult & about $${approxValue})${onlyUseCash ? '....NOT BC ONLYUSECASHENABLED' : ''}`, {
           ticker,
           brokeDown,
           thirdQuantity,
@@ -149,7 +149,7 @@ module.exports = class PositionWatcher {
           brokeDownQuantity,
           approxValue
         });
-        await alpacaAttemptBuy({
+        !onlyUseCash && await alpacaAttemptBuy({
           ticker,
           quantity: brokeDownQuantity,
           fallbackToMarket: true
