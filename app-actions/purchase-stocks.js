@@ -49,8 +49,10 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         await log(`making $${fundsNeeded} available`);
         const afterCash = (await alpaca.getAccount()).cash;
         const logObj = { before: cash, fundsNeeded, after: afterCash };
-        await log('funds made available', logObj);
-        await sendEmail('funds made available', JSON.stringify(logObj, null, 2));
+        await log(`funds made available - before ${cash}, after ${afterCash}`, logObj);
+        if (Number(afterCash) < totalAmtToSpend) {
+            return log('sorry i tried to make funds available but there is still not enough.')
+        }
     }
 
     if (dontBuy) return log('DONT BUY', dontBuy);
