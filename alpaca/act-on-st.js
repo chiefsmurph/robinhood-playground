@@ -6,6 +6,7 @@ const { actOnStPercent, onlyUseCash } = require('../settings');
 const sellPosition = require('./sell-position');
 const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 module.exports = async () => {
   const account = await alpaca.getAccount();
@@ -53,6 +54,7 @@ module.exports = async () => {
   const specialExceptions = notDaytrades.filter(p =>
     (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.5  // 405
     && p.recommendation !== 'take profit'
+    && getMinutesFromOpen() > 30
   );
   if (specialExceptions.length) {
     await log(`actonst special exceptions (super bullish not daytrades) - ${label(specialExceptions)}`);
