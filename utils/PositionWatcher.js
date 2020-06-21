@@ -11,6 +11,7 @@ const lookup = require('./lookup');
 const getTrend = require('./get-trend');
 // const { avgArray } = require('./array-math');
 const alpacaLimitSell = require('../alpaca/limit-sell');
+const alpacaLimitBuy = require('../alpaca/limit-buy');
 const alpacaAttemptSell = require('../alpaca/attempt-sell');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const { alpaca } = require('../alpaca');
@@ -130,9 +131,11 @@ module.exports = class PositionWatcher {
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
       if (brokeDown && wouldBeDayTrade && getMinutesFromOpen() > 6) {
-        const lastObserved = this.observedPrices[this.observedPrices.length - 1];
+        const lastObserved = Number(this.observedPrices[this.observedPrices.length - 1]);
         const minQuantity = Math.ceil(15 / lastObserved);
-        const thirdQuantity = Math.max(1, Math.round(quantity / 7));
+        const maxDollars = 400;
+        const maxQuantity = Math.ceil(maxDollars / lastObserved);
+        const thirdQuantity = Math.min(maxQuantity, Math.max(1, Math.round(quantity / 7)));
         const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
         const brokeDownQuantity = Math.max(minQuantity, thirdQuantity * mult);
@@ -158,10 +161,12 @@ module.exports = class PositionWatcher {
           approxValue,
           lastObserved
         });
-        fundsToBuy && await alpacaAttemptBuy({
+        fundsToBuy && await alpacaLimitBuy({
           ticker,
+          limitPrice: lastObserved,
           quantity: brokeDownQuantity,
-          fallbackToMarket: true
+          fallbackToMarket: false,
+          timeoutSeconds: 60 * 60 * 3,
         });
       }
     }

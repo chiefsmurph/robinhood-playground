@@ -48,12 +48,13 @@ module.exports = async () => {
   // buy bullish dayTrades
   const BULLBEARSUPERBLASTLIMIT = 270;
   const bullishDayTrades = daytrades
-    .filter(p => (p.stSent || {}).stBracket === 'bullish')
+    .filter(p => (p.stSent || {}).stBracket === 'bullish' && p.returnPerc < -1)
+    .filter(p => (p.stSent || {}).bullBearScore > 200)
     .sort((a, b) => (b.stSent || {}).bullBearScore - (a.stSent || {}).bullBearScore)
     .slice(0, 7);
   const specialExceptions = notDaytrades.filter(p =>
     (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.5  // 405
-    && p.recommendation !== 'take profit'
+    && p.returnPerc < -4
     && getMinutesFromOpen() > 30
   );
   if (specialExceptions.length) {
@@ -75,17 +76,28 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, stSent, currentPrice } = position;
+    const { ticker, stSent, currentPrice, numMultipliers, returnPerc } = position;
     await cancelAllOrders(ticker, 'sell');
-    await log(`buying ${ticker}`);
     const { bullBearScore } = stSent;
-    const multiplier = Math.min(3, Math.max(1, Math.floor((bullBearScore - 100) / 100)));
+    const bullBearMultiplier = Math.min(4, Math.max(1, Math.floor((bullBearScore - 100) / 100)));
+    const multiplierMultiplier = Math.floor(numMultipliers / 300);
+    const returnPercMultiplier = Math.abs(Math.ceil(returnPerc / 5));
+    let multiplier = bullBearMultiplier;
+    multiplier += Math.min(4, multiplierMultiplier + returnPercMultiplier);
     const quantity = Math.ceil((dollarsToBuyPerStock * multiplier) / currentPrice);
+    await log(`ST buying ${ticker} about $${Math.round(currentPrice * quantity)} around ${currentPrice}`, {
+      ticker,
+      quantity,
+      multiplier,
+      bullBearMultiplier,
+      multiplierMultiplier,
+      returnPercMultiplier,
+      bullBearScore,
+      numMultipliers
+    });
     attemptBuy({
       ticker,
       quantity,
-      bullBearScore,
-      multiplier,
       pickPrice: currentPrice,
       fallbackToMarket: true
     });
