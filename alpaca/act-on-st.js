@@ -49,7 +49,7 @@ module.exports = async () => {
   // buy bullish dayTrades
   const BULLBEARSUPERBLASTLIMIT = 270;
   const bullishDayTrades = daytrades
-    .filter(p => (p.stSent || {}).stBracket === 'bullish' && p.returnPerc < -3)
+    .filter(p => (p.stSent || {}).stBracket === 'bullish' && p.returnPerc < 1)
     .filter(p => (p.stSent || {}).bullBearScore > 200)
     .sort((a, b) => (b.stSent || {}).bullBearScore - (a.stSent || {}).bullBearScore)
     .slice(0, 7);
