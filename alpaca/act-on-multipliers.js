@@ -10,6 +10,7 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 module.exports = async () => {
 
+  const account = await alpaca.getAccount();
   let amtToSpend = Number(account.equity * actOnStPercent / 100) / 1.5;
 
   if (onlyUseCash) {
