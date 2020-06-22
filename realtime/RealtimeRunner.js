@@ -30,6 +30,7 @@ const getActiveHalts = require('../utils/get-active-halts');
 
 
 const alpacaActOnSt = require('../alpaca/act-on-st');
+const alpacaActOnMultipliers = require('../alpaca/act-on-multipliers');
 
 const riskCache = {};
 
@@ -279,6 +280,14 @@ module.exports = new (class RealtimeRunner {
           () => alpacaActOnSt(),
         ),
         60 * 1000 * 20 // 15 min
+      ),
+
+      setInterval(() => 
+        this.timedAsync(
+          'every 16 minutes - alpaca act on multipliers',
+          () => alpacaActOnMultipliers(),
+        ),
+        60 * 1000 * 16 // 15 min
       ),
 
     ];
