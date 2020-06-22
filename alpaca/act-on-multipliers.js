@@ -42,7 +42,6 @@ module.exports = async () => {
   const dollarsToBuyPerStock = Math.ceil(amtToSpend / toBuy.length);
   await log(`ACTONMULTIPLIERS: $${amtToSpend} total - ${label(toBuy)}`, {
     toBuy,
-    totalValue,
     amtToSpend,
     dollarsToBuyPerStock
   });
