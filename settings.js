@@ -59,7 +59,7 @@ module.exports = {
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
     
-    onlyUseCash: true,
+    onlyUseCash: false,
     skipPurchasing: false,   /// really?????
 
     
