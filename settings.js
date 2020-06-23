@@ -118,16 +118,15 @@ module.exports = {
         overnight-drops-mediumJump-down10
         overnight-drops-mediumJump-initial
         overnight-drops-mediumJump-down10
-        overnight-drops-watchout-down30
         overnight-drops-down20-straightDown30
-        overnight-drops-watchout-down30
+        // overnight-drops-watchout-down30
         // overnight-drops-down30
         overnight-drops-majorJump-down20
         overnight-drops-!watchout-down20
         overnight-drops-down40-straightDown30
         overnight-drops-mediumJump-down20
-        overnight-drops-majorJump-straightDown90
-        overnight-drops-majorJump-straightDown30
+        // overnight-drops-majorJump-straightDown90
+        // overnight-drops-majorJump-straightDown30
 
 
         sudden-drops-holds

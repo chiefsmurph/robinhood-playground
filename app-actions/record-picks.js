@@ -33,7 +33,7 @@ const { throttle } = require('underscore')
 const throttledRefreshPositions = throttle(() => {
   console.log('sending refresh positions to strat manager')
   require('../socket-server/strat-manager').refreshPositions()
-}, 10000);
+}, 5000);
 
 
 
