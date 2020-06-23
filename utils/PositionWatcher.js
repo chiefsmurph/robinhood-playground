@@ -132,9 +132,9 @@ module.exports = class PositionWatcher {
       );
       if (brokeDown && wouldBeDayTrade && getMinutesFromOpen() > 6) {
         const lastObserved = Number(this.observedPrices[this.observedPrices.length - 1]);
-        const minQuantity = Math.ceil(15 / lastObserved);
-        const maxDollars = 400;
-        const maxQuantity = Math.ceil(maxDollars / lastObserved);
+        const MIN_DOLLARS = 45;
+        const MAX_DOLLARS = 400;
+        const [minQuantity, maxQuantity] = [MIN_DOLLARS, MAX_DOLLARS].map(amt => Math.ceil(amt / lastObserved));
         const thirdQuantity = Math.min(maxQuantity, Math.max(1, Math.round(quantity / 7)));
         const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
