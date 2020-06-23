@@ -18,7 +18,7 @@ module.exports = async () => {
 
   const ofInterest = positions.filter(p => !p.wouldBeDayTrade);
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers } = p;
+    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick } = p;
     
     let actualPercToSell = (() => {
       if (percToSell === 100) return percToSell;
@@ -36,7 +36,7 @@ module.exports = async () => {
       actualPercToSell = Math.min(80, bullBearScore);
     }
 
-    const multPullback = Math.floor(numMultipliers / 200) * 5;
+    const multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150)) * 5;
     actualPercToSell = actualPercToSell * (100 - multPullback) / 100;
 
     const stMultiplier = {
@@ -68,7 +68,9 @@ module.exports = async () => {
       stMultiplier,
       qToSell,
       actualPercToSell,
-      multPullback
+      multPullback,
+      numMultipliers,
+      avgMultipliersPerPick
     });
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
