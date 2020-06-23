@@ -7,6 +7,8 @@ const ATTEMPT_TIMEOUTS = [30, 30, 30, 30, 30, 30, 30, 30, 30];     // seconds
 const ATTEMPT_PERCS = [-1, -0.6, -0.34, 0, 0.3, 0.5, 1, 1.5, 2];  // percents
 const MAX_ATTEMPTS = ATTEMPT_TIMEOUTS.length;
 
+const { skipPurchasing } = require('../settings');
+
 const { avgArray } = require('../utils/array-math');
 
 const calcLimitPrice = async ({ ticker, pickPrice, attemptNum }) => {
@@ -36,6 +38,11 @@ const calcLimitPrice = async ({ ticker, pickPrice, attemptNum }) => {
 };
 
 const alpacaAttemptBuy = async ({ ticker, quantity, pickPrice, strategy, fallbackToMarket }) => {
+
+    if (skipPurchasing) {
+        await log('skipping purchasing attempt buy');
+        return;
+    };
 
     // limit
     const attemptedPrices = [];

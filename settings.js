@@ -60,7 +60,7 @@ module.exports = {
     makeFundsOnlyForDowners: false,
     
     onlyUseCash: false,
-    skipPurchasing: false,   /// really?????
+    skipPurchasing: true,   /// really?????
 
     
     // expectedPickCount: 200,
