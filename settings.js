@@ -106,13 +106,13 @@ module.exports = {
         most-low
 
 
-        overnight-drops-mediumJump-down15
-        overnight-drops-mediumJump-down15
-        overnight-drops-mediumJump-down15
-        overnight-drops-mediumJump-down15
-        overnight-drops-mediumJump-down15
+        // overnight-drops-mediumJump-down15
+        // overnight-drops-mediumJump-down15
+        // overnight-drops-mediumJump-down15
+        // overnight-drops-mediumJump-down15
+        // overnight-drops-mediumJump-down15
         overnight-drops-minorJump-down15
-        overnight-drops-watchout-mediumJump
+        // overnight-drops-watchout-mediumJump
 
 
         overnight-drops-mediumJump-down10
@@ -121,7 +121,7 @@ module.exports = {
         overnight-drops-watchout-down30
         overnight-drops-down20-straightDown30
         overnight-drops-watchout-down30
-        overnight-drops-down30
+        // overnight-drops-down30
         overnight-drops-majorJump-down20
         overnight-drops-!watchout-down20
         overnight-drops-down40-straightDown30
@@ -133,8 +133,8 @@ module.exports = {
         sudden-drops-holds
 
 
-        rsi-30min-rsilt15-dinner
-        rsi-30min-notWatchout-rsilt15
+        // rsi-30min-rsilt15-dinner
+        // rsi-30min-notWatchout-rsilt15
 
 
         // overnight-drops-down40
@@ -367,8 +367,8 @@ module.exports = {
 
 
         // what why havent these been chosen majorJumps
-        sudden-drops-majorJump-!down
-        sudden-drops-majorJump-!down-!straightDown
+        // sudden-drops-majorJump-!down
+        // sudden-drops-majorJump-!down-!straightDown
 
 
 
