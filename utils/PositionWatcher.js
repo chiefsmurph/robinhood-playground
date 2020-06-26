@@ -217,7 +217,7 @@ module.exports = class PositionWatcher {
     const minSinceMostRecentPick = mostRecentTimestamp ? Math.round((Date.now() - (new Date(mostRecentTimestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
 
 
-    const comparePrice = minSinceMostRecentPick > 60 * 4 
+    const comparePrice = minSinceMostRecentPick > 60 * 10
       ? this.observedPrices[0]
       : mostRecentPrice;
 
