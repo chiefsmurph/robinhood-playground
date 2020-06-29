@@ -16,7 +16,7 @@ const alpacaAttemptSell = require('../alpaca/attempt-sell');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const { alpaca } = require('../alpaca');
 const sendEmail = require('./send-email');
-const { disableDayTrades, onlyUseCash } = require('../settings');
+const { disableDayTrades, onlyUseCash, breakdownRSIs } = require('../settings');
 const { get } = require('underscore');
 
 const Pick = require('../models/Pick');
@@ -127,7 +127,7 @@ module.exports = class PositionWatcher {
         fallbackToMarket: true
       });
     } else {
-      const brokeDown = [30, 20, 15, 10, 5].find(rsiBreak => 
+      const brokeDown = breakdownRSIs.find(rsiBreak => 
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
       if (brokeDown && wouldBeDayTrade && getMinutesFromOpen() > 6) {

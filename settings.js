@@ -49,7 +49,9 @@ module.exports = {
     dontBuy: [
         // 'STG'
     ],
-    
+
+    breakdownRSIs: [13, 7, 3],
+
     // sellAllStocksOnNthDay: 8,
     purchaseAmt: 1.1,
     actOnStPercent: 1.2,
