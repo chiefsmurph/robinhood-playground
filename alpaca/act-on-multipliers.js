@@ -34,7 +34,7 @@ module.exports = async () => {
   // buy the positions in the red with the most multipliers
   const toBuy = positions
     .filter(p => p.wouldBeDayTrade)
-    .filter(p => (p.stSent || {}).stBracket !== 'bearish' && p.returnPerc < -8)
+    .filter(p => (p.stSent || {}).stBracket !== 'bearish' && p.returnPerc < -6)
     .filter(p => p.numMultipliers > 220)
     .sort((a, b) => b.numMultipliers - a.numMultipliers)
     .slice(0, 3);
