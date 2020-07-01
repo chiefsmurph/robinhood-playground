@@ -33,7 +33,7 @@ module.exports = async () => {
     // }
 
     if (bullBearScore > 280) {
-      actualPercToSell = Math.min(80, bullBearScore);
+      actualPercToSell = Math.min(80, actualPercToSell);
     }
 
     const multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150)) * 5;

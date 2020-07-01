@@ -47,10 +47,11 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         const fundsNeeded = (totalAmtToSpend * 1.3) - amtLeft;
         await makeFundsAvailable(fundsNeeded);
         await log(`making $${fundsNeeded} available`);
-        const afterCash = (await alpaca.getAccount()).cash;
-        const logObj = { before: cash, fundsNeeded, after: afterCash };
-        await log(`funds made available - before ${cash}, after ${afterCash}`, logObj);
-        if (Number(afterCash) < totalAmtToSpend) {
+        const afterAccount = await alpaca.getAccount();
+        const afterAmt = Number(onlyUseCash ? afterAccount.cash : afterAccount.buying_power);
+        const logObj = { before: amtLeft, fundsNeeded, after: afterAmt };
+        await log(`funds made available - before ${amtLeft}, after ${afterAmt}`, logObj);
+        if (Number(afterAmt) < totalAmtToSpend) {
             return log('sorry i tried to make funds available but there is still not enough.')
         }
     }
