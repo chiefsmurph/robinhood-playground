@@ -55,7 +55,7 @@ module.exports = {
     // sellAllStocksOnNthDay: 8,
     purchaseAmt: 0.8,
     actOnStPercent: 0.7,
-    maxPerPositionAfterOpenPerc: 10,
+    maxPerPositionAfterOpenPerc: 4,
     
     onlyAvgDownOpenPositions: true,
     makeKeeperFundsAvailable: false,
