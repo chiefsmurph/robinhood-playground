@@ -27,7 +27,12 @@ module.exports = async () => {
       strlog({ order });
       if (order.symbol) {
         // both sides
-        await cancelAllOrders(order.symbol);
+        const ordersToCancel = orders.filter(o => o.symbol === order.symbol);
+        for (let o of ordersToCancel) {
+          console.log('FOUND ANOTHER FROM THIS TICKER', order);
+          console.log("AND CANCELING");
+          await alpaca.cancelOrder(o.id);
+        }
         await log(`CANCELED ALL ORDERS FOR ${order.symbol}`);
       }
       break;
