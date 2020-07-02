@@ -18,7 +18,7 @@ module.exports = async () => {
 
   const ofInterest = positions.filter(p => !p.wouldBeDayTrade);
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick } = p;
+    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
 
     const multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150));
 
@@ -46,6 +46,9 @@ module.exports = async () => {
     actualPercToSell = Math.min(actualPercToSell, 100);
 
     const qToSell = Math.max(1, Math.floor(Number(quantity) * (actualPercToSell / 100) ));
+
+    const dollarsToSell = qToSell * currentPrice;
+
     const halfQ = Math.ceil(qToSell / 2);
     const secondQ = qToSell - halfQ;
     await alpaca.createOrder({
@@ -68,7 +71,9 @@ module.exports = async () => {
       targetAmt,
       multPullback,
       numMultipliers,
-      avgMultipliersPerPick
+      avgMultipliersPerPick,
+      dollarsToSell,
+      currentPrice
     });
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
