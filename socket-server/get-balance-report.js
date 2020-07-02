@@ -52,6 +52,11 @@ module.exports = async (isRegularHours = true) => {
     if (lastDtCount < daytrade_count) {
       await log('DAYTRADE COUNT INCREMENTED.... GOING TO TRY TO FIX THIS AUTOMATICALLY...');
       findDayTrade();
+    } else {
+      await log(`no it is not greater than`, {
+        lastDtCount,
+        daytrade_count
+      })
     }
   }
   lastDtCount = daytrade_count;
