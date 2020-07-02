@@ -53,8 +53,8 @@ module.exports = {
     breakdownRSIs: [13, 7, 3],
 
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 1.2,
-    actOnStPercent: 1.4,
+    purchaseAmt: 0.8,
+    actOnStPercent: 0.7,
     maxPerPositionAfterOpenPerc: 10,
     
     onlyAvgDownOpenPositions: true,
