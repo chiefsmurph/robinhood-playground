@@ -1,4 +1,5 @@
 const { alpaca } = require('../alpaca');
+const cancelAllOrders = require('../alpaca/cancel-all-orders');
 
 module.exports = async () => {
 
@@ -22,7 +23,13 @@ module.exports = async () => {
     const newCount = await getNumDayTrades();
     if (curCount !== newCount) {
       console.log('found the culprit');
+      await log(`FOUND A DAYTRADE FOR ${order.symbol}`, order);
       strlog({ order });
+      if (order.symbol) {
+        // both sides
+        await cancelAllOrders(order.symbol);
+        await log(`CANCELED ALL ORDERS FOR ${order.symbol}`);
+      }
       break;
     }
     curCount = newCount;

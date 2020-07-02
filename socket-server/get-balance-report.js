@@ -6,6 +6,9 @@ const { alpaca } = require('../alpaca');
 const sendEmail = require('../utils/send-email');
 const { onlyUseCash } = require('../settings');
 
+
+const findDayTrade = require('../tests/find-daytrade');
+
 let lastDtCount;
 
 module.exports = async (isRegularHours = true) => {
@@ -46,6 +49,10 @@ module.exports = async (isRegularHours = true) => {
   if (lastDtCount && daytrade_count && lastDtCount !== daytrade_count) {
     await sendEmail('force', 'DAYTRADE ALERT!', `last: ${lastDtCount} now ${daytrade_count}`);
     await log(`ERROR: DAYTRADE ALERT FROM ${lastDtCount} to ${daytrade_count}`);
+    if (lastDtCount < daytrade_count) {
+      await log('DAYTRADE COUNT INCREMENTED.... GOING TO TRY TO FIX THIS AUTOMATICALLY...');
+      findDayTrade();
+    }
   }
   lastDtCount = daytrade_count;
 
