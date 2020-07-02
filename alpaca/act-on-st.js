@@ -54,8 +54,8 @@ module.exports = async () => {
     .sort((a, b) => (b.stSent || {}).bullBearScore - (a.stSent || {}).bullBearScore)
     .slice(0, 7);
   const specialExceptions = notDaytrades.filter(p =>
-    (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.5  // 405
-    && p.returnPerc < -7
+    (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.3  // 351
+    && p.returnPerc < -6
     && getMinutesFromOpen() > 30
   );
   if (specialExceptions.length) {
