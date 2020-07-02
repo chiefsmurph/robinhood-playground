@@ -7,6 +7,7 @@ const sellPosition = require('./sell-position');
 const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
+const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 
 module.exports = async () => {
 
@@ -49,8 +50,8 @@ module.exports = async () => {
   // buy bullish dayTrades
   const BULLBEARSUPERBLASTLIMIT = 270;
   const bullishDayTrades = daytrades
-    .filter(p => (p.stSent || {}).stBracket === 'bullish' && p.returnPerc < 1)
-    .filter(p => (p.stSent || {}).bullBearScore > 200)
+    .filter(p => (p.stSent || {}).stBracket === 'bullish' && p.returnPerc < -2)
+    .filter(p => (p.stSent || {}).bullBearScore > 170)
     .sort((a, b) => (b.stSent || {}).bullBearScore - (a.stSent || {}).bullBearScore)
     .slice(0, 7);
   const specialExceptions = notDaytrades.filter(p =>
@@ -85,8 +86,9 @@ module.exports = async () => {
     const returnPercMultiplier = Math.abs(Math.ceil(returnPerc / 5));
     let multiplier = bullBearMultiplier;
     multiplier += Math.min(4, multiplierMultiplier + returnPercMultiplier);
-    const quantity = Math.ceil((dollarsToBuyPerStock * multiplier) / currentPrice);
-    await log(`ST buying ${ticker} about $${Math.round(currentPrice * quantity)} around ${currentPrice}`, {
+    const totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
+    const quantity = Math.ceil(totalAmtToSpend / currentPrice);
+    await log(`ST buying ${ticker} about $${totalAmtToSpend} around ${currentPrice}`, {
       ticker,
       quantity,
       multiplier,
@@ -96,12 +98,20 @@ module.exports = async () => {
       bullBearScore,
       numMultipliers
     });
-    attemptBuy({
-      ticker,
-      quantity,
-      pickPrice: currentPrice,
-      fallbackToMarket: true
+    limitBuyMultiple({
+      totalAmtToSpend,
+      strategy: 'ACTONST',
+      withPrices: [{
+        ticker,
+        price: currentPrice
+      }]
     });
+    // attemptBuy({
+    //   ticker,
+    //   quantity,
+    //   pickPrice: currentPrice,
+    //   fallbackToMarket: true
+    // });
   }
 
 
