@@ -19,11 +19,15 @@ module.exports = async () => {
   const ofInterest = positions.filter(p => !p.wouldBeDayTrade);
   for (let p of ofInterest) {
     let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick } = p;
+
+    const multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150));
+
+    const targetAmt = maxPerPositionAfterSell * (multPullback + 2) / 2;
     
     let actualPercToSell = (() => {
-      if (percToSell === 100) return percToSell;
+      if (percToSell === 100) return 100;
       if (definedPercent[ticker]) return definedPercent[ticker];
-      return (1 - maxPerPositionAfterSell / Number(market_value)) * 100;
+      return (1 - targetAmt / Number(market_value)) * 100;
     })();
     
     if (actualPercToSell < 2) continue;
@@ -31,13 +35,6 @@ module.exports = async () => {
     // if (returnPerc < 0) {
     //   actualPercToSell = actualPercToSell / 1.5;
     // }
-
-    if (bullBearScore > 280) {
-      actualPercToSell = Math.min(80, actualPercToSell);
-    }
-
-    const multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150)) * 5;
-    actualPercToSell = actualPercToSell * (100 - multPullback) / 100;
 
     const stMultiplier = {
       bullish: 0.85,
@@ -68,6 +65,7 @@ module.exports = async () => {
       stMultiplier,
       qToSell,
       actualPercToSell,
+      targetAmt,
       multPullback,
       numMultipliers,
       avgMultipliersPerPick
