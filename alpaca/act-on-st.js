@@ -54,11 +54,19 @@ module.exports = async () => {
     .filter(p => (p.stSent || {}).bullBearScore > 170)
     .sort((a, b) => (b.stSent || {}).bullBearScore - (a.stSent || {}).bullBearScore)
     .slice(0, 7);
-  const specialExceptions = notDaytrades.filter(p =>
-    (p.stSent || {}).bullBearScore > BULLBEARSUPERBLASTLIMIT * 1.3  // 351
-    && p.returnPerc < -6
-    && getMinutesFromOpen() > 30
-  );
+
+
+  const exceptionAmts = {
+    400: 0,
+    350: -2,
+    300: -4,
+    250: -6,
+  };
+  const specialExceptions = notDaytrades.filter(p => {
+    const foundExc = Object.entries(exceptionAmts).find(([bbScore]) => (p.stSent || {}).bullBearScore >= Number(bbScore));
+    const passesExc = p.returnPerc < foundExc[1];
+    return passesExc && getMinutesFromOpen() > 30;
+  });
   if (specialExceptions.length) {
     await log(`actonst special exceptions (super bullish not daytrades) - ${label(specialExceptions)}`);
   }
