@@ -46,7 +46,7 @@ module.exports = async (isRegularHours = true) => {
     daytradeCount: daytrade_count,
   };
 
-  if (lastDtCount && daytrade_count && lastDtCount !== daytrade_count) {
+  if (lastDtCount !== undefined && daytrade_count && lastDtCount !== daytrade_count) {
     await sendEmail('force', 'DAYTRADE ALERT!', `last: ${lastDtCount} now ${daytrade_count}`);
     await log(`ERROR: DAYTRADE ALERT FROM ${lastDtCount} to ${daytrade_count}`);
     if (lastDtCount < daytrade_count) {
