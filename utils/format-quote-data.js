@@ -1,5 +1,5 @@
 
-const formatQuoteData = (originalQuoteData) => {
+const formatQuoteData = (originalQuoteData = {}) => {
     const { 
         last_trade_price, 
         adjusted_previous_close,
