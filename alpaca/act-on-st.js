@@ -64,7 +64,7 @@ module.exports = async () => {
   };
   const specialExceptions = notDaytrades.filter(p => {
     const foundExc = Object.entries(exceptionAmts).find(([bbScore]) => (p.stSent || {}).bullBearScore >= Number(bbScore));
-    const passesExc = passesExc && p.returnPerc < foundExc[1];
+    const passesExc = foundExc && p.returnPerc < foundExc[1];
     return passesExc && getMinutesFromOpen() > 30;
   });
   if (specialExceptions.length) {
