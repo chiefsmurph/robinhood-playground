@@ -22,6 +22,7 @@ const alpacaHopefulSells = require('../alpaca/hopeful-sells');
 // const saveDayReport = require('../app-actions/save-day-report');
 const restartProcess = require('../app-actions/restart-process');
 const sendScreenshot = require('../app-actions/send-screenshot');
+const afterHoursBuys = require('../app-actions/afterhours-buys');
 
 // utils
 // const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
@@ -162,6 +163,12 @@ const additionalCron = [
         name: 'getAllTickers',
         run: [1027, 70, 200],
         fn: getAllTickers
+    },
+
+    {
+        name: 'afterhours buys',
+        run: [389],
+        fn: afterHoursBuys
     },
 
     // {
