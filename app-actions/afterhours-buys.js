@@ -7,7 +7,7 @@ module.exports = async (_, dontAct) => {
 
     await Promise.all(
         positions
-            .filter(({ wouldBeDayTrade }) => !wouldBeDayTrade)
+            .filter(({ wouldBeDayTrade }) => wouldBeDayTrade)
             .map(async (position, index) => {
                 const { ticker, currentPrice } = position;
                 await new Promise(resolve => setTimeout(resolve, 1500 * index));
