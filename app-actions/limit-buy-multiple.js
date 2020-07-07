@@ -310,11 +310,8 @@ module.exports = async ({
         //amtToSpendLeft / (maxNumStocksToPurchase - numPurchased);
         try {
 
-
-
             // prevent day trades!!
             await alpacaCancelAllOrders(ticker, 'sell');
-
 
             const pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
             const totalQuantity = Math.round(perStock / pickPrice) || 1;
