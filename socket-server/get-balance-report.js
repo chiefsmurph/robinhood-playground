@@ -23,7 +23,7 @@ module.exports = async (isRegularHours = true) => {
 
   const account = await alpaca.getAccount();
   console.log('Current Account:', account);
-  const { equity, buying_power, cash, daytrade_count, maintenance_margin } = account;
+  const { equity, buying_power, cash, daytrade_count, maintenance_margin, long_market_value } = account;
 
   const offsetByRs = balance => {
       const curRsOffset = require('./strat-manager').getReverseSplitOffset();
@@ -43,6 +43,7 @@ module.exports = async (isRegularHours = true) => {
     cash: +Number(cash).toFixed(2),
     buyingPower: +Number(buying_power).toFixed(2),
     maintenanceMargin: +Number(maintenance_margin).toFixed(2),
+    longMarketValue: +Number(long_market_value).toFixed(2),
     daytradeCount: daytrade_count,
   };
 

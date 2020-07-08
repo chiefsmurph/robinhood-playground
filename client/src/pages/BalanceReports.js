@@ -264,7 +264,7 @@ class DayReports extends Component {
     }
     setTimeFilter = timeFilter => this.setState({ timeFilter });
     render () {
-        let { balanceReports, dayReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin }, setAppState, lowKey, showBalance, onlyRegHrs } = this.props;
+        let { balanceReports, dayReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, showBalance, onlyRegHrs } = this.props;
         let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations,  } = this.state;
         if (!balanceReports || !balanceReports.length) return <b>LOADING</b>;
 
@@ -549,7 +549,8 @@ class DayReports extends Component {
                                 Cash: ${cash}<br/>
                                 Buying Power: ${buyingPower}<br/>
                                 Daytrade Count: {daytradeCount}<br/>
-                                Maintanence Amt : ${maintenanceMargin}
+                                Maintenence Amt: ${maintenanceMargin}<br/>
+                                Long Market Value: ${longMarketValue}
                             </div>
                         )
                     }
