@@ -37,7 +37,12 @@ module.exports = async (_, dontAct) => {
   });
 
 
-  const mult = getMinutesFromOpen() > 460 ? 1 : .99;
+  const min = getMinutesFromOpen();
+  const mult = (() => {
+    if (min > 360) return 1.01;
+    if (min < 400) return .99;
+    return 1;
+  })();
   await Promise.all(
     daytrades.map(async (position, index) => {
       const { ticker, currentPrice } = position;
