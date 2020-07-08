@@ -4,11 +4,19 @@ const limitBuyMultiple = require('./limit-buy-multiple');
 const { onlyUseCash } = require('../settings');
 const lookup = require('../utils/lookup');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 module.exports = async (_, dontAct) => {
 
+  // step 1 get positions
   let positions = await getPositions();
   const daytrades = positions.filter(({ wouldBeDayTrade }) => wouldBeDayTrade);
+
+
+  // step two get account
+  // and calc amtToSpend perStock
+  await alpacaCancelAllOrders(undefined, 'buy');
+
 
 
   const account = await alpaca.getAccount();
@@ -29,15 +37,14 @@ module.exports = async (_, dontAct) => {
   });
 
 
-  await alpacaCancelAllOrders(undefined, 'buy');
-
+  const mult = getMinutesFromOpen() > 460 ? 1 : .99;
   await Promise.all(
     daytrades.map(async (position, index) => {
       const { ticker, currentPrice } = position;
       await new Promise(resolve => setTimeout(resolve, 1500 * index));
       await log(`afterhours buy ${ticker}`);
       const l = await lookup(ticker) || {};
-      const price = (l.currentPrice || currentPrice) * .99;
+      const price = (l.currentPrice || currentPrice) * mult;
       return limitBuyMultiple({
         totalAmtToSpend: perStock,
         strategy: 'ahbuys',
