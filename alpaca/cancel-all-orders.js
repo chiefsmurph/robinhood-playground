@@ -20,8 +20,13 @@ module.exports = async (ticker, side) => {
         console.log(await alpaca.cancelOrder(order.id));
     }
 
-    if (matchingOrders.length && ticker && side) {
-        await log(`canceled ${matchingOrders.length} orders on ${ticker} canceled ${side}s`);
+    if (matchingOrders.length) {
+        const logStr = [
+            `canceled ${matchingOrders.length} orders`,
+            ticker && `on ${ticker}`,
+            side && `canceled ${side}s`
+        ].filter(Boolean).join(' ');
+        await log(logStr);
     }
 
     await new Promise(resolve => setTimeout(resolve, 3000));

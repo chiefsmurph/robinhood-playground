@@ -2,6 +2,8 @@ const { alpaca } = require('../alpaca');
 const getPositions = require('../alpaca/get-positions');
 const limitBuyMultiple = require('./limit-buy-multiple');
 const { onlyUseCash } = require('../settings');
+const lookup = require('../utils/lookup');
+const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 
 module.exports = async (_, dontAct) => {
 
@@ -17,7 +19,7 @@ module.exports = async (_, dontAct) => {
     if (onlyUseCash) return cash;
     // if (equity < maintenance_margin) return maintenance_margin - equity;
     return buying_power;
-  });
+  })();
   const maxPerStock = equity / 53;
   const perStock = Math.min(amtToSpend / daytrades.length, maxPerStock);
   await log(`after hours buys $${perStock} / stock`, {
@@ -26,19 +28,24 @@ module.exports = async (_, dontAct) => {
     maxPerStock
   });
 
+
+  await alpacaCancelAllOrders(undefined, 'buy');
+
   await Promise.all(
     daytrades.map(async (position, index) => {
       const { ticker, currentPrice } = position;
       await new Promise(resolve => setTimeout(resolve, 1500 * index));
       await log(`afterhours buy ${ticker}`);
+      const l = await lookup(ticker) || {};
+      const price = (l.currentPrice || currentPrice) * .99;
       return limitBuyMultiple({
         totalAmtToSpend: perStock,
         strategy: 'ahbuys',
         withPrices: [{
           ticker,
-          price: currentPrice
+          price,
         }]
-      })
+      });
     })
   );
 };
