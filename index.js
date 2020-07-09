@@ -84,7 +84,7 @@ process.on('unhandledRejection', async (reason, p) => {
 
 
     // await cancelAllOrders();         // no dont cancel robinhood
-    onlyUseCash && await alpacaCancelAllOrders();
+    false && onlyUseCash && await alpacaCancelAllOrders();
 
 
     await RealtimeRunner.init(DISABLE_REALTIME);
