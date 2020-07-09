@@ -16,7 +16,6 @@ module.exports = async () => {
 
   if (onlyUseCash) {
     amtToSpend *= 0.6;
-    const account = await alpaca.getAccount();
     const maxDollarsToSpendAllowed = Number(account.cash) / 2;
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
   }
