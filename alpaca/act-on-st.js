@@ -1,6 +1,6 @@
 const getPositions = require('./get-positions');
 const { alpaca } = require('.');
-const { partition } = require('underscore');
+const { partition, pick } = require('underscore');
 const { sumArray } = require('../utils/array-math');
 const { actOnStPercent, onlyUseCash } = require('../settings');
 const sellPosition = require('./sell-position');
@@ -29,6 +29,13 @@ module.exports = async () => {
 
 
   const positions = await getPositions();
+
+
+  await log('ACTONST POSITIONS', {
+    positions: positions.sort((a, b) => Number(b.market_value) - Number(a.market_value)).map(p => pick(p, ['ticker', 'wouldBeDayTrade', 'stSent']))
+  })
+
+
   const [daytrades, notDaytrades] = partition(positions, p => p.wouldBeDayTrade);
 
   const label = ps => ps.map(p => p.ticker).join(', ');
