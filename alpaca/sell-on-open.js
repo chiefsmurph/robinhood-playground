@@ -2,6 +2,7 @@ const getPositions = require('./get-positions');
 const { alpaca } = require('.');
 const { maxPerPositionAfterOpenPerc } = require('../settings');
 const alpacaAttemptSell = require('./attempt-sell')
+const { onlyUseCash } = require('../settings');
 
 const definedPercent = {
   DGLY: 20,
@@ -20,7 +21,17 @@ module.exports = async () => {
   for (let p of ofInterest) {
     let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
 
-    const multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150));
+    let multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150));
+
+    if (Math.abs(returnPerc) < 3) {
+      // sell less
+      multPullback++;
+    }
+
+    if (onlyUseCash) {
+      // sell more
+      multPullback--;
+    }
 
     const targetAmt = maxPerPositionAfterSell * (multPullback + 2) / 2;
     
@@ -31,10 +42,6 @@ module.exports = async () => {
     })();
     
     if (actualPercToSell < 2) continue;
-
-    // if (returnPerc < 0) {
-    //   actualPercToSell = actualPercToSell / 1.5;
-    // }
 
     const stMultiplier = {
       bullish: 0.85,
