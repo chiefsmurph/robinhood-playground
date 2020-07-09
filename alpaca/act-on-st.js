@@ -32,7 +32,13 @@ module.exports = async () => {
 
 
   await log('ACTONST POSITIONS', {
-    positions: positions.sort((a, b) => Number(b.market_value) - Number(a.market_value)).map(p => pick(p, ['ticker', 'wouldBeDayTrade', 'stSent']))
+    positions: positions
+      .sort((a, b) => Number(b.market_value) - Number(a.market_value))
+      .map(p => ({
+        ...p,
+        bullBearScore: (p.stSent || {}).bullBearScore
+      }))
+      .map(p => pick(p, ['ticker', 'wouldBeDayTrade', 'returnPerc', 'bullBearScore']))
   })
 
 
