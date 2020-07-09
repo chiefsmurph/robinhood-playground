@@ -10,6 +10,7 @@ const definedPercent = {
 
 module.exports = async () => {
   const { equity } = await alpaca.getAccount();
+
   const maxPerPositionAfterSell = equity * (maxPerPositionAfterOpenPerc / 100);
 
   const positions = await getPositions();
@@ -17,7 +18,16 @@ module.exports = async () => {
 
   await log(`sell on open... maxPerPositionAfterSell: ${maxPerPositionAfterSell}`, { maxPerPositionAfterOpenPerc });
 
-  const ofInterest = positions.filter(p => !p.wouldBeDayTrade);
+  const ofInterest = positions
+    .filter(p => !p.wouldBeDayTrade)
+    .filter(p => Number(p.market_value) > equity / 142); // ~$40
+  const totalValue = sumArray(ofInterest.map(p => Number(p.market_value)));
+
+
+  // onlyUseCash same sell perc for all
+  const totalCashTarget = equity / 5;
+  const cashOnlySellPerc = totalCashTarget / totalValue * 100;
+
   for (let p of ofInterest) {
     let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
 
@@ -28,12 +38,7 @@ module.exports = async () => {
       multPullback++;
     }
 
-    if (onlyUseCash) {
-      // sell more
-      multPullback--;
-    }
-
-    const targetAmt = maxPerPositionAfterSell * (multPullback + 2) / 2;
+    const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 2) / 2;
     
     let actualPercToSell = (() => {
       if (percToSell === 100) return 100;
