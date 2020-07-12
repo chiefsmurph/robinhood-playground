@@ -370,7 +370,10 @@ const finalize = array => {
           zScoreMagic,
           zScoreHotAndCool,
           zScoreGoingBadLookingGood
-        }, n => n.twoDec())
+        }, n => n.twoDec()),
+
+
+        zScores: buy.zScores
         
       };
     })

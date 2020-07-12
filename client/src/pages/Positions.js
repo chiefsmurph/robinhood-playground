@@ -56,13 +56,20 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
             ),
         },
         // 'buy strategies': 'buyStrategy',
-        bullBearScore: ({ stSent = {} }) => stSent.bullBearScore,
-        stBracket: ({ stSent: { stBracket, upperLimit, lowerLimit, wordFlags = [] } = {} }) => (
+        bullBearScore: ({ stSent: { bullBearScore, stBracket, wordFlags = [] } }) => (
             <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
-                <span>{stBracket}</span>    
-                {/* ({lowerLimit} -> {upperLimit}) */}
+                <span>{[bullBearScore, '-', stBracket].join(' ')}</span>
             </span>
         ),
+        volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
+        projectedVolumeTo2WeekAvg: ({ scan: { projectedVolumeTo2WeekAvg } = {}}) => projectedVolumeTo2WeekAvg,
+        dailyRSI: ({ scan: { dailyRSI } = {}}) => dailyRSI,
+        // stBracket: ({ stSent: { stBracket, upperLimit, lowerLimit, wordFlags = [] } = {} }) => (
+        //     <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
+        //         <span>{stBracket}</span>    
+        //         {/* ({lowerLimit} -> {upperLimit}) */}
+        //     </span>
+        // ),
         recommendation: 'recommendation',
         percToSell: 'percToSell',
         wouldBeDayTrade: pos => pos.wouldBeDayTrade ? 'true' : '',

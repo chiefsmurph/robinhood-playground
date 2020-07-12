@@ -259,7 +259,7 @@ class DayReports extends Component {
     }
     componentDidMount() {
         this.setState({
-            fuzzFactor: smallDevice && this.state.numDaysToShow === 1 ? 2 : 1
+            fuzzFactor: !smallDevice && this.state.numDaysToShow === 1 ? 2 : 1
         })
     }
     setTimeFilter = timeFilter => this.setState({ timeFilter });
