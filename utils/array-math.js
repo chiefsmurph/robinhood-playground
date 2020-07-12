@@ -1,9 +1,11 @@
 const sumArray = arr => {
-    return arr.reduce((acc, val) => acc + val, 0);
+    return arr
+        .filter(v => v !== undefined)
+        .reduce((acc, val) => acc + val, 0);
   };
   
 const avgArray = arr => {
-return sumArray(arr) / arr.length;
+    return sumArray(arr) / arr.length;
 };
 
 const percUp = arr => arr.filter(v => v > 0).length / arr.length * 100;
@@ -15,8 +17,8 @@ const hundredResult = arr =>
 const standardDeviation = function (data) {
     const m = avgArray(data);
     return Math.sqrt(data.reduce(function (sq, n) {
-            return sq + Math.pow(n - m, 2);
-        }, 0) / (data.length - 1));
+        return sq + Math.pow(n - m, 2);
+    }, 0) / (data.length - 1));
 };
 
 const zScore = (arr, val) => {

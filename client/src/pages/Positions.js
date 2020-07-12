@@ -56,9 +56,17 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
             ),
         },
         // 'buy strategies': 'buyStrategy',
-        bullBearScore: ({ stSent: { bullBearScore, stBracket, wordFlags = [] } }) => (
+        bullBearScore: ({ stSent: { bullBearScore, stBracket, wordFlags = [] }, scan: { zScores: { stSent } = {} } = {} }) => (
             <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
-                <span>{[bullBearScore, '-', stBracket].join(' ')}</span>
+                <span>
+                    {
+                        [
+                            bullBearScore, 
+                            stBracket && `- ${stBracket}`, 
+                            stSent && `(${stSent})`
+                        ].filter(Boolean).join(' ')
+                    }
+                </span>
             </span>
         ),
         volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,

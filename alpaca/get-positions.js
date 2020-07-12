@@ -15,6 +15,7 @@ const runScan = require('../scans/base/run-scan');
 
 const cacheThis = require('../utils/cache-this');
 
+const addSingleZScores = require('./add-single-zscores');
 
 const cachedScan = cacheThis(async tickers => {
   const scan = await runScan({
@@ -402,8 +403,8 @@ module.exports = async (
   }));
 
 
-  
+  const withSingleZScores = addSingleZScores(withScan)
 
-  return withScan;
+  return withSingleZScores;
 
 };
