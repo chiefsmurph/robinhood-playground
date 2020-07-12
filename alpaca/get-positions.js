@@ -11,6 +11,25 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const analyzePosition = require('../analysis/positions/analyze-position');
 const { sellBelow = {}, sellAbove = {}, force: { keep }, continueDownForDays } = require('../settings');
 const getBalance = require('./get-balance');
+const runScan = require('../scans/base/run-scan');
+
+const cacheThis = require('../utils/cache-this');
+
+
+const cachedScan = cacheThis(async tickers => {
+  const scan = await runScan({
+    tickers,
+    minPrice: Number.NEGATIVE_INFINITY,
+    maxPrice: Number.POSITIVE_INFINITY
+  });
+  return scan.reduce((acc, { ticker, ...result }) => ({
+    ...acc,
+    [ticker]: result
+  }), {});
+}); // 20 minutes
+
+
+
 
 const checkForHugeDrop = position => {
   let { currentPrice, returnPerc: actualReturnPerc, avgEntry: actualEntry, buys = [], ticker } = position;
@@ -83,6 +102,15 @@ module.exports = async (
   // strlog({ uniqDates })
   
   let positions = (await alpaca.getPositions());
+
+  const scan = await cachedScan(
+    positions.map(p => p.symbol)
+  );
+
+
+  await new Promise(resolve => setTimeout(resolve, 5000));
+
+
   // strlog({ positions })
   positions = positions.map(({ 
     symbol, 
@@ -368,9 +396,14 @@ module.exports = async (
     percToSell: getPercToSell(position)
   }));
 
+  const withScan = withRecommendations.map(position => ({
+    ...position,
+    scan: scan[position.ticker]
+  }));
+
 
   
 
-  return withRecommendations;
+  return withScan;
 
 };
