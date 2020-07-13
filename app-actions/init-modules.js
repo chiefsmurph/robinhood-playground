@@ -58,7 +58,7 @@ module.exports = async () => {
             const moduleFile = require(file);
             handleModuleFile(moduleFile);
         } catch (e) {
-            console.log('unable to init', file, e);
+            console.error('unable to init', file, e);
         }
         // }
     }

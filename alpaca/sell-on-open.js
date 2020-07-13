@@ -72,7 +72,7 @@ module.exports = async () => {
     // }).catch(console.error);
     secondQ && alpacaAttemptSell({
       ticker,
-      quantity: qToSell,
+      quantity: secondQ,
       fallbackToMarket: true,
     });
     await log(`selling ${qToSell} shares of ${ticker} (${actualPercToSell}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
