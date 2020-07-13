@@ -406,7 +406,6 @@ class App extends Component {
 
         const showingPage = value || 0;
         const thing = pages.find(page => page.label === tabs[showingPage]);
-        console.log({ thing });
         const { component: PageComponent } = thing;
         return (
             <div className="App">

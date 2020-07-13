@@ -6,7 +6,7 @@ const analyzeGroup = analyzedPositions => {
     // console.log({ analyzedPositions })
     let forConsideration = analyzedPositions.filter(position => (position.buys || []).length);
     forConsideration = analyzedPositions.filter(position => !isNaN(position.netImpact) && position.numPicks);
-    console.log({ forConsideration})
+    // console.log({ forConsideration})
     const totalBought = sumArray(forConsideration.map(pos => pos.totalBuyAmt));
     const totalImpact = sumArray(forConsideration.map(pos => pos.netImpact));
     const weightAvg = selector => avgArray(

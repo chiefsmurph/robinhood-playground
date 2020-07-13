@@ -57,10 +57,15 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, currentPrice, zScoreFinal } = position;
+    const { ticker, currentPrice, zScoreFinal, zScoreSum } = position;
     await cancelAllOrders(ticker, 'sell');
-    const multiplier = Math.ceil(zScoreFinal);
-    const totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
+    const MAX_MULT = 4;
+    const multiplier = Math.min(MAX_MULT, Math.ceil(zScoreFinal));
+    let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
+    if (zScoreSum > 0) {
+      // interesting
+      totalAmtToSpend += Math.ceil(zScoreSum);
+    }
     const quantity = Math.ceil(totalAmtToSpend / currentPrice);
     await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${currentPrice}`, {
       ticker,

@@ -304,7 +304,7 @@ class DayReports extends Component {
             if (onlyRegHrs) {
                 copy = copy.filter(report => report.isRegularHours);
             }
-            console.log({ copy})
+            // console.log({ copy})
             const compareIndex = hoverIndex ? hoverIndex : copy.length - 1;
             const compare = get(copy[compareIndex], prop);
             return {

@@ -40,5 +40,5 @@ module.exports = positions => positions
   }))
   .map(position => ({
     ...position,
-    zScoreFinal: twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 3))
+    zScoreFinal: twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 2))
   }));;

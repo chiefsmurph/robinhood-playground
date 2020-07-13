@@ -58,7 +58,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
         // 'buy strategies': 'buyStrategy',
         bullBearScore: ({ stSent: { bullBearScore, stBracket, wordFlags = [] }, scan: { zScores: { stSent } = {} } = {} }) => (
             <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
-                <span>
+                <span className={stSent > 1 && 'green'}>
                     {
                         [
                             bullBearScore, 
@@ -69,10 +69,30 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
                 </span>
             </span>
         ),
-        volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
-        projectedVolumeTo2WeekAvg: ({ scan: { projectedVolumeTo2WeekAvg } = {}}) => projectedVolumeTo2WeekAvg,
-        zScoreFinal: ({ zScoreFinal } ) => zScoreFinal,
-        dailyRSI: ({ scan: { dailyRSI } = {}}) => dailyRSI,
+        dailyRSI: ({ scan: { dailyRSI, zScores: { dailyRSI: zScore } = {} } = {}}) => (
+            <span className={zScore < -0.5 && 'green'}>
+                {[Math.round(dailyRSI), zScore && `(${zScore})`].filter(Boolean).join(' ')}
+            </span>
+        ),
+        // volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
+        volumeTo2WeekAvg: ({ scan: { projectedVolumeTo2WeekAvg, zScores: { projectedVolumeTo2WeekAvg: zScore } = {} } = {}}) => (
+            <span className={zScore > 0.5 && 'green'}>
+                {[projectedVolumeTo2WeekAvg, zScore && `(${zScore})`].filter(Boolean).join(' ')}
+            </span>
+        ),
+            
+        zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
+            scan ? (
+                <span className={zScoreRelative > 0.5 && 'green'}>
+                    {`${zScoreSum.toFixed(2)} (${zScoreRelative.toFixed(2)})`}
+                </span>
+            ) : null,
+    
+        zScoreFinal: ({ zScoreFinal, scan } ) => scan ? (
+            <span className={zScoreFinal > 1 && 'green'}>
+                {zScoreFinal}
+            </span>
+        ) : null,
         // stBracket: ({ stSent: { stBracket, upperLimit, lowerLimit, wordFlags = [] } = {} }) => (
         //     <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
         //         <span>{stBracket}</span>    
