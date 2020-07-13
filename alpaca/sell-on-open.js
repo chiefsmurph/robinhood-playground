@@ -3,6 +3,7 @@ const { alpaca } = require('.');
 const { maxPerPositionAfterOpenPerc } = require('../settings');
 const alpacaAttemptSell = require('./attempt-sell')
 const { onlyUseCash } = require('../settings');
+const { sumArray } = require('../utils/array-math');
 
 const definedPercent = {
   DGLY: 20,
