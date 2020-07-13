@@ -71,6 +71,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
         ),
         volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
         projectedVolumeTo2WeekAvg: ({ scan: { projectedVolumeTo2WeekAvg } = {}}) => projectedVolumeTo2WeekAvg,
+        zScoreFinal: ({ zScoreFinal } ) => zScoreFinal,
         dailyRSI: ({ scan: { dailyRSI } = {}}) => dailyRSI,
         // stBracket: ({ stSent: { stBracket, upperLimit, lowerLimit, wordFlags = [] } = {} }) => (
         //     <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>

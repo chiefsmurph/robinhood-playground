@@ -31,6 +31,7 @@ const getActiveHalts = require('../utils/get-active-halts');
 
 const alpacaActOnSt = require('../alpaca/act-on-st');
 const alpacaActOnMultipliers = require('../alpaca/act-on-multipliers');
+const alpacaActOnZScoreFinal = require('../alpaca/act-on-zscore-final');
 
 const riskCache = {};
 
@@ -279,7 +280,7 @@ module.exports = new (class RealtimeRunner {
           'every 20 minutes - alpaca act on st',
           () => alpacaActOnSt(),
         ),
-        60 * 1000 * 20 // 15 min
+        60 * 1000 * 20 // 20 min
       ),
 
       setInterval(() => 
@@ -287,7 +288,15 @@ module.exports = new (class RealtimeRunner {
           'every 16 minutes - alpaca act on multipliers',
           () => alpacaActOnMultipliers(),
         ),
-        60 * 1000 * 16 // 15 min
+        60 * 1000 * 16 // 16 minutes
+      ),
+
+      setInterval(() => 
+        this.timedAsync(
+          'every 26 minutes - alpaca act on zscore final',
+          () => alpacaActOnZScoreFinal(),
+        ),
+        60 * 1000 * 26 // 26 min
       ),
 
     ];
