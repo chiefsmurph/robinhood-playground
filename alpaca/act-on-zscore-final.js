@@ -41,7 +41,12 @@ module.exports = async () => {
   })
 
 
-  const toBuy = positions.filter(p => p.wouldBeDayTrade && p.zScoreFinal > 1 && p.scan);
+  const toBuy = positions
+    .map(p => ({
+      ...p,
+      wouldBeDayTrade: true
+    }))
+    .filter(p => p.wouldBeDayTrade && p.zScoreFinal > 0.7 && p.scan);
   const label = ps => ps.map(p => p.ticker).join(', ');
 
   const totalValue = sumArray(
