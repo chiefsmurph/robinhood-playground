@@ -61,7 +61,7 @@ const additionalCron = [
 
     {
         name: 'alpacaSellOnOpen',
-        run: [-12],
+        run: [3],
         fn: () => alpacaSellOnOpen()
     },
 

@@ -63,16 +63,16 @@ module.exports = async () => {
 
     const halfQ = Math.ceil(qToSell / 2);
     const secondQ = qToSell - halfQ;
-    await alpaca.createOrder({
-      symbol: ticker, // any valid ticker symbol
-      qty: halfQ,
-      side: 'sell',
-      type: 'market',
-      time_in_force: 'opg',
-    }).catch(console.error);
+    // await alpaca.createOrder({
+    //   symbol: ticker, // any valid ticker symbol
+    //   qty: halfQ,
+    //   side: 'sell',
+    //   type: 'market',
+    //   time_in_force: 'opg',
+    // }).catch(console.error);
     secondQ && alpacaAttemptSell({
       ticker,
-      quantity: secondQ,
+      quantity: qToSell,
       fallbackToMarket: true,
     });
     await log(`selling ${qToSell} shares of ${ticker} (${actualPercToSell}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
