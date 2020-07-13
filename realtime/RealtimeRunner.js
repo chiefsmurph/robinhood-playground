@@ -292,10 +292,7 @@ module.exports = new (class RealtimeRunner {
       ),
 
       setTimeout(() => 
-        this.timedAsync(
-          'first alpaca act on zscore final 5 min after open',
-          () => alpacaActOnZScoreFinal(),
-        ) && setInterval(() => 
+        setInterval(() => 
           this.timedAsync(
             'every 26 minutes - alpaca act on zscore final',
             () => alpacaActOnZScoreFinal(),

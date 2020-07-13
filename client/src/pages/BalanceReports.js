@@ -235,7 +235,7 @@ class DayReports extends Component {
             numDaysToShow: 1,
             hoverIndex: null,
             afterHoursAnnotations: [],
-            fuzzFactor: 2,
+            fuzzFactor: 1,
             showBalance: false,
             lowKey: true,
             onlyRegHrs: false
@@ -258,9 +258,9 @@ class DayReports extends Component {
         }
     }
     componentDidMount() {
-        this.setState({
-            fuzzFactor: !smallDevice && this.state.numDaysToShow === 1 ? 2 : 1
-        })
+        // this.setState({
+        //     fuzzFactor: !smallDevice && this.state.numDaysToShow === 1 ? 2 : 1
+        // })
     }
     setTimeFilter = timeFilter => this.setState({ timeFilter });
     render () {
