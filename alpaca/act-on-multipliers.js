@@ -48,7 +48,7 @@ module.exports = async () => {
   for (let position of toBuy) {
     const { ticker, stSent, currentPrice, numMultipliers, returnPerc } = position;
     await cancelAllOrders(ticker, 'sell');
-    const quantity = Math.ceil(dollarsToBuyPerStock / currentPrice);
+    const quantity = Math.ceil(3 * dollarsToBuyPerStock / currentPrice);
     await log(`ACTONMULT buying ${ticker} about $${Math.round(currentPrice * quantity)} around ${currentPrice} bc numMultipliers ${numMultipliers} & returnPerc ${returnPerc}`, {
       ticker,
       quantity,
