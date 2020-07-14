@@ -43,7 +43,7 @@ module.exports = async () => {
 
 
   const toBuy = positions
-    .filter(p => p.wouldBeDayTrade && p.zScoreFinal > 0.7 && p.scan);
+    .filter(p => p.wouldBeDayTrade && p.zScoreFinal > 0.7 && p.scan && p.zScoreSum > 0);
   const label = ps => ps.map(p => p.ticker).join(', ');
 
   const totalValue = sumArray(
@@ -63,10 +63,8 @@ module.exports = async () => {
     const MAX_MULT = 4;
     const multiplier = Math.min(MAX_MULT, Math.ceil(zScoreFinal));
     let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
-    if (zScoreSum > 0) {
-      // interesting
-      totalAmtToSpend += Math.ceil(zScoreSum);
-    }
+    // interesting....
+    totalAmtToSpend += Math.ceil(zScoreSum);
     const quantity = Math.ceil(totalAmtToSpend / currentPrice);
     await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${currentPrice}`, {
       ticker,
