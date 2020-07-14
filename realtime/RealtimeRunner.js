@@ -308,6 +308,7 @@ module.exports = new (class RealtimeRunner {
   }
 
   stop() {
+    await log('STOPPING THE REALTIME RUNNER NOW');
     this.currentlyRunning = false;
     if (this.intervals) {
       this.intervals.forEach(clearInterval);
