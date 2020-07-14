@@ -2,10 +2,9 @@ module.exports = async (ticker, side) => {
     console.log({ ticker, side})
     const { alpaca } = require('.');
     const orders = await alpaca.getOrders({
-        status: 'all',
-        // ticker: 'ELGX'
+        status: 'open'
     });
-    str({ orders })
+    // str({ orders })
 
     const matchingOrders = orders.filter(order => {
         return (
