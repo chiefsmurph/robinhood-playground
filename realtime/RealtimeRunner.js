@@ -307,7 +307,7 @@ module.exports = new (class RealtimeRunner {
     this.everyFiveMinutes();
   }
 
-  stop() {
+  async stop() {
     await log('STOPPING THE REALTIME RUNNER NOW');
     this.currentlyRunning = false;
     if (this.intervals) {
