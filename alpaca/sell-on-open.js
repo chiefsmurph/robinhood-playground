@@ -85,8 +85,6 @@ module.exports = async () => {
         });
       }, 1000 * 60 * 6);
     }
-    quarterQ && 
-    quarterQ
     await log(`selling ${qToSell} shares of ${ticker} (${actualPercToSell}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
       ticker,
       stMultiplier,
