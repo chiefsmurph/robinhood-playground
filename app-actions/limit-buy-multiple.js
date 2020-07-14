@@ -37,7 +37,7 @@ const executeBuys = async ({
     }
 
     const totalDollars = pickPrice * quantity;
-    const sliceCount = Math.min(Math.floor(totalDollars / 2) || 1, buyStyles.length);
+    const sliceCount = Math.min(Math.floor(totalDollars / 5) || 1, buyStyles.length);
     const individualQuantity = Math.floor(quantity / sliceCount) || 1;
     console.log({
         totalDollars,
