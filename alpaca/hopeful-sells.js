@@ -5,7 +5,7 @@ module.exports = async () => {
 
   const positions = await getPositions(true);
 
-  const ofInterest = positions.filter(pos => pos.sellOffDaysLeft > 0 && !pos.wouldBeDayTrade & pos.returnPerc > 0);
+  const ofInterest = positions.filter(pos => pos.sellOffDaysLeft > 0 && !pos.wouldBeDayTrade & pos.returnPerc > 0 & pos.quantity > 5);
 
   for (let { ticker, currentPrice, quantity } of ofInterest) {
     await limitSell({
