@@ -25,7 +25,7 @@ module.exports = async (_, dontAct) => {
 
   const amtToSpend = (() => {
     if (onlyUseCash) return cash;
-    // if (equity < maintenance_margin) return maintenance_margin - equity;
+    if (equity < maintenance_margin) return maintenance_margin - equity;
     return buying_power;
   })();
   const maxPerStock = equity / 53;
@@ -36,6 +36,14 @@ module.exports = async (_, dontAct) => {
     maxPerStock
   });
 
+
+  if (perStock < 0) return log('sorry after hours buys not happening because perStock < 0', {
+    equity,
+    maintenance_margin,
+    buying_power,
+    maxPerStock,
+    perStock
+  })
 
   const min = getMinutesFromOpen();
   const mult = (() => {
