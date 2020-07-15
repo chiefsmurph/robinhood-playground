@@ -69,10 +69,10 @@ module.exports = async () => {
 
     strlog({ notDaytrades })
   const exceptionAmts = {
-    400: -2,
-    350: -4,
-    300: -6,
-    250: -8,
+    400: 2,
+    350: 0,
+    300: -2,
+    250: -4,
   };
   const specialExceptions = notDaytrades.filter(p => {
     const foundExc = Object.entries(exceptionAmts).find(([bbScore]) => (p.stSent || {}).bullBearScore >= Number(bbScore));
