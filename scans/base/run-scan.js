@@ -181,7 +181,7 @@ const runScan = async ({
       ...buy,
       computed: {
         ...buy.computed,
-        projectedVolumeTo2WeekAvg: (buy.computed.projectedVolume / buy.fundamentals.average_volume_2_weeks).twoDec(),
+        projectedVolumeTo2WeekAvg: Math.min(500, buy.computed.projectedVolume / buy.fundamentals.average_volume_2_weeks).twoDec(),
       }
     }))
     .filter(buy => {
