@@ -82,8 +82,6 @@ module.exports = async () => {
   if (specialExceptions.length) {
     await log(`actonst special exceptions (super bullish not daytrades) - ${label(specialExceptions)}`);
   }
-  strlog({ specialExceptions })
-  return;
 
   const toBuy = [
     ...bullishDayTrades,
