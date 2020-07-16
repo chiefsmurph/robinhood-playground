@@ -2,7 +2,7 @@ const getPositions = require('./get-positions');
 const { alpaca } = require('.');
 const { partition, pick } = require('underscore');
 const { sumArray } = require('../utils/array-math');
-const { actOnStPercent, onlyUseCash } = require('../settings');
+const { actOnStPercent, onlyUseCash, disableActOnSt } = require('../settings');
 const sellPosition = require('./sell-position');
 const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
@@ -10,6 +10,8 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 
 module.exports = async () => {
+
+  if (disableActOnSt) return log('act on st disabled');
 
   const account = await alpaca.getAccount();
   let amtToSpend = Number(account.equity * actOnStPercent / 100);

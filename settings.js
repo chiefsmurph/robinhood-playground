@@ -55,7 +55,7 @@ module.exports = {
     // sellAllStocksOnNthDay: 8,
     purchaseAmt: 1.2,
     actOnStPercent: 0.5,
-    maxPerPositionAfterOpenPerc: 3.5,
+    maxPerPositionAfterOpenPerc: 2.5,
     
     onlyAvgDownOpenPositions: true,
     makeKeeperFundsAvailable: false,
@@ -63,6 +63,8 @@ module.exports = {
     
     onlyUseCash: false,
     skipPurchasing: false,   /// really?????
+    disableActOnSt: true,
+    disableActOnZscore: true,
 
     
     // expectedPickCount: 200,
