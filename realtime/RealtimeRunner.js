@@ -207,6 +207,12 @@ module.exports = new (class RealtimeRunner {
         fn: () => alpacaActOnSt()
     });
 
+    regCronIncAfterSixThirty({
+      name: 'RealtimeRunner: first act on zscore final',
+      run: [12],
+      fn: () => alpacaActOnZScoreFinal()
+  });
+
     if (dayInProgress(START_MIN)) {
       console.log('in progress');
 
