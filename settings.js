@@ -64,7 +64,7 @@ module.exports = {
     onlyUseCash: false,
     skipPurchasing: false,   /// really?????
     disableActOnSt: true,
-    disableActOnZscore: true,
+    disableActOnZscore: false,
 
     
     // expectedPickCount: 200,
