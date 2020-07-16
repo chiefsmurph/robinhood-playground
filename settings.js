@@ -63,7 +63,7 @@ module.exports = {
     
     onlyUseCash: false,
     skipPurchasing: false,   /// really?????
-    disableActOnSt: true,
+    disableActOnSt: false,
     disableActOnZscore: false,
 
     
