@@ -95,6 +95,7 @@ const runScan = async ({
   //   percComplete
   // });
   const withProjectedVolume = withFundamentals
+    .filter(buy => buy.fundamentals && buy.quote)
     .map(buy => {
       const projectedVolume = buy.fundamentals.volume / percComplete;
       const avgPrice = avgArray([
