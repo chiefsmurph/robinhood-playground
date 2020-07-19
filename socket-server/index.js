@@ -119,8 +119,8 @@ module.exports = new Promise(resolve => {
 
     io.on('connection', async socket => {
         const { request } = socket;
-        const ips = [request.ip, request.connection && request.connection.remoteAddress, socket.remoteAddress];
-        console.log({ ips });
+        const ips = [socket.request.connection.remoteAddress;, socket.handshake.address, request.ip, request.connection && request.connection.remoteAddress, socket.remoteAddress];
+        console.log(JSON.stringify({ ips }));
         const ip = ips.find(v => v);
         const userAgent = socket.request.headers['user-agent'];
 
