@@ -118,10 +118,16 @@ module.exports = new Promise(resolve => {
     });
 
     io.on('connection', async client => {
-        const ips = [client.handshake.headers['x-forwarded-for'] || client.handshake.address.address];
-        console.log(JSON.stringify({ ips }));
-        const ip = ips.find(v => v);
+        const ip = client.handshake.headers['x-forwarded-for'] || client.handshake.address.address;
         const userAgent = client.request.headers['user-agent'];
+
+        const { allowedIps = [] } = await getPreferences();
+        if (!allowedIps.includes(ip)) {
+            await log('ERROR: WARNING WARNING NEW ATTEMPT TO HACK! ${ip}', {
+                ip,
+                userAgent
+            });
+        }
 
         console.log('new connection');
         log(`new connection: ${ip} (${userAgent}`);
