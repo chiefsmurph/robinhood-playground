@@ -270,7 +270,7 @@ module.exports = async (
     
     const sellOffToday = shouldSellOff(position);
     if (sellOffToday) {
-      await log(`SELLOFF REC - ${ticker}`, {
+      log(`SELLOFF REC - ${ticker}`, {
         daysOld,
         mostRecentPurchase,
         bullBearScore,
