@@ -222,6 +222,11 @@ module.exports = new Promise(resolve => {
             socket.emit('server:strat-analysis', data);
         });
 
+        socket.on('client:save-preferences', async (preferences, cb) => {
+            await savePreferences(preferences);
+            cb();
+        });
+
         socket.on('client:run-scan', async ({ period }) => {
             console.log('run-scan', period);
             const results = period === 'd' 

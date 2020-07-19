@@ -46,25 +46,34 @@ const executeBuys = async ({
         quantity
     })
 
-    const buyPromises = buyStyles
-        .slice(0, sliceCount)
-        .map(
-            async ({ method, name = method.name, ...rest }, index) => {
-                const actualQuantity = Math.round(individualQuantity * ((100 + index) / 100));
-                console.log(`${name}: purchasing ${actualQuantity} shares of ${ticker}`);
-                // await new Promise(resolve => setTimeout(resolve, 1000 * Math.random() * 10))
-                const response = await method({
-                    ticker,
-                    quantity: actualQuantity,
-                    ...rest
-                });
-                return {
-                    name,
-                    fillPrice: getFillPriceFromResponse(response),
-                    ...response
-                };
-            }
-        );
+    const sliced = buyStyles.slice(0, sliceCount);
+
+    const buyStylesLog = sliced.map(({ method, name = method.name, limitPrice }) => 
+        [
+            name,
+            limitPrice
+        ]
+            .filter(Boolean)
+            .join(', ')
+    ).join(', ');
+    await log(`limit buy multiple ${ticker} - ${buyStylesLog}`)
+    const buyPromises = sliced.map(
+        async ({ method, name = method.name, ...rest }, index) => {
+            const actualQuantity = Math.round(individualQuantity * ((100 + index) / 100));
+            console.log(`${name}: purchasing ${actualQuantity} shares of ${ticker}`);
+            // await new Promise(resolve => setTimeout(resolve, 1000 * Math.random() * 10))
+            const response = await method({
+                ticker,
+                quantity: actualQuantity,
+                ...rest
+            });
+            return {
+                name,
+                fillPrice: getFillPriceFromResponse(response),
+                ...response
+            };
+        }
+    );
 
     const roundUp = await Promise.all(buyPromises);
 
@@ -316,7 +325,7 @@ module.exports = async ({
             const pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
             const totalQuantity = Math.round(perStock / pickPrice) || 1;
 
-            const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
+            // const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
             console.log({ totalQuantity, pickPrice, perStock });
 
             await log(`buying ${ticker} $${Math.round(perStock)}`, {
@@ -330,7 +339,7 @@ module.exports = async ({
                 if (strategy.includes('red-and-bullish')) return 'agressive';
                 if (!strategy.includes('sudden-drops')) return 'casual';
             })();
-            const response = await buyStock({
+            const response = await electicBuy({
                 ticker,
                 pickPrice,
                 quantity: totalQuantity,

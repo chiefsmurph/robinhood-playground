@@ -1,6 +1,8 @@
 // fix because new server formats like - year-month-day
 // we want month-day-year
 const Log = require('../models/Log');
+const jsonMgr = require('./json-mgr');
+
 const oldLocaleDateString = Date.prototype.toLocaleDateString;
 Date.prototype.toLocaleDateString = function() {
     // console.log('ouch baby.', this.getTime());
@@ -15,6 +17,9 @@ Date.prototype.toLocaleDateString = function() {
 console.log('ATTENTION');
 console.log(`CURRENT DATE: ${(new Date()).toLocaleDateString()}`);
 
+
+// RUTHLESS GLOBALS!!!
+
 global.log = async (title, data) => {
     const logObj = {
         title,
@@ -28,8 +33,8 @@ global.log = async (title, data) => {
     );
 };
 
-
-
+global.getPreferences = () => jsonMgr.get('./json/preferences.json');
+global.savePreferences = preferences => jsonMgr.save('./json/preferences.json', preferences);
 
 global.str = global.strlog = obj => console.log(JSON.stringify(obj, null, 2));
 global.mapLimit = require('promise-map-limit');

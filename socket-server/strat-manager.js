@@ -146,7 +146,8 @@ const stratManager = {
             overallAnalysis: JSON.parse(await fs.readFile('./json/overall-analysis.json')),
             ...require('../realtime/RealtimeRunner').getWelcomeData(),
             additionalAccountInfo: (await getBalanceReport()).additionalAccountInfo,
-            mostRecentLogs: await Log.getMostRecent()
+            mostRecentLogs: await Log.getMostRecent(),
+            preferences: await getPreferences()
         };
     },
     async refreshPositions(refreshClosed) {

@@ -10,7 +10,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     const account = await alpaca.getAccount();
     const { portfolio_value, cash, buying_power, long_market_value } = account;
 
-    purchaseAmt = purchaseAmt || Math.ceil(portfolio_value / expectedPickCount);
+    const { purchaseAmt = Math.ceil(portfolio_value / expectedPickCount) } = await getPreferences();
     const amountPerBuy = purchaseAmt * multiplier;
     strlog({
         purchaseAmt,
@@ -18,10 +18,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         amountPerBuy,
     });
 
-
     const amtLeft = Number(onlyUseCash ? cash : buying_power);
-
-
     
 
     const totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, cash);
