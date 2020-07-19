@@ -55,7 +55,7 @@ class Preferences extends Component {
         <b>You control things here...</b><br/>
 
         <a onClick={this.act('pullGit')} href="#">⬇️ GIT PULL</a>&nbsp;
-        <a onClick={this.act('restartProcess')} href="#">♻ PM2 RESTART</a>
+        <a onClick={this.act('restartProcess')} href="#">♻ PM2 RESTART</a><br/>
 
         <h3>Act on...</h3>
         <ul>

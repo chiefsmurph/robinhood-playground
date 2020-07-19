@@ -118,7 +118,7 @@ module.exports = new Promise(resolve => {
     });
 
     io.on('connection', async client => {
-        const ip = client.handshake.headers['x-forwarded-for'] || client.handshake.address.address;
+        const ip = (client.handshake.headers['x-forwarded-for'] || client.handshake.address.address).split(',')[0];
         const userAgent = client.request.headers['user-agent'];
 
         const { allowedIps = [] } = await getPreferences();
@@ -127,6 +127,7 @@ module.exports = new Promise(resolve => {
                 ip,
                 userAgent
             });
+            return;
         }
 
         console.log('new connection');
