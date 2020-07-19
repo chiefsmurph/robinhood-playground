@@ -2,15 +2,18 @@ const getPositions = require('./get-positions');
 const { alpaca } = require('.');
 const { partition, pick } = require('underscore');
 const { sumArray, zScore } = require('../utils/array-math');
-const { actOnStPercent, onlyUseCash, disableActOnZscore } = require('../settings');
 const sellPosition = require('./sell-position');
 const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 const lookup = require('../utils/lookup');
+const { disableActOnZscore } = require('../settings');
 
 module.exports = async () => {
+
+  const { onlyUseCash, actOnStPercent } = await getPreferences();
+
   if (disableActOnZscore) return log('act on zscore disabled');
   
   const account = await alpaca.getAccount();

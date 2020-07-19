@@ -2,13 +2,15 @@ const getPositions = require('./get-positions');
 const { alpaca } = require('.');
 const { partition } = require('underscore');
 const { sumArray } = require('../utils/array-math');
-const { actOnStPercent, onlyUseCash } = require('../settings');
+
 const sellPosition = require('./sell-position');
 const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 module.exports = async () => {
+
+  const { actOnStPercent, onlyUseCash } = await getPreferences();
 
   const account = await alpaca.getAccount();
   let amtToSpend = Number(account.equity * actOnStPercent / 100);

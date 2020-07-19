@@ -16,6 +16,7 @@ const runScan = require('../scans/base/run-scan');
 const cacheThis = require('../utils/cache-this');
 
 const addSingleZScores = require('./add-single-zscores');
+const shouldSellOff = require('./should-sell-off');
 
 const cachedScan = cacheThis(async tickers => {
   const scan = await runScan({
@@ -151,8 +152,8 @@ module.exports = async (
       buys[buys.length - 1]
     ].map(buy => getDaysOld(buy.date)) : [0, 0];
 
-    const numDaysNeeded = Math.max(continueDownForDays, (continueDownForDays * 0.5) + (daysOld - mostRecentPurchase));
-    const sellOffDaysLeft = Math.floor(numDaysNeeded - mostRecentPurchase);
+    // const numDaysNeeded = Math.max(continueDownForDays, (continueDownForDays * 0.5) + (daysOld - mostRecentPurchase));
+    // const sellOffDaysLeft = Math.floor(numDaysNeeded - mostRecentPurchase);
 
     // strlog({ buys});
 
@@ -183,7 +184,7 @@ module.exports = async (
       buyStrategies,
       daysOld,
       mostRecentPurchase,
-      sellOffDaysLeft,
+      // sellOffDaysLeft,
       wouldBeDayTrade,
       ...!skipStSent && {
         stSent: await getStSentiment(ticker) || {}
@@ -244,7 +245,7 @@ module.exports = async (
       symbol,
       daysOld,
       mostRecentPurchase,
-      sellOffDaysLeft,
+      // sellOffDaysLeft,
       returnPerc, 
       outsideBracket, 
       wouldBeDayTrade, 
@@ -267,7 +268,15 @@ module.exports = async (
     // }
 
     
-    const sellOffToday = Boolean(sellOffDaysLeft <= 0);
+    const sellOffToday = shouldSellOff(position);
+    if (sellOffToday) {
+      await log(`SELLOFF REC - ${ticker}`, {
+        daysOld,
+        mostRecentPurchase,
+        bullBearScore,
+        numMultipliers
+      })
+    }
 
 
     const isInitialSell = (min >= -15 && min <= 5);

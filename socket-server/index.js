@@ -26,6 +26,12 @@ const isJimmyPick = require('../utils/is-jimmy-pick');
 
 const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 
+
+// alpaca
+const alpacaActOnMultipliers = require('../alpaca/act-on-multipliers');
+const alpacaActOnPositions = require('../alpaca/act-on-positions');
+const alpacaActOnZScoreFinal = require('../alpaca/act-on-zscore-final');
+
 // const stratPerf = require('../analysis/strat-perf-for-real');
 const realtimeRunner = require('../realtime/RealtimeRunner');
 const json2xls = require('json2xls');
@@ -112,8 +118,10 @@ module.exports = new Promise(resolve => {
     });
 
     io.on('connection', async socket => {
-
-        const ip = socket.request.connection.remoteAddress;
+        const { request } = socket;
+        const ips = [request.ip, req.connection.remoteAddress, socket.remoteAddress];
+        console.log({ ips });
+        const ip = ips.find(v => v);
         const userAgent = socket.request.headers['user-agent'];
 
         console.log('new connection');
@@ -135,16 +143,30 @@ module.exports = new Promise(resolve => {
             cb(await getHistoricals(ticker, period, daysBack, true));
         });
 
-        socket.on('slapTheAsk', async (ticker, cb) => {
-            const l = await lookup(ticker);
-            const amt = 5;
-            const quantity = Math.ceil(amt / l.currentPrice);
-            await log(`slapping ${ticker}`);
-            cb(await alpacaMarketBuy({
+        socket.on('buy', async ({
+            ticker,
+            dollars,
+            method = 'market'
+        }, cb) => {
+            const methods = {
+                market: alpacaMarketBuy
+            };
+            const buyFn = methods[method];
+            if (!ticker || !dollars || !method || !buyFn) return log('uh oh buy', {
                 ticker,
-                quantity,
-                timeoutSeconds: 10
-            }));
+                dollars,
+                method
+            });
+            const l = await lookup(ticker);
+            const quantity = Math.ceil(dollarrs / l.currentPrice);
+            await log(`socket buy ${ticker} - $${dollars} - ${quantity} sharers`);
+            cb(
+                await buyFn({
+                    ticker,
+                    quantity,
+                    timeoutSeconds: 10
+                })
+            );
         });
 
         socket.on('getRecentTrends', async (cb) => {
@@ -225,6 +247,19 @@ module.exports = new Promise(resolve => {
         socket.on('client:save-preferences', async (preferences, cb) => {
             await savePreferences(preferences);
             cb();
+        });
+
+        socket.on('cilent:act', (method, cb) => {
+            const methods = {
+                alpacaActOnMultipliers,
+                alpacaActOnPositions,
+                alpacaActOnZScoreFinal
+            };
+            const actFn = methods[method];
+            if (!actFn) return cb('Not a valid action');
+            cb(
+                await actFn()
+            );
         });
 
         socket.on('client:run-scan', async ({ period }) => {

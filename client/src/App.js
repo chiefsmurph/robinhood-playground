@@ -28,6 +28,7 @@ import Popup from "reactjs-popup";
 
 import PmReport from './pages/PmReport';
 import BalanceReports from './pages/BalanceReports';
+import Preferences from './pages/Preferences';
 import TodaysStrategies from './pages/TodaysStrategies';
 import Positions from './pages/Positions';
 import DayReports from './pages/DayReports';
@@ -125,6 +126,10 @@ const pages = [
     {
         label: 'Logs',
         component: Logs
+    },
+    {
+        label: 'Preferences',
+        component: Preferences
     },
     {
         label: "Strategies",
@@ -306,14 +311,6 @@ class App extends Component {
             localStorage.clear();
         }
     }
-    pullGit = () => {
-        console.log('pull git')
-        this.state.socket.emit('pullGit', data => window.alert(data));
-    }
-    restartProcess = () => {
-        console.log('restartProcess')
-        this.state.socket.emit('restartProcess', data => window.alert(data));
-    }
     render () {
         let { value, derivedCollections, predictionModels, pms, balanceReports, newPicksData, positions, relatedPrices, showingPick, socket, admin } = this.state;
         const isLoading = !derivedCollections;
@@ -425,8 +422,6 @@ class App extends Component {
                         {
                             admin && (
                                 <div>
-                                    <a onClick={this.pullGit}>⬇️</a>&nbsp;
-                                    <a onClick={this.restartProcess}>♻️</a>
                                     <ReactTags
                                         tags={tags}
                                         suggestions={suggestions}
