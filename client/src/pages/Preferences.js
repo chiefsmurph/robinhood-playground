@@ -38,7 +38,10 @@ class Preferences extends Component {
     this.props.socket.emit('client:save-preferences', JSON.parse(this.state.preferences), () => window.alert('DONE'))
   }
   // other actions
-  act = action => pd(() => this.props.socket.emit('client:act', action, window.alert));
+  act = action => pd(() => this.props.socket.emit('client:act', action, data => {
+    console.log({ data })
+    window.alert(JSON.stringify(data));
+  }));
   render() {
     console.log(this.props);
     return (
