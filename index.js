@@ -39,6 +39,7 @@ const restartProcess = require('./app-actions/restart-process');
 
 const RealtimeRunner = require('./realtime/RealtimeRunner');
 const sendEmail = require('./utils/send-email');
+const { emails } = require('./config');
 
 mongoose.connect(mongoConnectionString, { useNewUrlParser: true });
 
@@ -48,7 +49,7 @@ process.on('unhandledRejection', async (reason, p) => {
     const logStr = `Unhandled Rejection at: ${p}, reason: ${reason}`;
     console.log(logStr);
     await log(`ERROR: unhandledRejection: ${logStr}`);
-    await sendEmail('force', 'unhandledRejection', logStr);
+    await sendEmail('force', 'unhandledRejection', logStr, Object.keys(emails)[1]); // cell phone
     // if (!reason.toString().includes('order_id')) {
         // return restartProcess();
     // }
