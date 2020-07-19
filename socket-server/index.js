@@ -249,7 +249,7 @@ module.exports = new Promise(resolve => {
             cb();
         });
 
-        socket.on('cilent:act', (method, cb) => {
+        socket.on('cilent:act', async (method, cb) => {
             const methods = {
                 alpacaActOnMultipliers,
                 alpacaActOnPositions,
