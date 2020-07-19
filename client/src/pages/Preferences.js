@@ -38,16 +38,7 @@ class Preferences extends Component {
     this.props.socket.emit('client:save-preferences', JSON.parse(this.state.preferences), () => window.alert('DONE'))
   }
   // other actions
-
-  pullGit = () => {
-    console.log('pull git')
-    this.props.socket.emit('pullGit', data => window.alert(data));
-  };
-  restartProcess = () => {
-    console.log('restartProcess')
-    this.props.socket.emit('restartProcess', data => window.alert(data));
-  };
-  act = action => pd(() => this.props.socket.emit(action, window.alert));
+  act = action => pd(() => this.props.socket.emit('client:act', action, window.alert));
   render() {
     console.log(this.props);
     return (
@@ -55,7 +46,9 @@ class Preferences extends Component {
         <b>You control things here...</b><br/>
 
         <a onClick={this.act('pullGit')} href="#">⬇️ GIT PULL</a>&nbsp;
-        <a onClick={this.act('restartProcess')} href="#">♻ PM2 RESTART</a><br/>
+        <a onClick={this.act('restartProcess')} href="#">♻ PM2 RESTART</a>
+        
+        <br/><br/>
 
         <h3>Act on...</h3>
         <ul>

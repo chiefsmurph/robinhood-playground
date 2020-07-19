@@ -242,7 +242,7 @@ module.exports = new Promise(resolve => {
             cb();
         });
 
-        client.on('cilent:act', async (method, cb) => {
+        client.on('client:act', async (method, cb) => {
             const methods = {
                 alpacaActOnMultipliers,
                 alpacaActOnPositions,
