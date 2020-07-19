@@ -123,7 +123,7 @@ module.exports = new Promise(resolve => {
 
         const { allowedIps = [] } = await getPreferences();
         if (!allowedIps.includes(ip)) {
-            await log('ERROR: WARNING WARNING NEW ATTEMPT TO HACK! ${ip}', {
+            await log(`ERROR: WARNING WARNING NEW ATTEMPT TO HACK! ${ip}`, {
                 ip,
                 userAgent
             });
@@ -222,19 +222,6 @@ module.exports = new Promise(resolve => {
             );
         });
 
-
-        client.on('pullGit', async cb => {
-            await log('pulling git')
-            await exec('git pull origin master');
-            cb && cb('DONE PULLING');
-        });
-
-        client.on('restartProcess', async cb => {
-            await log('restarting process')
-            await restartProcess();
-            cb && cb('DONE RESTARTING');
-        });
-
         client.on('client:get-pm-analysis', async cb => {
             console.log('get pm analysis');
             const data = await pmPerf();
@@ -258,7 +245,9 @@ module.exports = new Promise(resolve => {
             const methods = {
                 alpacaActOnMultipliers,
                 alpacaActOnPositions,
-                alpacaActOnZScoreFinal
+                alpacaActOnZScoreFinal,
+                pullGit: () => log('pulling git') && exec('git pull origin master'),
+                restartProcess,
             };
             const actFn = methods[method];
             if (!actFn) return cb('Not a valid action');

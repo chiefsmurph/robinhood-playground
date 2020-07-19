@@ -47,14 +47,23 @@ class Preferences extends Component {
     console.log('restartProcess')
     this.props.socket.emit('restartProcess', data => window.alert(data));
   };
+  act = action => pd(() => this.props.socket.emit(action, window.alert));
   render() {
     console.log(this.props);
     return (
       <div style={{ padding: '1vw' }}>
         <b>You control things here...</b><br/>
 
-        <a onClick={pd(this.pullGit)} href="#">⬇️ GIT PULL</a>&nbsp;
-        <a onClick={pd(this.restartProcess)} href="#">♻ PM2 RESTART</a>
+        <a onClick={this.act('pullGit')} href="#">⬇️ GIT PULL</a>&nbsp;
+        <a onClick={this.act('restartProcess')} href="#">♻ PM2 RESTART</a>
+
+        <h3>Act on...</h3>
+        <ul>
+          <li><a onClick={this.act('alpacaActOnMultipliers')} href="#">alpacaActOnMultipliers</a></li>
+          <li><a onClick={this.act('alpacaActOnPositions')} href="#">alpacaActOnPositions</a></li>
+          <li><a onClick={this.act('alpacaActOnZScoreFinal')} href="#">alpacaActOnZScoreFinal</a></li>
+        </ul>
+
         <hr/>
         <textarea 
           rows={10} 
