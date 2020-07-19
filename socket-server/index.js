@@ -117,33 +117,32 @@ module.exports = new Promise(resolve => {
         }
     });
 
-    io.on('connection', async socket => {
-        const { request } = socket;
-        const ips = [request.header('x-forwarded-for'), request.connection.remoteAddress];
+    io.on('connection', async client => {
+        const ips = [client.handshake.headers['x-forwarded-for'] || client.handshake.address.address];
         console.log(JSON.stringify({ ips }));
         const ip = ips.find(v => v);
-        const userAgent = socket.request.headers['user-agent'];
+        const userAgent = client.request.headers['user-agent'];
 
         console.log('new connection');
         log(`new connection: ${ip} (${userAgent}`);
         
-        socket.emit('server:data-update', await stratManager.getWelcomeData());
+        client.emit('server:data-update', await stratManager.getWelcomeData());
 
-        socket.on('get-current-prices', async tickers => {
+        client.on('get-current-prices', async tickers => {
             const response = await lookupMultiple(tickers, true);
             console.log('got current pricessss', response);
-            socket.emit('server:current-prices', response);
+            client.emit('server:current-prices', response);
         });
 
-        socket.on('lookup', async (ticker, cb) => {
+        client.on('lookup', async (ticker, cb) => {
             cb(await lookup(ticker));
         });
 
-        socket.on('historicals', async (ticker, period, daysBack, cb) => {
+        client.on('historicals', async (ticker, period, daysBack, cb) => {
             cb(await getHistoricals(ticker, period, daysBack, true));
         });
 
-        socket.on('buy', async ({
+        client.on('buy', async ({
             ticker,
             dollars,
             method = 'market'
@@ -159,7 +158,7 @@ module.exports = new Promise(resolve => {
             });
             const l = await lookup(ticker);
             const quantity = Math.ceil(dollarrs / l.currentPrice);
-            await log(`socket buy ${ticker} - $${dollars} - ${quantity} sharers`);
+            await log(`client buy ${ticker} - $${dollars} - ${quantity} sharers`);
             cb(
                 await buyFn({
                     ticker,
@@ -169,7 +168,7 @@ module.exports = new Promise(resolve => {
             );
         });
 
-        socket.on('getRecentTrends', async (cb) => {
+        client.on('getRecentTrends', async (cb) => {
             const mostPopularFiles = (await getFilesSortedByDate('100-most-popular')).slice(-3);
             console.log({ mostPopularFiles })
             const withJSON = await mapLimit(mostPopularFiles, 1, async file => ({
@@ -183,18 +182,18 @@ module.exports = new Promise(resolve => {
             }), {});
 
             for (let userStrat of withJSON) {
-                socket.emit('server:user-strat', userStrat);
+                client.emit('server:user-strat', userStrat);
             }
 
             return cb(obj);
         });
 
-        socket.on('getDayReports', async cb => {
+        client.on('getDayReports', async cb => {
             console.log('getting day reports');
             cb({ dayReports: await DayReport.find() });
         });
 
-        socket.on('getPickData', async (id, cb) => {
+        client.on('getPickData', async (id, cb) => {
             const pickData = await Pick.findById(id, { data: 1 });
             if (pickData) {
                 if (!pickData.data) {
@@ -210,7 +209,7 @@ module.exports = new Promise(resolve => {
             cb(pickData);
         });
 
-        socket.on('getStScore', async (ticker, cb) => {
+        client.on('getStScore', async (ticker, cb) => {
             console.log(`getting st sent for ${ticker}`);
             cb(
                 await getStSentiment(ticker)
@@ -218,38 +217,38 @@ module.exports = new Promise(resolve => {
         });
 
 
-        socket.on('pullGit', async cb => {
+        client.on('pullGit', async cb => {
             await log('pulling git')
             await exec('git pull origin master');
             cb && cb('DONE PULLING');
         });
 
-        socket.on('restartProcess', async cb => {
+        client.on('restartProcess', async cb => {
             await log('restarting process')
             await restartProcess();
             cb && cb('DONE RESTARTING');
         });
 
-        socket.on('client:get-pm-analysis', async cb => {
+        client.on('client:get-pm-analysis', async cb => {
             console.log('get pm analysis');
             const data = await pmPerf();
             console.log('got pm perf')
-            socket.emit('server:pm-analysis', data);
+            client.emit('server:pm-analysis', data);
         });
 
-        socket.on('client:get-strat-analysis', async cb => {
+        client.on('client:get-strat-analysis', async cb => {
             console.log('get strat analysis');
             const data = await require('../analysis/spm-recent')();
             console.log('got strat analysis');
-            socket.emit('server:strat-analysis', data);
+            client.emit('server:strat-analysis', data);
         });
 
-        socket.on('client:save-preferences', async (preferences, cb) => {
+        client.on('client:save-preferences', async (preferences, cb) => {
             await savePreferences(preferences);
             cb();
         });
 
-        socket.on('cilent:act', async (method, cb) => {
+        client.on('cilent:act', async (method, cb) => {
             const methods = {
                 alpacaActOnMultipliers,
                 alpacaActOnPositions,
@@ -262,7 +261,7 @@ module.exports = new Promise(resolve => {
             );
         });
 
-        socket.on('client:run-scan', async ({ period }) => {
+        client.on('client:run-scan', async ({ period }) => {
             console.log('run-scan', period);
             const results = period === 'd' 
                 ? await require('../realtime/RealtimeRunner').runDaily(true, true)    // skip save
@@ -287,24 +286,24 @@ module.exports = new Promise(resolve => {
             //     })
             // );
 
-            socket.emit('server:scan-results', {
+            client.emit('server:scan-results', {
                 results: stepTwo
             });
         });
 
 
-        socket.on('client:run-penny', async ({ type, priceRange: { min, max }}) => {
+        client.on('client:run-penny', async ({ type, priceRange: { min, max }}) => {
             console.log('running penny scan', type, min, max);
             const scan = pennyScans[type];
             const results = await scan({
                 minPrice: min,
                 maxPrice: max
             });
-            socket.emit('server:penny-results', { results });
+            client.emit('server:penny-results', { results });
         });
 
-        socket.on('disconnect', () => {
-            socket.broadcast.emit('userDisconnect');
+        client.on('disconnect', () => {
+            client.broadcast.emit('userDisconnect');
         });
 
     });
