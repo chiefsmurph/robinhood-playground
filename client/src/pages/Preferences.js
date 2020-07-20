@@ -53,11 +53,16 @@ class Preferences extends Component {
         
         <br/><br/>
 
+        <h3>Sell</h3>
+        <ul>
+          <li><a onClick={this.act('sellOnOpen')} href="#">sellOnOpen</a></li>
+        </ul>
+          
         <h3>Act on...</h3>
         <ul>
-          <li><a onClick={this.act('alpacaActOnMultipliers')} href="#">alpacaActOnMultipliers</a></li>
-          <li><a onClick={this.act('alpacaActOnPositions')} href="#">alpacaActOnPositions</a></li>
-          <li><a onClick={this.act('alpacaActOnZScoreFinal')} href="#">alpacaActOnZScoreFinal</a></li>
+          <li><a onClick={this.act('actOnMultipliers')} href="#">actOnMultipliers</a></li>
+          <li><a onClick={this.act('actOnPositions')} href="#">actOnPositions</a></li>
+          <li><a onClick={this.act('actOnZScoreFinal')} href="#">actOnZScoreFinal</a></li>
         </ul>
 
         <hr/>

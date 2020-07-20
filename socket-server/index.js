@@ -28,7 +28,7 @@ const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 
 
 // alpaca
-const alpacaActOnMultipliers = require('../alpaca/act-on-multipliers');
+const actOnMultipliers = ;
 const alpacaActOnPositions = require('../alpaca/act-on-positions');
 const alpacaActOnZScoreFinal = require('../alpaca/act-on-zscore-final');
 
@@ -244,9 +244,10 @@ module.exports = new Promise(resolve => {
 
         client.on('client:act', async (method, cb) => {
             const methods = {
-                alpacaActOnMultipliers,
-                alpacaActOnPositions,
-                alpacaActOnZScoreFinal,
+                sellOnOpen: require('../alpaca/sell-on-open'),
+                actOnMultipliers: require('../alpaca/act-on-multipliers'),
+                actOnPositions: require('../alpaca/act-on-positions'),
+                actOnZScoreFinal: require('../alpaca/act-on-zscore-final'),
                 pullGit: () => log('pulling git') && exec('git pull origin master'),
                 restartProcess,
             };
