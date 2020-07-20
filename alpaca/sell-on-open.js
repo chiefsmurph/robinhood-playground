@@ -5,7 +5,7 @@ const alpacaAttemptSell = require('./attempt-sell')
 const { sumArray } = require('../utils/array-math');
 
 const definedPercent = {
-  DGLY: 20,
+  DGLY: 36,
 };
 
 module.exports = async () => {
