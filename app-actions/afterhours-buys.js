@@ -1,12 +1,13 @@
 const { alpaca } = require('../alpaca');
 const getPositions = require('../alpaca/get-positions');
 const limitBuyMultiple = require('./limit-buy-multiple');
-const { onlyUseCash } = require('../settings');
 const lookup = require('../utils/lookup');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 module.exports = async (_, dontAct) => {
+
+  const { onlyUseCash } = await getPreferences();
 
   // step 1 get positions
   let positions = await getPositions();

@@ -16,7 +16,7 @@ const alpacaAttemptSell = require('../alpaca/attempt-sell');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const { alpaca } = require('../alpaca');
 const sendEmail = require('./send-email');
-const { disableDayTrades, onlyUseCash, breakdownRSIs } = require('../settings');
+const { disableDayTrades, breakdownRSIs } = require('../settings');
 const { get } = require('underscore');
 
 const Pick = require('../models/Pick');
@@ -144,6 +144,8 @@ module.exports = class PositionWatcher {
 
         const account = await alpaca.getAccount();
         const { cash, buying_power } = account;
+
+        const { onlyUseCash } = await getPreferences();
         const amtLeft = Number(onlyUseCash ? cash : buying_power);
         const fundsToBuy = amtLeft > approxValue * 1.5;
 

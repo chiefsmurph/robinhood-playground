@@ -4,8 +4,6 @@ const getIndexes = require('../utils/get-indexes');
 const getTrend = require('../utils/get-trend');
 const { alpaca } = require('../alpaca');
 const sendEmail = require('../utils/send-email');
-const { onlyUseCash } = require('../settings');
-
 
 const findDayTrade = require('../tests/find-daytrade');
 

@@ -12,9 +12,6 @@ const Holds = require('../models/Holds');
 const { alpaca } = require('../alpaca');
 const getBalance = require('../alpaca/get-balance');
 
-
-const { onlyUseCash } = require('../settings');
-
 const getFillPriceFromResponse = response => {
     const order = response && response.alpacaOrder ? response.alpacaOrder : response;
     return (order || {}).filled_avg_price;
@@ -96,6 +93,8 @@ const eclecticBuy = async ({
     pickPrice,
     urgency
 }) => {
+
+    const { onlyUseCash } = await getPreferences();
     const defaults = {
         timeoutSeconds: onlyUseCash ? 60 * 30 : Number.POSITIVE_INFINITY,
         fallbackToMarket: false
@@ -339,7 +338,7 @@ module.exports = async ({
                 if (strategy.includes('red-and-bullish')) return 'agressive';
                 if (!strategy.includes('sudden-drops')) return 'casual';
             })();
-            const response = await electicBuy({
+            const response = await eclecticBuy({
                 ticker,
                 pickPrice,
                 quantity: totalQuantity,

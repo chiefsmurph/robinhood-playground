@@ -53,15 +53,22 @@ module.exports = {
     breakdownRSIs: [13, 7, 3],
 
     // sellAllStocksOnNthDay: 8,
-    purchaseAmt: 1.2,
-    actOnStPercent: 0.5,
-    maxPerPositionAfterOpenPerc: 2.5,
+
+
+
+    // moved to preferences
+
+    // onlyUseCash: false,
+    // purchaseAmt: 1.2,
+    // actOnStPercent: 0.5,
+    // maxPerPositionAfterOpenPerc: 2.5,
+
+    
     
     onlyAvgDownOpenPositions: true,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
     
-    onlyUseCash: false,
     skipPurchasing: false,   /// really?????
     disableActOnSt: false,
     disableActOnZscore: false,
