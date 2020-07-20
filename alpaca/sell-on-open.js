@@ -42,17 +42,17 @@ module.exports = async () => {
 
     const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 2) / 2;
     
+    const stMultiplier = {
+      bullish: 0.85,
+      bearish: 1.5
+    }[stBracket] || 1;
+
     let actualPercToSell = (() => {
       if (percToSell === 100) return 100;
       if (definedPercent[ticker]) return definedPercent[ticker];
 
       // ca;c [erc based pm targetAmt
       let perc = (1 - targetAmt / Number(market_value)) * 100;;
-
-      const stMultiplier = {
-        bullish: 0.85,
-        bearish: 1.5
-      }[stBracket] || 1;
 
       perc = perc * stMultiplier;
       perc = Math.min(perc, 100);
