@@ -1,6 +1,5 @@
 const getPositions = require('./get-positions');
 const { alpaca } = require('.');
-const { maxPerPositionAfterOpenPerc } = require('../settings');
 const alpacaAttemptSell = require('./attempt-sell')
 const { sumArray } = require('../utils/array-math');
 
@@ -10,7 +9,7 @@ const definedPercent = {
 
 module.exports = async () => {
 
-  const { onlyUseCash } = await getPreferences();
+  const { onlyUseCash, maxPerPositionAfterOpenPerc } = await getPreferences();
   const { equity } = await alpaca.getAccount();
 
   const maxPerPositionAfterSell = equity * (maxPerPositionAfterOpenPerc / 100);
@@ -41,7 +40,7 @@ module.exports = async () => {
     }
 
     const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 2) / 2;
-    
+    console.log({ targetAmt })
     const stMultiplier = {
       bullish: 0.85,
       bearish: 1.5
@@ -59,6 +58,8 @@ module.exports = async () => {
 
       return perc;
     })();
+
+    console.log({ actualPercToSell })
     
     if (actualPercToSell < 2) continue;
 

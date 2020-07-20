@@ -116,7 +116,8 @@ module.exports = new Promise(resolve => {
         const userAgent = client.request.headers['user-agent'];
 
         const { allowedIps = [] } = await getPreferences();
-        if (!allowedIps.includes(ip)) {
+        const allowedClient = allowedIps.some(search => ip.includes(search));
+        if (!allowedClient) {
             await log(`ERROR: WARNING WARNING NEW ATTEMPT TO HACK! ${ip}`, {
                 ip,
                 userAgent
