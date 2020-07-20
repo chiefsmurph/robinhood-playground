@@ -26,12 +26,6 @@ const isJimmyPick = require('../utils/is-jimmy-pick');
 
 const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 
-
-// alpaca
-const actOnMultipliers = ;
-const alpacaActOnPositions = require('../alpaca/act-on-positions');
-const alpacaActOnZScoreFinal = require('../alpaca/act-on-zscore-final');
-
 // const stratPerf = require('../analysis/strat-perf-for-real');
 const realtimeRunner = require('../realtime/RealtimeRunner');
 const json2xls = require('json2xls');
