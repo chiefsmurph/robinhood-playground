@@ -79,7 +79,7 @@ module.exports = async () => {
     250: -4,
   };
   const specialExceptions = notDaytrades
-    .filter(p => Number(p.market_value) < Number(account.equity) * 0.8)
+    // .filter(p => Number(p.market_value) < Number(account.equity) * 0.8)
     .filter(p => {
       const foundExc = Object.entries(exceptionAmts).find(([bbScore]) => (p.stSent || {}).bullBearScore >= Number(bbScore));
       const passesExc = foundExc && p.returnPerc < foundExc[1];
