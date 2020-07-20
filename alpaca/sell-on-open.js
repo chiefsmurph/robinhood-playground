@@ -45,19 +45,22 @@ module.exports = async () => {
     let actualPercToSell = (() => {
       if (percToSell === 100) return 100;
       if (definedPercent[ticker]) return definedPercent[ticker];
-      return (1 - targetAmt / Number(market_value)) * 100;
+
+      // ca;c [erc based pm targetAmt
+      let perc = (1 - targetAmt / Number(market_value)) * 100;;
+
+      const stMultiplier = {
+        bullish: 0.85,
+        bearish: 1.5
+      }[stBracket] || 1;
+
+      perc = perc * stMultiplier;
+      perc = Math.min(perc, 100);
+
+      return perc;
     })();
     
     if (actualPercToSell < 2) continue;
-
-    const stMultiplier = {
-      bullish: 0.85,
-      bearish: 1.5
-    }[stBracket] || 1;
-
-    actualPercToSell = actualPercToSell * stMultiplier;
-
-    actualPercToSell = Math.min(actualPercToSell, 100);
 
     const qToSell = Math.max(1, Math.floor(Number(quantity) * (actualPercToSell / 100) ));
 
@@ -86,7 +89,7 @@ module.exports = async () => {
         });
       }, 1000 * 60 * 6);
     }
-    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${targetAmt} (${actualPercToSell}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
+    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${targetAmt} (${Math.round(actualPercToSell)}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
       ticker,
       stMultiplier,
       qToSell,
@@ -96,7 +99,8 @@ module.exports = async () => {
       numMultipliers,
       avgMultipliersPerPick,
       dollarsToSell,
-      currentPrice
+      currentPrice,
+      definedPercent: definedPercent[ticker]
     });
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
