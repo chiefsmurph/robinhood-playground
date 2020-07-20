@@ -35,7 +35,11 @@ class Preferences extends Component {
     if (!this.state.isValid) {
       alert('not valid');
     }
-    this.props.socket.emit('client:save-preferences', JSON.parse(this.state.preferences), () => window.alert('DONE'))
+    const newPrefs = JSON.parse(this.state.preferences);
+    this.props.socket.emit('client:save-preferences', newPrefs, () => {
+      this.props.setAppState({ preferences: newPrefs });
+      window.alert('DONE')
+    });
   }
   // other actions
   act = action => pd(() => this.props.socket.emit('client:act', action, data => {
@@ -50,6 +54,7 @@ class Preferences extends Component {
 
         <a onClick={this.act('pullGit')} href="#">⬇️ GIT PULL</a>&nbsp;
         <a onClick={this.act('restartProcess')} href="#">♻ PM2 RESTART</a>
+        <a onClick={this.act('buildClient')} href="#">🎨 BUILD CLIENT</a>
         
         <br/><br/>
 

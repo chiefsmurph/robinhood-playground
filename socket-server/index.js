@@ -243,6 +243,7 @@ module.exports = new Promise(resolve => {
                 actOnPositions: require('../alpaca/act-on-positions'),
                 actOnZScoreFinal: require('../alpaca/act-on-zscore-final'),
                 pullGit: () => log('pulling git') && exec('git pull origin master'),
+                buildClient: () => log('building client') && exec('cd client && yarn && yarn build'),
                 restartProcess,
             };
             const actFn = methods[method];
