@@ -22,13 +22,17 @@ const getBuyTickers = async () => {
   return matchingOrders.map(order => order.symbol).uniq();
 };
 
-
+const MIN_POSITIONS = 40;
 module.exports = async amt => {
 
   // return log('ERROR: SHOULDNT BE HEsRE...FORCE DISABLE MAKE FUNDS AVAILABLE WHAT THE HECK')
 
   console.log(`making funds available: ${amt}`);
   let positions = await getPositions(true);
+  if (positions.length <= MIN_POSITIONS) {
+    await log('CANT MAKE FUNDS AVAILABLE BC ALREADY TOO FEW POSITIONS...');
+    return;
+  }
   if (!makeKeeperFundsAvailable) {
     positions = positions.filter(({ notSelling }) => !notSelling);
   }
