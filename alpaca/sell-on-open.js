@@ -4,7 +4,7 @@ const alpacaAttemptSell = require('./attempt-sell')
 const { sumArray } = require('../utils/array-math');
 
 const definedPercent = {
-  DGLY: 58,
+  DGLY: 62,
 };
 
 module.exports = async () => {
@@ -90,7 +90,7 @@ module.exports = async () => {
         });
       }, 1000 * 60 * 6);
     }
-    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${targetAmt} (${Math.round(actualPercToSell)}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
+    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
       ticker,
       stMultiplier,
       qToSell,

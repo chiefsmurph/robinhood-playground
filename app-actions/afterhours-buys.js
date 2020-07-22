@@ -38,7 +38,7 @@ module.exports = async (_, dontAct) => {
   });
 
 
-  if (perStock < 0) return log('sorry after hours buys not happening because perStock < 0', {
+  if (perStock < 6) return log('sorry after hours buys not happening because perStock < 6', {
     equity,
     maintenance_margin,
     buying_power,
