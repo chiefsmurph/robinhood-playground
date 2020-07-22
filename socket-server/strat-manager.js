@@ -95,6 +95,10 @@ const stratManager = {
                 this.sendToAll('server:balance-report', { report, additionalAccountInfo });
             }, this.curDate);
 
+            this.sendToAll('server:data-updata', {
+                balanceReports: balanceReportManager.getAllBalanceReports(),
+            });
+
         }
         
         setInterval(() => this.refreshPositions(), 1000 * 60 * 15);
