@@ -46,6 +46,16 @@ class Preferences extends Component {
     console.log({ data })
     window.alert(JSON.stringify(data));
   }));
+  limitBuyMultiple = pd(() => {
+    const ticker = window.prompt('What ticker?');
+    const totalAmtToSpend = window.prompt('How much would you like to spend?', 100);
+    this.props.socket.emit('client:act', 'limitBuyMultiple', {
+      ticker,
+      totalAmtToSpend,
+      strategy: 'web-client'
+    }, () => window.alert(`LIMIT BOUGHT ${ticker}`));
+    
+  });
   render() {
     console.log(this.props);
     return (
@@ -61,6 +71,11 @@ class Preferences extends Component {
         <h3>Overall</h3>
         <ul>
           <li><a onClick={this.act('cancelAllOrders')} href="#">Cancel All Orders</a></li>
+        </ul>
+
+        <h3>Sell</h3>
+        <ul>
+          <li><a onClick={this.limitBuyMultiple} href="#">limitBuyMultiple</a></li>
         </ul>
 
         <h3>Sell</h3>

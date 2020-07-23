@@ -237,7 +237,7 @@ module.exports = new Promise(resolve => {
             cb();
         });
 
-        client.on('client:act', async (method, cb) => {
+        client.on('client:act', async (method, ...rest) => {
             const methods = {
                 sellOnOpen: require('../alpaca/sell-on-open'),
                 actOnMultipliers: require('../alpaca/act-on-multipliers'),
@@ -250,9 +250,10 @@ module.exports = new Promise(resolve => {
                 restartProcess,
             };
             const actFn = methods[method];
+            const [cb] = rest.splice(-1, 1) // callback is last arg;
             if (!actFn) return cb('Not a valid action');
             cb(
-                await actFn()
+                await actFn(...rest)
             );
         });
 
