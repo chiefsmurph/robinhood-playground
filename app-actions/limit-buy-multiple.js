@@ -323,9 +323,10 @@ module.exports = async ({
             const balance = await getBalance();
             percOfBalance = currentValue / balance * 100;
         } catch (e) {}
-        if (percOfBalance > 40) {
+        if (percOfBalance > 40 && !strategy.includes('web-client')) {
             return console.log(`NOT PURCHASING ${ticker} because ${percOfBalance}% of balance`);
         }
+
         console.log({ percOfBalance, ticker })
 
         // for now same amt each stock
@@ -339,7 +340,7 @@ module.exports = async ({
             let totalQuantity = Math.round(perStock / pickPrice) || 1;
 
             const isBullishTicker = bullishTickers.includes(ticker);
-            if (isBullishTicker) {
+            if (isBullishTicker && strategy !== 'web-client') {
                 await log('OH NELLY WE GOT A BULLISH TICKER LIMIT BUY - double quantity time');
                 totalQuantity *= 2;
             }

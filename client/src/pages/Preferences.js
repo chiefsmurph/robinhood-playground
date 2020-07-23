@@ -47,8 +47,13 @@ class Preferences extends Component {
     window.alert(JSON.stringify(data));
   }));
   limitBuyMultiple = pd(() => {
-    const ticker = window.prompt('What ticker?');
-    const totalAmtToSpend = window.prompt('How much would you like to spend?', 100);
+    let ticker = window.prompt('What ticker?');
+    if (!ticker) return;
+    ticker = ticker.toUpperCase();
+    let totalAmtToSpend = window.prompt('How much would you like to spend?', 100);
+    if (!totalAmtToSpend) return;
+    totalAmtToSpend = Number(totalAmtToSpend);
+    console.log({ ticker, totalAmtToSpend });
     this.props.socket.emit('client:act', 'limitBuyMultiple', {
       ticker,
       totalAmtToSpend,
