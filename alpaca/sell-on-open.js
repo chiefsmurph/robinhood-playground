@@ -2,6 +2,7 @@ const getPositions = require('./get-positions');
 const { alpaca } = require('.');
 const alpacaAttemptSell = require('./attempt-sell')
 const { sumArray } = require('../utils/array-math');
+const getSpyTrend = require('../utils/get-spy-trend');
 
 const definedPercent = {
   DGLY: 68,
@@ -28,6 +29,7 @@ module.exports = async () => {
   // onlyUseCash same sell perc for all
   const totalCashTarget = equity / 5;
   const cashOnlySellPerc = totalCashTarget / totalValue * 100;
+
 
   for (let p of ofInterest) {
     let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
