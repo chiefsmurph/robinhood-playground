@@ -58,6 +58,11 @@ class Preferences extends Component {
         
         <br/><br/>
 
+        <h3>Overall</h3>
+        <ul>
+          <li><a onClick={this.act('cancelAllOrders')} href="#">Cancel All Orders</a></li>
+        </ul>
+
         <h3>Sell</h3>
         <ul>
           <li><a onClick={this.act('sellOnOpen')} href="#">sellOnOpen</a></li>

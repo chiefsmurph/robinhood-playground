@@ -95,6 +95,7 @@ const eclecticBuy = async ({
 }) => {
 
     const { onlyUseCash } = await getPreferences();
+
     const defaults = {
         timeoutSeconds: onlyUseCash ? 60 * 30 : Number.POSITIVE_INFINITY,
         fallbackToMarket: false
@@ -280,7 +281,18 @@ module.exports = async ({
     maxNumStocksToPurchase, 
     min, 
     withPrices,
+    ticker
 } = {}) => {
+
+
+    if (ticker && !withPrices) {
+        const { currentPrice } = await lookup(ticker);
+        await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
+        withPrices = [{
+            ticker,
+            price: currentPrice
+        }];
+    }
 
     let stocksToBuy = withPrices.map(obj => obj.ticker);
     // you cant attempt to purchase more stocks than you passed in
@@ -298,6 +310,8 @@ module.exports = async ({
     const perStock = strategy.includes('average-down-recommendation')
         ? totalAmtToSpend / 2.7
         : totalAmtToSpend;
+
+    const { bullishTickers = [] } = await getPreferences();
 
     await mapLimit(stocksToBuy, 3, async ticker => {       // 3 buys at a time
 
@@ -322,7 +336,14 @@ module.exports = async ({
             await alpacaCancelAllOrders(ticker, 'sell');
 
             const pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
-            const totalQuantity = Math.round(perStock / pickPrice) || 1;
+            let totalQuantity = Math.round(perStock / pickPrice) || 1;
+
+            const isBullishTicker = bullishTickers.includes(ticker);
+            if (isBullishTicker) {
+                await log('OH NELLY WE GOT A BULLISH TICKER LIMIT BUY - double quantity time');
+                totalQuantity *= 2;
+            }
+
 
             // const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
             console.log({ totalQuantity, pickPrice, perStock });

@@ -245,6 +245,8 @@ module.exports = new Promise(resolve => {
                 actOnZScoreFinal: require('../alpaca/act-on-zscore-final'),
                 pullGit: () => log('pulling git') && exec('git pull origin master'),
                 buildClient: () => log('building client') && exec('cd client && yarn && yarn build'),
+                cancelAllOrders: () => require('../alpaca/cancel-all-orders')(),
+                limitBuyMultiple: require('../app-actions/limit-buy-multiple'),
                 restartProcess,
             };
             const actFn = methods[method];
