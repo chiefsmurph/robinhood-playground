@@ -4,6 +4,7 @@ const { alpaca } = require('.');
 const lookup = require('../utils/lookup');
 const limitSell = require('./limit-sell');
 const marketSell = require('./market-sell');
+const Log = require('../models/Log');
 
 const ATTEMPT_TIMEOUTS = [60 * 5, 60 * 7, 60 * 5, 60 * 4];     // seconds
 const ATTEMPT_PERCS = [-0.5, -0.25, 0.1, 1.5];  // percents
@@ -39,12 +40,18 @@ module.exports = async ({ ticker, quantity, fallbackToMarket }) => {
 
     // limit
     for (let attemptNum of Array(MAX_ATTEMPTS).fill(0).map((v, i) => i)) {
+
+        if (await Log.boughtToday(ticker)) {
+            await log(`found a bought today log while trying to attempt sell ${ticker}.... backing out`);
+            return;
+        }
+
         strlog({ attemptNum })
         const attemptPrice = await calcLimitPrice({ ticker, attemptNum });
         let attemptResponse = await limitSell({
             ticker, 
             limitPrice: attemptPrice,
-            quantity, 
+            quantity,
             timeoutSeconds: ATTEMPT_TIMEOUTS[attemptNum],
             fallbackToMarket: false,
         }) || {};

@@ -42,10 +42,10 @@ module.exports = async ({
   for (let i of range(numShots)) {
     const quantity = qAmts[i];
     console.log(`spraying ${i+1} of ${numShots} - ${quantity} shares`);
-    // if (await Log.boughtToday(ticker)) {
-    //   console.log(`looks like we bought it today... no more spray action ${ticker}`);
-    //   break;
-    // }
+    if (await Log.boughtToday(ticker)) {
+      console.log(`looks like we bought it today... no more spray action ${ticker}`);
+      break;
+    }
     await Promise.all([
       (async () => {
         const timeoutSeconds =  Math.min(spaceApart / 1000 * 0.8 , 20);
