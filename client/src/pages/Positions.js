@@ -84,7 +84,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
         zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
             scan ? (
                 <span className={zScoreRelative > 0.5 && 'green'}>
-                    {`${zScoreSum.toFixed(2)} (${zScoreRelative.toFixed(2)})`}
+                    {`${(zScoreSum || 0).toFixed(2)} (${(zScoreRelative || 0).toFixed(2)})`}
                 </span>
             ) : null,
     
