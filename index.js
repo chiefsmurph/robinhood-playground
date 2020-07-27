@@ -38,6 +38,7 @@ const restartProcess = require('./app-actions/restart-process');
 
 const RealtimeRunner = require('./realtime/RealtimeRunner');
 const sendEmail = require('./utils/send-email');
+const getMinutesFromOpen = require('./utils/get-minutes-from-open');
 const { emails } = require('./config');
 
 mongoose.connect(mongoConnectionString, { useNewUrlParser: true });
