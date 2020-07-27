@@ -5,7 +5,7 @@ const { sumArray } = require('../utils/array-math');
 const getSpyTrend = require('../utils/get-spy-trend');
 
 const definedPercent = {
-  DGLY: 68,
+  DGLY: 78,
 };
 
 module.exports = async () => {
