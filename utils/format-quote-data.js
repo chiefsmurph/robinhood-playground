@@ -1,5 +1,5 @@
 
-const formatQuoteData = (originalQuoteData = {}) => {
+const formatQuoteData = originalQuoteData => {
     const { 
         last_trade_price, 
         adjusted_previous_close,
@@ -7,7 +7,7 @@ const formatQuoteData = (originalQuoteData = {}) => {
         ask_price,
         bid_price,
         last_extended_hours_trade_price
-    } = originalQuoteData;
+    } = originalQuoteData || {};
     let additionalData = {
         lastTrade: Number(last_trade_price),
         prevClose: Number(adjusted_previous_close),
