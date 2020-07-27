@@ -1,6 +1,6 @@
 const sumArray = arr => {
     return arr
-        .filter(v => v !== undefined)
+        .filter(v => v !== undefined && v !== null)
         .reduce((acc, val) => acc + val, 0);
   };
   
