@@ -220,7 +220,7 @@ module.exports = class PositionWatcher {
 
 
     const comparePrice = minSinceMostRecentPick > 60 * 10
-      ? this.observedPrices[0]
+      ? this.observedPrices[0] || mostRecentPrice
       : mostRecentPrice;
 
     strlog({
