@@ -19,6 +19,7 @@ const {
     disableOnlyMinors,
     maxOrigMultiplier = Number.POSITIVE_INFINITY,
     minMultiplier = 2,
+    maxMultiplier = 200,
     overallMultiplierMultiplier = 1,
     onlyAvgDownOpenPositions,
     dontBuy,
@@ -136,7 +137,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         }
         
         multiplier = Math.max(multiplier, minMultiplier);           // MIN
-
+        multiplier = Math.min(multiplier, maxMultiplier);           // MAX
         
         if (strategy.includes('rsi-') || (onlyAvgDownOpenPositions && !strategy.includes('avg-downer'))) {
             const { positions = {} } = require('../socket-server/strat-manager');

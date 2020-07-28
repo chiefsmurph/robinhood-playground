@@ -4,13 +4,9 @@ const alpacaAttemptSell = require('./attempt-sell')
 const { sumArray } = require('../utils/array-math');
 const getSpyTrend = require('../utils/get-spy-trend');
 
-const definedPercent = {
-  DGLY: 78,
-};
-
 module.exports = async () => {
 
-  const { onlyUseCash, maxPerPositionAfterOpenPerc } = await getPreferences();
+  const { onlyUseCash, maxPerPositionAfterOpenPerc, bullishTickers = [], definedPercent = {} } = await getPreferences();
   const { equity } = await alpaca.getAccount();
 
   const maxPerPositionAfterSell = equity * (maxPerPositionAfterOpenPerc / 100);
@@ -30,15 +26,25 @@ module.exports = async () => {
   const totalCashTarget = equity / 5;
   const cashOnlySellPerc = totalCashTarget / totalValue * 100;
 
+  strlog({
+    ofInterest
+  })
+
 
   for (let p of ofInterest) {
     let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
 
-    let multPullback = (Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150));
+    let multPullback = Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150);
 
     if (Math.abs(returnPerc) < 3) {
       // sell less
       multPullback++;
+    }
+    
+    const isBullishTicker = bullishTickers.includes(ticker);
+    if (isBullishTicker) {
+      // boom go for the gold I say!
+      multPullback = multPullback * 2;
     }
 
     const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 2) / 2;
@@ -66,11 +72,11 @@ module.exports = async () => {
     if (actualPercToSell < 2) continue;
 
     const qToSell = Math.max(1, Math.floor(Number(quantity) * (actualPercToSell / 100) ));
-
     const dollarsToSell = qToSell * currentPrice;
 
     const halfQ = Math.ceil(qToSell / 2);
     const quarterQ = Math.floor((qToSell - halfQ) / 2);
+
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
       qty: halfQ,

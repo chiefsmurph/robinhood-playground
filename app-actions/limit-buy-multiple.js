@@ -367,10 +367,11 @@ module.exports = async ({
                 urgency
             });
             
-            await log(`roundup for buying ${ticker}`, {
+            await log(`roundup for buying ${ticker} via ${strategy}`, {
                 ticker,
                 strategy,
-                response
+                response,
+                urgency
             });
             numPurchased++;
         } catch (e) {
