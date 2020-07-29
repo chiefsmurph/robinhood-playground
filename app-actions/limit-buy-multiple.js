@@ -197,7 +197,7 @@ const eclecticBuy = async ({
     }));
     if (urgency === 'casual') {
         // remove limitu1
-        buyStyles.splice(0, 5);
+        buyStyles.splice(0, 4);
     } else if (urgency === 'aggressive') {
         // increase prices by 1 percent
         buyStyles = buyStyles.map(( limitPrice, ...buy ) => ({

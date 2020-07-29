@@ -80,7 +80,7 @@ module.exports = {
 
     overallMultiplierMultiplier: 1, /// DONT CHANGE NO MATTER WHAT (WELL UNLESS YOU NEED TO GET REAL SMALL MULTIPLIERS)
     avgDownerMultiplier: 1.7,
-    minMultiplier: 11,
+    minMultiplier: 20,
     maxOrigMultiplier: 60,
 
     disableDayTrades: true,
