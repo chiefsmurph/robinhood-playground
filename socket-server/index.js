@@ -247,6 +247,7 @@ module.exports = new Promise(resolve => {
                 buildClient: () => log('building client') && exec('cd client && yarn && yarn build'),
                 cancelAllOrders: () => require('../alpaca/cancel-all-orders')(),
                 limitBuyMultiple: require('../app-actions/limit-buy-multiple'),
+                getCheapest: require('../app-actions/get-cheapest'),
                 restartProcess,
             };
             const actFn = methods[method];
