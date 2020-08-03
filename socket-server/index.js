@@ -260,7 +260,7 @@ module.exports = new Promise(resolve => {
             if (!actFn) return cb && cb(`${method} is not a valid action`);
             const callArgs = rest.filter(arg => typeof arg !== 'function');
             const [lastCallArg] = callArgs.splice(-1, 1);
-            const ip = lastCallArg && lastCallArg.data && lastCallArg.data.ip;
+            const ip = lastCallArg && lastCallArg.ip;
             const append = ip ? ` from ${await lookupIpLocation(ip)}` : '';
             console.log({ lastCallArg, ip, append })
             await log(`socket-server action: about to ${method}${append}`, { args: callArgs });
