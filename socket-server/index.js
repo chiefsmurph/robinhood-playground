@@ -32,6 +32,7 @@ const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 // const stratPerf = require('../analysis/strat-perf-for-real');
 const realtimeRunner = require('../realtime/RealtimeRunner');
 const json2xls = require('json2xls');
+const lookupIpLocation = require('../utils/lookup-ip');
 
 const pennyScans = {
     nowheres: require('../scans/nowheres'),
@@ -90,14 +91,6 @@ app.get('/by-date-analysis', async (req, res) => {
     res.json(response);
 });
 
-
-const lookupIpLocation = cacheThis(async ip => {
-    if (!ip) return null;
-    const response = await request(`http://api.ipstack.com/${ip}?access_key=${ipstack}`);
-    if (!response) return null;
-    const { city , region_code } = response;
-    return `${city}, ${region_code}`;
-}, Number.POSITIVE_INFINITY);
 
 module.exports = new Promise(resolve => {
 
@@ -265,8 +258,12 @@ module.exports = new Promise(resolve => {
             const actFn = methods[method];
             const [cb] = rest.filter(arg => typeof arg === 'function').splice(-1, 1) // callback is last arg;
             if (!actFn) return cb && cb(`${method} is not a valid action`);
-            await log(`socket-server action: about to ${method}`, { args: rest });
-            const response = await actFn(...rest.filter(arg => typeof arg !== 'function'));
+            const callArgs = rest.filter(arg => typeof arg !== 'function');
+            const [lastCallArg] = callArgs.splice(-1, 1);
+            const ip = lastCallArg && lastCallArg.ip;
+            const append = ip ? ` from ${await lookupIpLocation(ip)}` : '';
+            await log(`socket-server action: about to ${method}${append}`, { args: rest });
+            const response = await actFn(...callArgs);
             return cb && cb(response);
         });
 
