@@ -254,11 +254,11 @@ module.exports = new Promise(resolve => {
             };
             const actFn = methods[method];
             const [cb] = rest.splice(-1, 1) // callback is last arg;
-            if (!actFn) return cb && cb(`${method} is not a valid action`);
+            const isCallback = cb && cb === 'function';
+            if (!actFn) return isCallback && cb(`${method} is not a valid action`);
             await log(`socket-server action: about to ${method}`, { args: rest });
-            cb(
-                await actFn(...rest)
-            );
+            const response = await actFn(...rest);
+            return isCallback && cb(response);
         });
 
         client.on('client:run-scan', async ({ period }) => {
