@@ -262,7 +262,8 @@ module.exports = new Promise(resolve => {
             const [lastCallArg] = callArgs.splice(-1, 1);
             const ip = lastCallArg && lastCallArg.data && lastCallArg.data.ip;
             const append = ip ? ` from ${await lookupIpLocation(ip)}` : '';
-            await log(`socket-server action: about to ${method}${append}`, { args: rest });
+            console.log({ lastCallArg, ip, append })
+            await log(`socket-server action: about to ${method}${append}`, { args: callArgs });
             const response = await actFn(...callArgs);
             return cb && cb(response);
         });
