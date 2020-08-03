@@ -91,13 +91,13 @@ app.get('/by-date-analysis', async (req, res) => {
 });
 
 
-const lookupIpLocation = async ip => {
+const lookupIpLocation = cacheThis(async ip => {
     if (!ip) return null;
     const response = await request(`http://api.ipstack.com/${ip}?access_key=${ipstack}`);
     if (!response) return null;
     const { city , region_code } = response;
     return `${city}, ${region_code}`;
-};
+}, Number.POSITIVE_INFINITY);
 
 module.exports = new Promise(resolve => {
 
