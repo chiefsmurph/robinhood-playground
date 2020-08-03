@@ -23,6 +23,7 @@ const pmPerf = require('../analysis/pm-perf-for-real');
 const getHistoricals = require('../realtime/historicals/get');
 const alpacaMarketBuy = require('../alpaca/market-buy');
 const isJimmyPick = require('../utils/is-jimmy-pick');
+const cacheThis = require('../utils/cache-this');
 
 const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 
@@ -247,7 +248,8 @@ module.exports = new Promise(resolve => {
                 buildClient: () => log('building client') && exec('cd client && yarn && yarn build'),
                 cancelAllOrders: () => require('../alpaca/cancel-all-orders')(),
                 limitBuyMultiple: require('../app-actions/limit-buy-multiple'),
-                getCheapest: require('../app-actions/get-cheapest'),
+                getCheapest: cacheThis(require('../app-actions/get-cheapest')),
+                log,
                 restartProcess,
             };
             const actFn = methods[method];
