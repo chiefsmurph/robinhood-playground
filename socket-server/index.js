@@ -1,8 +1,10 @@
 'use strict';
 
+const request = require('request-promise');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
+const { ipstack } = require('../config');
 const express = require('express');
 const http = require('http');
 const SocketIO = require('socket.io');
@@ -89,7 +91,13 @@ app.get('/by-date-analysis', async (req, res) => {
 });
 
 
-
+const lookupIpLocation = async ip => {
+    if (!ip) return null;
+    const response = await request(`http://api.ipstack.com/${ip}?access_key=${ipstack}`);
+    if (!response) return null;
+    const { city , region_code } = response;
+    return `${city}, ${region_code}`;
+};
 
 module.exports = new Promise(resolve => {
 
@@ -118,16 +126,18 @@ module.exports = new Promise(resolve => {
 
         const { allowedIps = [] } = await getPreferences();
         const allowedClient = allowedIps.some(search => ip.includes(search));
+        const location = await lookupIpLocation(ip);
         if (!allowedClient) {
-            await log(`ERROR: WARNING WARNING NEW ATTEMPT TO HACK! ${ip}`, {
+            await log(`ERROR: WARNING WARNING NEW ATTEMPT TO HACK! ${ip} from ${location}`, {
                 ip,
-                userAgent
+                userAgent,
+                location
             });
             return;
         }
 
-        console.log('new connection');
-        log(`new connection: ${ip} (${userAgent}`);
+        console.log('new connection', location);
+        log(`new connection: ${ip} (${userAgent} - ${location}`);
         
         client.emit('server:data-update', await stratManager.getWelcomeData());
 
