@@ -252,7 +252,7 @@ module.exports = new Promise(resolve => {
             };
             const actFn = methods[method];
             const [cb] = rest.splice(-1, 1) // callback is last arg;
-            if (!actFn) return cb('Not a valid action');
+            if (!actFn) return cb(`${method} is not a valid action`);
             await log(`socket-server action: about to ${method}`, { args: rest });
             cb(
                 await actFn(...rest)
