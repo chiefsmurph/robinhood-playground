@@ -26,7 +26,7 @@ module.exports = async (_, dontAct) => {
 
   const amtToSpend = (() => {
     if (onlyUseCash) return cash;
-    if (equity < maintenance_margin) return maintenance_margin - equity;
+    if (equity > maintenance_margin) return Math.min(buying_power, (equity * 0.9) - maintenance_margin);
     return buying_power;
   })();
   const maxPerStock = equity / 53;
@@ -34,7 +34,11 @@ module.exports = async (_, dontAct) => {
   await log(`after hours buys $${perStock} / stock`, {
     amtToSpend,
     daytrades: daytrades.map(t => t.ticker),
-    maxPerStock
+    maxPerStock,
+    onlyUseCash,
+    equity,
+    maintenance_margin,
+    buying_power
   });
 
 
