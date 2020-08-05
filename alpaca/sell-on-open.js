@@ -34,34 +34,34 @@ module.exports = async () => {
   for (let p of ofInterest) {
     let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
 
-    let multPullback = Math.floor(numMultipliers / 200) + Number(avgMultipliersPerPick > 150);
+    const multiplierMult = Math.floor(numMultipliers / 300) + Number(avgMultipliersPerPick > 150);
+    const downPercMult = returnPerc > 0 ? 0 : Math.abs(Math.floor(returnPerc / 3));
 
-    if (Math.abs(returnPerc) < 3) {
-      // sell less
-      multPullback++;
-    }
-    
+    let multPullback = multiplierMult + downPercMult;
+
     const isBullishTicker = bullishTickers.includes(ticker);
     if (isBullishTicker) {
       // boom go for the gold I say!
-      multPullback = multPullback * 2;
+      multPullback = multPullback * 1.5;
     }
 
-    const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 2) / 2;
-    console.log({ targetAmt })
     const stMultiplier = {
-      bullish: 0.85,
-      bearish: 1.5
+      bullish: 1.5,
+      bearish: 0.8
     }[stBracket] || 1;
+
+    multPullback = Math.floor(multPullback * stMultiplier);
+
+    const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 3) / 3;
+    console.log({ targetAmt })
 
     let actualPercToSell = (() => {
       if (percToSell === 100) return 100;
       if (definedPercent[ticker]) return definedPercent[ticker];
 
-      // ca;c [erc based pm targetAmt
+      // calc [erc based pm targetAmt
       let perc = (1 - targetAmt / Number(market_value)) * 100;;
 
-      perc = perc * stMultiplier;
       perc = Math.min(perc, 100);
 
       return perc;
@@ -105,6 +105,7 @@ module.exports = async () => {
       actualPercToSell,
       targetAmt,
       multPullback,
+      downPercMult,
       numMultipliers,
       avgMultipliersPerPick,
       dollarsToSell,
