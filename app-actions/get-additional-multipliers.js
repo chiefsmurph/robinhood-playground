@@ -93,17 +93,22 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   };
 
 
-  const zeroMultMult = totalEquity / 3.5;
-  const getAvgDownMultiplier = () => 
-    Math.round(
-      avgMultipliersPerPick
-        ? avgMultipliersPerPick * avgDownerMultiplier
-        : isNaN(zeroMultMult) ? 20 : zeroMultMult
-    );
+  // const zeroMultMult = totalEquity / 3.5;
+  // const getAvgDownMultiplier = () => 
+  //   Math.round(
+  //     avgMultipliersPerPick
+  //       ? avgMultipliersPerPick * avgDownerMultiplier
+  //       : isNaN(zeroMultMult) ? 20 : zeroMultMult
+  //   );
   // const isOvernightHold = strategy.includes('holds');
-  let subsetOffsetMultiplier = strategy.includes('avg-downer') || strategy.includes('holds')
-    ? getAvgDownMultiplier()
-    : await getSubsetOffset(fakePosition);
+  let subsetOffsetMultiplier = Math.max(
+    avgMultipliersPerPick * 1.1,
+    await getSubsetOffset(fakePosition)
+  );
+  
+      // strategy.includes('avg-downer') || strategy.includes('holds')
+      //   ? getAvgDownMultiplier()
+      //   : await getSubsetOffset(fakePosition);
 
   
   // if (strategy.includes('majorJump')) {
