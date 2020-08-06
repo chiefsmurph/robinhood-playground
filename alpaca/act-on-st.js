@@ -73,10 +73,10 @@ module.exports = async () => {
 
     strlog({ notDaytrades })
   const exceptionAmts = {
-    400: 2,
-    350: 0,
-    300: -2,
-    250: -4,
+    400: 10,
+    350: 8,
+    300: 6,
+    250: 4,
   };
   const specialExceptions = notDaytrades
     .filter(p => Number(p.market_value) < Number(account.equity) * 0.8)
