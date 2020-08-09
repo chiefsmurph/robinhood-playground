@@ -34,7 +34,8 @@ global.log = async (title, data) => {
 };
 
 global.getPreferences = () => jsonMgr.get('./json/preferences.json');
-global.savePreferences = preferences => jsonMgr.save('./json/preferences.json', preferences);
+global.savePreferences = async (preferences, user) => 
+    jsonMgr.save('./json/preferences.json', preferences);
 
 global.str = global.strlog = obj => console.log(JSON.stringify(obj, null, 2));
 global.mapLimit = require('promise-map-limit');

@@ -65,7 +65,7 @@ module.exports = {
 
     
     
-    onlyAvgDownOpenPositions: true,
+    onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
     makeFundsOnlyForDowners: false,
     
