@@ -47,7 +47,9 @@ module.exports = async () => {
 
 
   const toBuy = positions
-    .filter(p => p.wouldBeDayTrade && p.zScoreFinal > 0.7 && p.scan && p.zScoreSum > 0);
+    .filter(p => p.wouldBeDayTrade || (getMinutesFromOpen() > 120 && p.zScoreFinal > 1.7))
+    .filter(p => p.zScoreFinal > 0.7 && p.scan && p.zScoreSum > 0);
+
   const label = ps => ps.map(p => p.ticker).join(', ');
 
   const totalValue = sumArray(
@@ -62,7 +64,10 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, currentPrice, zScoreFinal, zScoreSum } = position;
+    const { ticker, currentPrice, zScoreFinal, zScoreSum, wouldBeDayTrade } = position;
+    if (!wouldBeDayTrade) {
+      await log(`ZSCORE FLIPPING ${ticker}`); 
+    }
     await cancelAllOrders(ticker, 'sell');
     const MAX_MULT = 4;
     const multiplier = Math.min(MAX_MULT, Math.ceil(zScoreFinal));
