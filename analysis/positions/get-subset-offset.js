@@ -49,16 +49,18 @@ const subsetOffsets = {
 
   
   firstAlert: 1,
-  // notFirstAlert: 0,
+  notFirstAlert: 30,
+
+
   avgh: 0,
   notAvgh: 7,
   hotSt: -19,
   notHotSt: 2,
   // collections
   zeroToOne: 4,
-  lowVolFitty: 7,
+  lowVolFitty: 20,
   oneToTwo: 2,
-  fitty: 4,
+  fitty: 20,
   fiveToTen: 3,
 
   // minKey
@@ -105,6 +107,7 @@ const subsetOffsets = {
   avgDownerUnder1Min: 22,
   avgDownerUnder5Min: 25,
   avgDownerUnder30Min: 25,
+  avgDownerUnder60Min: 25,
   
   'reverse split': -3,
   coronavirus: 3,
@@ -116,7 +119,7 @@ const subsetOffsets = {
 
   dailyRSIgt70: 3,
   dailyRSIgt50: 7,
-  dailyRSIgt50: 15,
+  dailyRSIgt30: 25,
   dailyRSIlt30: 20,
 
 
