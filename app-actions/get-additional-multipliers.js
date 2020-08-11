@@ -102,15 +102,14 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   //   );
   // const isOvernightHold = strategy.includes('holds');
 
-  console.log({
-    1: avgMultipliersPerPick * 1.1,
-    2: await getSubsetOffset(fakePosition)
-  });
-
-  let subsetOffsetMultiplier = avgMultipliersPerPick ? Math.max(
-    avgMultipliersPerPick * 1.1,
-    await getSubsetOffset(fakePosition)
-  ) : await getSubsetOffset(fakePosition);
+  let subsetOffsetMultiplier = await getSubsetOffset(fakePosition);
+  
+  if (avgMultipliersPerPick) {
+    subsetOffsetMultiplier = Math.max(
+      avgMultipliersPerPick * 1.1,
+      subsetOffsetMultiplier
+    );
+  }
   
       // strategy.includes('avg-downer') || strategy.includes('holds')
       //   ? getAvgDownMultiplier()
