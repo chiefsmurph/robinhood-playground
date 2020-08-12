@@ -338,7 +338,11 @@ module.exports = async ({
             // prevent day trades!!
             await alpacaCancelAllOrders(ticker, 'sell');
 
-            const pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
+            let pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
+            if (strategy.includes('overnight')) {
+                pickPrice *= 0.965;
+            }
+
             let totalQuantity = Math.round(perStock / pickPrice) || 1;
 
             const isBullishTicker = bullishTickers.includes(ticker);
