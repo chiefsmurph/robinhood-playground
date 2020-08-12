@@ -131,19 +131,21 @@ module.exports = class PositionWatcher {
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
       if (brokeDown && wouldBeDayTrade && getMinutesFromOpen() > 6) {
+        const account = await alpaca.getAccount();
+        const { cash, buying_power, equity } = account;
+
         const lastObserved = Number(this.observedPrices[this.observedPrices.length - 1]);
-        const MIN_DOLLARS = 45;
-        const MAX_DOLLARS = 400;
+        const MIN_DOLLARS = equity * 0.0064;
+        const MAX_DOLLARS = equity * 0.09;
         const [minQuantity, maxQuantity] = [MIN_DOLLARS, MAX_DOLLARS].map(amt => Math.ceil(amt / lastObserved));
-        const thirdQuantity = Math.min(maxQuantity, Math.max(1, Math.round(quantity / 4)));
+        const thirdQuantity = Math.max(1, Math.round(quantity / 4));
         const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
-        const brokeDownQuantity = Math.max(minQuantity, thirdQuantity * mult);
+        const brokeDownQuantity = Math.min(maxQuantity, Math.max(minQuantity, thirdQuantity * mult));
         const approxValue = lastObserved * brokeDownQuantity;
 
 
-        const account = await alpaca.getAccount();
-        const { cash, buying_power } = account;
+        
 
         const { onlyUseCash } = await getPreferences();
         const amtLeft = Number(onlyUseCash ? cash : buying_power);
