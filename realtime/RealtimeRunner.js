@@ -59,7 +59,7 @@ module.exports = new (class RealtimeRunner {
   getWelcomeData() {
     return {
       pms: this.getPms(),
-      ...pick(this, ['collections', 'derivedCollections', 'lastCollectionRefresh'])
+      ...pick(this, ['collections', 'derivedCollections', 'lastCollectionRefresh', 'marketSent'])
     };
   }
 
@@ -524,6 +524,21 @@ module.exports = new (class RealtimeRunner {
     
         console.log('COLLECTIONS AND HISTORICALS JUST BECAUSE', nowStr);
         await this.collectionsAndHistoricals();
+        // market sentiment
+        const marketTickers = ['SPY', 'IWM', 'RUT', 'NASDAQ', 'DJIA'];
+        const marketSent = await Promise.all(
+          marketTickers.map(ticker => ({
+            ticker,
+            stSent: await getStSentiment(ticker)
+          }))
+        );
+        this.marketSent = marketSent;
+
+        const avg = avgArray(
+          this.marketSent.map(({ stSent }) => stSent.bullBearScore)
+        );
+        const marketSentStr = this.marketSent.map(({ ticker, stSent: { bullBearScore }}) => `${ticker}: ${bullBearScore}`).join(' - ');
+        await log(`market sentiment avg at ${avg} - ${marketSentStr}`);
       }
     );
     
