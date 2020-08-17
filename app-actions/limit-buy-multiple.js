@@ -340,6 +340,7 @@ module.exports = async ({
 
             let pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
             if (strategy.includes('overnight')) {
+                await log('limit buy mult: we got an overnight drop shooting low')
                 pickPrice *= 0.965;
             }
 

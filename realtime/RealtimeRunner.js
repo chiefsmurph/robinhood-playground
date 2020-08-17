@@ -28,10 +28,13 @@ const getDailyKeys = require('../utils/get-daily-keys');
 const queryGoogleNews = require('../utils/query-google-news');
 const getActiveHalts = require('../utils/get-active-halts');
 
-
+// alpaca
 const alpacaActOnSt = require('../alpaca/act-on-st');
 const alpacaActOnMultipliers = require('../alpaca/act-on-multipliers');
 const alpacaActOnZScoreFinal = require('../alpaca/act-on-zscore-final');
+
+// polygon
+const polygonEveryFiveMinutes = require('../polygon/every-five-minutes');
 
 const riskCache = {};
 
@@ -457,9 +460,25 @@ module.exports = new (class RealtimeRunner {
       () => this.runAllStrategies(periods),
     );
 
+    let polygonPicks = [];
+
+    try {
+      polygonPicks = await this.timedAsync(
+        'running polygon picks',
+        () => this.runPolygonStrategy()
+      );
+    } catch (e) {
+      await log('error running polygon', { e });
+    }
+
+    if (polygonPicks.length > 10) {
+      await log('way too many polygon picks ... slicing', { polygonPicks });
+      polygonPicks = polygonPicks.slice(0, 10);
+    }
+
     await this.timedAsync(
       `handling ${picks.length} picks`,
-      () => this.handlePicks(picks, periods),
+      () => this.handlePicks([...picks, ...polygonPicks], periods),
     );
 
 
@@ -471,6 +490,18 @@ module.exports = new (class RealtimeRunner {
     }
 
   }
+
+  async runPolygonStrategy() {
+    const tickersAndAllPrices = await polygonEveryFiveMinutes();
+    const suddenDropsStrategy = this.strategies.find(strategy => strategy.strategyName === 'sudden-drops');
+    const picks = await this.runSingleStrategy(
+      tickersAndAllPrices,
+      suddenDropsStrategy,
+      'polygon5Min'
+    );
+    return picks;
+  }
+
   async penniesAndRecs() {
 
     // console.log('RUNNING DAILY', nowStr);
@@ -594,15 +625,17 @@ module.exports = new (class RealtimeRunner {
   async runSingleStrategy(tickersAndAllPrices, strategy, period) {
     const picks = [];
     const { strategyName, handler, collections, excludeCollections } = strategy;
-    const filteredByCollections = tickersAndAllPrices.filter(({ ticker }) => {
-      const passesCollections = (!collections || collections.some(collection => 
-        (this.collections[collection] || []).includes(ticker)
-      ));
-      const passesExcludesCollections = (!excludeCollections || excludeCollections.every(collection => 
-        !(this.collections[collection] || []).includes(ticker)
-      ))
-      return passesCollections && passesExcludesCollections;
-    });
+    const filteredByCollections = period.includes('polygon') 
+      ? tickersAndAllPrices 
+      : tickersAndAllPrices.filter(({ ticker }) => {
+        const passesCollections = (!collections || collections.some(collection => 
+          (this.collections[collection] || []).includes(ticker)
+        ));
+        const passesExcludesCollections = (!excludeCollections || excludeCollections.every(collection => 
+          !(this.collections[collection] || []).includes(ticker)
+        ))
+        return passesCollections && passesExcludesCollections;
+      });
     strlog({
       strategyName,
       tickersAndAllPrices: tickersAndAllPrices.map(t => t.ticker),
