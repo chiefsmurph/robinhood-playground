@@ -528,7 +528,7 @@ module.exports = new (class RealtimeRunner {
         // market sentiment
         const marketTickers = ['SPY', 'IWM', 'RUT', 'NASDAQ', 'DJIA'];
         const marketSent = await Promise.all(
-          marketTickers.map(ticker => ({
+          marketTickers.map(async ticker => ({
             ticker,
             stSent: await getStSentiment(ticker)
           }))
