@@ -179,6 +179,7 @@ module.exports = new (class RealtimeRunner {
     console.log('INITING REALTIME RUNNER'); 
 
     await this.collectionsAndHistoricals();
+    await this.setMarketSent();
 
     const START_MIN = 5;
     regCronIncAfterSixThirty({
@@ -525,25 +526,29 @@ module.exports = new (class RealtimeRunner {
     
         console.log('COLLECTIONS AND HISTORICALS JUST BECAUSE', nowStr);
         await this.collectionsAndHistoricals();
-        // market sentiment
-        const marketTickers = ['SPY', 'IWM', 'RUT', 'NASDAQ', 'DJIA'];
-        const marketSent = await Promise.all(
-          marketTickers.map(async ticker => ({
-            ticker,
-            stSent: await getStSentiment(ticker)
-          }))
-        );
-        this.marketSent = marketSent;
-
-        const avg = avgArray(
-          this.marketSent.map(({ stSent }) => stSent.bullBearScore)
-        );
-        const marketSentStr = this.marketSent.map(({ ticker, stSent: { bullBearScore }}) => `${ticker}: ${bullBearScore}`).join(' - ');
-        await log(`market sentiment avg at ${avg} - ${marketSentStr}`);
+        await this.setMarketSent();
       }
     );
     
     
+  }
+
+  async setMarketSent() {
+    // market sentiment
+    const marketTickers = ['SPY', 'IWM', 'RUT', 'NASDAQ', 'DJIA'];
+    const marketSent = await Promise.all(
+      marketTickers.map(async ticker => ({
+        ticker,
+        stSent: await getStSentiment(ticker)
+      }))
+    );
+    this.marketSent = marketSent;
+
+    const avg = avgArray(
+      this.marketSent.map(({ stSent }) => stSent.bullBearScore)
+    );
+    const marketSentStr = this.marketSent.map(({ ticker, stSent: { bullBearScore }}) => `${ticker}: ${bullBearScore}`).join(' - ');
+    await log(`market sentiment avg at ${avg} - ${marketSentStr}`);
   }
 
   async redAndBullishPicks() {
