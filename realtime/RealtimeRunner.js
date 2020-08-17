@@ -643,10 +643,10 @@ module.exports = new (class RealtimeRunner {
 
   // }
 
-  async runSingleStrategy(tickersAndAllPrices, strategy, period = '') {
+  async runSingleStrategy(tickersAndAllPrices, strategy, period) {
     const picks = [];
     const { strategyName, handler, collections, excludeCollections } = strategy;
-    const filteredByCollections = period.includes('polygon') 
+    const filteredByCollections = period && period.includes('polygon') 
       ? tickersAndAllPrices 
       : tickersAndAllPrices.filter(({ ticker }) => {
         const passesCollections = (!collections || collections.some(collection => 
