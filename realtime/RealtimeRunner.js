@@ -27,6 +27,7 @@ const getStSentiment = require('../utils/get-stocktwits-sentiment');
 const getDailyKeys = require('../utils/get-daily-keys');
 const queryGoogleNews = require('../utils/query-google-news');
 const getActiveHalts = require('../utils/get-active-halts');
+const { avgArray } = require('../utils/array-math');
 
 // alpaca
 const alpacaActOnSt = require('../alpaca/act-on-st');
