@@ -16,11 +16,12 @@ module.exports = async () => {
       const priceKeys = Object.keys(fiveMinBars[ticker][0]).filter(key => key.includes('Price'));
       return {
         ticker,
-        allPrices: fiveMinBars[ticker].map(hist => 
-          Math.min( 
+        allPrices: fiveMinBars[ticker].map(hist => ({
+          ...hist,
+          currentPrice: Math.min( 
             ...priceKeys.map(key => hist[key])
           )
-        )
+        }))
       }
     });
 
