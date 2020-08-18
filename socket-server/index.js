@@ -244,6 +244,7 @@ module.exports = new Promise(resolve => {
         client.on('client:act', async (method, ...rest) => {
             const methods = {
                 sellOnOpen: require('../alpaca/sell-on-open'),
+                actOnSt: require('../alpaca/act-on-st'),
                 actOnMultipliers: require('../alpaca/act-on-multipliers'),
                 actOnPositions: require('../alpaca/act-on-positions'),
                 actOnZScoreFinal: require('../alpaca/act-on-zscore-final'),

@@ -42,7 +42,7 @@ class Preferences extends Component {
     });
   }
   // other actions
-  act = action => pd(() => this.props.socket.emit('client:act', action, data => {
+  act = (action, ...rest) => pd(() => this.props.socket.emit('client:act', action, ...rest, data => {
     console.log({ data })
     window.alert(JSON.stringify(data));
   }));
@@ -75,7 +75,10 @@ class Preferences extends Component {
 
         <h3>Overall</h3>
         <ul>
-          <li><a onClick={this.act('cancelAllOrders')} href="#">Cancel All Orders</a></li>
+          <li><a onClick={pd(() => {
+            const ticker = window.prompt('Enter a ticker or leave blank');
+            this.act('cancelAllOrders', ticker || undefined);
+          })} href="#">Cancel Orders</a></li>
         </ul>
 
         <h3>Sell</h3>
@@ -90,6 +93,7 @@ class Preferences extends Component {
           
         <h3>Act on...</h3>
         <ul>
+          <li><a onClick={this.act('actOnSt')} href="#">actOnSt</a></li>
           <li><a onClick={this.act('actOnMultipliers')} href="#">actOnMultipliers</a></li>
           <li><a onClick={this.act('actOnPositions')} href="#">actOnPositions</a></li>
           <li><a onClick={this.act('actOnZScoreFinal')} href="#">actOnZScoreFinal</a></li>
