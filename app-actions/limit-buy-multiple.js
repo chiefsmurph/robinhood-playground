@@ -339,9 +339,15 @@ module.exports = async ({
             await alpacaCancelAllOrders(ticker, 'sell');
 
             let pickPrice = (withPrices.find(obj => obj.ticker === ticker) || {}).price;
+
             if (strategy.includes('overnight')) {
                 await log('limit buy mult: we got an overnight drop shooting low')
                 pickPrice *= 0.965;
+            }
+
+            if (strategy.includes('hotSt')) {
+                await log('limit buy mult: we got an overnight drop shooting low')
+                pickPrice *= 0.935;
             }
 
             let totalQuantity = Math.round(perStock / pickPrice) || 1;

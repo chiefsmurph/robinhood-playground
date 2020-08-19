@@ -47,7 +47,11 @@ module.exports = async () => {
 
 
   const toBuy = positions
-    .filter(p => p.wouldBeDayTrade || (getMinutesFromOpen() > 20 && p.zScoreFinal > 1.7))
+    .filter(p => (
+      p.wouldBeDayTrade ||
+      (getMinutesFromOpen() > 20 && p.zScoreFinal > 1.7) ||
+      (getMinutesFromOpen() > 5 && p.zScoreFinal > 2.5)
+    ))
     .filter(p => p.zScoreFinal > 0.7 && p.scan && p.zScoreSum > 0);
 
   const label = ps => ps.map(p => p.ticker).join(', ');

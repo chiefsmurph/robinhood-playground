@@ -83,7 +83,7 @@ module.exports = async () => {
     .filter(p => {
       const foundExc = Object.entries(exceptionAmts).find(([bbScore]) => (p.stSent || {}).bullBearScore >= Number(bbScore));
       const passesExc = foundExc && p.returnPerc < foundExc[1];
-      return passesExc && getMinutesFromOpen() > 30;
+      return passesExc && getMinutesFromOpen() > 20;
     });
   if (specialExceptions.length) {
     await log(`actonst special exceptions (super bullish not daytrades) - ${label(specialExceptions)}`);
