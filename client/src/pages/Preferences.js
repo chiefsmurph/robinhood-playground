@@ -77,6 +77,7 @@ class Preferences extends Component {
         <ul>
           <li><a onClick={pd(() => {
             const ticker = window.prompt('Enter a ticker or leave blank');
+            console.log({ ticker });
             this.act('cancelAllOrders', ticker || undefined);
           })} href="#">Cancel Orders</a></li>
         </ul>

@@ -250,7 +250,7 @@ module.exports = new Promise(resolve => {
                 actOnZScoreFinal: require('../alpaca/act-on-zscore-final'),
                 pullGit: () => log('pulling git') && exec('git pull origin master'),
                 buildClient: () => log('building client') && exec('cd client && yarn && yarn build'),
-                cancelAllOrders: () => require('../alpaca/cancel-all-orders')(),
+                cancelAllOrders: require('../alpaca/cancel-all-orders'),
                 limitBuyMultiple: require('../app-actions/limit-buy-multiple'),
                 getCheapest: cacheThis(require('../app-actions/get-cheapest')),
                 log,
@@ -258,6 +258,7 @@ module.exports = new Promise(resolve => {
             };
             const actFn = methods[method];
             const [cb] = rest.filter(arg => typeof arg === 'function').splice(-1, 1) // callback is last arg;
+            console.log({ actFn });
             if (!actFn) return cb && cb(`${method} is not a valid action`);
             const callArgs = rest.filter(arg => typeof arg !== 'function');
             const [lastCallArg] = callArgs.slice(-1);
