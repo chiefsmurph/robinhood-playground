@@ -72,10 +72,9 @@ module.exports = async () => {
     }
     await cancelAllOrders(ticker, 'sell');
     const MAX_MULT = 4;
-    const multiplier = Math.min(MAX_MULT, Math.ceil(zScoreFinal));
+    const multiplier = Math.max(1, Math.min(MAX_MULT, Math.ceil(zScoreFinal) + Math.floor(zScoreSum / 8)));
     let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
     // interesting....
-    totalAmtToSpend += Math.ceil(zScoreSum);
     const quantity = Math.ceil(totalAmtToSpend / currentPrice);
     await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${currentPrice}`, {
       ticker,
