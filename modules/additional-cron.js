@@ -11,6 +11,7 @@ const { default: recordStratPerfs } = require('../app-actions/record-strat-perfs
 // const sellAllBasedOnPlayout = require('../app-actions/sell-all-based-on-playout');
 // const sellAllIfWentUp = require('../app-actions/sell-all-if-went-up');
 const alpacaSellAllStocks = require('../alpaca/sell-all-stocks');
+const alpacaPremarketSells = require('../alpaca/premarket-sells');
 // const smartSells = require('../app-actions/smart-sells');
 const alpacaActOnPositions = require('../alpaca/act-on-positions');
 const alpacaContinueDown = require('../alpaca/continue-down');
@@ -36,11 +37,11 @@ const stratManager = require('../socket-server/strat-manager');
 const saveByDateAnalysis = require('../analysis/positions/save-bydate-analysis');
 
 const additionalCron = [
-    // {
-    //     name: 'alpacaPreMarketSells',
-    //     run: [-],
-    //     fn: () => alpacaSellAllStocks()
-    // },
+    {
+        name: 'alpacaPreMarketSells',
+        run: [-30, -26, -19],
+        fn: () => alpacaPremarketSells()
+    },
     // {
     //     name: 'alpacaContinueDown',
     //     run: [1],
