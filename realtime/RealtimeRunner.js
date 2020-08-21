@@ -915,7 +915,9 @@ module.exports = new (class RealtimeRunner {
     })();
     const haltKey = activeHalt && 'halt';
     if (activeHalt) {
-      await log(`--- halt ALERT for ${ticker} ----`, { activeHalt });
+      const haltStr = `--- halt ALERT for ${ticker} ----`;
+      await log(haltStr, { activeHalt });
+      await sendEmail('force', haltStr, logStr, Object.keys(emails)[1]); // cell phone
     }
     const pickName = [
         strategyName,
@@ -948,7 +950,7 @@ module.exports = new (class RealtimeRunner {
     }
 
     recordPicks(pickName, 5000, [ticker], null, { keys, data });  // dont await?
-    return;
+
   }
 
 
