@@ -75,10 +75,10 @@ class Preferences extends Component {
 
         <h3>Overall</h3>
         <ul>
-          <li><a onClick={pd(() => {
+          <li><a onClick={pd((evt) => {
             const ticker = window.prompt('Enter a ticker or leave blank');
             console.log({ ticker });
-            this.act('cancelAllOrders', ticker || undefined);
+            this.act('cancelAllOrders', ticker || undefined)(evt);
           })} href="#">Cancel Orders</a></li>
         </ul>
 

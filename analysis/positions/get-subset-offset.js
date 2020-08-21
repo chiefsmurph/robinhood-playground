@@ -10,7 +10,7 @@ const subsetOffsets = {
   // yesterday: ({ date }) => allDates[1] === date,
   // today: ({ date }) => allDates[0] === date,
 
-  suddenDrops: 6,
+  suddenDrops: 60,
   
   watchout: 2,
   // notWatchout: 3,
@@ -124,7 +124,7 @@ const subsetOffsets = {
 
 
 
-  gnewscoronavirus: 30
+  gnewscoronavirus: 150
 
 };
 

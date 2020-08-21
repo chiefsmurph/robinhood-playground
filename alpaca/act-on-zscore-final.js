@@ -66,7 +66,7 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, currentPrice, zScoreFinal, zScoreSum, wouldBeDayTrade } = position;
+    const { ticker, currentPrice, zScoreFinal, zScoreSum, wouldBeDayTrade, interestingWords = [] } = position;
     if (!wouldBeDayTrade) {
       await log(`ZSCORE FLIPPING ${ticker}`); 
     }
@@ -74,6 +74,15 @@ module.exports = async () => {
     const MAX_MULT = 4;
     const multiplier = Math.max(1, Math.min(MAX_MULT, Math.ceil(zScoreFinal) + Math.floor(zScoreSum / 8)));
     let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
+
+
+    if (interestingWords.includes('overnight')) {
+      totalAmtToSpend = totalAmtToSpend / 2;
+    } else if (interestingWords.includes('sudden')) {
+      totalAmtToSpend = totalAmtToSpend * 1.2;
+    }
+
+
     // interesting....
     const quantity = Math.ceil(totalAmtToSpend / currentPrice);
     await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${currentPrice}`, {
