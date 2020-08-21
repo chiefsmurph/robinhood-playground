@@ -2,10 +2,10 @@ const { alpaca } = require('../alpaca');
 const chunkApi = require('../utils/chunk-api');
 const { mapObject } = require('underscore');
 
-const getBars = async (tickers, period = '5Min') => {
+const getBars = async (tickers = ['DGLY'], period = '5Min') => {
   const chunks = await chunkApi(
     tickers,
-    async tickers => await alpaca.getBars(period, tickers.split(',')),
+    tickers => alpaca.getBars(period, tickers.split(',')),
     100
   );
   const combined = chunks.reduce((acc, chunk) => ({

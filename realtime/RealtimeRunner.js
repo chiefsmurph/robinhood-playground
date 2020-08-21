@@ -36,6 +36,7 @@ const alpacaActOnZScoreFinal = require('../alpaca/act-on-zscore-final');
 
 // polygon
 const polygonEveryFiveMinutes = require('../polygon/every-five-minutes');
+const polygonGetBars = require('../polygon/get-bars');
 
 const riskCache = {};
 
@@ -940,6 +941,12 @@ module.exports = new (class RealtimeRunner {
       stSent,
       dailyValues,
     };
+    
+    if (strategyName.includes('drop')) {
+      const polygonBars = Object.values(await polygonGetBars([ticker]));
+      data.polygonBars = polygonBars;
+    }
+
     recordPicks(pickName, 5000, [ticker], null, { keys, data });  // dont await?
     return;
   }
