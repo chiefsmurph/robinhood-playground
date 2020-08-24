@@ -345,7 +345,7 @@ module.exports = async ({
                 pickPrice *= 0.965;
             }
 
-            if (strategy.includes('hotSt')) {
+            if (strategy.includes('hotSt') && !strategy.includes('quick')) {
                 await log('limit buy mult: we got an overnight drop shooting low')
                 pickPrice *= 0.935;
             }
