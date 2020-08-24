@@ -500,7 +500,7 @@ module.exports = new (class RealtimeRunner {
     const picks = await this.runSingleStrategy(
       tickersAndAllPrices,
       suddenDropsStrategy,
-      'polygon5Min'
+      'polygon5'
     );
     return picks;
   }
@@ -803,6 +803,7 @@ module.exports = new (class RealtimeRunner {
 
     let { ticker, keys, data, period, strategyName } = pick;
 
+
     console.log({
       ticker,
       keys,
@@ -815,6 +816,8 @@ module.exports = new (class RealtimeRunner {
       console.log('no ticker backing out');
       return null;
     }
+
+    const isFirePick = strategyName.includes('sudden') || strategyName.includes('quick');
 
     const {
       values: dailyValues,
@@ -829,8 +832,8 @@ module.exports = new (class RealtimeRunner {
 
     const collectionKey = !strategyName.includes('pennyscan') ? this.getCollectionForTicker(ticker) : undefined;
 
-    if (strategyName === 'sudden-drops' && keys.isOvernight) {
-      strategyName = 'overnight-drops';
+    if (isFirePick && keys.isOvernight) {
+      strategyName = `overnight-${strategyName.split('-')[0]}`;
       delete keys.isOvernight;
     }
 
@@ -928,7 +931,7 @@ module.exports = new (class RealtimeRunner {
         firstAlertkey,
         stSent.stBracket,
         ...stSent.wordFlags || [],
-        ...strategyName.includes('sudden-drops') ? (await queryGoogleNews(ticker) || {}).wordFlags : [],
+        ...(await queryGoogleNews(ticker) || {}).wordFlags,
         watchoutKey,
         minKey,
         volumeKey,

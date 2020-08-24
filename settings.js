@@ -107,6 +107,7 @@ module.exports = {
         sudden-drops-bullish
         
 
+        quick-spikes
 
 
         // WOAH NELLY!!
