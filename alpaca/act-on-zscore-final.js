@@ -50,7 +50,7 @@ module.exports = async () => {
     .filter(p => p.scan)
     .filter(p => (
       p.zScoreFinal > 2 ||
-      p.zScorerSum > 16
+      p.zScoreSum > 16
     ))
   const label = ps => ps.map(p => p.ticker).join(', ');
 
