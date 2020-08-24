@@ -38,10 +38,10 @@ module.exports = async (dontSell) => {
         return;
     };
 
-    await mapLimit(toSell, 3, async pos => {
+    toSell.forEach(async pos => {
       const percToSell = Math.round(3 + pos.returnPerc);
       await log(`premarket sell ${pos.ticker} - ${percToSell}% bc returnPerc ${pos.returnPerc}`);
-      return sellPosition({
+      sellPosition({
           ...pos,
           percToSell
       });
