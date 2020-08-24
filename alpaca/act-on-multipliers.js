@@ -7,6 +7,7 @@ const sellPosition = require('./sell-position');
 const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
+const lookup = require('../utils/lookup');
 
 module.exports = async () => {
 
@@ -48,10 +49,11 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, stSent, currentPrice, numMultipliers, returnPerc } = position;
+    const { ticker, numMultipliers, returnPerc } = position;
     await cancelAllOrders(ticker, 'sell');
-    const quantity = Math.ceil(3 * dollarsToBuyPerStock / currentPrice);
-    await log(`ACTONMULT buying ${ticker} about $${Math.round(currentPrice * quantity)} around ${currentPrice} bc numMultipliers ${numMultipliers} & returnPerc ${returnPerc}`, {
+    const { currentPrice: pickPrice } = await lookup(ticker);
+    const quantity = Math.ceil(3 * dollarsToBuyPerStock / pickPrice);
+    await log(`ACTONMULT buying ${ticker} about $${Math.round(pickPrice * quantity)} around ${pickPrice} bc numMultipliers ${numMultipliers} & returnPerc ${returnPerc}`, {
       ticker,
       quantity,
       numMultipliers,
@@ -60,7 +62,7 @@ module.exports = async () => {
     attemptBuy({
       ticker,
       quantity,
-      pickPrice: currentPrice,
+      pickPrice,
       fallbackToMarket: true
     });
   }
