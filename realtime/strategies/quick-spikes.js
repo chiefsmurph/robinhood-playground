@@ -71,7 +71,7 @@ module.exports = {
             },
             data: {
               // allCurrents,
-              min,
+              max,
               mostRecent,
               trendFromMax
             }
