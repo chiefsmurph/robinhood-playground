@@ -25,8 +25,8 @@ module.exports = async () => {
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
   }
   
-  if (amtToSpend <= 20) {
-    return log('not enough money to act on st');
+  if (amtToSpend <= 4) {
+    return log('not enough money to act on zscore');
   }
 
   strlog({ account})
@@ -71,6 +71,7 @@ module.exports = async () => {
       await log(`ZSCORE FLIPPING ${ticker}`); 
     }
     await cancelAllOrders(ticker, 'sell');
+    const { currentPrice: pickPrice } = await lookup(ticker);
     const MAX_MULT = 4;
     const multiplier = Math.max(1, Math.min(MAX_MULT, Math.ceil(zScoreFinal) + Math.floor(zScoreSum / 8)));
     let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
@@ -84,8 +85,8 @@ module.exports = async () => {
 
 
     // interesting....
-    const quantity = Math.ceil(totalAmtToSpend / currentPrice);
-    await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${currentPrice}`, {
+    const quantity = Math.ceil(totalAmtToSpend / pickPrice);
+    await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${pickPrice}`, {
       ticker,
       quantity,
       multiplier,
@@ -95,7 +96,7 @@ module.exports = async () => {
       strategy: 'ACTONZSCOREFINAL',
       withPrices: [{
         ticker,
-        price: (await lookup(ticker)).currentPrice || currentPrice
+        price: pickPrice
       }]
     });
     // attemptBuy({

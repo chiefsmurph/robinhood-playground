@@ -24,7 +24,7 @@ module.exports = async () => {
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
   }
   
-  if (amtToSpend <= 20) {
+  if (amtToSpend <= 4) {
     return log('not enough money to act on st');
   }
 
@@ -105,8 +105,9 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, stSent, currentPrice, numMultipliers, returnPerc } = position;
+    const { ticker, stSent, numMultipliers, returnPerc } = position;
     await cancelAllOrders(ticker, 'sell');
+    const { currentPrice: pickPrice } = await lookup(ticker);
     const { bullBearScore } = stSent;
     const bullBearMultiplier = Math.min(4, Math.max(1, Math.floor((bullBearScore - 100) / 100)));
     const multiplierMultiplier = Math.floor(numMultipliers / 300);
@@ -114,8 +115,8 @@ module.exports = async () => {
     let multiplier = bullBearMultiplier;
     multiplier += Math.min(4, multiplierMultiplier + returnPercMultiplier);
     const totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
-    const quantity = Math.ceil(totalAmtToSpend / currentPrice);
-    await log(`ST buying ${ticker} about $${totalAmtToSpend} around ${currentPrice}`, {
+    const quantity = Math.ceil(totalAmtToSpend / pickPrice);
+    await log(`ST buying ${ticker} about $${totalAmtToSpend} around ${pickPrice}`, {
       ticker,
       quantity,
       multiplier,
@@ -130,7 +131,7 @@ module.exports = async () => {
       strategy: 'ACTONST',
       withPrices: [{
         ticker,
-        price: currentPrice
+        price: pickPrice
       }]
     });
     

@@ -342,15 +342,17 @@ module.exports = async ({
 
             if (strategy.includes('overnight')) {
                 await log('limit buy mult: we got an overnight drop shooting low')
-                pickPrice *= 0.965;
-            }
-
-            if (strategy.includes('hotSt') && !strategy.includes('quick')) {
-                await log('limit buy mult: we got an overnight drop shooting low')
+                pickPrice *= 0.955;
+            } else if (strategy.includes('quick')) {
+                await log('limit buy mult: we got a quick shooting low')
                 pickPrice *= 0.935;
+            } else if (strategy.includes('hotSt')) {
+                await log('limit buy mult: we got a hotSt shooting low')
+                pickPrice *= 0.935;
+            } else {
+                pickPrice *= 0.97;  // why not
             }
 
-            pickPrice *= 0.97;  // why not
 
             let totalQuantity = Math.round(perStock / pickPrice) || 1;
 
