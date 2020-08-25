@@ -8,6 +8,7 @@ const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
+const lookup = require('../utils/lookup');
 
 module.exports = async () => {
 
