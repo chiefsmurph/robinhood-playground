@@ -52,5 +52,5 @@ updates_client.connect()
 
 module.exports = {
     alpaca,
-    client
+    // client
 };
