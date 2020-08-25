@@ -138,7 +138,7 @@ module.exports = class PositionWatcher {
         const MIN_DOLLARS = equity * 0.0064;
         const MAX_DOLLARS = equity * 0.09;
         const [minQuantity, maxQuantity] = [MIN_DOLLARS, MAX_DOLLARS].map(amt => Math.ceil(amt / lastObserved));
-        const thirdQuantity = Math.max(1, Math.round(quantity / 4));
+        const thirdQuantity = Math.max(1, Math.round(quantity / 6));
         const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
         const mult = Math.max(1, Math.ceil((totalPoints - 100) / 100));
         const brokeDownQuantity = Math.min(maxQuantity, Math.max(minQuantity, thirdQuantity * mult));
@@ -289,10 +289,10 @@ module.exports = class PositionWatcher {
       if (minPast <= 120) return 'isLessThan2Hrs';
     })();
     let avgDownWhenPercDown = (() => {
-      if (lessThanTime === 'isLessThan5Min') return -2.5;
-      if (lessThanTime === 'isLessThan20Min') return -3.7;
-      if (lessThanTime === 'isLessThan2Hrs') return -5.2;
-      return -6;
+      if (lessThanTime === 'isLessThan5Min') return -5;
+      if (lessThanTime === 'isLessThan20Min') return -6;
+      if (lessThanTime === 'isLessThan2Hrs') return -7.5;
+      return -10;
     })();
 
     const stOffset = {

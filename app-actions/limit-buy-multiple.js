@@ -350,6 +350,8 @@ module.exports = async ({
                 pickPrice *= 0.935;
             }
 
+            pickPrice *= 0.97;  // why not
+
             let totalQuantity = Math.round(perStock / pickPrice) || 1;
 
             const isBullishTicker = bullishTickers.includes(ticker);

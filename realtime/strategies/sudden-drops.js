@@ -19,7 +19,7 @@ const stSents = [
 module.exports = {
     period: [5],
     // collections: ['spy', 'options', 'fitty', 'lowVolFitty', 'zeroToOne', 'oneToTwo', 'twoToFive', 'fiveToTen'],
-    // excludeCollections: ['holds'],
+    excludeCollections: ['hotSt'],
     handler: async ({ ticker, allPrices }) => {
 
       const spyTrend = await getSpyTrend();
