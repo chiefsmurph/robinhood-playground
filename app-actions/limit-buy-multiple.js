@@ -162,7 +162,6 @@ const eclecticBuy = async ({
         },
 
 
-
         {
             method: alpacaLimitBuy,
             name: 'limitd1',
@@ -170,14 +169,14 @@ const eclecticBuy = async ({
         },
         {
             method: alpacaLimitBuy,
-            name: 'limitd2',
-            limitPrice: pickPrice * .982,
+            name: 'limitd3',
+            limitPrice: pickPrice * .972,
             timeoutSeconds: 60 * 45,
         },
         {
             method: alpacaLimitBuy,
-            name: 'limitd3',
-            limitPrice: pickPrice * .975,
+            name: 'limitd45',
+            limitPrice: pickPrice * .965,
             timeoutSeconds: 60 * 60,
         },
 
@@ -350,7 +349,7 @@ module.exports = async ({
                 await log('limit buy mult: we got a hotSt shooting low')
                 pickPrice *= 0.935;
             } else {
-                pickPrice *= 0.975;  // why not
+                pickPrice *= 0.99;  // why not
             }
 
 
