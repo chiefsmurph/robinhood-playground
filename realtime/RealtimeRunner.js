@@ -833,7 +833,7 @@ module.exports = new (class RealtimeRunner {
     const collectionKey = !strategyName.includes('pennyscan') ? this.getCollectionForTicker(ticker) : undefined;
 
     if (isFirePick && keys.isOvernight) {
-      strategyName = `overnight-${strategyName.split('-')[0]}`;
+      strategyName = `overnight-${strategyName.split('-')[1]}`;
       delete keys.isOvernight;
     }
 

@@ -39,7 +39,11 @@ const saveByDateAnalysis = require('../analysis/positions/save-bydate-analysis')
 const additionalCron = [
     {
         name: 'alpacaPreMarketSells',
-        run: [-30, -26, -19],
+        run: [
+            -30,
+            -26, 
+            -19
+        ],
         fn: () => alpacaPremarketSells()
     },
     // {
