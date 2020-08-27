@@ -3,6 +3,8 @@ const { alpaca } = require('.');
 const alpacaAttemptSell = require('./attempt-sell')
 const { sumArray } = require('../utils/array-math');
 const getSpyTrend = require('../utils/get-spy-trend');
+const spraySell = require('./spray-sell');
+const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 
 module.exports = async () => {
 
@@ -75,7 +77,7 @@ module.exports = async () => {
     const dollarsToSell = qToSell * currentPrice;
 
     const halfQ = Math.ceil(qToSell / 2);
-    const quarterQ = Math.floor((qToSell - halfQ) / 2);
+    // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
@@ -84,20 +86,32 @@ module.exports = async () => {
       type: 'market',
       time_in_force: 'opg',
     }).catch(console.error);
-    if (quarterQ) {
-      alpacaAttemptSell({
-        ticker,
-        quantity: quarterQ,
-        fallbackToMarket: true,
-      });
-      setTimeout(() => {
-        alpacaAttemptSell({
+    // if (quarterQ) {
+    //   alpacaAttemptSell({
+    //     ticker,
+    //     quantity: quarterQ,
+    //     fallbackToMarket: true,
+    //   });
+    //   setTimeout(() => {
+    //     alpacaAttemptSell({
+    //       ticker,
+    //       quantity: quarterQ,
+    //       fallbackToMarket: true,
+    //     });
+    //   }, 1000 * 60 * 6);
+    // }
+    regCronIncAfterSixThirty({
+      name: `start spray selling ${ticker}`,
+      run: [1],
+      fn: () => {
+        spraySell({
           ticker,
-          quantity: quarterQ,
-          fallbackToMarket: true,
+          quantity: halfQ,
+          numSeconds: 60 * 60 * 3
         });
-      }, 1000 * 60 * 6);
-    }
+      }
+    });
+    
     await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
       ticker,
       stMultiplier,

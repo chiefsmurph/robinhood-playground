@@ -3,10 +3,12 @@ const marketSell = require('./market-sell');
 const { range } = require('underscore');
 const Log = require('../models/Log');
 
+const NUM_SECONDS_TOTAL = 60 * 20;
 
 module.exports = async ({
   ticker,
-  quantity
+  quantity,
+  numSeconds = NUM_SECONDS_TOTAL
 } = {
   ticker: 'NAKD',
   quantity: 100
@@ -14,8 +16,6 @@ module.exports = async ({
 
   const { bidPrice, askPrice, lastTrade } = await lookup(ticker);
   const amt = quantity * lastTrade;
-
-
 
 
   const sharesAtATime = Math.min(20, quantity);
@@ -30,8 +30,7 @@ module.exports = async ({
   strlog({ qAmts })
   const numShots = qAmts.length;
   
-  const NUM_SECONDS_TOTAL = 60 * 20;
-  const numMs = NUM_SECONDS_TOTAL * 1000;
+  const numMs = numSeconds * 1000;
   const spaceApart = numMs / numShots;
   console.log({ secApart: spaceApart / 1000})
   // const delayAmts = range(numShots).map(i => i * spaceApart);
