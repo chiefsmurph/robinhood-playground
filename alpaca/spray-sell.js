@@ -37,6 +37,7 @@ module.exports = async ({
 
   // strlog({ delayAmts });
 
+  await log(`starting to spray ${quantity} shares of ${ticker}... shares at a time ${sharesAtATime} numShots ${numShots} spaceApart ${spaceApart}`);
   const responses = [];
   for (let i of range(numShots)) {
     const quantity = qAmts[i];
