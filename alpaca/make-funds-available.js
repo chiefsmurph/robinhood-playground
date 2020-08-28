@@ -29,10 +29,6 @@ module.exports = async amt => {
 
   console.log(`making funds available: ${amt}`);
   let positions = await getPositions(true);
-  if (positions.length <= MIN_POSITIONS) {
-    await log('CANT MAKE FUNDS AVAILABLE BC ALREADY TOO FEW POSITIONS...');
-    return;
-  }
   if (!makeKeeperFundsAvailable) {
     positions = positions.filter(({ notSelling }) => !notSelling);
   }
@@ -52,7 +48,10 @@ module.exports = async amt => {
   const totalAvailableToSell = sumArray(maxTen.map(p => Number(p.market_value)));
 
 
-  const percToSell = Math.max(5, Math.min(100, Math.round((amt * 1.3) / totalAvailableToSell * 100)));
+  let percToSell = Math.max(5, Math.min(100, Math.round((amt * 1.3) / totalAvailableToSell * 100)));
+  if (percToSell === 100 && positions.length <= MIN_POSITIONS) {
+    percToSell = 90;
+  }
   console.log({ amt, totalAvailableToSell, percToSell })
   await stratManager.init({ lowKey: true });
   return Promise.all(
