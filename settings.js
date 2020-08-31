@@ -50,7 +50,11 @@ module.exports = {
         // 'STG'
     ],
 
-    breakdownRSIs: [13, 7, 3],
+    breakdownRSIs: [
+        // 13,
+        7, 
+        3
+    ],
 
     // sellAllStocksOnNthDay: 8,
 
