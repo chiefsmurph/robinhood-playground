@@ -58,7 +58,7 @@ const executeBuys = async ({
     await log(`limit buy multiple ${ticker} - ${buyStylesLog}`)
     const buyPromises = sliced.map(
         async ({ method, name = method.name, ...rest }, index) => {
-            const actualQuantity = Math.round(individualQuantity * ((100 + (index * 10)) / 100));
+            const actualQuantity = Math.round(individualQuantity * ((100 + (index * 20)) / 100));
             console.log(`${name}: purchasing ${actualQuantity} shares of ${ticker}`);
             // await new Promise(resolve => setTimeout(resolve, 1000 * Math.random() * 10))
             const response = await method({
