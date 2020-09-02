@@ -1,7 +1,7 @@
 const Combinatorics = require('js-combinatorics');
 const { mapObject, uniq, pick } = require('underscore');
 
-const { emails } = require('./config');
+const { emails } = require('../config');
 const getCollections = require('./collections/');
 const dayInProgress = require('./day-in-progress');
 const getHistoricals = require('./historicals/get');

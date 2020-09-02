@@ -198,7 +198,7 @@ class App extends Component {
         tags: ['notManual', 'lastTen'].map(createTag),
         admin: localStorage.getItem('placate'),
         onlyRegHrs: false,
-        lowKey: true
+        lowKey: false
     };
 
     handleDelete = i => {

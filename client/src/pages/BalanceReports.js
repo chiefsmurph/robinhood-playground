@@ -226,6 +226,32 @@ const pruneByDays = (balanceReports, numDays) => {
 };
 
 
+function getOutlierIndexes(someArray) {
+    const outlierIndexes = [];
+    someArray.forEach((value, index) => {
+        const prev = someArray[index - 1];
+        const next = someArray[index + 1];
+        const bigJumpPrev = Math.abs(prev - value) > 5;
+        const bigJumpNext = Math.abs(next - value) > 5;
+        const prevNextNoRelated = Math.abs(prev - next) < 5;
+        if (value < -30) {
+            console.log({
+                bigJumpPrev,
+                bigJumpNext,
+                prevNextNoRelated,
+                prev,
+                next,
+                trend: getTrend(prev, next)
+            })
+        }
+        if (bigJumpPrev && bigJumpNext && prevNextNoRelated) {
+            console.log('outlier', value, index)
+            outlierIndexes.push(index);
+        }
+    });
+    return outlierIndexes;
+}
+
 const smallDevice = window.innerWidth < 600;
 class DayReports extends Component {
     constructor() {
@@ -327,7 +353,6 @@ class DayReports extends Component {
         }, getStats)
 
 
-
         // day pruning
 
         const numReports = balanceReports.length;
@@ -356,6 +381,7 @@ class DayReports extends Component {
 
         // more code!
 
+        
         let firstOfDay;
         let chartData = (() => {
             // console.log({timeFilter})
@@ -407,14 +433,31 @@ class DayReports extends Component {
             }
         });
 
-        const CENTER_ON_OPEN = true;
+        // remove noise
 
-        if (CENTER_ON_OPEN) {
-            
-        }
-       
 
         console.log({ chartData})
+
+        chartData = (() => {
+            let removeOutlierIndexes = [];
+            chartData.datasets.forEach(dataset => {
+                const outliers = getOutlierIndexes(dataset.data);
+                console.log({
+                    label: dataset.label,
+                    outliers
+                });
+                removeOutlierIndexes = [
+                    ...removeOutlierIndexes,
+                    ...outliers
+                ];
+                console.log({ removeOutlierIndexes})
+            });
+            const uniqIndexes = [...new Set(removeOutlierIndexes)].sort((a, b) => b - a);
+            uniqIndexes.forEach(index => removeReports(chartData, index, 1));
+            console.log({uniqIndexes})
+            return chartData;
+        })();
+
 
 
         // console.log({ indexStats})
@@ -452,7 +495,6 @@ class DayReports extends Component {
             }
         }
         removeReports(chartData, 0, 1);
-
 
         // tablet formatting
 
