@@ -20,6 +20,7 @@ module.exports = {
     period: [5],
     // collections: ['spy', 'options', 'fitty', 'lowVolFitty', 'zeroToOne', 'oneToTwo', 'twoToFive', 'fiveToTen'],
     excludeCollections: ['hotSt'],
+    disabled: true,
     handler: async ({ ticker, allPrices }) => {
 
       const spyTrend = await getSpyTrend();
