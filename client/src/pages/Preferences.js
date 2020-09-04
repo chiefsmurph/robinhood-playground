@@ -107,7 +107,7 @@ class Preferences extends Component {
             window.alert(JSON.stringify(pick, null, 2))
           });
         })}>Click here to get the most down pick</button>
-
+        &nbsp;&nbsp;
         <button onClick={this.act('purchaseMostDownPick')}>Purchase most down pick</button>
 
         <hr/>
