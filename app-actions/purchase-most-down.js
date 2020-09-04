@@ -8,13 +8,13 @@ module.exports = async () => {
   const { equity } = await alpaca.getAccount();
   const mostDownPick = require('../socket-server/strat-manager').getMostDownPick();
   if (!mostDownPick) return log('no most down pick currently');
-  const { tickers, strategy } = mostDownPick;
+  const { tickers, strategyName } = mostDownPick;
   const [ticker] = tickers;
   let totalAmtToSpend = equity * 0.007;
-  if (!strategy.includes('hotSt')) {
+  if (!strategyName.includes('hotSt')) {
     totalAmtToSpend *= 1.5;
   }
-  if (strategy.includes('sudden')) {
+  if (strategyName.includes('sudden')) {
     totalAmtToSpend *= 2;
   }
   totalAmtToSpend = Math.ceil(totalAmtToSpend);
