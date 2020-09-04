@@ -106,7 +106,9 @@ class Preferences extends Component {
           this.props.socket.emit('client:get-most-down-pick', pick => {
             window.alert(JSON.stringify(pick, null, 2))
           });
-        })}>Click here for the lowest performing pick</button>
+        })}>Click here to get the most down pick</button>
+
+        <button onClick={this.act('purchaseMostDownPick')}>Purchase most down pick</button>
 
         <hr/>
         <textarea 

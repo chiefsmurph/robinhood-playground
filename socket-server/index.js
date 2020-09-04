@@ -253,6 +253,7 @@ module.exports = new Promise(resolve => {
                 cancelAllOrders: require('../alpaca/cancel-all-orders'),
                 limitBuyMultiple: require('../app-actions/limit-buy-multiple'),
                 getCheapest: cacheThis(require('../app-actions/get-cheapest')),
+                purchaseMostDownPick: require('../app-actions/purchase-most-down'),
                 log,
                 restartProcess,
             };
