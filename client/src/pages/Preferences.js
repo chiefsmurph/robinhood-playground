@@ -101,6 +101,14 @@ class Preferences extends Component {
         </ul>
 
         <hr/>
+
+        <button onClick={pd(() => {
+          this.props.socket.emit('client:get-most-down-pick', pick => {
+            window.alert(JSON.stringify(pick, null, 2))
+          });
+        })}>Click here for the lowest performing pick</button>
+
+        <hr/>
         <textarea 
           rows={10} 
           cols={100} 

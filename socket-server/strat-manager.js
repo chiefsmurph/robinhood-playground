@@ -316,45 +316,58 @@ const stratManager = {
 
         
     },
-    calcPmPerfs() {
 
-
+    addTrendToPick(pick) {
         const { relatedPrices } = this.tickerWatcher;
+        const { withPrices } = pick;
+        if (typeof withPrices[0] === 'string') {
+            console.log(`typeof withPrices[0] === 'string'`, {withPrices});
+            return;
+        }
+        const withTrend = withPrices.map(stratObj => {
+            const relPrices = relatedPrices[stratObj.ticker];
+            if (!relPrices) {
+                console.log('OH NO DAWG', stratObj.ticker, stratObj);
+                return {};
+            }
+            // console.log('relPrices', relPrices, { stratObj });
+            const { lastTradePrice, afterHoursPrice, currentPrice } = relPrices;
+            const nowPrice = currentPrice;    // afterHoursPrice ||
+            // console.log('nowPrice', nowPrice)
+            return {
+                ticker: stratObj.ticker,
+                thenPrice: stratObj.price,
+                nowPrice,
+                trend: getTrend(nowPrice, stratObj.price)
+            };
+        });
+        return withTrend;
+    },
 
+    getMostDownPick() {
+        console.log('getting most down pick strat manager');
+        const picks = this.picks
+            .filter(({ date }) => date === this.curDate)
+            .map(pick => this.addTrendToPick(pick))
+            .filter(Boolean)
+            .map(withTrend => ({
+                avgTrend: avgArray(withTrend.map(obj => obj.trend)),
+                stratMin: withTrend.stratMin,
+                tickers: withTrend.map(obj => obj.ticker),
+            }))
+            .filter(Boolean)
+            .sort((a, b) => b.avgTrend - a.avgTrend);
+        strlog({ picks: picks.length });
+        return picks[picks.length - 1];
+    },
+
+    calcPmPerfs() {
         console.log('getting pms...')
         const realtimePms = require('../realtime/RealtimeRunner').getPms();
         console.log('now calcing pms')
         // console.log({ realtimePms})
         const pmPerfs = Object.keys(realtimePms).map(pmName => {
-
             const arrayOfArrays = realtimePms[pmName];
-
-            const handlePick = pick => {
-                const { withPrices } = pick;
-                if (typeof withPrices[0] === 'string') {
-                    console.log(`typeof withPrices[0] === 'string'`, {withPrices});
-                    return;
-                }
-                const withTrend = withPrices.map(stratObj => {
-                    const relPrices = relatedPrices[stratObj.ticker];
-                    if (!relPrices) {
-                        console.log('OH NO DAWG', stratObj.ticker, stratObj);
-                        return {};
-                    }
-                    // console.log('relPrices', relPrices, { stratObj });
-                    const { lastTradePrice, afterHoursPrice, currentPrice } = relPrices;
-                    const nowPrice = currentPrice;    // afterHoursPrice ||
-                    // console.log('nowPrice', nowPrice)
-                    return {
-                        ticker: stratObj.ticker,
-                        thenPrice: stratObj.price,
-                        nowPrice,
-                        trend: getTrend(nowPrice, stratObj.price)
-                    };
-                });
-                return withTrend;
-            };
-
             const foundStrategies = this.picks
                 .filter(({ date }) => date === this.curDate)
                 .filter(({ stratMin }) => {
@@ -370,7 +383,8 @@ const stratManager = {
                         });
                     });
                 })
-                .map(handlePick)
+                .map(pick => this.addTrendToPick(pick))
+                .filter(Boolean)
                 .map(withTrend => ({
                     avgTrend: avgArray(withTrend.map(obj => obj.trend)),
                     stratMin: withTrend.stratMin,

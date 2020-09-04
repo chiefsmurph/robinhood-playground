@@ -270,6 +270,13 @@ module.exports = new Promise(resolve => {
             return cb && cb(response);
         });
 
+        client.on('client:get-most-down-pick', cb => {
+            console.log('getting most down from socket');
+            cb && cb(
+                require('../socket-server/strat-manager').getMostDownPick()
+            );
+        });
+
         client.on('client:run-scan', async ({ period }) => {
             console.log('run-scan', period);
             const results = period === 'd' 

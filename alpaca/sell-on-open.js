@@ -102,7 +102,7 @@ module.exports = async () => {
     // }
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
-      run: [1],
+      run: [6],
       fn: () => {
         spraySell({
           ticker,

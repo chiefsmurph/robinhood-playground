@@ -106,7 +106,8 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             // 'halt'
         ];
         const matchesWord = w => strategy.includes(w) || interestingWords.includes(w);
-        if (badWords.some(w => matchesWord(w)) && !strategy.includes('downer')) {
+        const isMajorSudden = ['sudden', 'majorJump'].every(matchesWord);
+        if (!isMajorSudden && badWords.some(w => matchesWord(w)) && !strategy.includes('downer')) {
             isRecommended = false;
         }
 
