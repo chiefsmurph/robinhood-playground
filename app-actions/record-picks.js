@@ -176,7 +176,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
 
 
-    // last minute check to make sure we havent already recommended this at a higher price today (??? wat)
+    // last minute check to make sure we havent already recommended this at a lower price today (??? wat)
     for (let { ticker, price } of withPrices) {
         const recentPick = await Pick.getRecentPickForTicker(ticker, true, dateStr);
         if (!recentPick) continue;

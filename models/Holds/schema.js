@@ -33,6 +33,9 @@ schema.statics.registerAlpacaFill = async function(fillData) {
         relatedPick
     } = fillData;
     relatedPick = relatedPick || await Pick.getRecentPickForTicker(ticker, true);
+    if (!relatedPick) {
+        relatedPick = await Pick.getRecentPickForTicker(ticker, false);
+    }
     strlog({ relatedPick })
     const strategy = relatedPick ? relatedPick.strategyName : 'manual';
     const newBuy = {

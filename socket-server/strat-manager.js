@@ -348,7 +348,10 @@ const stratManager = {
         console.log('getting most down pick strat manager');
         const picks = this.picks
             .filter(({ date }) => date === this.curDate)
-            .map(pick => this.addTrendToPick(pick))
+            .map(pick => ({
+                ...pick,
+                ...this.addTrendToPick(pick)
+            }))
             .filter(Boolean)
             .map(withTrend => ({
                 avgTrend: avgArray(withTrend.map(obj => obj.trend)),

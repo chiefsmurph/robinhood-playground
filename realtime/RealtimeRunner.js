@@ -13,6 +13,7 @@ const runAllPennyScans = require('./run-all-penny-scans');
 const sendRecs = require('../app-actions/send-recs');
 const restartProcess = require('../app-actions/restart-process');
 const redAndBullish = require('../app-actions/red-and-bullish');
+const purchaseMostDown = require('../app-actions/purchase-most-down');
 
 // rh-actions
 const getRisk = require('../rh-actions/get-risk');
@@ -313,6 +314,17 @@ module.exports = new (class RealtimeRunner {
           60 * 1000 * 26 // 26 min
         ),
         1000 * 60 * 5
+      ),
+
+      setTimeout(() => 
+        setInterval(() => 
+          this.timedAsync(
+            'every 15 minutes - purchase most down',
+            () => purchaseMostDown(),
+          ),
+          60 * 1000 * 15 // 10 min
+        ),
+        1000 * 60 * 15
       ),
 
     ];

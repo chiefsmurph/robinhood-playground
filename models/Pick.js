@@ -48,8 +48,8 @@ schema.statics.getRecentPickForTicker = async function(ticker, isRecommended, da
                     }
                 },
                 ...isRecommended 
-                    ? { isRecommended: true }
-                    : { strategyName: /.*(sudden.*drops|rsi|downer).*/i  },
+                    && { isRecommended: true },
+                    // : { strategyName: /.*(sudden.*drops|rsi|downer).*/i  },
 
             ...date && { date }
             },
