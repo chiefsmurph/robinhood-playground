@@ -5,7 +5,7 @@ const Pick = require('../models/Pick');
 
 module.exports = async () => {
 
-  const { equity } = await alpaca.getBalance();
+  const { equity } = await alpaca.getAccount();
   const mostDownPick = require('../socket-server/strat-manager').getMostDownPick();
   if (!mostDownPick) return log('no most down pick currently');
   const { tickers, strategy } = mostDownPick;
