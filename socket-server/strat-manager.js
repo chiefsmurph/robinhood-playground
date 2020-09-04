@@ -350,13 +350,14 @@ const stratManager = {
             .filter(({ date }) => date === this.curDate)
             .map(pick => ({
                 ...pick,
-                ...this.addTrendToPick(pick)
+                withTrend: this.addTrendToPick(pick)
             }))
-            .filter(Boolean)
-            .map(withTrend => ({
-                avgTrend: avgArray(withTrend.map(obj => obj.trend)),
-                stratMin: withTrend.stratMin,
-                tickers: withTrend.map(obj => obj.ticker),
+            .filter(pick => pick.withTrend)
+            .map(pick => ({
+                ...pick,
+                avgTrend: avgArray(pick.withTrend.map(obj => obj.trend)),
+                stratMin: pick.withTrend.stratMin,
+                tickers: pick.withTrend.map(obj => obj.ticker),
             }))
             .filter(Boolean)
             .sort((a, b) => b.avgTrend - a.avgTrend);
