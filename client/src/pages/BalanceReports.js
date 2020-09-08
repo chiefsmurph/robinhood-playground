@@ -11,7 +11,7 @@ import './odometer.css';
 import reportsToChartData from '../utils/reports-to-chartData';
 import TrendPerc from '../components/TrendPerc';
 import getTrend from '../utils/get-trend';
-import _, { mapObject, throttle, flatten } from 'underscore';
+import _, { mapObject, throttle, flatten, pick, isEqual } from 'underscore';
 
 function get(obj, path) {
     var nPath, remainingPath;
@@ -234,16 +234,16 @@ function getOutlierIndexes(someArray) {
         const bigJumpPrev = Math.abs(prev - value) > 5;
         const bigJumpNext = Math.abs(next - value) > 5;
         const prevNextNoRelated = Math.abs(prev - next) < 5;
-        if (value < -30) {
-            console.log({
-                bigJumpPrev,
-                bigJumpNext,
-                prevNextNoRelated,
-                prev,
-                next,
-                trend: getTrend(prev, next)
-            })
-        }
+        // if (value < -30) {
+        //     console.log({
+        //         bigJumpPrev,
+        //         bigJumpNext,
+        //         prevNextNoRelated,
+        //         prev,
+        //         next,
+        //         trend: getTrend(prev, next)
+        //     })
+        // }
         if (bigJumpPrev && bigJumpNext && prevNextNoRelated) {
             console.log('outlier', value, index)
             outlierIndexes.push(index);
@@ -263,7 +263,9 @@ class DayReports extends Component {
             afterHoursAnnotations: [],
             fuzzFactor: 1,
             showBalance: false,
-            onlyRegHrs: false
+            onlyRegHrs: false,
+            animateCount: null,
+            intensiveData: null,
         };
     }
     componentDidMount() {
@@ -283,49 +285,108 @@ class DayReports extends Component {
         }
     }
     componentDidMount() {
-        // this.setState({
-        //     fuzzFactor: !smallDevice && this.state.numDaysToShow === 1 ? 2 : 1
-        // })
+        setTimeout(() => this.startAnimation(), 10000);
     }
-    setTimeFilter = timeFilter => this.setState({ timeFilter });
-    render () {
-        let { balanceReports, dayReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, showBalance, onlyRegHrs } = this.props;
-        let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations,  } = this.state;
-        if (!balanceReports || !balanceReports.length) return <b>LOADING</b>;
+    startAnimation = () =>
+        this.setState({
+            animateCount: 0
+        }, this.incrementAnimationCountAndScheduleTimeout);
+    incrementAnimationCountAndScheduleTimeout = () => {
+        const { animateCount } = this.state;
+        if (this.state.intensiveData && animateCount > this.state.intensiveData.chartData.labels.length) {
+            return;
+        }
+        this.setState(({
+            animateCount: animateCount + 1
+        }), () => {
+            setTimeout(() => this.incrementAnimationCountAndScheduleTimeout(), 5);
+        });
+    };
+    componentDidUpdate(prevProps, prevState) {
+        const getMemoChunk = (props, state) => ({
+            ...pick(props, ['balanceReports', 'lowKey', 'showBalance', 'onlyRegHrs']),
+            ...pick(state, ['numDaysToShow', 'hoverIndex', 'fuzzFactor'])
+        });
+        const needsToRecalcIntensiveData = !this.state.intensiveData || !isEqual(
+            getMemoChunk(prevProps, prevState),
+            getMemoChunk(this.props, this.state)
+        );
+        console.log({ 
+            needsToRecalcIntensiveData, 
+            prev: getMemoChunk(prevProps, prevState), 
+            now: getMemoChunk(this.props, this.state) 
+        });
+        if (needsToRecalcIntensiveData) {
+            this.setIntensiveData();
+        }
+    }
+    setIntensiveData = () => {
+        const {
+            numDaysToShow,
+            hoverIndex,
+            fuzzFactor, 
+        } = this.state;
+
+        const {
+            balanceReports,
+            lowKey, 
+            showBalance, 
+            onlyRegHrs
+        } = this.props;
+
+        let intensiveReports = [...balanceReports];
+
+        console.log('recalcing intensive data', {
+            ...{
+                numDaysToShow,
+                hoverIndex,
+                fuzzFactor, 
+            },
+            ...{
+                intensiveReports,
+                lowKey, 
+                showBalance, 
+                onlyRegHrs
+            }
+        })
 
         console.log({
             lowKey,
             showBalance
         })
 
-        // console.log({ balanceReports })
+        // console.log({ intensiveReports })
 
-        balanceReports = balanceReports.filter(r => r.indexPrices);
+        intensiveReports = intensiveReports.filter(r => r.indexPrices);
 
         // filter balance reports
-        const lastReport = balanceReports[balanceReports.length - 1];
+        const lastReport = intensiveReports[intensiveReports.length - 1];
         const d = new Date(lastReport.time);
 
-        const allDates = [...new Set(balanceReports.map(report => (new Date(report.time)).toLocaleDateString()))];
+        const allDates = [...new Set(intensiveReports.map(report => (new Date(report.time)).toLocaleDateString()))];
         // const numDaysToShow = timeFilter === 'onlyToday' ? 1 : allDates.length;
 
         const startIndex = (() => {
             const startDate = allDates[allDates.length - numDaysToShow - 1];
-            const first = !startDate ? 0 : balanceReports.length - balanceReports.slice().reverse().findIndex(report =>
+            const first = !startDate ? 0 : intensiveReports.length - intensiveReports.slice().reverse().findIndex(report =>
                 (new Date(report.time)).toLocaleDateString() === startDate && isRegularHours(report)
             ) - 1;
+            console.log({
+                allDates,
+                startDate,
+            })
             // console.log({ allDates, startDate, lastRegularReport })
             return first;
         })();
 
-        balanceReports = balanceReports.slice(startIndex);
+        intensiveReports = intensiveReports.slice(startIndex);
 
 
 
         // stats!
         const getStats = prop => {
-            const first = get(balanceReports[0], prop);
-            let copy = [...balanceReports];
+            const first = get(intensiveReports[0], prop);
+            let copy = [...intensiveReports];
             if (onlyRegHrs) {
                 copy = copy.filter(report => report.isRegularHours);
             }
@@ -355,43 +416,42 @@ class DayReports extends Component {
 
         // day pruning
 
-        const numReports = balanceReports.length;
+        const numReports = intensiveReports.length;
         let numDaysToPrune = smallDevice ? Math.ceil(numReports / 350) : numDaysToShow;
-        balanceReports = pruneByDays(balanceReports, numDaysToPrune);
-        balanceReports = pruneByDays(balanceReports, fuzzFactor);
+        intensiveReports = pruneByDays(intensiveReports, numDaysToPrune);
+        intensiveReports = pruneByDays(intensiveReports, fuzzFactor);
 
 
 
-        const numNotReg = balanceReports.findIndex(isRegularHours);
+        const numNotReg = intensiveReports.findIndex(isRegularHours);
         
-        // console.log({ numReports, smallDevice, numDaysToPrune, afterCount: balanceReports.length })
+        // console.log({ numReports, smallDevice, numDaysToPrune, afterCount: intensiveReports.length })
 
         // const numToShow = numDaysToShow === 1
         //     ? (() => {
-        //         const index = balanceReports.slice().reverse().findIndex(r => 
+        //         const index = intensiveReports.slice().reverse().findIndex(r => 
         //             (new Date(r.time)).getDate() !== date
         //         );
         //         console.log({ index})
-        //         firstOfDay = balanceReports[balanceReports.length - index];
-        //         return balanceReports.length - index
+        //         firstOfDay = intensiveReports[intensiveReports.length - index];
+        //         return intensiveReports.length - index
         //     })() : 0;
-        // balanceReports = balanceReports.slice(0 - dataSlice);
+        // intensiveReports = intensiveReports.slice(0 - dataSlice);
 
-        // console.log({ lines: getNewDayLines(balanceReports)})   
+        // console.log({ lines: getNewDayLines(intensiveReports)})   
 
         // more code!
-
         
         let firstOfDay;
         let chartData = (() => {
             // console.log({timeFilter})
-            if (timeFilter === '2019') {
-                return reportsToChartData.balanceChart(dayReports ? dayReports : []);
-            }
+            // if (timeFilter === '2019') {
+            //     return reportsToChartData.balanceChart(dayReports ? dayReports : []);
+            // }
             // nope not overall
             // data coming from balance reports
             
-            const chartData = reportsToChartData.balanceChart(balanceReports, showBalance);
+            const chartData = reportsToChartData.balanceChart(intensiveReports, showBalance);
             return chartData;
             // const withDiff = {
             //     ...chartData,
@@ -461,9 +521,9 @@ class DayReports extends Component {
 
 
         // console.log({ indexStats})
-        const showingSince = firstOfDay ? firstOfDay : balanceReports[0];
-        // console.log({ showingSince, firstOfDay, balanceReports })
-        // const afterHoursBoxes = getAfterHoursBoxes(balanceReports);
+        const showingSince = firstOfDay ? firstOfDay : intensiveReports[0];
+        // console.log({ showingSince, firstOfDay, intensiveReports })
+        // const afterHoursBoxes = getAfterHoursBoxes(intensiveReports);
 
         // console.log({
         //     same: afterHoursBoxes === [["10/4/2019, 3:00:15 PM","10/7/2019, 8:29:54 AM"],["10/7/2019, 3:00:15 PM","10/8/2019, 8:29:48 AM"],["10/8/2019, 3:00:04 PM","10/9/2019, 8:29:47 AM"],["10/9/2019, 3:00:16 PM","10/10/2019, 8:29:59 AM"]]
@@ -478,7 +538,7 @@ class DayReports extends Component {
         //     same2: JSON.stringify(afterHoursBoxes) === JSON.stringify(expected)
         // })
         // console.log({ afterHoursAnnotations, chartData })
-        // console.log(getNewDayLines(balanceReports))
+        // console.log(getNewDayLines(intensiveReports))
         // console.log('hi', (new Array(allDates.length)).map((_, i) => i))
 
 
@@ -486,28 +546,56 @@ class DayReports extends Component {
 
 
         // deal with afterhours
-        const afterHoursBoxes = getAfterHoursBoxes(balanceReports);
+        const afterHoursBoxes = getAfterHoursBoxes(intensiveReports);
         console.log({ onlyRegHrs })
         if (onlyRegHrs) {
             removeAfterHours(chartData, afterHoursBoxes);
-            if (!balanceReports[balanceReports.length - 1].isRegularHours) {
+            if (!intensiveReports[intensiveReports.length - 1].isRegularHours) {
                 removeReports(chartData, chartData.labels.length - 1, 1);
             }
         }
         removeReports(chartData, 0, 1);
+        
+        this.setState({
+            intensiveData: {
+                chartData,
+                stats,
+                indexStats,
+                allDates,
+                showingSince,
+                afterHoursBoxes,
+            }
+        });
+    }
+    setTimeFilter = timeFilter => this.setState({ timeFilter });
+    render () {
+        let { balanceReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, showBalance, onlyRegHrs } = this.props;
+        let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations, animateCount, intensiveData } = this.state;
+        if (!balanceReports || !balanceReports.length || !intensiveData) return <b>LOADING</b>;
+        const { chartData, stats, indexStats, allDates, showingSince, afterHoursBoxes  } = intensiveData;
+
+        console.log({ chartData });
+
+        const slicedChartData = JSON.parse(JSON.stringify(chartData));
+        if (animateCount !== null) {
+            slicedChartData.datasets.forEach((dataset, index) => {
+                dataset.data.splice(animateCount);
+            });
+            slicedChartData.labels.splice(animateCount);
+            console.log({ slicedChartData })
+        }
+
+
 
         // tablet formatting
 
-        const allDatas = chartData.datasets.map(dataset => dataset.data);
+        const allDatas = slicedChartData.datasets.map(dataset => dataset.data);
         const allValues = allDatas.reduce((acc, vals) => [...acc, ...vals], []);
         
         const min = Math.floor(_.min(allValues));
         const max = Math.ceil(_.max(allValues));
-        
-
         const stepSize = Math.ceil((max - min) / 13);
-        
-        console.log({ d: chartData.datasets, allDatas, allValues,min,max, stepSize })
+
 
         return (
             <div style={{ height: '100%', padding: '1em' }}>
@@ -676,7 +764,7 @@ class DayReports extends Component {
                 </div>
                 <div style={{ height: '90%' }} className='wider-container'>
                     <Line 
-                        data={chartData} 
+                        data={slicedChartData} 
                         plugins={[ChartAnnotation]}
                         options={{
                             events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove'],
@@ -707,7 +795,7 @@ class DayReports extends Component {
 
                                         
                                         ...annotateBoxes(afterHoursBoxes),
-                                        ...annotateLines(getNewDayLines(chartData)),
+                                        ...annotateLines(getNewDayLines(slicedChartData)),
 
                                     ]
                                 },
