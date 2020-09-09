@@ -107,7 +107,7 @@ module.exports = async () => {
         spraySell({
           ticker,
           quantity: halfQ,
-          numSeconds: onlyUseCash ? 60 * 15 : 60 * 30
+          numSeconds: onlyUseCash ? 60 * 15 : 60 * 40
         });
       }
     });
