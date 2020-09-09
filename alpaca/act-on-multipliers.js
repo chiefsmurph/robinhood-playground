@@ -38,22 +38,23 @@ module.exports = async () => {
   const toBuy = positions
     // .filter(p => p.wouldBeDayTrade)
     // .filter(p => (p.stSent || {}).stBracket !== 'bearish')
-    .filter(p => p.returnPerc < -6.5)
+    .filter(p => p.returnPerc < -7)
     .filter(p => p.numMultipliers > 40)
     .sort((a, b) => b.numMultipliers - a.numMultipliers)
     .slice(0, 3);
 
-  const dollarsToBuyPerStock = Math.ceil(amtToSpend / toBuy.length);
+  const dollarsToBuyPerStock = Math.ceil(amtToSpend / toBuy.length) * 5;
   await log(`ACTONMULTIPLIERS: $${amtToSpend} total - ${label(toBuy)}`, {
     toBuy,
     amtToSpend,
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, numMultipliers, returnPerc } = position;
+    const { ticker, numMultipliers, returnPerc, market_value } = position;
     await cancelAllOrders(ticker, 'sell');
     const { currentPrice: pickPrice } = await lookup(ticker);
-    const quantity = Math.ceil(3 * dollarsToBuyPerStock / pickPrice);
+    const dollarBuy = Math.max(Number(market_value) / 2, dollarsToBuyPerStock);
+    const quantity = Math.ceil(dollarBuy / pickPrice);
     await log(`ACTONMULT buying ${ticker} about $${Math.round(pickPrice * quantity)} around ${pickPrice} bc numMultipliers ${numMultipliers} & returnPerc ${returnPerc}`, {
       ticker,
       quantity,

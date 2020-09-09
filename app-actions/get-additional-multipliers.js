@@ -61,6 +61,14 @@ module.exports = async (pms, strategy, stocksToBuy) => {
     )
   );
 
+  const avgMarketValue = Math.round(
+    avgArray(
+      existingPositions
+        .map(position => Number(position.market_value))
+        .flatten()
+    )
+  );
+
   const totalEquity = sumArray(
     existingPositions
         .map(position => Number(position.equity))
@@ -105,10 +113,12 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   let subsetOffsetMultiplier = await getSubsetOffset(fakePosition);
   
   if (avgMultipliersPerPick) {
+    // if position already open
     subsetOffsetMultiplier = Math.max(
+      avgMarketValue * 0.8,
       avgMultipliersPerPick * 1.1,
-      subsetOffsetMultiplier
-    );
+      subsetOffsetMultiplier,
+    ) + subsetOffsetMultiplier;
   }
   
       // strategy.includes('avg-downer') || strategy.includes('holds')

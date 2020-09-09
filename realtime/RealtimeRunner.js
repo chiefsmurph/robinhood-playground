@@ -273,8 +273,8 @@ module.exports = new (class RealtimeRunner {
     this.currentlyRunning = true;
     this.runCount = 0;
     this.intervals = [
-      setInterval(() => 
-        this.timedAsync(
+      setInterval( 
+        () => this.timedAsync(
           'every five minutes timerrrr',
           () => this.everyFiveMinutes(),
         ),
@@ -289,43 +289,43 @@ module.exports = new (class RealtimeRunner {
       //   60 * 1000 * 60 * 3 // 3 hours
       // ),
 
-      setInterval(() => 
-        this.timedAsync(
-          'every 20 minutes - alpaca act on st',
+      setInterval(
+        () => this.timedAsync(
+          'every 15 minutes - alpaca act on st',
           () => alpacaActOnSt(),
         ),
-        60 * 1000 * 20 // 20 min
+        60 * 1000 * 15 // 20 min
       ),
 
-      setInterval(() => 
-        this.timedAsync(
-          'every 16 minutes - alpaca act on multipliers',
+      setInterval(
+        () => this.timedAsync(
+          'every 12 minutes - alpaca act on multipliers',
           () => alpacaActOnMultipliers(),
         ),
-        60 * 1000 * 16 // 16 minutes
+        60 * 1000 * 12 // 16 minutes
       ),
 
-      setTimeout(() => 
-        setInterval(() => 
-          this.timedAsync(
-            'every 26 minutes - alpaca act on zscore final',
-            () => alpacaActOnZScoreFinal(),
-          ),
-          60 * 1000 * 26 // 26 min
+      // setTimeout(() => 
+      setInterval(
+        () => this.timedAsync(
+          'every 9 minutes - alpaca act on zscore final',
+          () => alpacaActOnZScoreFinal(),
         ),
-        1000 * 60 * 5
+        60 * 1000 * 9 // 26 min
       ),
+        // 1000 * 60 * 5
+      // ),
 
-      setTimeout(() => 
-        setInterval(() => 
-          this.timedAsync(
-            'every 15 minutes - purchase most down',
-            () => purchaseMostDown(),
-          ),
-          60 * 1000 * 15 // 10 min
+      // setTimeout(() => 
+      setInterval(
+        () => this.timedAsync(
+          'every 12 minutes - purchase most down',
+          () => purchaseMostDown(),
         ),
-        1000 * 60 * 15
+        60 * 1000 * 12 // 15 min
       ),
+        // 1000 * 60 * 15
+      // ),
 
     ];
 
