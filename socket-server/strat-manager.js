@@ -353,6 +353,7 @@ const stratManager = {
                 ...pick,
                 withTrend: this.addTrendToPick(pick)
             }))
+            .filter(pick => !pick.strategyName.includes('supr-dwn'))
             .filter(pick => pick.withTrend)
             .map(pick => ({
                 ...pick,
