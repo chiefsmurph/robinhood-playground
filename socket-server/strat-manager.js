@@ -362,17 +362,19 @@ const stratManager = {
             }))
             .filter(Boolean)
             .filter(pick => pick.avgTrend !== undefined && !isNaN(pick.avgTrend))
-            .sort((a, b) => b.avgTrend - a.avgTrend)
+            .sort((a, b) => a.avgTrend - b.avgTrend)
             .filter(pick => pick.avgTrend <= SUPER_DOWN_LIMIT);
         const tickers = superDownPicks.map(pick => pick.tickers).flatten().uniq();
-        const superDownTickerPicks = tickers.map(ticker => {
-            const matchingPicks = superDownPicks.filter(pick => pick.tickers.includes(ticker));
-            return {
-                ticker,
-                picks: matchingPicks,
-                avgTrend: avgArray(matchingPicks.map(pick => pick.avgTrend))
-            };
-        });
+        const superDownTickerPicks = tickers
+            .map(ticker => {
+                const matchingPicks = superDownPicks.filter(pick => pick.tickers.includes(ticker));
+                return {
+                    ticker,
+                    picks: matchingPicks,
+                    avgTrend: avgArray(matchingPicks.map(pick => pick.avgTrend))
+                };
+            })
+            .filter((a, b) => a.avgTrend - b.avgTrend);
         return superDownTickerPicks;
     },
 
