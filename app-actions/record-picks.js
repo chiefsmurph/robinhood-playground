@@ -139,7 +139,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         }
 
         if (data.forceMultiplier) {
-            multiplier = forceMultiplier;
+            multiplier = data.forceMultiplier;
         }
         
         multiplier = Math.max(multiplier, minMultiplier);           // MIN
