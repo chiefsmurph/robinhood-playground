@@ -370,7 +370,7 @@ const stratManager = {
             return {
                 ticker,
                 picks: matchingPicks,
-                avgTrendDown: avgArray(matchingPicks)
+                avgTrend: avgArray(matchingPicks.map(pick => pick.avgTrend))
             };
         });
         return superDownTickerPicks;

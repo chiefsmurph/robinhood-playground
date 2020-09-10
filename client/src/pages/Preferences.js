@@ -103,8 +103,9 @@ class Preferences extends Component {
         <hr/>
 
         <button onClick={pd(() => {
-          this.props.socket.emit('client:get-super-down-picks', pick => {
-            window.alert(JSON.stringify(pick, null, 2))
+          this.props.socket.emit('client:get-super-down-picks', superPicks => {
+            console.log({ superPicks });
+            window.alert(JSON.stringify(superPicks.map(({ ticker, avgTrend }) => [ticker, avgTrend].join(' - ')), null, 2))
           });
         })}>Click here to get the super down picks</button>
         &nbsp;&nbsp;
