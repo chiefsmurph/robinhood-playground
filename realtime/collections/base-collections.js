@@ -170,14 +170,14 @@ module.exports = async () => {
             minPrice: 2,
             maxPrice: 5,
             minVolume: 150000,
-            count: 300,
+            count: 400,
         },
 
         fiveToTen: {
             minPrice: 5,
             maxPrice: 10,
             minVolume: 100000,
-            count: 300,
+            count: 400,
         },
 
     };
