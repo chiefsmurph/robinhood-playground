@@ -23,7 +23,8 @@ const {
     overallMultiplierMultiplier = 1,
     onlyAvgDownOpenPositions,
     dontBuy,
-    skipPurchasing
+    skipPurchasing,
+    dontRecommendAtHigherPrices
 } = require('../settings');
 const pmsHit = require('../utils/pms-hit');
 const { emails } = require('../config');
@@ -181,17 +182,19 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
 
     // last minute check to make sure we havent already recommended this at a lower price today (??? wat)
-    for (let { ticker, price } of withPrices) {
-        const recentPick = await Pick.getRecentPickForTicker(ticker, true, dateStr);
-        if (!recentPick) continue;
-        const recentRecPrice = ((recentPick.picks || []).find(pick => pick.ticker === ticker) || {}).price;
-        if (recentRecPrice && recentRecPrice < price) {
-            await log(`unrecommending ${ticker} because ticker was recommended today already at a lower price...`, {
-                recentPick,
-                recentRecPrice,
-                price
-            });
-            isRecommended = false;
+    if (dontRecommendAtHigherPrices) {
+        for (let { ticker, price } of withPrices) {
+            const recentPick = await Pick.getRecentPickForTicker(ticker, true, dateStr);
+            if (!recentPick) continue;
+            const recentRecPrice = ((recentPick.picks || []).find(pick => pick.ticker === ticker) || {}).price;
+            if (recentRecPrice && recentRecPrice < price) {
+                await log(`unrecommending ${ticker} because ticker was recommended today already at a lower price...`, {
+                    recentPick,
+                    recentRecPrice,
+                    price
+                });
+                isRecommended = false;
+            }
         }
     }
 
