@@ -922,6 +922,9 @@ module.exports = new (class RealtimeRunner {
 
     // const strategyName = `ticker-watchers-under${priceKey}${watchoutKey}${jumpKey}${minKey}${historicalKey}`;
     const isMajorJump = keyString.includes('majorJump');
+    if (isMajorJump && keyString.includes('sudden')) {
+      await sendEmail('force', `we got a sudden majorJump: ${ticker}`, Object.keys(emails)[1]); // cell phone
+    }
     const activeHalt = isMajorJump && await (async () => {
       console.log(`major jump detected, looking for an active halt....`);
       const allActiveHalts = await getActiveHalts();
