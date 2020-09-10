@@ -109,7 +109,7 @@ class Preferences extends Component {
           });
         })}>Click here to get the super down picks</button>
         &nbsp;&nbsp;
-        <button onClick={this.act('purchaseMostDownPick')}>Purchase most down pick</button>
+        <button onClick={this.act('runSuperDown')}>Run supr down</button>
 
         <hr/>
         <textarea 
