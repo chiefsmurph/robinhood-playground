@@ -99,6 +99,7 @@ module.exports = {
 
         ...`
 
+        super-down
         // red-and-bullish
         
         rsi-10min-rsilt5
