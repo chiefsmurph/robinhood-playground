@@ -318,7 +318,7 @@ module.exports = new (class RealtimeRunner {
 
       // setTimeout(() => 
       setInterval(
-        this.timedAsync(
+        () => this.timedAsync(
           'every 12 minutes - purchase most down',
           () => purchaseMostDown(),
         ),
