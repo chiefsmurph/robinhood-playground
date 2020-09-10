@@ -46,10 +46,10 @@ module.exports = async () => {
         forceMultiplier,
         avgTrendDown: avgTrend,
         numPicks: picks.length,
-        superInterestedWords: [
+        superInterestingWords: [
           ...picks.map(pick => pick.strategyName.split('-')),
           ...picks.map(pick => pick.interestingWords),
-        ].uniq()
+        ].filter(Boolean).flatten().filter(Boolean).uniq()
       }
     });
   }
