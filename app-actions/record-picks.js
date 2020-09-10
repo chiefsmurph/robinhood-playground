@@ -68,7 +68,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         const forPurchaseMultiplier = forPurchasePms.length;
         forPurchasePms = forPurchasePms.uniq();
  
-        const {
+        let {
             pmAnalysisMultiplier,
             subsetOffsetMultiplier,
             interestingWords = []
@@ -77,6 +77,13 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             strategy, 
             stocksToBuy
         );
+
+        if (data.superInterestingWords) {
+            interestingWords = [
+                ...interestingWords,
+                ...data.superInterestingWords
+            ].uniq();
+        }
 
         if (subsetOffsetMultiplier == undefined) return log('not ready yet');
 

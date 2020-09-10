@@ -230,7 +230,8 @@ class App extends Component {
             this.setState({
                 picks: [data].concat(this.state.picks),
             });
-            if (!(data.isRecommended && isForPurchase(data.stratMin, settings, pms))) {
+            const isSprDwn = data.stratMin.includes('spr-down');
+            if (!data.isRecommended || !isForPurchase(data.stratMin, settings, pms) || isSprDwn) {
                 return;
             }
             notification.play();
