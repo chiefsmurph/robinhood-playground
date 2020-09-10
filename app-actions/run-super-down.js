@@ -39,7 +39,7 @@ module.exports = async () => {
     //   }
     // }, true);
     await require('../realtime/RealtimeRunner').handlePick({
-      strategyName: 'super-down',
+      strategyName: 'supr-dwn',
       ticker,
       keys: {},
       data: {
