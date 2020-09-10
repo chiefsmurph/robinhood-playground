@@ -8,6 +8,7 @@ const attemptBuy = require('./attempt-buy');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 const lookup = require('../utils/lookup');
+const Hold = require('../models/Holds');
 const { disableActOnZscore } = require('../settings');
 
 module.exports = async () => {
@@ -91,6 +92,10 @@ module.exports = async () => {
       quantity,
       multiplier,
     });
+    await Hold.updateOne(
+      { ticker},
+      { $inc: { zScorePoints: Math.round(totalAmtToSpend) } }
+    );
     limitBuyMultiple({
       totalAmtToSpend,
       strategy: 'ACTONZSCOREFINAL',

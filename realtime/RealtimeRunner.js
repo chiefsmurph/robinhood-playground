@@ -199,7 +199,7 @@ module.exports = new (class RealtimeRunner {
 
     regCronIncAfterSixThirty({
         name: 'RealtimeRunner: stop',
-        run: [388],
+        run: [570], // 4PM PACIFIC
         fn: () => this.stop()
     });
 
@@ -318,7 +318,7 @@ module.exports = new (class RealtimeRunner {
 
       // setTimeout(() => 
       setInterval(
-        () => this.timedAsync(
+        this.timedAsync(
           'every 12 minutes - purchase most down',
           () => purchaseMostDown(),
         ),

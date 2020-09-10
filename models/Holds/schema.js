@@ -20,7 +20,10 @@ const schema = new Schema({
         fillPrice: Number,
         quantity: Number
     }],
-    additionalWords: [String]
+    additionalWords: [String],
+    zScorePoints: { type: Number, default: 0 },
+    stPoints: { type: Number, default: 0 },
+    mostDownPoints: { type: Number, default: 0 },
 });
 
 

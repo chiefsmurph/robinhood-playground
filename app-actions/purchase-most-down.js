@@ -2,6 +2,7 @@ const { alpaca } = require('../alpaca');
 const limitBuyMultiple = require('./limit-buy-multiple');
 const lookup = require('../utils/lookup');
 const Pick = require('../models/Pick');
+const Hold = require('../models/Holds');
 
 module.exports = async () => {
 
@@ -20,6 +21,10 @@ module.exports = async () => {
   totalAmtToSpend = Math.ceil(totalAmtToSpend);
   await log(`purchasing most down pick - ${ticker} ${totalAmtToSpend} @ ${await lookup(ticker)}`);
   await Pick.updateOne({ _id: mostDownPick._id }, { isRecommended: true });
+  await Hold.updateOne(
+    { ticker},
+    { $inc: { mostDownPoints: Math.round(totalAmtToSpend) } }
+  );
   await limitBuyMultiple({
     totalAmtToSpend,
     strategy: 'most-down-pick',

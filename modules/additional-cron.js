@@ -174,7 +174,8 @@ const additionalCron = [
         name: 'afterhours buys',
         run: [
             // 389,
-            420, 450, 480
+            // 420, 
+            455, 480
         ],
         fn: afterHoursBuys
     },
