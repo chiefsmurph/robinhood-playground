@@ -46,7 +46,7 @@ module.exports = async () => {
         avgTrendDown: avgTrend,
         numPicks: picks.length,
         superInterestedWords: [
-          ...picks.map(pick => pick.strategyName).split('-'),
+          ...picks.map(pick => pick.strategyName.split('-')),
           ...picks.map(pick => pick.interestingWords),
         ].uniq()
       }
