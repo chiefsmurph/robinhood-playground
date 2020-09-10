@@ -344,9 +344,10 @@ const stratManager = {
         return withTrend;
     },
 
-    getMostDownPick() {
+    getSuperDownPicks() {
         console.log('getting most down pick strat manager');
-        const picks = this.picks
+        const SUPER_DOWN_LIMIT = -10;
+        const superDownPicks = this.picks
             .filter(({ date }) => date === this.curDate)
             .map(pick => ({
                 ...pick,
@@ -360,9 +361,19 @@ const stratManager = {
                 tickers: pick.withTrend.map(obj => obj.ticker),
             }))
             .filter(Boolean)
-            .sort((a, b) => b.avgTrend - a.avgTrend);
-        strlog({ picks: picks.length });
-        return picks[picks.length - 1];
+            .filter(pick => pick.avgTrend !== undefined && !isNaN(pick.avgTrend))
+            .sort((a, b) => b.avgTrend - a.avgTrend)
+            .filter(pick => pick.avgTrend <= SUPER_DOWN_LIMIT);
+        const tickers = superDownPicks.map(pick => pick.tickers).flatten().uniq();
+        const superDownTickerPicks = tickers.map(ticker => {
+            const matchingPicks = superDownPicks.filter(pick => pick.tickers.includes(ticker));
+            return {
+                ticker,
+                picks: matchingPicks,
+                avgTrendDown: avgArray(matchingPicks)
+            };
+        });
+        return superDownTickerPicks;
     },
 
     calcPmPerfs() {

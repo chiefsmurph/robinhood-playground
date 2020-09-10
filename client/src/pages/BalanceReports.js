@@ -285,7 +285,7 @@ class DayReports extends Component {
         }
     }
     componentDidMount() {
-        setTimeout(() => this.startAnimation(), 10000);
+        // setTimeout(() => this.startAnimation(), 10000);
     }
     startAnimation = () =>
         this.setState({

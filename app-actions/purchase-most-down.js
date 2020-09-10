@@ -7,28 +7,34 @@ const Hold = require('../models/Holds');
 module.exports = async () => {
 
   const { equity } = await alpaca.getAccount();
-  const mostDownPick = require('../socket-server/strat-manager').getMostDownPick();
-  if (!mostDownPick) return log('no most down pick currently');
-  const { tickers, strategyName } = mostDownPick;
-  const [ticker] = tickers;
-  let totalAmtToSpend = equity * 0.007;
-  if (!strategyName.includes('hotSt')) {
-    totalAmtToSpend *= 1.5;
+  const superDownPicks = require('../socket-server/strat-manager').getSuperDownPicks();
+  if (!superDownPicks.length) return log('no super down picks currently');
+
+
+  for (const superDownPick of superDownPicks) {
+    const { ticker, picks } = superDownPick;
+    const mostDownPick = picks[0];
+    let totalAmtToSpend = equity * 0.007;
+    if (!strategyName.includes('hotSt')) {
+      totalAmtToSpend *= 1.5;
+    }
+    if (strategyName.includes('sudden')) {
+      totalAmtToSpend *= 2;
+    }
+    totalAmtToSpend = Math.ceil(totalAmtToSpend);
+    await log(`purchasing super down pick - ${ticker} ${totalAmtToSpend} @ ${await lookup(ticker)}`);
+    await Pick.updateOne({ _id: mostDownPick._id }, { isRecommended: true });
+    await Hold.updateOne(
+      { ticker},
+      { $inc: { mostDownPoints: Math.round(totalAmtToSpend) } }
+    );
+    await limitBuyMultiple({
+      totalAmtToSpend,
+      strategy: 'most-down-pick',
+      ticker
+    });
+
   }
-  if (strategyName.includes('sudden')) {
-    totalAmtToSpend *= 2;
-  }
-  totalAmtToSpend = Math.ceil(totalAmtToSpend);
-  await log(`purchasing most down pick - ${ticker} ${totalAmtToSpend} @ ${await lookup(ticker)}`);
-  await Pick.updateOne({ _id: mostDownPick._id }, { isRecommended: true });
-  await Hold.updateOne(
-    { ticker},
-    { $inc: { mostDownPoints: Math.round(totalAmtToSpend) } }
-  );
-  await limitBuyMultiple({
-    totalAmtToSpend,
-    strategy: 'most-down-pick',
-    ticker
-  });
+
 
 };
