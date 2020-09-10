@@ -209,17 +209,17 @@ module.exports = new (class RealtimeRunner {
         fn: () => this.redAndBullishPicks()
     });
 
-    regCronIncAfterSixThirty({
-        name: 'RealtimeRunner: first act on st',
-        run: [8],
-        fn: () => alpacaActOnSt()
-    });
+    // regCronIncAfterSixThirty({
+    //     name: 'RealtimeRunner: first act on st',
+    //     run: [8],
+    //     fn: () => alpacaActOnSt()
+    // });
 
-    regCronIncAfterSixThirty({
-      name: 'RealtimeRunner: first act on zscore final',
-      run: [12],
-      fn: () => alpacaActOnZScoreFinal()
-  });
+    // regCronIncAfterSixThirty({
+    //   name: 'RealtimeRunner: first act on zscore final',
+    //   run: [12],
+    //   fn: () => alpacaActOnZScoreFinal()
+    // });
 
     if (dayInProgress(START_MIN)) {
       console.log('in progress');
@@ -228,7 +228,7 @@ module.exports = new (class RealtimeRunner {
       console.log({
         last5Minute,
         formatted: new Date(last5Minute).toLocaleString()
-      })
+      });
       const diff = Date.now() - last5Minute;
       const from5 = (5 * 1000 * 60) - diff;
       console.log({
@@ -241,6 +241,16 @@ module.exports = new (class RealtimeRunner {
       console.log('not in progress ');
     }
 
+    // afternoon intervals
+    const AFTERNOON_START_MIN = 290; // 11:20am
+    if (dayInProgress(AFTERNOON_START_MIN)) {
+      this.startAfternoonIntervals();
+    }
+    regCronIncAfterSixThirty({
+      name: 'RealtimeRunner: start afternoon intervals',
+      run: [AFTERNOON_START_MIN],
+      fn: () => this.startAfternoonIntervals()
+    });
 
     this.hasInit = true;
   }
@@ -288,7 +298,15 @@ module.exports = new (class RealtimeRunner {
       //   ),
       //   60 * 1000 * 60 * 3 // 3 hours
       // ),
+    ];
 
+    this.everyFiveMinutes();
+  }
+
+  async startAfternoonIntervals() {
+    await log('starting afternoon intervals');
+    this.intervals = [
+      ...this.intervals,
       setInterval(
         () => this.timedAsync(
           'every 15 minutes - alpaca act on st',
@@ -326,10 +344,7 @@ module.exports = new (class RealtimeRunner {
       ),
         // 1000 * 60 * 15
       // ),
-
     ];
-
-    this.everyFiveMinutes();
   }
 
   async stop() {

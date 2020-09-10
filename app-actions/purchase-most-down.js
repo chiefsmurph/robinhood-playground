@@ -12,28 +12,45 @@ module.exports = async () => {
 
 
   for (const superDownPick of superDownPicks) {
-    const { ticker, picks } = superDownPick;
+    const { ticker, avgTrend, picks } = superDownPick;
     const mostDownPick = picks[0];
-    let totalAmtToSpend = equity * 0.007;
-    if (!strategyName.includes('hotSt')) {
-      totalAmtToSpend *= 1.5;
-    }
-    if (strategyName.includes('sudden')) {
-      totalAmtToSpend *= 2;
-    }
-    totalAmtToSpend = Math.ceil(totalAmtToSpend);
-    await log(`purchasing super down pick - ${ticker} ${totalAmtToSpend} @ ${await lookup(ticker)}`);
-    await Pick.updateOne({ _id: mostDownPick._id }, { isRecommended: true });
+    let forceMultiplier = equity * 0.007;
+    const multiplier = Math.max(1, Math.round(avgTrend / -10));
+    forceMultiplier = forceMultiplier * multiplier;
+    const maxPickMultiplier = Math.max(picks.map(pick => pick.multiplier).filter(Boolean)) || 0;
+    forceMultiplier = forceMultiplier + maxPickMultiplier + (mostDownPick * -2);
+    await log(`purchasing super down pick - ${ticker} ${forceMultiplier} @ ${(await lookup(ticker)).currentPrice}`);
+    // await Pick.updateOne({ _id: mostDownPick._id }, { isRecommended: true });
     await Hold.updateOne(
       { ticker},
-      { $inc: { mostDownPoints: Math.round(totalAmtToSpend) } }
+      { $inc: { mostDownPoints: Math.round(forceMultiplier) } }
     );
-    await limitBuyMultiple({
-      totalAmtToSpend,
-      strategy: 'most-down-pick',
-      ticker
+    // require('../realtime/RealtimeRunner').handlePick({
+    //   strategyName: 'continue-down',
+    //   ticker,
+    //   keys: {
+    //     [`${daysOld}daysOld`]: true,
+    //     outsideBracket,
+    //     downAlot: returnPerc < -10
+    //   },
+    //   data: { 
+    //     position
+    //   }
+    // }, true);
+    await require('../realtime/RealtimeRunner').handlePick({
+      strategyName: 'super-down',
+      ticker,
+      keys: {},
+      data: {
+        forceMultiplier,
+        avgTrendDown: avgTrend,
+        numPicks: picks.length,
+        superInterestedWords: [
+          ...picks.map(pick => pick.strategyName).split('-'),
+          ...picks.map(pick => pick.interestingWords),
+        ].uniq()
+      }
     });
-
   }
 
 
