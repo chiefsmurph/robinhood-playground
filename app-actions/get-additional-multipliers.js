@@ -114,11 +114,12 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   
   if (avgMultipliersPerPick) {
     // if position already open
-    subsetOffsetMultiplier = Math.max(
-      avgMarketValue * 0.8,
-      avgMultipliersPerPick * 1.1,
-      subsetOffsetMultiplier,
-    ) + subsetOffsetMultiplier;
+    subsetOffsetMultiplier = Math.round(
+      Math.max(
+        avgMarketValue * 0.7,
+        avgMultipliersPerPick * 1.1,
+      ) + subsetOffsetMultiplier / 2
+    );
   }
   
       // strategy.includes('avg-downer') || strategy.includes('holds')

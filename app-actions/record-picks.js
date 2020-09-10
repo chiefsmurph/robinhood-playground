@@ -19,7 +19,7 @@ const {
     disableOnlyMinors,
     maxOrigMultiplier = Number.POSITIVE_INFINITY,
     minMultiplier = 2,
-    maxMultiplier = 200,
+    maxMultiplier = 300,
     overallMultiplierMultiplier = 1,
     onlyAvgDownOpenPositions,
     dontBuy,
@@ -99,7 +99,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             'bankrupt', 
             'bankruptcy',
             'afterhours', 
-            'bearish',
+            // 'bearish',
             'gnewssplit',
             // 'hotSt'
             // 'straightDown30',
