@@ -99,7 +99,7 @@ const eclecticBuy = async ({
     const { onlyUseCash } = await getPreferences();
 
     const defaults = {
-        timeoutSeconds: onlyUseCash ? 60 * 30 : Number.POSITIVE_INFINITY,
+        timeoutSeconds: onlyUseCash ? 60 * 30 : 60 * 20,
         fallbackToMarket: false
     };
     let buyStyles = [

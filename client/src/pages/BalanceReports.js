@@ -283,6 +283,8 @@ class DayReports extends Component {
                 numDaysToShow: Number(numDays)
             });
         }
+        console.log('mounted');
+        this.setIntensiveData();
     }
     componentDidMount() {
         // setTimeout(() => this.startAnimation(), 10000);
