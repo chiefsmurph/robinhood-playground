@@ -372,7 +372,7 @@ const stratManager = {
                 return {
                     ticker,
                     picks: matchingPicks,
-                    avgTrend: avgArray(matchingPicks.map(pick => pick.avgTrend))
+                    avgTrend: Math.round(avgArray(matchingPicks.map(pick => pick.avgTrend)))
                 };
             })
             .sort((a, b) => a.avgTrend - b.avgTrend);
