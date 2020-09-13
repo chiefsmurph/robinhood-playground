@@ -1,5 +1,5 @@
 const lookup = require('../utils/lookup');
-const marketSell = require('./market-sell');
+const attemptSell = require('./attempt-sell');
 const { range } = require('underscore');
 const Log = require('../models/Log');
 
@@ -76,7 +76,13 @@ module.exports = async ({
         const timeoutSeconds =  Math.min(spaceApart / 1000 * 0.8 , 20);
         console.log({ timeoutSeconds })
         responses.push(
-          await marketSell({ ticker, quantity, timeoutSeconds })
+          await attemptBuy({ 
+            ticker, 
+            quantity, 
+            pickPrice: lastTrade, 
+            timeoutSeconds, 
+            fallbackToMarket: true 
+          })
         );
       })(),
       (async () => {

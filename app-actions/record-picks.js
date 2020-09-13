@@ -6,6 +6,7 @@ const getAdditionalMultipliers = require('./get-additional-multipliers');
 const lookupMultiple = require('../utils/lookup-multiple');
 const stratManager = require('../socket-server/strat-manager');
 const Pick = require('../models/Pick');
+const Hold = require('../models/Holds');
 
 const purchaseStocks = require('./purchase-stocks');
 const sendEmail = require('../utils/send-email');
@@ -257,6 +258,12 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                     withPrices,
                     PickDoc
                 }, includesDontBuyTicker);
+                for (const ticker of stocksToBuy) {
+                    await Hold.updateOne(
+                        { ticker},
+                        { $inc: { pickPoints: multiplier * (getPreferences()).purchaseAmt } }
+                    );
+                }
                 !includesDontBuyTicker && throttledRefreshPositions();
 
 

@@ -24,7 +24,7 @@ module.exports = async () => {
     // await Pick.updateOne({ _id: mostDownPick._id }, { isRecommended: true });
     await Hold.updateOne(
       { ticker},
-      { $inc: { mostDownPoints: Math.round(forceMultiplier) } }
+      { $inc: { mostDownPoints: Math.round(forceMultiplier) * (getPreferences()).purchaseAmt } }
     );
     // require('../realtime/RealtimeRunner').handlePick({
     //   strategyName: 'continue-down',

@@ -8,6 +8,7 @@ const cancelAllOrders = require('./cancel-all-orders');
 const attemptBuy = require('./attempt-buy');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const lookup = require('../utils/lookup');
+const Hold = require('../models/Holds');
 
 module.exports = async () => {
 
@@ -67,6 +68,10 @@ module.exports = async () => {
       pickPrice,
       fallbackToMarket: true
     });
+    await Hold.updateOne(
+      { ticker},
+      { $inc: { actOnMultPoints: Math.round(totalAmtToSpend) } }
+    );
   }
 
 

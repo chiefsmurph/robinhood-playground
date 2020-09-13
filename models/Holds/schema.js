@@ -21,9 +21,12 @@ const schema = new Schema({
         quantity: Number
     }],
     additionalWords: [String],
+    // point system
+    pickPoints: { type: Number, default: 0 },
+    mostDownPoints: { type: Number, default: 0 },
     zScorePoints: { type: Number, default: 0 },
     stPoints: { type: Number, default: 0 },
-    mostDownPoints: { type: Number, default: 0 },
+    actOnMultPoints: { type: Number, default: 0 },
 });
 
 
