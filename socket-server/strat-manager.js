@@ -346,7 +346,7 @@ const stratManager = {
 
     getSuperDownPicks() {
         console.log('getting most down pick strat manager');
-        const SUPER_DOWN_LIMIT = -10;
+        const SUPER_DOWN_LIMIT = -13;
         const superDownPicks = this.picks
             .filter(({ date }) => date === this.curDate)
             .map(pick => ({

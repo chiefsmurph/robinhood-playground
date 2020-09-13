@@ -2,6 +2,7 @@ const simpleBuy = require('./simple-buy');
 
 const alpacaMarketBuy = require('../alpaca/market-buy');
 const alpacaLimitBuy = require('../alpaca/limit-buy');
+const alpacaSprayBuy = require('../alpaca/spray-buy');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 
@@ -117,19 +118,25 @@ const eclecticBuy = async ({
         //     timeoutSeconds: 60 * 30,
         //     fallbackToMarket: false
         // },
+
+        {
+            method: alpacaSprayBuy,
+            name: 'sprayBuy',
+            numSeconds: 60 * 15,
+        },
         {
             method: alpacaAttemptBuy,
             name: 'attemptBuy',
             pickPrice,
             fallbackToMarket: true
         },
-        {
-            method: alpacaLimitBuy,
-            name: 'limitu17',
-            limitPrice: pickPrice * 1.017,
-            fallbackToMarket: true,
-            timeoutSeconds: 60 * 10,
-        },
+        // {
+        //     method: alpacaLimitBuy,
+        //     name: 'limitu17',
+        //     limitPrice: pickPrice * 1.017,
+        //     fallbackToMarket: true,
+        //     timeoutSeconds: 60 * 10,
+        // },
         {
             method: alpacaLimitBuy,
             name: 'limitu1',
@@ -140,9 +147,9 @@ const eclecticBuy = async ({
 
 
         {
-            method: async (...args) => {
+            method: async (params) => {
                 await new Promise(resolve => setTimeout(resolve, 60000 * 3));
-                return alpacaAttemptBuy(...args);
+                return alpacaAttemptBuy(params);
             },
             name: 'attemptBuy3MinDelay',
             pickPrice,
@@ -376,7 +383,7 @@ module.exports = async ({
             
             const urgency = (() => {
                 if (strategy.includes('red-and-bullish')) return 'agressive';
-                if (!strategy.includes('sudden-drops')) return 'casual';
+                // if (!strategy.includes('sudden-drops')) return 'casual';
             })();
             const response = await eclecticBuy({
                 ticker,

@@ -1,9 +1,10 @@
 const lookup = require('../utils/lookup');
-const marketSell = require('./market-sell');
+const attemptBuy = require('./attempt-buy');
 const { range } = require('underscore');
 const Log = require('../models/Log');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
+
 
 const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1) => {
   const qAmts = [];
@@ -44,12 +45,11 @@ module.exports = async ({
   numSeconds = NUM_SECONDS_TOTAL
 } = {
   ticker: 'NAKD',
-  quantity: 100
+  quantity: 50000
 }) => {
 
   const { bidPrice, askPrice, lastTrade } = await lookup(ticker);
   const amt = quantity * lastTrade;
-
 
   const { 
     qAmts, 
@@ -62,21 +62,23 @@ module.exports = async ({
 
   // strlog({ delayAmts });
 
-  await log(`starting to spray ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} spaceApart ${spaceApart}`);
+  await log(`starting to spray buy ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} seconds apart ${spaceApart / 1000}`);
   const responses = [];
   for (let i of range(numShots)) {
     const quantity = qAmts[i];
-    console.log(`spraying ${i+1} of ${numShots} - ${quantity} shares`);
-    if (await Log.boughtToday(ticker)) {
-      console.log(`looks like we bought it today... no more spray action ${ticker}`);
-      break;
-    }
+    console.log(`spray buying ${i+1} of ${numShots} - ${quantity} shares`);
     await Promise.all([
       (async () => {
-        const timeoutSeconds =  Math.min(spaceApart / 1000 * 0.8 , 20);
+        const timeoutSeconds =  Math.min(spaceApart / 1000 * 0.8, 60);
         console.log({ timeoutSeconds })
         responses.push(
-          await marketSell({ ticker, quantity, timeoutSeconds })
+          await attemptBuy({ 
+            ticker, 
+            quantity, 
+            pickPrice: lastTrade, 
+            timeoutSeconds, 
+            fallbackToMarket: true 
+          })
         );
       })(),
       (async () => {
