@@ -38,6 +38,7 @@ module.exports = positions => {
     console.log({ allDates })
     const lastFive = allDates.slice(0, 5);
     const lastTen = allDates.slice(0, 10);
+    const lastTwenty = allDates.slice(0, 20);
     return {
         only2020: p => (new Date(p.date)).getTime() >= (new Date('1-1-2020')).getTime(),
         allPositions: () => true,
@@ -53,6 +54,7 @@ module.exports = positions => {
         withoutASLN: ({ ticker }) => ticker !== 'ASLN',
         lastFive: ({ date }) => lastFive.includes(date),
         lastTen: ({ date }) => lastTen.includes(date),
+        lastTwenty: ({ date }) => lastTwenty.includes(date),
         yesterday: ({ date }) => allDates[1] === date,
         today: ({ date }) => allDates[0] === date,
         watchout,
@@ -144,6 +146,8 @@ module.exports = positions => {
         // more words
 
         ...[
+            ...allWords.sort(),
+
             'rsi',
             'rsilt10',
             'rsilt5',

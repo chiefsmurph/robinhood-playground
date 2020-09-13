@@ -1,0 +1,1 @@
+module.exports = () => require('../models/Holds/ClosedPositions').updateMany({}, { archived: true });
