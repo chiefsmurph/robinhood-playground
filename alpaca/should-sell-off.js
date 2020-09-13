@@ -4,13 +4,14 @@ module.exports = position => {
     daysOld, 
     mostRecentPurchase,
     numMultipliers,
-    stSent: { bullBearScore } = {} 
+    stSent: { bullBearScore = 0 } = {} 
   } = position;
+  return true;  // nighttrading baby!
   const conditions = [
-    daysOld > 10,
+    daysOld > 2,
     mostRecentPurchase > 2,
     numMultipliers > 150,
-    bullBearScore < 100 || bullBearScore === undefined,
+    bullBearScore < 100,
   ];
-  return conditions.every(c => c);
+  return conditions.every(Boolean);
 };

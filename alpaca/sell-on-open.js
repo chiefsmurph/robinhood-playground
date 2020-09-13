@@ -77,6 +77,7 @@ module.exports = async () => {
     const dollarsToSell = qToSell * currentPrice;
 
     const halfQ = Math.ceil(qToSell / 2);
+    const secondHalf = qToSell - halfQ;
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
     await alpaca.createOrder({
@@ -106,8 +107,8 @@ module.exports = async () => {
       fn: () => {
         spraySell({
           ticker,
-          quantity: halfQ,
-          numSeconds: onlyUseCash ? 60 * 15 : 60 * 40
+          quantity: secondHalf,
+          numSeconds: onlyUseCash ? 60 * 15 : 60 * 180
         });
       }
     });

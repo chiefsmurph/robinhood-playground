@@ -104,6 +104,9 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
         wouldBeDayTrade: pos => pos.wouldBeDayTrade ? 'true' : '',
         numPicks: 'numPicks',
         numMultipliers: 'numMultipliers',
+        zScorePoints: 'zScorePoints',
+        stPoints: 'stPoints',
+        mostDownPoints: 'mostDownPoints',
         avgMultipliersPerPick: 'avgMultipliersPerPick',
         ...admin ? {
             'avgPickPrice': 'avgPickPrice',

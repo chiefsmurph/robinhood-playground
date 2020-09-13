@@ -285,8 +285,6 @@ class DayReports extends Component {
         }
         console.log('mounted');
         this.setIntensiveData();
-    }
-    componentDidMount() {
         // setTimeout(() => this.startAnimation(), 10000);
     }
     startAnimation = () =>

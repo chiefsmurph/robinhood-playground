@@ -268,7 +268,7 @@ module.exports = async (
     // }
 
     
-    const sellOffToday = positions.length > 30 && shouldSellOff(position);
+    const sellOffToday = shouldSellOff(position);
     if (sellOffToday) {
       log(`SELLOFF REC - ${ticker}`, {
         daysOld,
