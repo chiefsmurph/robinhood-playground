@@ -258,11 +258,13 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                     withPrices,
                     PickDoc
                 }, includesDontBuyTicker);
-                for (const ticker of stocksToBuy) {
-                    await Hold.updateOne(
-                        { ticker},
-                        { $inc: { pickPoints: multiplier * (getPreferences()).purchaseAmt } }
-                    );
+                if (!strategy.includes('supr-dwn')) {
+                    for (const ticker of stocksToBuy) {
+                        await Hold.updateOne(
+                            { ticker},
+                            { $inc: { pickPoints: multiplier * (getPreferences()).purchaseAmt } }
+                        );
+                    }
                 }
                 !includesDontBuyTicker && throttledRefreshPositions();
 

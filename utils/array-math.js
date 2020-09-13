@@ -1,6 +1,6 @@
 const sumArray = arr => {
     return arr
-        .filter(v => v || v === 0)
+        .filter(Boolean)
         .reduce((acc, val) => acc + val, 0);
   };
   

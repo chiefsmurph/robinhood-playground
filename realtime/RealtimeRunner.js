@@ -291,6 +291,18 @@ module.exports = new (class RealtimeRunner {
         5 * 1000 * 60 // 5 minutes
       ),
 
+
+      // setTimeout(() => 
+      setInterval(
+        () => this.timedAsync(
+          'every 12 minutes - run super down',
+          () => runSuperDown(),
+        ),
+        60 * 1000 * 12 // 15 min
+      ),
+        // 1000 * 60 * 15
+      // ),
+
       // setInterval(() => 
       //   this.timedAsync(
       //     'every 3 hours (daily)',
@@ -334,16 +346,6 @@ module.exports = new (class RealtimeRunner {
         // 1000 * 60 * 5
       // ),
 
-      // setTimeout(() => 
-      setInterval(
-        () => this.timedAsync(
-          'every 12 minutes - run super down',
-          () => runSuperDown(),
-        ),
-        60 * 1000 * 12 // 15 min
-      ),
-        // 1000 * 60 * 15
-      // ),
     ];
   }
 

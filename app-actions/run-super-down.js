@@ -10,7 +10,6 @@ module.exports = async () => {
   const superDownPicks = require('../socket-server/strat-manager').getSuperDownPicks();
   if (!superDownPicks.length) return log('no super down picks currently');
 
-
   for (const superDownPick of superDownPicks) {
     const { ticker, avgTrend, picks } = superDownPick;
     const mostDownPick = picks[0];

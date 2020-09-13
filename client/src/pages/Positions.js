@@ -103,10 +103,11 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
         percToSell: 'percToSell',
         wouldBeDayTrade: pos => pos.wouldBeDayTrade ? 'true' : '',
         numPicks: 'numPicks',
-        numMultipliers: 'numMultipliers',
+        pickPoints: 'pickPoints',
         zScorePoints: 'zScorePoints',
         stPoints: 'stPoints',
         mostDownPoints: 'mostDownPoints',
+        actOnMultPoints: 'actOnMultPoints',
         avgMultipliersPerPick: 'avgMultipliersPerPick',
         ...admin ? {
             'avgPickPrice': 'avgPickPrice',
@@ -190,7 +191,18 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
     return (
         <div>
             <h2>{name}</h2>
-            <table >
+            <table>
+                <thead style={{ textAlign: 'left' }}>
+                    <th colspan="2">days</th>
+                    <th colspan="2">basics</th>
+                    <th colspan="4">percents</th>
+                    <th colspan="5">current sentiment</th>
+                    <th colspan="2">my recommendation</th>
+                    <th colspan="6">points</th>
+                    <th colspan="3">prices</th>
+                    <th colspan="4">selling</th>
+                    <th colspan="2">impact</th>
+                </thead>
                 <thead>
                     {
                         Object.keys(toDisplay).map(header => 

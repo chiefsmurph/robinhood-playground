@@ -40,7 +40,6 @@ module.exports = async () => {
     // .filter(p => p.wouldBeDayTrade)
     // .filter(p => (p.stSent || {}).stBracket !== 'bearish')
     .filter(p => p.returnPerc < -7)
-    .filter(p => p.numMultipliers > 40)
     .sort((a, b) => b.numMultipliers - a.numMultipliers)
     .slice(0, 3);
 
@@ -51,12 +50,13 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, numMultipliers, returnPerc, market_value } = position;
+    const { ticker, numMultipliers, returnPerc, market_value, mostDownPoints, pickPoints, zScorePoints, stPoints } = position;
+    const totalPoints = sumArray([mostDownPoints, pickPoints, zScorePoints, stPoints]);
     await cancelAllOrders(ticker, 'sell');
     const { currentPrice: pickPrice } = await lookup(ticker);
-    const dollarBuy = Math.max(Number(market_value) / 2, dollarsToBuyPerStock);
+    const dollarsToBuy = totalPoints;
     const quantity = Math.ceil(dollarBuy / pickPrice);
-    await log(`ACTONMULT buying ${ticker} about $${Math.round(pickPrice * quantity)} around ${pickPrice} bc numMultipliers ${numMultipliers} & returnPerc ${returnPerc}`, {
+    await log(`ACTONMULT buying ${ticker} about $${Math.round(dollarsToBuy)} around ${pickPrice} bc numMultipliers ${numMultipliers} & returnPerc ${returnPerc}`, {
       ticker,
       quantity,
       numMultipliers,
@@ -69,8 +69,8 @@ module.exports = async () => {
       fallbackToMarket: true
     });
     await Hold.updateOne(
-      { ticker},
-      { $inc: { actOnMultPoints: Math.round(totalAmtToSpend) } }
+      { ticker },
+      { $inc: { actOnMultPoints: Math.round(dollarsToBuy) } }
     );
   }
 

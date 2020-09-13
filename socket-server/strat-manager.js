@@ -23,6 +23,7 @@ const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 const { watchThis } = require('../utils/position-manager');
 const cachedPositions = require('../utils/cached-positions');
 const getAlpacaPositions = require('../alpaca/get-positions');
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 const flatten = require('../utils/flatten-array');
 
@@ -346,7 +347,7 @@ const stratManager = {
 
     getSuperDownPicks() {
         console.log('getting most down pick strat manager');
-        const SUPER_DOWN_LIMIT = -13;
+        const SUPER_DOWN_LIMIT = getMinutesFromOpen() < 290 ? -20 : -13;
         const superDownPicks = this.picks
             .filter(({ date }) => date === this.curDate)
             .map(pick => ({

@@ -108,7 +108,9 @@ module.exports = async () => {
         spraySell({
           ticker,
           quantity: secondHalf,
-          numSeconds: onlyUseCash ? 60 * 15 : 60 * 180
+          numSeconds: onlyUseCash 
+            ? 60 * 15 // 6:45
+            : 60 * 180 // 9:30
         });
       }
     });
