@@ -248,6 +248,7 @@ module.exports = async (
       // sellOffDaysLeft,
       returnPerc, 
       outsideBracket, 
+      numMultipliers,
       wouldBeDayTrade, 
       ticker, 
       market_value, 
