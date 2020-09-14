@@ -1,7 +1,7 @@
 const Pick = require('../../models/Pick');
-const { uniq } = require('underscore');
+const { uniq, mapObject } = require('underscore');
 
-const { sumArray, avgArray, mapObject } = require('../../utils/array-math');
+const { sumArray, avgArray } = require('../../utils/array-math');
 const getTrend = require('../../utils/get-trend');
 
 const analyzePosition = async position => {
