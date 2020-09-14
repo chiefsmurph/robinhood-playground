@@ -252,13 +252,6 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
                 const includesDontBuyTicker = stocksToBuy.filter(s => dontBuy.includes(s)).length;
                 const { purchaseAmt } = await getPreferences();
-                await purchaseStocks({
-                    strategy,
-                    multiplier: !disableMultipliers ? multiplier: 1,
-                    min,
-                    withPrices,
-                    PickDoc
-                }, includesDontBuyTicker);
                 if (!strategy.includes('supr-dwn')) {
                     for (const ticker of stocksToBuy) {
                         const pickPoints = multiplier * purchaseAmt;
@@ -269,6 +262,13 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                         );
                     }
                 }
+                await purchaseStocks({
+                    strategy,
+                    multiplier: !disableMultipliers ? multiplier: 1,
+                    min,
+                    withPrices,
+                    PickDoc
+                }, includesDontBuyTicker);
                 !includesDontBuyTicker && throttledRefreshPositions();
 
 

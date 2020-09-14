@@ -11,7 +11,7 @@ const lookup = require('./lookup');
 const getTrend = require('./get-trend');
 // const { avgArray } = require('./array-math');
 const alpacaLimitSell = require('../alpaca/limit-sell');
-const alpacaLimitBuy = require('../alpaca/limit-buy');
+const alpacaSprayBuy = require('../alpaca/spray-buy');
 const alpacaAttemptSell = require('../alpaca/attempt-sell');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const { alpaca } = require('../alpaca');
@@ -165,12 +165,10 @@ module.exports = class PositionWatcher {
           approxValue,
           lastObserved
         });
-        fundsToBuy && await alpacaLimitBuy({
+        fundsToBuy && await alpacaSprayBuy({
           ticker,
-          limitPrice: lastObserved,
           quantity: brokeDownQuantity,
-          fallbackToMarket: false,
-          timeoutSeconds: 60 * 60 * 3,
+          numSeconds: 60 * 40,
         });
       }
     }

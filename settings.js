@@ -88,7 +88,7 @@ module.exports = {
     maxOrigMultiplier: 120,
     maxMultiplier: 350,
 
-    disableDayTrades: true,
+    disableDayTrades: false,
     disableMultipliers: false,
     disableOnlyMinors: false,
     dontRecommendAtHigherPrices: false,

@@ -16,13 +16,17 @@ const addUnrealizedPl = async positions => {
     'stale tickers': withPositions.filter(pos => !pos.position).map(pos => pos.ticker)
   })
 
-  strlog({
-    delete: await Hold.find({ 
-      ticker: {
-        $in: withPositions.filter(pos => !pos.position).map(pos => pos.ticker)
-      }
-    }).remove()
-  })
+  const staleHolds = await Hold.find({ 
+    ticker: {
+      $in: withPositions.filter(pos => !pos.position).map(pos => pos.ticker)
+    }
+  });
+
+  for (const hold of staleHolds) {
+    await log(`closing STALE HOLD: ${hold.ticker}`);
+    hold.closePosition();
+  }
+  
   return withPositions
     .map(position => {
       const {
