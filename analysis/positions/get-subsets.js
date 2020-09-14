@@ -121,7 +121,40 @@ module.exports = positions => {
       ...acc,
       [word]: ({ interestingWords }) => interestingWords.includes(word),
       [`gnews${word}`]: ({ interestingWords }) => interestingWords.includes(`gnews${word}`),
+  }), {}),
+
+    // more words
+
+    ...[
+        ...allWords.sort(),
+
+        'rsi',
+        'rsilt10',
+        'rsilt5',
+
+        'avgDollarVolume10000',
+        'avgDollarVolume20000',
+        'avgDollarVolume3500',
+        // missing 1
+
+
+        'dailyRSIgt70',
+        'dailyRSIgt50',
+        'dailyRSIgt30',
+        'dailyRSIlt30',
+
+
+        'stocktwits',
+        'mostBullish',
+        'mostBearish',
+
+    ].reduce((acc, word) => ({
+        ...acc,
+        [word]: ({ interestingWords }) => interestingWords.includes(word)
     }), {}),
+
+    avgDollarVolNope: ({ interestingWords }) => interestingWords
+        .every(phrase => !phrase.includes('avgDollar')),
 
 
     // avg downers
@@ -143,15 +176,16 @@ module.exports = positions => {
     avgDownerUnder120Min: ({ interestingWords }) => interestingWords.includes('under120min'),
 
 
+
     isJimmyPick: ({ interestingWords }) => interestingWords.includes('isJimmyPick'),
     rsi: ({ interestingWords }) => interestingWords.includes('rsi'),
     dailyRSIgt70: ({ interestingWords }) => interestingWords.includes('dailyRSIgt70'),
-
 
     quickSpikes: ({ interestingWords }) => interestingWords.includes('quick'),
     majorSpike: ({ interestingWords }) => interestingWords.includes('majorSpike'),
     mediumSpike: ({ interestingWords }) => interestingWords.includes('mediumSpike'),
     minorSpike: ({ interestingWords }) => interestingWords.includes('minorSpike'),
+
     
   };
 };
