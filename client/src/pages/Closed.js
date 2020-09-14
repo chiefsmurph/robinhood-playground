@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import { pick } from 'underscore';
+import { pick, isEqual } from 'underscore';
 import { WithContext as ReactTags } from 'react-tag-input';
 
 import TrendPerc from '../components/TrendPerc';
@@ -60,6 +60,7 @@ const createTag = text => ({ text, id: text });
 class Closed extends Component {
   state = {
     currentSubset: 'allPositions',
+    includeOpen: true
     // tags: ['notAfterhours', 'withoutASLN'].map(createTag)
   };
   // handleDelete = i => {
@@ -71,10 +72,20 @@ class Closed extends Component {
   // handleAddition = tag => {
   //   this.setState(state => ({ tags: [...state.tags, tag] }));
   // }
+
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(...[nextProps, this.props].map(props => pick(props, ['overallAnalysis', 'includeOpen', 'allPositions', 'filteredPositions'])))
+    // console.log({
+    //     current: this.props,
+    //     nextProps
+    // })
+    // return true;
+  }
   render() {
-    let { positions: { alpaca: open}, analyzedClosed: closed, subsets, suggestions, overallAnalysis, allPositions, filteredPositions } = this.props;
+    let { subsets, overallAnalysis, includeOpen, allPositions, filteredPositions, setAppState } = this.props;
     const { 
-      currentSubset, 
+      currentSubset,
       // tags 
     } = this.state;
     
@@ -104,10 +115,11 @@ class Closed extends Component {
             // if (!position[key].toFixed) {
             //   console.log(position, key)
             // }
-            position[key] = !!position[key] && Number(position[key]).toFixed ? Number(position[key]).toFixed(2) : '---';
+            position[key] = !!position[key] && Number(position[key]).toFixed ? +Number(position[key]).toFixed(2) : '---';
           });
           return position;
       })
+      .filter(position => includeOpen || !position.isOpen)
       .map(position => ({
           ...position,
           isOpen: position.isOpen ? 'open' : ''
@@ -130,6 +142,11 @@ class Closed extends Component {
       <div>
 
         <h1>Position Analysis</h1>
+
+        <label>
+            <input type="checkbox" checked={includeOpen} onClick={() => setAppState({ includeOpen: !includeOpen })} /> 
+            &nbsp;&nbsp;Include Open
+        </label>
 
         {/* <ReactTags 
           tags={tags}

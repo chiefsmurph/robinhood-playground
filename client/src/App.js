@@ -354,7 +354,8 @@ class App extends Component {
         let { 
             // positions: { alpaca: open = [] } = {}, 
             // analyzedClosed: closed = [], 
-            tags 
+            tags,
+            includeOpen
         } = this.state;
         const open = positions.alpaca || [];
         const closed = this.state.analyzedClosed || [];
@@ -373,11 +374,13 @@ class App extends Component {
         
         console.log({ allPositions });
         const subsets = getSubsets(allPositions);
-        const filteredPositions = allPositions.filter(position => {
-            return tags.every(({ text: subsetName }) => {
-                return subsets[subsetName](position);
-            });
-        });
+        const filteredPositions = allPositions
+            .filter(position => {
+                return tags.every(({ text: subsetName }) => {
+                    return subsets[subsetName](position);
+                });
+            })
+            .filter(position => includeOpen || !position.isOpen);
 
         let dateAnalysis = getByDateAnalysis(filteredPositions);
         let overallAnalysis = getOverallAnalysis(filteredPositions, subsets);

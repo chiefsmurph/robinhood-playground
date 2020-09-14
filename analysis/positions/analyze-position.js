@@ -74,24 +74,30 @@ const analyzePosition = async position => {
   const numAvgDowners = relatedPicks.filter(pick => pick.interestingWords.includes('downer')).length;
 
   const netImpact = Number(sellReturnDollars || 0) + Number(unrealizedPl || 0);
-  return {
-      // ...position,s
-      totalBuyAmt,
-      avgEntry,
-      avgPickPrice,
-      avgSellPrice,
-      sellReturnPerc,
-      sellReturnDollars,
-      netImpact,
-      impactPerc: +(netImpact / totalBuyAmt * 100).toFixed(2),
-      date,
-      numPicks,
-      numMultipliers,
-      avgMultipliersPerPick,
-      percentSharesSold,
-      interestingWords,
-      numAvgDowners
+
+
+  const analyzed = {
+    ...position,
+    totalBuyAmt,
+    avgEntry,
+    avgPickPrice,
+    avgSellPrice,
+    sellReturnPerc,
+    sellReturnDollars,
+    netImpact,
+    impactPerc: +(netImpact / totalBuyAmt * 100).toFixed(2),
+    date,
+    numPicks,
+    numMultipliers,
+    avgMultipliersPerPick,
+    percentSharesSold,
+    interestingWords,
+    numAvgDowners
   };
+  const numericProperties = Object.keys(analyzed).filter(key => !isNaN(analyzed[key]) && typeof analyzed[key] === 'string');
+
+
+  return mapObject(analyzed, (v, k) => numericProperties.includes(k) ? Number(v) : v);
 };
 
 module.exports = analyzePosition;
