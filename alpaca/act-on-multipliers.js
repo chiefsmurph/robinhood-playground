@@ -5,7 +5,7 @@ const { sumArray } = require('../utils/array-math');
 
 const sellPosition = require('./sell-position');
 const cancelAllOrders = require('./cancel-all-orders');
-const attemptBuy = require('./attempt-buy');
+const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
@@ -62,11 +62,10 @@ module.exports = async () => {
       numMultipliers,
       returnPerc
     });
-    attemptBuy({
+    limitBuyMultiple({
       ticker,
       quantity,
-      pickPrice,
-      fallbackToMarket: true
+      strategy: 'act-on-mult'
     });
     await Hold.updateOne(
       { ticker },
