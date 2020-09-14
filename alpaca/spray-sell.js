@@ -76,7 +76,7 @@ module.exports = async ({
         const timeoutSeconds =  Math.min(spaceApart / 1000 * 0.8 , 20);
         console.log({ timeoutSeconds })
         responses.push(
-          await attemptBuy({ 
+          await attemptSell({ 
             ticker, 
             quantity, 
             pickPrice: lastTrade, 
