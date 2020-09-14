@@ -54,7 +54,7 @@ module.exports = async () => {
     const totalPoints = sumArray([mostDownPoints, pickPoints, zScorePoints, stPoints]);
     await cancelAllOrders(ticker, 'sell');
     const { currentPrice: pickPrice } = await lookup(ticker);
-    const dollarsToBuy = totalPoints;
+    const dollarsToBuy = market_value;
     const quantity = Math.ceil(dollarsToBuy / pickPrice);
     await log(`ACTONMULT buying ${ticker} about $${Math.round(dollarsToBuy)} around ${pickPrice} bc numMultipliers ${numMultipliers} & returnPerc ${returnPerc}`, {
       ticker,
