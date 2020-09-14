@@ -319,10 +319,6 @@ module.exports = new (class RealtimeRunner {
 
   async startAfternoonIntervals() {
     await log('starting afternoon intervals');
-    if (!this.intervals) {
-      await log('why the heck is afternoon starting before the five minutes... im going to have to force this party started.')
-      this.start();
-    }
     this.afternoonIntervals = [
       setInterval(
         () => this.timedAsync(
