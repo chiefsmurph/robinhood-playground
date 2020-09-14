@@ -19,6 +19,7 @@ const { avgArray, percUp, sumArray } = require('../utils/array-math');
 const sendEmail = require('../utils/send-email');
 const getSettingsString = require('../utils/get-settings-string');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
+const getSpyTrend = require('../utils/get-spy-trend');
 
 const { watchThis } = require('../utils/position-manager');
 const cachedPositions = require('../utils/cached-positions');
@@ -345,9 +346,10 @@ const stratManager = {
         return withTrend;
     },
 
-    getSuperDownPicks() {
-        console.log('getting most down pick strat manager');
-        const SUPER_DOWN_LIMIT = getMinutesFromOpen() < 290 ? -20 : -13;
+    async getSuperDownPicks() {
+        const spyTrend = await getSpyTrend();
+        console.log('getting super down pick strat manager');
+        const SUPER_DOWN_LIMIT = Math.round((getMinutesFromOpen() < 290 ? -20 : -10) + spyTrend);
         const superDownPicks = this.picks
             .filter(({ date }) => date === this.curDate)
             .map(pick => ({

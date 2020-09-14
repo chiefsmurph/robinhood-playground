@@ -7,7 +7,7 @@ const Hold = require('../models/Holds');
 module.exports = async () => {
 
   const { equity } = await alpaca.getAccount();
-  const superDownPicks = require('../socket-server/strat-manager').getSuperDownPicks();
+  const superDownPicks = await require('../socket-server/strat-manager').getSuperDownPicks();
   if (!superDownPicks.length) return log('no super down picks currently');
 
   for (const superDownPick of superDownPicks) {
