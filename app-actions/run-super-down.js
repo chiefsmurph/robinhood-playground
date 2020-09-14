@@ -19,7 +19,7 @@ module.exports = async () => {
     const maxPickMultiplier = Math.max(picks.map(pick => pick.multiplier).filter(Boolean)) || 0;
     forceMultiplier = forceMultiplier + maxPickMultiplier + (mostDownPick.avgTrend * -2);
     forceMultiplier = Math.round(forceMultiplier);
-    await log(`purchasing super down pick - ${ticker} ${forceMultiplier} @ ${(await lookup(ticker)).currentPrice}`);
+    await log(`recording super down pick - ${ticker} ${forceMultiplier} @ ${(await lookup(ticker)).currentPrice}`);
     // await Pick.updateOne({ _id: mostDownPick._id }, { isRecommended: true });
     await Hold.updateOne(
       { ticker},
