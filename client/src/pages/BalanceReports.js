@@ -361,6 +361,7 @@ class DayReports extends Component {
 
         // filter balance reports
         const lastReport = intensiveReports[intensiveReports.length - 1];
+        if (!lastReport) return;
         const d = new Date(lastReport.time);
 
         const allDates = [...new Set(intensiveReports.map(report => (new Date(report.time)).toLocaleDateString()))];
