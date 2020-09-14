@@ -62,10 +62,19 @@ const executeBuys = async ({
             const actualQuantity = Math.round(individualQuantity * ((100 + (index * 20)) / 100));
             console.log(`${name}: purchasing ${actualQuantity} shares of ${ticker}`);
             // await new Promise(resolve => setTimeout(resolve, 1000 * Math.random() * 10))
+            const randomizePercent = (v, perc) => {
+                const percOffset = (Math.random() * perc * 2) - perc;
+                const multiplier = (percOffset + 100) / 100;
+                return v * multiplier;
+            };
             const response = await method({
                 ticker,
                 quantity: actualQuantity,
-                ...timeoutSeconds && { timeoutSeconds: Math.round(timeoutSeconds * ((Math.random() * 0.2) + 0.9)) },
+                ...timeoutSeconds && { 
+                    timeoutSeconds: Math.round(
+                        randomizePercent(timeoutSeconds, 20)
+                    ) 
+                },
                 ...rest
             });
             return {
