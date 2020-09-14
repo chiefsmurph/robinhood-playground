@@ -323,8 +323,7 @@ module.exports = new (class RealtimeRunner {
       await log('why the heck is afternoon starting before the five minutes... im going to have to force this party started.')
       this.start();
     }
-    this.intervals = [
-      ...this.intervals,
+    this.afternoonIntervals = [
       setInterval(
         () => this.timedAsync(
           'every 15 minutes - alpaca act on st',
@@ -361,6 +360,10 @@ module.exports = new (class RealtimeRunner {
     if (this.intervals) {
       this.intervals.forEach(clearInterval);
       this.intervals = [];
+    }
+    if (this.afternoonIntervals) {
+      this.afternoonIntervals.forEach(clearInterval);
+      this.afternoonIntervals = [];
     }
   }
 
