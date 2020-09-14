@@ -70,11 +70,13 @@ const additionalCron = [
         fn: () => alpacaSellOnOpen()
     },
 
-    {
-        name: 'alpacaHopefulSells',
-        run: [-25, 20, 120, 240, 291],
-        fn: () => alpacaHopefulSells()
-    },
+
+    // this is good ! for nighttrading
+    // {
+    //     name: 'alpacaHopefulSells',
+    //     run: [-25, 20, 120, 240, 291],
+    //     fn: () => alpacaHopefulSells()
+    // },
 
     // {
     //     name: 'alpacaMostLow',

@@ -65,6 +65,7 @@ const executeBuys = async ({
             const response = await method({
                 ticker,
                 quantity: actualQuantity,
+                ...timeoutSeconds && { timeoutSeconds: Math.round(timeoutSeconds * ((Math.random() * 0.2) + 0.9)) },
                 ...rest
             });
             return {
@@ -101,7 +102,7 @@ const eclecticBuy = async ({
 
     const defaults = {
         timeoutSeconds: onlyUseCash ? 60 * 30 : 60 * 20,
-        fallbackToMarket: false
+        fallbackToMarket: true
     };
     let buyStyles = [
         // {

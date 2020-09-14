@@ -260,8 +260,9 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                 }, includesDontBuyTicker);
                 if (!strategy.includes('supr-dwn')) {
                     for (const ticker of stocksToBuy) {
+                        await log(`inc pickPoints ${ticker} ${multiplier} ${(getPreferences()).purchaseAmt} ${multiplier * (getPreferences()).purchaseAmt}`);
                         await Hold.updateOne(
-                            { ticker},
+                            { ticker } ,
                             { $inc: { pickPoints: multiplier * (getPreferences()).purchaseAmt } }
                         );
                     }

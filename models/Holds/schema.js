@@ -5,7 +5,7 @@ const Pick = require('../Pick');
 
 const schema = new Schema({
     ticker: String,
-    archived: Boolean,
+    archived: { type: Boolean, default: false },
     buys: [{
         timestamp: { type : Date, default: Date.now },
         date: String,
