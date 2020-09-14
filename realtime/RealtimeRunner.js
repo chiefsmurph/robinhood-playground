@@ -280,6 +280,8 @@ module.exports = new (class RealtimeRunner {
   async start() {
     console.log('start!!');
 
+    await log('starting realtime runner');
+
     this.currentlyRunning = true;
     this.runCount = 0;
     this.intervals = [
