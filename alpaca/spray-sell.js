@@ -20,7 +20,7 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1) => {
   const numMs = numSeconds * 1000;
   const spaceApart = numMs / numShots;
 
-  if (spaceApart < 1000 * 10) {
+  if (spaceApart < 1000 * 30) {
     return calculateQAmts(
       quantity, 
       numSeconds, 
@@ -76,7 +76,7 @@ module.exports = async ({
         const timeoutSeconds =  Math.min(spaceApart / 1000 * 0.8 , 20);
         console.log({ timeoutSeconds })
         responses.push(
-          await attemptSell({ 
+          attemptSell({ 
             ticker, 
             quantity, 
             pickPrice: lastTrade, 
