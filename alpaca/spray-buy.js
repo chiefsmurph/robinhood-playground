@@ -21,7 +21,7 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1) => {
   const numMs = numSeconds * 1000;
   const spaceApart = numMs / numShots;
 
-  if (spaceApart < 1000 * 30) {
+  if (spaceApart < 1000 * 30 && numShots < 30) {
     return calculateQAmts(
       quantity, 
       numSeconds, 
@@ -65,29 +65,16 @@ module.exports = async ({
   await log(`starting to spray buy ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} seconds apart ${spaceApart / 1000}`);
   const responses = [];
   for (let i of range(numShots)) {
+    await new Promise(resolve => setTimeout(resolve, spaceApart));
     const quantity = qAmts[i];
     console.log(`spray buying ${i+1} of ${numShots} - ${quantity} shares`);
-    await Promise.all([
-      (async () => {
-        const timeoutSeconds =  Math.min(spaceApart / 1000 * 0.8, 60);
-        console.log({ timeoutSeconds })
-        responses.push(
-          attemptBuy({
-            ticker, 
-            quantity, 
-            pickPrice: lastTrade, 
-            timeoutSeconds, 
-            fallbackToMarket: true 
-          })
-        );
-      })(),
-      (async () => {
-        const next = new Date(Date.now() + spaceApart);
-        console.log(`next spray: ${next.toLocaleString()}`);
-        await new Promise(resolve => setTimeout(resolve, spaceApart));
-      })()
-    ]);
-    
+    response.push(
+      attemptBuy({
+        ticker, 
+        quantity,
+        fallbackToMarket: true 
+      })
+    ); 
   }
 
   return responses;
