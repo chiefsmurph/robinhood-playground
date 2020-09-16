@@ -21,7 +21,7 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1) => {
   const numMs = numSeconds * 1000;
   const spaceApart = numMs / numShots;
 
-  if (spaceApart < 1000 * 30 && numShots < 30) {
+  if (spaceApart < 1000 * 90 || numShots > 30) {
     return calculateQAmts(
       quantity, 
       numSeconds, 
