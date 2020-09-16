@@ -47,6 +47,8 @@ const executeBuys = async ({
     const sliced = buyStyles.slice(0, sliceCount);
     const numBuys = sliced.length;
 
+    sliced.push(sliced.shift());    // move spray buy to last for max quantity
+
     
     const buyStylesLog = sliced.map(({ method, name = method.name, limitPrice }) => 
         [
