@@ -68,7 +68,7 @@ module.exports = async ({
     await new Promise(resolve => setTimeout(resolve, spaceApart));
     const quantity = qAmts[i];
     console.log(`spray buying ${i+1} of ${numShots} - ${quantity} shares`);
-    response.push(
+    responses.push(
       attemptBuy({
         ticker, 
         quantity,

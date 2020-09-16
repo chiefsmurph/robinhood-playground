@@ -72,7 +72,7 @@ module.exports = async ({
     }
     const quantity = qAmts[i];
     console.log(`spray selling ${i+1} of ${numShots} - ${quantity} shares`);
-    response.push(
+    responses.push(
       attemptSell({
         ticker, 
         quantity,
