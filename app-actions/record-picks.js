@@ -7,6 +7,7 @@ const lookupMultiple = require('../utils/lookup-multiple');
 const stratManager = require('../socket-server/strat-manager');
 const Pick = require('../models/Pick');
 const Hold = require('../models/Holds');
+const incrementPickPoints = require('./increment-pickpoints');
 
 const purchaseStocks = require('./purchase-stocks');
 const sendEmail = require('../utils/send-email');
@@ -256,10 +257,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                     for (const ticker of stocksToBuy) {
                         const pickPoints = multiplier * purchaseAmt;
                         await log(`inc pickPoints ${ticker} ${multiplier} ${purchaseAmt} ${pickPoints}`);
-                        await Hold.updateOne(
-                            { ticker } ,
-                            { $inc: { pickPoints } }
-                        );
+                        incrementPickPoints(ticker, pickPoints);
                     }
                 }
                 await purchaseStocks({

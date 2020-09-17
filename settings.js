@@ -112,6 +112,12 @@ module.exports = {
         sudden-drops-down40
         overnight-drops-down40
         sudden-drops-bullish
+
+        sudden-drops-down40-straightDown90
+        sudden-drops-!watchout-down30
+        sudden-drops-majorJump-lunch
+        sudden-drops-straightDown90-neutral
+        
         
 
         quick-spikes
@@ -124,6 +130,11 @@ module.exports = {
         continue-down
         most-low
 
+        overnight-drops-down15-straightDown90
+        overnight-drops-minorJump-down30
+
+        overnight-drops-majorJump-straightDown90
+        overnight-drops-lunch-down40
 
         // overnight-drops-mediumJump-down15
         // overnight-drops-mediumJump-down15
