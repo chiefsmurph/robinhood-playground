@@ -10,6 +10,7 @@ const getMinFromOpen = require('../utils/get-minutes-from-open');
 
 const bothAttemptAndSpray = ({ ticker, quantity }) => {
     const halfQuantity = Math.floor(quantity / 2);
+    const secondQuantity = quantity - halfQuantity;
     return Promise.all([
         attemptSell({ 
             ticker, 
@@ -20,7 +21,7 @@ const bothAttemptAndSpray = ({ ticker, quantity }) => {
          }),
          spraySell({
              ticker,
-             quantity: halfQuantity
+             quantity: secondQuantity
          })
     ]);
 };

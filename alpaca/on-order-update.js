@@ -2,6 +2,9 @@ const Holds = require('../models/Holds');
 const getTrend = require('../utils/get-trend');
 const sendEmail = require('../utils/send-email');
 const cancelAllOrders = require('./cancel-all-orders');
+const positionExists = require('./position-exists');
+
+const { alpaca } = require('./');
 
 module.exports = async data => {
 
@@ -46,7 +49,9 @@ module.exports = async data => {
       buyStrategies,
       quantity: positionQuantity
     } = position;
-    closedPosition = Boolean(positionQuantity === filled_qty);
+
+    closedPosition = !await positionExists(ticker);
+    // closedPosition = Boolean(positionQuantity === filled_qty);
 
     const theHold = await Holds.registerSell(
       ticker,
