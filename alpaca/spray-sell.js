@@ -2,6 +2,7 @@ const lookup = require('../utils/lookup');
 const attemptSell = require('./attempt-sell');
 const { range } = require('underscore');
 const Log = require('../models/Log');
+const Hold = require('../models/Holds');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
@@ -61,7 +62,8 @@ module.exports = async ({
   // const delayAmts = range(numShots).map(i => i * spaceApart);
 
   // strlog({ delayAmts });
-
+  await Hold.updateOne({ ticker }, { isSelling: true });
+  
   await log(`starting to spray ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} spaceApart ${spaceApart}`);
   const responses = [];
   for (let i of range(numShots)) {
@@ -80,6 +82,9 @@ module.exports = async ({
       })
     ); 
   }
+  
+  setTimeout(() => Hold.updateOne({ ticker }, { isSelling: false }), 1000 * 60 * 5);
+  
 
   return responses;
 

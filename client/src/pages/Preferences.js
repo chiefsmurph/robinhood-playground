@@ -80,6 +80,11 @@ class Preferences extends Component {
             console.log({ ticker });
             this.act('cancelAllOrders', ticker || undefined)(evt);
           })} href="#">Cancel Orders</a></li>
+          <li><a onClick={pd((evt) => {
+            const ticker = window.prompt('Enter a ticker or leave blank');
+            console.log({ ticker });
+            this.act('getRelatedPosition', ticker || undefined)(evt);
+          })} href="#">Get Position</a></li>
         </ul>
 
         <h3>Sell</h3>

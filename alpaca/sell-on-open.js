@@ -77,14 +77,14 @@ module.exports = async () => {
     const qToSell = Math.max(1, Math.floor(Number(quantity) * (actualPercToSell / 100) ));
     const dollarsToSell = qToSell * currentPrice;
 
-    const halfQ = Math.ceil(qToSell / 2);
-    const secondHalf = qToSell - halfQ;
+    const firstQ = Math.ceil(qToSell / 2);
+    const secondQ = qToSell - firstQ;
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
     await Hold.updateOne({ ticker }, { isSelling: true });
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
-      qty: halfQ,
+      qty: firstQ,
       side: 'sell',
       type: 'market',
       time_in_force: 'opg',
@@ -109,10 +109,10 @@ module.exports = async () => {
       fn: () => {
         spraySell({
           ticker,
-          quantity: secondHalf,
+          quantity: secondQ,
           numSeconds: onlyUseCash 
             ? 60 * 15 // 6:45
-            : 60 * 180 // 9:30
+            : 60 * 200 // 9:30
         });
       }
     });
