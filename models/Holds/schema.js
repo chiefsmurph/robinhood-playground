@@ -22,6 +22,7 @@ const schema = new Schema({
         quantity: Number
     }],
     additionalWords: [String],
+    isSelling: { type: Boolean, default: false },
     // point system
     pickPoints: { type: Number, default: 0 },
     mostDownPoints: { type: Number, default: 0 },

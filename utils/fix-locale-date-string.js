@@ -3,6 +3,8 @@
 const Log = require('../models/Log');
 const jsonMgr = require('./json-mgr');
 
+require('../app-actions/get-related-position');
+
 const oldLocaleDateString = Date.prototype.toLocaleDateString;
 Date.prototype.toLocaleDateString = function() {
     // console.log('ouch baby.', this.getTime());

@@ -63,9 +63,7 @@ module.exports = class PositionWatcher {
   }
   getRelatedPosition() {
     const { ticker } = this;
-    const { positions } = require('../socket-server/strat-manager');
-    if (!positions) return {};
-    return (positions.alpaca || []).find(pos => pos.ticker === ticker) || {};
+    return getRelatedPosition(ticker);
   }
   async checkRSI() {
     const getRSI = values => {
@@ -287,10 +285,10 @@ module.exports = class PositionWatcher {
       if (minPast <= 120) return 'isLessThan2Hrs';
     })();
     let avgDownWhenPercDown = (() => {
-      if (lessThanTime === 'isLessThan5Min') return -5;
-      if (lessThanTime === 'isLessThan20Min') return -6;
-      if (lessThanTime === 'isLessThan2Hrs') return -7.5;
-      return -10;
+      if (lessThanTime === 'isLessThan5Min') return -8;
+      if (lessThanTime === 'isLessThan20Min') return -9;
+      if (lessThanTime === 'isLessThan2Hrs') return -10.5;
+      return -13;
     })();
 
     const stOffset = {

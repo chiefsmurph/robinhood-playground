@@ -6,7 +6,7 @@ const sendEmail = require('../utils/send-email');
 const getTrend = require('../utils/get-trend');
 const alpacaCancelAllOrders = require('./cancel-all-orders');
 const getMinFromOpen = require('../utils/get-minutes-from-open');
-
+const Hold = require('../models/Holds');
 
 const bothAttemptAndSpray = ({ ticker, quantity }) => {
     const halfQuantity = Math.floor(quantity / 2);
@@ -58,6 +58,9 @@ module.exports = async position => {
         mostRecentPurchase,
         wouldBeDayTrade,
     });
+
+    await Hold.updateOne({ ticker }, { isSelling: true });
+
     const halfQuantity = Math.ceil(sellQuantity / 2);
 
     const response = getMinFromOpen() >= 0 && market_value > 30
@@ -72,12 +75,14 @@ module.exports = async position => {
         });
 
 
-    await log(`SOLD POSITION ${ticker}`, {
+    await log(`DONE SELLING ${ticker}`, {
         ticker,
         sellQuantity,
         method,
         response
-    })
-    
+    });
+
+
+    setTimeout(() => Hold.updateOne({ ticker }, { isSelling: false }), 1000 * 60 * 5);
   
 };

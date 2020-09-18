@@ -9,7 +9,7 @@ const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const mapLimit = require('promise-map-limit');
 const sendEmail = require('../utils/send-email');
 const lookup = require('../utils/lookup');
-const Holds = require('../models/Holds');
+const Hold = require('../models/Holds');
 const { alpaca } = require('../alpaca');
 const getBalance = require('../alpaca/get-balance');
 
@@ -331,9 +331,16 @@ module.exports = async ({
         ? totalAmtToSpend / 2.7
         : totalAmtToSpend;
 
-    const { bullishTickers = [] } = await getPreferences();
+    const { bullishTickers = [], dontBuyPositionsBeingSold } = await getPreferences();
 
     await mapLimit(stocksToBuy, 3, async ticker => {       // 3 buys at a time
+
+        if (dontBuyPositionsBeingSold) {
+            const { isSelling } = await Hold.find({ ticker }).lean();
+            if (isSelling) {
+                return log(`BLOCKING PURCHASE OF ${ticker} because its currently being sold`);
+            }
+        }
 
             
         // dont buy stocks if more than 40 percent of current balance!
@@ -344,7 +351,7 @@ module.exports = async ({
             percOfBalance = currentValue / balance * 100;
         } catch (e) {}
         if (percOfBalance > 40 && !strategy.includes('web-client')) {
-            return console.log(`NOT PURCHASING ${ticker} because ${percOfBalance}% of balance`);
+            return log(`NOT PURCHASING ${ticker} because ${percOfBalance}% of balance`);
         }
 
         console.log({ percOfBalance, ticker })

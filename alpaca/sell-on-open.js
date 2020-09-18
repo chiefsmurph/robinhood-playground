@@ -5,6 +5,7 @@ const { sumArray } = require('../utils/array-math');
 const getSpyTrend = require('../utils/get-spy-trend');
 const spraySell = require('./spray-sell');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
+const Hold = require('../models/Holds');
 
 module.exports = async () => {
 
@@ -80,6 +81,7 @@ module.exports = async () => {
     const secondHalf = qToSell - halfQ;
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
+    await Hold.updateOne({ ticker }, { isSelling: true });
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
       qty: halfQ,

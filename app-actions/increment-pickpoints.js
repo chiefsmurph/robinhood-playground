@@ -3,7 +3,7 @@ const Hold = require('../models/Holds');
 const incrementPickPoints = async (ticker, pickPoints, attemptCount = 0) => {
   const { nModified } = await Hold.updateOne(
     { ticker } ,
-    { $inc: { pickPoints } }
+    { $inc: { pickPoints: Math.round(pickPoints) } }
   );
   const success = Boolean(nModified);
   if (!success) {
