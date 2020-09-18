@@ -378,7 +378,8 @@ const stratManager = {
                     avgTrend: Math.round(avgArray(matchingPicks.map(pick => pick.avgTrend)))
                 };
             })
-            .sort((a, b) => a.avgTrend - b.avgTrend);
+            .sort((a, b) => a.avgTrend - b.avgTrend)
+            .slice(0, 3);
         return superDownTickerPicks;
     },
 
