@@ -59,7 +59,7 @@ module.exports = async () => {
     toBuy.map(p => Number(p.market_value)).filter(Boolean)
   );
 
-  const dollarsToBuyPerStock = Math.ceil(amtToSpend / 2);
+  const dollarsToBuyPerStock = Math.ceil(amtToSpend / 3.5);
   await log(`ACTONZSCOREFINAL: $${amtToSpend} total - ${label(toBuy)}`, {
     toBuy,
     totalValue,
