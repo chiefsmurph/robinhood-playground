@@ -29,6 +29,7 @@ const schema = new Schema({
     zScorePoints: { type: Number, default: 0 },
     stPoints: { type: Number, default: 0 },
     actOnMultPoints: { type: Number, default: 0 },
+    buyTheRedPoints: { type: Number, default: 0 },
 });
 
 

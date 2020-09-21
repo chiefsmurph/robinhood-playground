@@ -26,7 +26,7 @@ module.exports = async () => {
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
   }
   
-  if (amtToSpend <= 4) {
+  if (amtToSpend <= 3) {
     return log('not enough money to act on st');
   }
 

@@ -14,6 +14,7 @@ const sendRecs = require('../app-actions/send-recs');
 const restartProcess = require('../app-actions/restart-process');
 const redAndBullish = require('../app-actions/red-and-bullish');
 const runSuperDown = require('../app-actions/run-super-down');
+const buyTheRed = require('../alpaca/buy-the-red');
 
 // rh-actions
 const getRisk = require('../rh-actions/get-risk');
@@ -301,6 +302,14 @@ module.exports = new (class RealtimeRunner {
           () => runSuperDown(),
         ),
         60 * 1000 * 12 // 15 min
+      ),
+
+      setInterval(
+        () => this.timedAsync(
+          'every 13 minutes - buy the red',
+          () => buyTheRed(),
+        ),
+        60 * 1000 * 13 // 13 min
       ),
         // 1000 * 60 * 15
       // ),
