@@ -1,7 +1,7 @@
 const jsonMgr = require('../utils/json-mgr');
 const { CronJob } = require('cron');
 const fs = require('mz/fs');
-const { uniq, pick, throttle } = require('underscore');
+const { uniq, pick, throttle, partition, groupBy } = require('underscore');
 
 // mongo
 const Log = require('../models/Log');
@@ -350,13 +350,12 @@ const stratManager = {
         const spyTrend = await getSpyTrend();
         console.log('getting super down pick strat manager');
         const SUPER_DOWN_LIMIT = Math.round((getMinutesFromOpen() < 290 ? -20 : -10) + spyTrend);
-        const superDownPicks = this.picks
+        const picksWithTrend = this.picks
             .filter(({ date }) => date === this.curDate)
             .map(pick => ({
                 ...pick,
                 withTrend: this.addTrendToPick(pick)
             }))
-            .filter(pick => !pick.strategyName.includes('supr-dwn'))
             .filter(pick => pick.withTrend)
             .map(pick => ({
                 ...pick,
@@ -364,12 +363,31 @@ const stratManager = {
                 stratMin: pick.withTrend.stratMin,
                 tickers: pick.withTrend.map(obj => obj.ticker),
             }))
-            .filter(Boolean)
+            .filter(Boolean);
+        const [prevSuprDwnPicks, notSuprDwnPicks] = partition(picksWithTrend, pick => pick.strategyName.includes('supr-dwn'));
+        const suprDwnByTicker = groupBy(prevSuprDwnPicks.map(pick => ({ ...pick, ticker: pick.withTrend[0].ticker })), 'ticker');
+        const DONT_RECOMMEND_IF_ALREADY_RECOMMENDED_THIS_PERCENT_BELOW = 8;
+        const suprDwnTickersToAvoid = Object.keys(suprDwnByTicker).filter(key => {
+            const picks = suprDwnByTicker[key];
+            return picks.some(pick => 
+                pick.withTrend.some(trendObj => 
+                    trendObj.trend > DONT_RECOMMEND_IF_ALREADY_RECOMMENDED_THIS_PERCENT_BELOW
+                )
+            );
+        });
+        const superDownPicks = notSuprDwnPicks
             .filter(pick => pick.avgTrend !== undefined && !isNaN(pick.avgTrend))
             .sort((a, b) => a.avgTrend - b.avgTrend)
             .filter(pick => pick.avgTrend <= SUPER_DOWN_LIMIT);
-        const tickers = superDownPicks.map(pick => pick.tickers).flatten().uniq();
-        const superDownTickerPicks = tickers
+        const tickers = superDownPicks
+            .map(pick => pick.tickers)
+            .flatten()
+            .uniq();
+        const [throwAway, goodOnes] = partition(tickers, ticker => suprDwnTickersToAvoid.includes(ticker));
+        for (let ticker of throwAway) {
+            await log(`smart spr dwner says "throwing ${ticker} away because it's already made a move!"`);
+        }
+        const superDownTickerPicks = goodOnes
             .map(ticker => {
                 const matchingPicks = superDownPicks.filter(pick => pick.tickers.includes(ticker));
                 return {
