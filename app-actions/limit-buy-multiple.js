@@ -342,6 +342,11 @@ module.exports = async ({
             }
         }
 
+        const isBankrupt = JSON.stringify(getRelatedPosition(ticker).gNews.wordFlags).includes('bankrup');
+        if (isBankrupt) {
+            await log(`FOUND BANKRUPT TICKER.....${ticker}`);
+        }
+
             
         // dont buy stocks if more than 40 percent of current balance!
         let currentValue, percOfBalance = 0;

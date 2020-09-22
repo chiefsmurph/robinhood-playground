@@ -15,7 +15,7 @@ module.exports = async () => {
   const { actOnStPercent, onlyUseCash } = await getPreferences();
 
   const account = await alpaca.getAccount();
-  let amtToSpend = Number(account.equity * 0.02);
+  let amtToSpend = Number(account.equity * 0.01);
 
   if (onlyUseCash) {
     amtToSpend *= 0.6;
