@@ -103,8 +103,11 @@ class Preferences extends Component {
           <li><a onClick={this.act('actOnMultipliers')} href="#">actOnMultipliers</a></li>
           <li><a onClick={this.act('actOnPositions')} href="#">actOnPositions</a></li>
           <li><a onClick={this.act('actOnZScoreFinal')} href="#">actOnZScoreFinal</a></li>
+          <li><a onClick={this.act('buyTheRed')} href="#">buyTheRed</a></li>
         </ul>
 
+        <hr/>
+        <a onClick={this.act('refreshPositions')} href="#">REFRESH POSITIONS</a>
         <hr/>
 
         <button onClick={pd(() => {

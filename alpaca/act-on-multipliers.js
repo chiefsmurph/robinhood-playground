@@ -64,7 +64,7 @@ module.exports = async () => {
     });
     limitBuyMultiple({
       ticker,
-      quantity,
+      totalAmtToSpend: dollarsToBuy,
       strategy: 'act-on-mult'
     });
     await Hold.updateOne(

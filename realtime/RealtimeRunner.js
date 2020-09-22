@@ -306,10 +306,10 @@ module.exports = new (class RealtimeRunner {
 
       setInterval(
         () => this.timedAsync(
-          'every 13 minutes - buy the red',
+          'every 20 minutes - buy the red',
           () => buyTheRed(),
         ),
-        60 * 1000 * 13 // 13 min
+        60 * 1000 * 20 // 20 min
       ),
         // 1000 * 60 * 15
       // ),

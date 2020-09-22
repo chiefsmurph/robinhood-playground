@@ -255,6 +255,7 @@ module.exports = new Promise(resolve => {
                 getCheapest: cacheThis(require('../app-actions/get-cheapest')),
                 runSuperDown: require('../app-actions/run-super-down'),
                 buyTheRed: require('../alpaca/buy-the-red'),
+                refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
                 log,
                 restartProcess,
