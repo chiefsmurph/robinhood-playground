@@ -342,7 +342,7 @@ module.exports = async ({
             }
         }
 
-        const isBankrupt = JSON.stringify(getRelatedPosition(ticker).gNews.wordFlags).includes('bankrup');
+        const isBankrupt = JSON.stringify(getRelatedPosition(ticker).gNews).includes('bankrup');
         if (isBankrupt) {
             await log(`FOUND BANKRUPT TICKER.....${ticker}`);
         }

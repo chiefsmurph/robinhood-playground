@@ -254,6 +254,7 @@ module.exports = new Promise(resolve => {
                 limitBuyMultiple: require('../app-actions/limit-buy-multiple'),
                 getCheapest: cacheThis(require('../app-actions/get-cheapest')),
                 runSuperDown: require('../app-actions/run-super-down'),
+                buyTheRed: require('../alpaca/buy-the-red'),
                 getRelatedPosition,
                 log,
                 restartProcess,
