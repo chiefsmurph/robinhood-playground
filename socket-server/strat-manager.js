@@ -178,6 +178,8 @@ const stratManager = {
             positions, 
             analyzedClosed: this.analyzedClosed 
         });
+
+        return positions.alpaca;
     },
     getReverseSplitOffset() {
         const { alpaca } = this.positions || {};

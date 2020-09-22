@@ -48,4 +48,4 @@ module.exports = cacheThis(async ticker => {
       .filter(word => str.includes(word))
       .map(word => ['gnews', word].join(''))
   };
-});
+}, 90);

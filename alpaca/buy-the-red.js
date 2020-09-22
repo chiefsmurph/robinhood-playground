@@ -31,7 +31,7 @@ module.exports = async () => {
   strlog({ account})
 
 
-  const positions = await getPositions();
+  const positions = await require('../socket-server/strat-manager').refreshPositions();
 
 
   const label = ps => ps.map(p => p.ticker).join(', ');

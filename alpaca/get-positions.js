@@ -3,6 +3,7 @@ const getStSentiment = require('../utils/get-stocktwits-sentiment');
 const { avgArray } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
 const getSpyTrend = require('../utils/get-spy-trend');
+const queryGoogleNews = require('../utils/query-google-news');
 
 const Holds = require('../models/Holds');
 const Pick = require('../models/Pick');
@@ -413,8 +414,13 @@ module.exports = async (
   }));
 
 
-  const withSingleZScores = addSingleZScores(withScan)
+  const withSingleZScores = addSingleZScores(withScan);
 
-  return withSingleZScores;
+  const withGNews = await mapLimit(withSingleZScores, 3, async position => ({
+    ...position,
+    gNews: await queryGoogleNews(position.ticker)
+  }));
+
+  return withGNews;
 
 };
