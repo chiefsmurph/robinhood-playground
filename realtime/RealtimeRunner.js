@@ -210,6 +210,12 @@ module.exports = new (class RealtimeRunner {
         fn: () => this.redAndBullishPicks()
     });
 
+    regCronIncAfterSixThirty({
+      name: 'RealtimeRunner: buy the red',
+      run: [450, 430, 405, 350, 275, 220, 150, 90, 30],
+      fn: () => buyTheRed()
+    });
+
     // regCronIncAfterSixThirty({
     //     name: 'RealtimeRunner: first act on st',
     //     run: [8],
@@ -304,15 +310,6 @@ module.exports = new (class RealtimeRunner {
         60 * 1000 * 12 // 15 min
       ),
 
-      setInterval(
-        () => this.timedAsync(
-          'every 20 minutes - buy the red',
-          () => buyTheRed(),
-        ),
-        60 * 1000 * 20 // 20 min
-      ),
-        // 1000 * 60 * 15
-      // ),
 
       // setInterval(() => 
       //   this.timedAsync(
