@@ -368,7 +368,7 @@ const stratManager = {
             .filter(Boolean);
         const [prevSuprDwnPicks, notSuprDwnPicks] = partition(picksWithTrend, pick => pick.strategyName.includes('supr-dwn'));
         const suprDwnByTicker = groupBy(prevSuprDwnPicks.map(pick => ({ ...pick, ticker: pick.withTrend[0].ticker })), 'ticker');
-        const DONT_RECOMMEND_IF_ALREADY_RECOMMENDED_THIS_PERCENT_BELOW = -3.5;
+        const DONT_RECOMMEND_IF_ALREADY_RECOMMENDED_THIS_PERCENT_BELOW = -2.25;
         const suprDwnTickersToAvoid = Object.keys(suprDwnByTicker).filter(key => {
             const picks = suprDwnByTicker[key];
             return picks.some(pick => 

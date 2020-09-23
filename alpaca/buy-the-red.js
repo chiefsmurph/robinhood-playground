@@ -38,7 +38,7 @@ module.exports = async () => {
 
   // buy the positions in the red with the most multipliers
   const toBuy = positions
-    // .filter(p => p.wouldBeDayTrade)
+    .filter(p => p.wouldBeDayTrade)
     // .filter(p => (p.stSent || {}).stBracket !== 'bearish')
     .filter(p => p.returnPerc < 0);
   await log(`BUYTHERED: $${amtToSpend} total - ${label(toBuy)}`, {
