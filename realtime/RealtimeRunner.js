@@ -212,7 +212,9 @@ module.exports = new (class RealtimeRunner {
 
     regCronIncAfterSixThirty({
       name: 'RealtimeRunner: buy the red',
-      run: [450, 430, 405, 350, 275, 220, 150, 90, 30],
+      run: [450, 430, 405, 350, 275,
+        // 220, 150, 90, 30
+      ],
       fn: () => buyTheRed()
     });
 
