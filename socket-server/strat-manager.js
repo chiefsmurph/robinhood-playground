@@ -351,7 +351,7 @@ const stratManager = {
     async getSuperDownPicks() {
         const spyTrend = await getSpyTrend();
         console.log('getting super down pick strat manager');
-        const SUPER_DOWN_LIMIT = Math.round((getMinutesFromOpen() < 290 ? -20 : -10) + spyTrend);
+        const SUPER_DOWN_LIMIT = Math.round((getMinutesFromOpen() < 290 ? -30 : -20) + spyTrend);
         const picksWithTrend = this.picks
             .filter(({ date }) => date === this.curDate)
             .map(pick => ({
