@@ -108,6 +108,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
         stPoints: 'stPoints',
         mostDownPoints: 'mostDownPoints',
         actOnMultPoints: 'actOnMultPoints',
+        buyTheRedPoints: 'buyTheRedPoints',
         avgMultipliersPerPick: 'avgMultipliersPerPick',
         ...admin ? {
             'avgPickPrice': 'avgPickPrice',
