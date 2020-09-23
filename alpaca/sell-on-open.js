@@ -77,7 +77,8 @@ module.exports = async () => {
     const qToSell = Math.max(1, Math.floor(Number(quantity) * (actualPercToSell / 100) ));
     const dollarsToSell = qToSell * currentPrice;
 
-    const firstQ = Math.ceil(qToSell / 2);
+    let firstQ = Math.ceil(qToSell / 2);
+    if (returnPerc < 0) firstQ /= 2;
     const secondQ = qToSell - firstQ;
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
