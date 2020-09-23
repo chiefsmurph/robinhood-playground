@@ -104,7 +104,7 @@ module.exports = async (
   };
   // strlog({ uniqDates })
   
-  let positions = (await alpaca.getPositions()).filter(symbol => symbol !== 'KGJI');
+  let positions = (await alpaca.getPositions()).filter(position => position.symbol !== 'KGJI');
 
   const scan = await cachedScan(
     positions.map(p => p.symbol)
