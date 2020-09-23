@@ -40,7 +40,7 @@ module.exports = async () => {
   const toBuy = positions
     .filter(p => p.wouldBeDayTrade)
     // .filter(p => (p.stSent || {}).stBracket !== 'bearish')
-    .filter(p => p.returnPerc < 0);
+    .filter(p => p.returnPerc < -2);
   await log(`BUYTHERED: $${amtToSpend} total - ${label(toBuy)}`, {
     toBuy,
     amtToSpend,

@@ -335,14 +335,14 @@ module.exports = async ({
 
     await mapLimit(stocksToBuy, 3, async ticker => {       // 3 buys at a time
 
+        const position = getRelatedPosition(ticker);
         if (dontBuyPositionsBeingSold) {
-            const { isSelling } = await Hold.find({ ticker }).lean();
-            if (isSelling) {
+            if (position.isSelling) {
                 return log(`BLOCKING PURCHASE OF ${ticker} because its currently being sold`);
             }
         }
 
-        const isBankrupt = JSON.stringify(getRelatedPosition(ticker) || '').includes('bankrup');
+        const isBankrupt = (JSON.stringify(position) || '').includes('bankrup');
         if (isBankrupt) {
             await log(`FOUND BANKRUPT TICKER.....${ticker}`);
         }
