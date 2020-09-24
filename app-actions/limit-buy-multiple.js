@@ -306,10 +306,8 @@ module.exports = async ({
     ticker
 } = {}) => {
 
-    let multiplier = 1;
-    if (getMinutesFromOpen() < 270 && totalAmtToSpend) {
-        multiplier /= 2;
-    }
+
+    let multiplier = getMinutesFromOpen() < 270 ? 0.4 : 1;
 
     let stocksToBuy = withPrices.map(obj => obj.ticker);
     const { currentPrice, trendSincePrevClose } = await lookup(stocksToBuy[0]);
