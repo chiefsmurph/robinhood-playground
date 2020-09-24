@@ -1,3 +1,4 @@
+const getTrend = require('./get-trend');
 
 const formatQuoteData = originalQuoteData => {
     const { 
@@ -15,11 +16,13 @@ const formatQuoteData = originalQuoteData => {
         bidPrice: Number(bid_price),
         afterHoursPrice: Number(last_extended_hours_trade_price),
     };
+    const currentPrice = additionalData.afterHoursPrice || additionalData.lastTrade;
     return {
         ...additionalData,
         instrument,
-        currentPrice: additionalData.afterHoursPrice || additionalData.lastTrade,
-        rawQuote: originalQuoteData
+        currentPrice,
+        rawQuote: originalQuoteData,
+        trendSincePrevClose: getTrend(currentPrice, additionalData.prevClose)
     };
 };
 

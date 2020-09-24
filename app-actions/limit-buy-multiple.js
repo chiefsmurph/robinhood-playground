@@ -6,6 +6,8 @@ const alpacaSprayBuy = require('../alpaca/spray-buy');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
+
 const mapLimit = require('promise-map-limit');
 const sendEmail = require('../utils/send-email');
 const lookup = require('../utils/lookup');
@@ -304,12 +306,21 @@ module.exports = async ({
     ticker
 } = {}) => {
 
-    if (getMinutesFromOpen() < 270) {
-        totalAmtToSpend / 2;
+    if (getMinutesFromOpen() < 270 && totalAmtToSpend) {
+        totalAmtToSpend /= 2;
     }
 
+    const { currentPrice, trendSincePrevClose } = await lookup(ticker);
+
+    if (trendSincePrevClose > 0) totalAmtToSpend /= 2;
+    else if (trendSincePrevClose > -10) totalAmtToSpend /= 1.5;
+    else if (trendSincePrevClose > -15) totalAmtToSpend /= 1.2;
+    else if (trendSincePrevClose < -40) totalAmtToSpend *= 1.5;
+    else if (trendSincePrevClose < -30) totalAmtToSpend *= 1.2;
+
+    trendSincePrevClose = Math.ceil(trendSincePrevClose);
+
     if (ticker && !withPrices) {
-        const { currentPrice } = await lookup(ticker);
         await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
         withPrices = [{
             ticker,
