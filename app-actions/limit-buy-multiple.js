@@ -306,19 +306,19 @@ module.exports = async ({
     ticker
 } = {}) => {
 
+    let multiplier = 1;
     if (getMinutesFromOpen() < 270 && totalAmtToSpend) {
-        totalAmtToSpend /= 2;
+        multiplier /= 2;
     }
 
-    const { currentPrice, trendSincePrevClose } = await lookup(ticker);
+    let stocksToBuy = withPrices.map(obj => obj.ticker);
+    const { currentPrice, trendSincePrevClose } = await lookup(stocksToBuy[0]);
     
     if (trendSincePrevClose > 0) return log('no buying bro because this ticker isnt even in the red');
-    else if (trendSincePrevClose > -10) totalAmtToSpend /= 1.5;
-    else if (trendSincePrevClose > -15) totalAmtToSpend /= 1.2;
-    else if (trendSincePrevClose < -40) totalAmtToSpend *= 1.5;
-    else if (trendSincePrevClose < -30) totalAmtToSpend *= 1.2;
-
-    totalAmtToSpend = Math.max(2, totalAmtToSpend);
+    else if (trendSincePrevClose > -10) multiplier /= 1.5;
+    else if (trendSincePrevClose > -15) multiplier /= 1.2;
+    else if (trendSincePrevClose < -40) multiplier *= 1.5;
+    else if (trendSincePrevClose < -30) multiplier *= 1.2;
 
     if (ticker && !withPrices) {
         await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
@@ -328,7 +328,6 @@ module.exports = async ({
         }];
     }
 
-    let stocksToBuy = withPrices.map(obj => obj.ticker);
     // you cant attempt to purchase more stocks than you passed in
     // console.log(maxNumStocksToPurchase, 'numstockstopurchase', stocksToBuy.length);
     maxNumStocksToPurchase = maxNumStocksToPurchase ? Math.min(stocksToBuy.length, maxNumStocksToPurchase) : stocksToBuy.length;
@@ -340,10 +339,10 @@ module.exports = async ({
     // let amtToSpendLeft = totalAmtToSpend;
     let failedStocks = [];
 
-
-    const perStock = strategy.includes('average-down-recommendation')
-        ? totalAmtToSpend / 2.7
-        : totalAmtToSpend;
+    const perStock = Math.ceil(totalAmtToSpend * multiplier);
+    if (multiplier !== 1) {
+        await log(`LBM for ${stocksToBuy}... ${totalAmtToSpend} x ${multiplier} = ${perStock}`);
+    }
 
     const { bullishTickers = [], dontBuyPositionsBeingSold } = await getPreferences();
 
