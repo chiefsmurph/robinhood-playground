@@ -318,7 +318,7 @@ module.exports = async ({
     else if (trendSincePrevClose < -40) totalAmtToSpend *= 1.5;
     else if (trendSincePrevClose < -30) totalAmtToSpend *= 1.2;
 
-    trendSincePrevClose = Math.ceil(trendSincePrevClose);
+    totalAmtToSpend = Math.max(2, totalAmtToSpend);
 
     if (ticker && !withPrices) {
         await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
