@@ -13,7 +13,7 @@ module.exports = async () => {
   for (const superDownPick of superDownPicks) {
     const { ticker, avgTrend, picks } = superDownPick;
     const mostDownPick = picks[0];
-    let forceMultiplier = equity * 0.002;
+    let forceMultiplier = equity * 0.001;
     const multiplier = Math.max(1, Math.round(avgTrend / -10));
     forceMultiplier = forceMultiplier * multiplier;
     const maxPickMultiplier = Math.max(picks.map(pick => pick.multiplier).filter(Boolean)) || 0;
