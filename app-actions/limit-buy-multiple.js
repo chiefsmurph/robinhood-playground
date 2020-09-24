@@ -311,8 +311,8 @@ module.exports = async ({
     }
 
     const { currentPrice, trendSincePrevClose } = await lookup(ticker);
-
-    if (trendSincePrevClose > 0) totalAmtToSpend /= 2;
+    
+    if (trendSincePrevClose > 0) return log('no buying bro because this ticker isnt even in the red');
     else if (trendSincePrevClose > -10) totalAmtToSpend /= 1.5;
     else if (trendSincePrevClose > -15) totalAmtToSpend /= 1.2;
     else if (trendSincePrevClose < -40) totalAmtToSpend *= 1.5;
