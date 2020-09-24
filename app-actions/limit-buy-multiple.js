@@ -304,6 +304,9 @@ module.exports = async ({
     ticker
 } = {}) => {
 
+    if (getMinutesFromOpen() < 270) {
+        totalAmtToSpend / 2;
+    }
 
     if (ticker && !withPrices) {
         const { currentPrice } = await lookup(ticker);
