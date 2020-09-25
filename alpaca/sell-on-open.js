@@ -85,11 +85,26 @@ module.exports = async () => {
     await Hold.updateOne({ ticker }, { isSelling: true });
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
-      qty: firstQ,
+      qty: Math.ceil(firstQ / 2),
       side: 'sell',
       type: 'market',
       time_in_force: 'opg',
     }).catch(console.error);
+
+    regCronIncAfterSixThirty({
+      name: `start spray selling ${ticker}`,
+      run: [0],
+      fn: () => {
+        spraySell({
+          ticker,
+          quantity: firstQ - Math.ceil(firstQ / 2),
+          numSeconds: 60 * 5
+        });
+      }
+    });
+
+
+
     // if (quarterQ) {
     //   alpacaAttemptSell({
     //     ticker,
