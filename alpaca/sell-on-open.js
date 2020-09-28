@@ -119,6 +119,13 @@ module.exports = async () => {
     //     });
     //   }, 1000 * 60 * 6);
     // }
+
+    let numSeconds = onlyUseCash 
+      ? 60 * 15 // 6:45
+      : 60 * 200; // 9:30
+    numSeconds *= stMultiplier;
+    numSeconds = Math.round(numSeconds);
+
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
       run: [6],
@@ -126,14 +133,12 @@ module.exports = async () => {
         spraySell({
           ticker,
           quantity: secondQ,
-          numSeconds: onlyUseCash 
-            ? 60 * 15 // 6:45
-            : 60 * 200 // 9:30
+          numSeconds
         });
       }
     });
     
-    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half attempt, half at market open... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
+    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half at market open, half spray for ${numSeconds} seconds... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
       ticker,
       stMultiplier,
       qToSell,
