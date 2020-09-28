@@ -307,6 +307,17 @@ module.exports = async ({
 } = {}) => {
 
 
+
+    if (ticker && !withPrices) {
+        await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
+        withPrices = [{
+            ticker,
+            price: currentPrice
+        }];
+    }
+
+    
+    
     let multiplier = getMinutesFromOpen() < 270 ? 0.4 : 1;
 
     let stocksToBuy = withPrices.map(obj => obj.ticker);
@@ -318,13 +329,6 @@ module.exports = async ({
     else if (trendSincePrevClose < -40) multiplier *= 1.5;
     else if (trendSincePrevClose < -30) multiplier *= 1.2;
 
-    if (ticker && !withPrices) {
-        await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
-        withPrices = [{
-            ticker,
-            price: currentPrice
-        }];
-    }
 
     // you cant attempt to purchase more stocks than you passed in
     // console.log(maxNumStocksToPurchase, 'numstockstopurchase', stocksToBuy.length);

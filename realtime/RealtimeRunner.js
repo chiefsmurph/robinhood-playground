@@ -595,9 +595,9 @@ module.exports = new (class RealtimeRunner {
     this.marketSent = marketSent;
 
     const avg = avgArray(
-      this.marketSent.map(({ stSent }) => stSent.bullBearScore)
+      marketSent.map(({ stSent }) => stSent.bullBearScore)
     );
-    const marketSentStr = this.marketSent.map(({ ticker, stSent: { bullBearScore }}) => `${ticker}: ${bullBearScore}`).join(' - ');
+    const marketSentStr = marketSent.map(({ ticker, stSent: { bullBearScore }}) => `${ticker}: ${bullBearScore}`).join(' - ');
     await log(`market sentiment avg at ${avg} - ${marketSentStr}`);
   }
 
