@@ -314,7 +314,7 @@ module.exports = async ({
 
 
     // dont buy if there are bad words
-    const currentPosition = getPosition(firstStock);
+    const currentPosition = getRelatedPosition(firstStock);
     if (currentPosition && currentPosition.interestingWords && currentPosition.interestingWords.length) {
         const badWords = [
             'reverse split',
