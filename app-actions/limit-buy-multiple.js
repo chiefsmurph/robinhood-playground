@@ -320,7 +320,7 @@ module.exports = async ({
         }];
     }
     
-    let multiplier = getMinutesFromOpen() < 270 ? 0.4 : 1;
+    let multiplier = getMinutesFromOpen() < 270 ? 0.35 : 1;
 
     if (trendSincePrevClose > 0) multiplier /= 4;   // really? maybe you shouldnt even be buying this at all
     else if (trendSincePrevClose > -10) multiplier /= 1.5;
