@@ -104,9 +104,10 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         }
         
         const badWords = [
-            // 'split',
-            // 'offering', 
-            // 'bankrupt', 
+            'reverse split',
+            'offering', 
+            'bankrupt', 
+            'delist',
             // 'bankruptcy',
             // 'afterhours', 
             // 'bearish',

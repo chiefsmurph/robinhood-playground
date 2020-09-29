@@ -309,8 +309,33 @@ module.exports = async ({
     let stocksToBuy = withPrices ? withPrices.map(obj => obj.ticker) : [ticker];
     if (!stocksToBuy.length) return log('no stocks to buy what the heck bro this kinda thing shouldnt happen. get it together man!');
 
-    
-    const { currentPrice, trendSincePrevClose } = await lookup(stocksToBuy[0]);
+    const [firstStock] = stocksToBuy;
+    const { currentPrice, trendSincePrevClose } = await lookup(firstStock);
+
+
+    // dont buy if there are bad words
+    const currentPosition = getPosition(firstStock);
+    if (currentPosition && currentPosition.interestingWords && currentPosition.interestingWords.length) {
+        const badWords = [
+            'reverse split',
+            'offering', 
+            'bankrupt', 
+            'delist',
+            // 'bankruptcy',
+            // 'afterhours', 
+            // 'bearish',
+            'gnewssplit',
+            'gnewsbankrupt',
+            'gnewsbankruptcy',
+            // 'hotSt'
+            // 'straightDown30',
+            // 'halt'
+        ];
+        const foundBadWords = badWords.filter(word => currentPosition.interestingWords.includes(word) || strategy.includes(word));
+        if (foundBadWords.length) return log(`sorry we found some bad words: ${foundBadWords} skipping buy`);
+    }
+
+
 
     if (ticker && !withPrices) {
         await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
@@ -319,6 +344,8 @@ module.exports = async ({
             price: currentPrice
         }];
     }
+
+
     
     let multiplier = getMinutesFromOpen() < 270 ? 0.35 : 1;
 
