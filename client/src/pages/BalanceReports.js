@@ -62,18 +62,14 @@ console.log(
 const easternTimezone = (() => {
     const est = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
     const estOffset = est.getTime() - Date.now();
-    console.log({ estOffset })
+    // console.log({ estOffset })
     return time => {
-        return new Date(time);
         return new Date(new Date(time).getTime() + estOffset);
     };
 })();
 
-const isRegularHours = ({ time, isRegularHours }) => {
-    return isRegularHours;
-    // console.log({ time })
+const oldSchoolRegularHours = time => {
     const date = easternTimezone(time);
-    
     const open = new Date(date.getTime());
     open.setHours(9);
     open.setMinutes(30);
@@ -83,8 +79,17 @@ const isRegularHours = ({ time, isRegularHours }) => {
     close.setHours(16);
     close.setMinutes(0);
     close.setMilliseconds(0);
-
+    // console.log({
+    //     date: date.toLocaleString(),
+    //     open: open.toLocaleString(),
+    //     close: close.toLocaleString()
+    // })
     return date.getTime() > open.getTime() && date.getTime() < close.getTime();
+};
+
+const isRegularHours = ({ time, isRegularHours }) => {
+    return isRegularHours !== undefined ? isRegularHours : oldSchoolRegularHours(time);
+    // console.log({ time })
 };
 
 const getNewDayLines = chartData => {
@@ -262,13 +267,16 @@ class DayReports extends Component {
             hoverIndex: null,
             afterHoursAnnotations: [],
             fuzzFactor: 1,
-            showBalance: false,
-            onlyRegHrs: false,
             animateCount: null,
             intensiveData: null,
         };
     }
     componentDidMount() {
+        console.log("mounted");
+        const currentlyRegularHours = oldSchoolRegularHours(Date.now());
+        console.log({ currentlyRegularHours });
+        this.props.setAppState({ onlyRegHrs: currentlyRegularHours })
+
         // let caPlugin = ChartAnnotation;
         // caPlugin["id"]="annotation";
         // Chart.pluginService.register(caPlugin);

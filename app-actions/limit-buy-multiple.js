@@ -306,7 +306,11 @@ module.exports = async ({
     ticker
 } = {}) => {
 
+    let stocksToBuy = withPrices ? withPrices.map(obj => obj.ticker) : [ticker];
+    if (!stocksToBuy.length) return log('no stocks to buy what the heck bro this kinda thing shouldnt happen. get it together man!');
 
+    
+    const { currentPrice, trendSincePrevClose } = await lookup(stocksToBuy[0]);
 
     if (ticker && !withPrices) {
         await log(`we got a limit buy multiple with no price.... ${ticker} @ ${currentPrice}`, { ticker, currentPrice });
@@ -315,15 +319,10 @@ module.exports = async ({
             price: currentPrice
         }];
     }
-
-    
     
     let multiplier = getMinutesFromOpen() < 270 ? 0.4 : 1;
 
-    let stocksToBuy = withPrices.map(obj => obj.ticker);
-    const { currentPrice, trendSincePrevClose } = await lookup(stocksToBuy[0]);
-    
-    if (trendSincePrevClose > 0) return log('no buying bro because this ticker isnt even in the red');
+    if (trendSincePrevClose > 0) multiplier /= 4;   // really? maybe you shouldnt even be buying this at all
     else if (trendSincePrevClose > -10) multiplier /= 1.5;
     else if (trendSincePrevClose > -15) multiplier /= 1.2;
     else if (trendSincePrevClose < -40) multiplier *= 1.5;
