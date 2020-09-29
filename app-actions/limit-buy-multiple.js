@@ -363,7 +363,7 @@ module.exports = async ({
 
 
 
-        
+
         // dont buy positions with bad words
         const badWords = [
             'reverse split',
@@ -380,7 +380,7 @@ module.exports = async ({
             // 'straightDown30',
             // 'halt'
         ];
-        const foundBadWords = badWords.filter(word => JSON.stringify([...position.interestingWords, strategy]).includes(word));
+        const foundBadWords = badWords.filter(word => JSON.stringify([...position.interestingWords || [], strategy]).includes(word));
         if (foundBadWords.length) return log(`sorry we found some bad words: ${foundBadWords} skipping buy`);
 
 
