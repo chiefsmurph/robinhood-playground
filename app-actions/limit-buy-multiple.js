@@ -315,25 +315,7 @@ module.exports = async ({
 
     // dont buy if there are bad words
     const currentPosition = getRelatedPosition(firstStock);
-    if (currentPosition && currentPosition.interestingWords && currentPosition.interestingWords.length) {
-        const badWords = [
-            'reverse split',
-            'offering', 
-            'bankrupt', 
-            'delist',
-            // 'bankruptcy',
-            // 'afterhours', 
-            // 'bearish',
-            'gnewssplit',
-            'gnewsbankrupt',
-            'gnewsbankruptcy',
-            // 'hotSt'
-            // 'straightDown30',
-            // 'halt'
-        ];
-        const foundBadWords = badWords.filter(word => currentPosition.interestingWords.includes(word) || strategy.includes(word));
-        if (foundBadWords.length) return log(`sorry we found some bad words: ${foundBadWords} skipping buy`);
-    }
+    
 
 
 
@@ -377,12 +359,38 @@ module.exports = async ({
     await mapLimit(stocksToBuy, 3, async ticker => {       // 3 buys at a time
 
         const position = getRelatedPosition(ticker);
+
+
+        /// dont buy positions being sold
         if (dontBuyPositionsBeingSold) {
             if (position.isSelling) {
                 return log(`BLOCKING PURCHASE OF ${ticker} because its currently being sold`);
             }
         }
 
+        // dont buy positions with bad words
+        if (currentPosition && currentPosition.interestingWords && currentPosition.interestingWords.length) {
+            const badWords = [
+                'reverse split',
+                'offering', 
+                'bankrupt', 
+                'delist',
+                'bankruptcy',
+                // 'afterhours', 
+                // 'bearish',
+                'gnewssplit',
+                'gnewsbankrupt',
+                'gnewsbankruptcy',
+                // 'hotSt'
+                // 'straightDown30',
+                // 'halt'
+            ];
+            const foundBadWords = badWords.filter(word => JSON.stringify([...currentPosition.interestingWords, strategy]).includes(word));
+            if (foundBadWords.length) return log(`sorry we found some bad words: ${foundBadWords} skipping buy`);
+        }
+
+
+        // not going to happen!
         const isBankrupt = (JSON.stringify(position) || '').includes('bankrup');
         if (isBankrupt) {
             await log(`FOUND BANKRUPT TICKER.....${ticker}`);
