@@ -896,6 +896,10 @@ module.exports = new (class RealtimeRunner {
     const keyString = Object.keys(keys).join('-');
 
     const periodKey = (() => {
+      if (period === 'polygon5') {
+        strategyName = `polygon-${strategyName.split('-')[1]}`;
+        return;
+      }
       if (period === 'd') return 'daily';
       if (period) return `${period}min`;
     })();
