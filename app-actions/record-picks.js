@@ -11,6 +11,7 @@ const incrementPickPoints = require('./increment-pickpoints');
 
 const purchaseStocks = require('./purchase-stocks');
 const sendEmail = require('../utils/send-email');
+const getTrend = require('../utils/get-trend');
 const tweeter = require('./tweeter');
 const calcEmailsFromStrategy = require('../utils/calc-emails-from-strategy');
 const stocktwits = require('../utils/stocktwits');
