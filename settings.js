@@ -91,7 +91,7 @@ module.exports = {
     disableDayTrades: false,
     disableMultipliers: false,
     disableOnlyMinors: false,
-    dontRecommendAtHigherPrices: false,
+    dontRecommendAtHigherPrices: true,
 
     forPurchase: [
 
