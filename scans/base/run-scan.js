@@ -118,7 +118,7 @@ const runScan = async ({
     });
   
   const fourLettersOrLess = withProjectedVolume.filter(({ ticker }) => ticker.length <= 4);
-  const withoutLowVolume = sortAndCut(fourLettersOrLess, 'computed.projectedVolume', fourLettersOrLess.length * 3 / 4);
+  const withoutLowVolume = tickers.length ? fourLettersOrLess : sortAndCut(fourLettersOrLess, 'computed.projectedVolume', fourLettersOrLess.length * 3 / 4);
 
   const irregularHours = !dayInProgress();
   const withTSO = withoutLowVolume
