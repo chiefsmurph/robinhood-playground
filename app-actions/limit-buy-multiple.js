@@ -14,6 +14,7 @@ const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
 const { alpaca } = require('../alpaca');
 const getBalance = require('../alpaca/get-balance');
+const getRisk = require('../rh-actions/get-risk');
 
 const getFillPriceFromResponse = response => {
     const order = response && response.alpacaOrder ? response.alpacaOrder : response;
@@ -324,12 +325,18 @@ module.exports = async ({
     
     let multiplier = getMinutesFromOpen() < 270 ? 0.35 : 1;
 
-    if (trendSincePrevClose > 20) return log('no whey Jose');   // really? maybe you shouldnt even be buying this at all
+    if (trendSincePrevClose > 20) return log('no whey Jose  this ticker is up more than 20%');   // really? maybe you shouldnt even be buying this at all
     if (trendSincePrevClose > 0) multiplier /= 4;   // really? maybe you shouldnt even be buying this at all
     else if (trendSincePrevClose > -10) multiplier /= 1.5;
     else if (trendSincePrevClose > -15) multiplier /= 1.2;
     else if (trendSincePrevClose < -40) multiplier *= 1.5;
     else if (trendSincePrevClose < -30) multiplier *= 1.2;
+
+
+    const { shouldWatchout } = await getRisk({ ticker: firstStock });
+    if (shouldWatchout) {
+        multiplier /= 2;
+    }
 
 
     // you cant attempt to purchase more stocks than you passed in
