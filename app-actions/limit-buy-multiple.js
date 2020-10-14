@@ -325,8 +325,8 @@ module.exports = async ({
     
     let multiplier = getMinutesFromOpen() < 270 ? 0.35 : 1;
 
-    if (trendSincePrevClose > 20) return log('no whey Jose  this ticker is up more than 20%');   // really? maybe you shouldnt even be buying this at all
-    if (trendSincePrevClose > 0) multiplier /= 4;   // really? maybe you shouldnt even be buying this at all
+    if (trendSincePrevClose > 20) multiplier /= 5;   // really? maybe you shouldnt even be buying this at all
+    if (trendSincePrevClose > 0) multiplier /= 3;   // really? maybe you shouldnt even be buying this at all
     else if (trendSincePrevClose > -10) multiplier /= 1.5;
     else if (trendSincePrevClose > -15) multiplier /= 1.2;
     else if (trendSincePrevClose < -40) multiplier *= 1.5;
