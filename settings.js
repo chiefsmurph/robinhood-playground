@@ -110,7 +110,7 @@ module.exports = {
         stocktwits-fitty
         rsi-rsilt5-lunch
         sudden-drops-down40
-        overnight-drops-down40
+        //overnight-drops-down40
         sudden-drops-bullish
 
         sudden-drops-down40-straightDown90
@@ -130,30 +130,30 @@ module.exports = {
         continue-down
         most-low
 
-        overnight-drops-down15-straightDown90
-        overnight-drops-minorJump-down30
+        // overnight-drops-down15-straightDown90
+        // overnight-drops-minorJump-down30
 
-        overnight-drops-majorJump-straightDown90
-        overnight-drops-lunch-down40
+        // overnight-drops-majorJump-straightDown90
+        // overnight-drops-lunch-down40
 
         // overnight-drops-mediumJump-down15
         // overnight-drops-mediumJump-down15
         // overnight-drops-mediumJump-down15
         // overnight-drops-mediumJump-down15
         // overnight-drops-mediumJump-down15
-        overnight-drops-minorJump-down15
+        // overnight-drops-minorJump-down15
         // overnight-drops-watchout-mediumJump
 
 
         // overnight-drops-mediumJump-down10
         // overnight-drops-mediumJump-initial
         // overnight-drops-mediumJump-down10
-        overnight-drops-down20-straightDown30
+        // overnight-drops-down20-straightDown30
         // overnight-drops-watchout-down30
         // overnight-drops-down30
-        overnight-drops-majorJump-down20
-        overnight-drops-!watchout-down20
-        overnight-drops-down40-straightDown30
+        // overnight-drops-majorJump-down20
+        // overnight-drops-!watchout-down20
+        // overnight-drops-down40-straightDown30
         // overnight-drops-mediumJump-down20
         // overnight-drops-majorJump-straightDown90
         // overnight-drops-majorJump-straightDown30
@@ -550,20 +550,10 @@ module.exports = {
 
 
         // overnighters
-        overnight-drops-mediumJump-straightDown60
-        overnight-drops-mediumJump-straightDown60
+        // overnight-drops-mediumJump-straightDown60
+        // overnight-drops-mediumJump-straightDown60
 
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-        overnight-drops-minorJump-down10-!straightDown
-
-
+        // overnight-drops-minorJump-down10-!straightDown
 
 
 
