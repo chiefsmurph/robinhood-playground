@@ -102,8 +102,6 @@ module.exports = {
         '[sudden-drops-brunch-straightDown30]',
         '[sudden-drops-down30-neutral]',
         '[sudden-drops-brunch-down30]',
-        '[sudden-drops-brunch-down30]',
-        '[sudden-drops-brunch-down30]',,
         '[rsi-firstAlert-rsilt10-brunch]',
         '[sudden-drops-down40-bearish]',
     ],
