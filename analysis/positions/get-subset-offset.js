@@ -94,7 +94,7 @@ const subsetOffsets = {
   tenMinMinors: -10,
 
   halt: -15,
-  rocket: 3,
+  rocket: 20,
   delist: -3,
 
   avgDowner: -20,
