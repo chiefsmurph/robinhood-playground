@@ -44,7 +44,7 @@ const { emails } = require('./config');
 mongoose.connect(mongoConnectionString, { useNewUrlParser: true });
 
 process.on('unhandledRejection', async (reason, p) => {
-    if (reason.includes('depende')) return;
+    if (JSON.stringify(reason).includes('depende')) return;
     // application specific logging, throwing an error, or other logic here
     const logStr = `Unhandled Rejection at: ${p}, reason: ${reason}`;
     console.log('we hit an error oh shit');
