@@ -14,7 +14,6 @@ const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
 const { alpaca } = require('../alpaca');
 const getBalance = require('../alpaca/get-balance');
-const getRisk = require('../rh-actions/get-risk');
 
 const getFillPriceFromResponse = response => {
     const order = response && response.alpacaOrder ? response.alpacaOrder : response;
@@ -333,7 +332,7 @@ module.exports = async ({
     else if (trendSincePrevClose < -30) multiplier *= 1.2;
 
 
-    const { shouldWatchout } = await getRisk({ ticker: firstStock });
+    const { shouldWatchout } = await require('../rh-actions/get-risk')({ ticker: firstStock });
     if (shouldWatchout) {
         multiplier /= 2;
     }
