@@ -508,14 +508,14 @@ module.exports = new (class RealtimeRunner {
 
     let polygonPicks = [];
 
-    try {
-      polygonPicks = await this.timedAsync(
-        'running polygon picks',
-        () => this.runPolygonStrategy()
-      );
-    } catch (e) {
-      await log('error running polygon', { e });
-    }
+    // try {
+    //   polygonPicks = await this.timedAsync(
+    //     'running polygon picks',
+    //     () => this.runPolygonStrategy()
+    //   );
+    // } catch (e) {
+    //   await log('error running polygon', { e });
+    // }
 
     if (polygonPicks.length > 10) {
       await log('way too many polygon picks ... slicing', { polygonPicks });
