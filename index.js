@@ -41,7 +41,7 @@ const sendEmail = require('./utils/send-email');
 const getMinutesFromOpen = require('./utils/get-minutes-from-open');
 const { emails } = require('./config');
 
-mongoose.connect(mongoConnectionString, { useNewUrlParser: true });
+mongoose.connect(mongoConnectionString, { useNewUrlParser: true, autoIndex: false });
 
 process.on('unhandledRejection', async (reason, p) => {
     if (reason.toString().includes('depende')) return;

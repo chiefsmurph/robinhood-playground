@@ -6,7 +6,7 @@ const { mongoConnectionString } = require('./config');
 
 const Pick = require('./models/Pick');
 
-mongoose.connect(mongoConnectionString, { useNewUrlParser: true });
+mongoose.connect(mongoConnectionString, { useNewUrlParser: true, autoIndex: false });
 
 
 // node run [filename goes here]
