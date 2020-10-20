@@ -4,7 +4,6 @@
 // const mapLimit = require('promise-map-limit');
 const getAdditionalMultipliers = require('./get-additional-multipliers');
 const lookupMultiple = require('../utils/lookup-multiple');
-const stratManager = require('../socket-server/strat-manager');
 const Pick = require('../models/Pick');
 const Hold = require('../models/Holds');
 const incrementPickPoints = require('./increment-pickpoints');
@@ -43,6 +42,8 @@ const throttledRefreshPositions = throttle(() => {
 
 
 const handlePick = async (strategy, min, withPrices, { keys, data }) => {
+
+    const stratManager = require('../socket-server/strat-manager');
 
     withPrices = withPrices.filter(tickerPrice => !!tickerPrice);
     if (!withPrices.length) {
