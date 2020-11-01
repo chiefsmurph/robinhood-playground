@@ -1,7 +1,11 @@
 const lookup = require('../utils/lookup');
 const attemptBuy = require('./attempt-buy');
+const limitBuy = require('./limit-buy');
 const { range } = require('underscore');
 const Log = require('../models/Log');
+const { response } = require('express');
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
+const getTrend = require('../utils/get-trend');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
@@ -39,6 +43,10 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1) => {
   };
 };
 
+
+const getRandom = (min = 1, max = 10) => 
+  Math.floor(Math.random() * (max - min + 1) + min)
+
 module.exports = async ({
   ticker,
   quantity,
@@ -48,8 +56,8 @@ module.exports = async ({
   quantity: 50000
 }) => {
 
-  const { bidPrice, askPrice, lastTrade } = await lookup(ticker);
-  const amt = quantity * lastTrade;
+  const { bidPrice, askPrice, lastTrade: startPrice } = await lookup(ticker);
+  const amt = quantity * startPrice;
 
   const { 
     qAmts, 
@@ -63,18 +71,41 @@ module.exports = async ({
   // strlog({ delayAmts });
 
   await log(`starting to spray buy ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} seconds apart ${spaceApart / 1000}`);
+  
   const responses = [];
+  let madeAMove = false;
   for (let i of range(numShots)) {
+    
     await new Promise(resolve => setTimeout(resolve, spaceApart));
     const quantity = qAmts[i];
+    const { lastTrade: nowPrice } = await lookup(ticker);
     console.log(`spray buying ${i+1} of ${numShots} - ${quantity} shares`);
+    const currentlyMoveMade = getTrend(nowPrice, startPrice) > 4;
+    if (madeAMove !== currentlyMoveMade) {
+      await log(`woah woah during a spray some move made maybe? ${ticker} throwing limits`, { startPrice, nowPrice });
+    }
+    madeAMove = currentlyMoveMade;
+
     responses.push(
-      attemptBuy({
-        ticker, 
-        quantity,
-        fallbackToMarket: true 
-      })
-    ); 
+      !alreadyMadeAMove
+        ? attemptBuy({
+          ticker, 
+          quantity,
+          fallbackToMarket: true 
+        })
+        : limitBuy({
+          ticker,
+          quantity,
+          limitPrice: nowPrice * (getRandom(9600, 9800) / 10000), // lower please
+          timeoutSeconds: Math.min(
+            getMinutesFromOpen() < 390 ? getMinutesFromOpen() - 390 : Number.POSITIVE_INFINITY, // dont wait for longer than the close
+            getRandom(
+              30,         // min = 30 minutes
+              60 * 3.5,   // max = 3.5hrs
+            )
+          ) * 60  // bc expecting seconds,
+        })
+      ); 
   }
 
   return responses;
