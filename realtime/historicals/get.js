@@ -14,7 +14,7 @@ module.exports = async (tickers, period, daysBack, includeAfterHours) => {
     1: tiingoHistoricals,
     5: rhHistoricals,
     10: rhHistoricals,
-    30: rhHistoricals,
+    30: tiingoHistoricals,
     'd': dailyHistoricals
   };
   
