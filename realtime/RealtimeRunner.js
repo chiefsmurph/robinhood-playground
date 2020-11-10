@@ -976,7 +976,7 @@ module.exports = new (class RealtimeRunner {
     if (activeHalt) {
       const haltStr = `--- halt ALERT for ${ticker} ----`;
       await log(haltStr, { activeHalt });
-      await sendEmail('force', haltStr, Object.keys(emails)[1]); // cell phone
+      await sendEmail('force', 'halt ALERT', haltStr, Object.keys(emails)[1]);
     }
     const pickName = [
         strategyName,
