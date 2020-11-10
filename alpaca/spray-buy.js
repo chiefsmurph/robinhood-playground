@@ -86,7 +86,7 @@ module.exports = async ({
     }
     madeAMove = currentlyMoveMade;
     const min = getMinutesFromOpen();
-    if (alreadyMadeAMove) {
+    if (madeAMove) {
       const timeoutMinutes = Math.min(
         min < 390 ? 390 - min : 510 - min, // dont wait for longer than the close
         getRandom(
