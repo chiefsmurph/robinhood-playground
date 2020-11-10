@@ -85,27 +85,33 @@ module.exports = async ({
       await log(`woah woah during a spray some move made maybe? ${ticker} throwing limits`, { startPrice, nowPrice });
     }
     madeAMove = currentlyMoveMade;
-
-    responses.push(
-      !alreadyMadeAMove
-        ? attemptBuy({
+    const min = getMinutesFromOpen();
+    if (alreadyMadeAMove) {
+      const timeoutMinutes = Math.min(
+        min < 390 ? 390 - min : 510 - min, // dont wait for longer than the close
+        getRandom(
+          30,         // min = 30 minutes
+          60 * 3.5,   // max = 3.5hrs
+        )
+      );
+      response.push(
+        limitBuy({
+          ticker,
+          quantity,
+          limitPrice: nowPrice * (getRandom(9600, 9800) / 10000), // lower please
+          timeoutSeconds: timeoutMinutes * 60,  // bc expecting seconds,
+          fallbackToMarket: true
+        })
+      );
+    } else {
+      responses.push(
+        attemptBuy({
           ticker, 
           quantity,
           fallbackToMarket: true 
         })
-        : limitBuy({
-          ticker,
-          quantity,
-          limitPrice: nowPrice * (getRandom(9600, 9800) / 10000), // lower please
-          timeoutSeconds: Math.min(
-            getMinutesFromOpen() < 390 ? getMinutesFromOpen() - 390 : Number.POSITIVE_INFINITY, // dont wait for longer than the close
-            getRandom(
-              30,         // min = 30 minutes
-              60 * 3.5,   // max = 3.5hrs
-            )
-          ) * 60  // bc expecting seconds,
-        })
-      ); 
+      );
+    }
   }
 
   return responses;
