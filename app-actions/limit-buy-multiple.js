@@ -136,7 +136,7 @@ const eclecticBuy = async ({
         {
             method: alpacaSprayBuy,
             name: 'sprayBuy',
-            numSeconds: 60 * 15,
+            numSeconds: 60 * 45,
         },
         {
             method: alpacaAttemptBuy,
