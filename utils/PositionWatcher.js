@@ -285,9 +285,9 @@ module.exports = class PositionWatcher {
       if (minPast <= 120) return 'isLessThan2Hrs';
     })();
     let avgDownWhenPercDown = (() => {
-      if (lessThanTime === 'isLessThan5Min') return -8;
-      if (lessThanTime === 'isLessThan20Min') return -9;
-      if (lessThanTime === 'isLessThan2Hrs') return -10.5;
+      if (lessThanTime === 'isLessThan5Min') return -3;
+      if (lessThanTime === 'isLessThan20Min') return -4;
+      if (lessThanTime === 'isLessThan2Hrs') return -5;
       return -13;
     })();
 
