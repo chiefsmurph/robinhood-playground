@@ -139,8 +139,8 @@ module.exports = async (pms, strategy, stocksToBuy) => {
 
 
   let [_, stMultiplier = 1] = Object.entries({
-    bullish: 1.2,
-    bearish: 0.7,
+    bullish: 0.7,
+    bearish: 1.7,
   }).find(([word]) => strategy.includes(word)) || [];
 
 

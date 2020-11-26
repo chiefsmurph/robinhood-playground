@@ -292,17 +292,16 @@ module.exports = class PositionWatcher {
     })();
 
     const stOffset = {
-      bearish: -2,
+      bearish: 2,
       bullish: 1,
     }[stBracket] || 0;
 
     avgDownWhenPercDown = avgDownWhenPercDown + stOffset;
 
-    const avgDownPrice = comparePrice * (100 + avgDownWhenPercDown) / 100;
+    const curTrend = getTrend(observePrice, comparePrice);
 
 
-
-    const shouldAvgDown = observePrice <= avgDownPrice;
+    const shouldAvgDown = curTrend <= avgDownWhenPercDown;
 
 
     let logLine = `AVG-DOWNER: ${ticker} (${id}) observed at ${currentPrice} / ${askPrice}...`;
@@ -314,7 +313,6 @@ module.exports = class PositionWatcher {
       avgDownWhenPercDown,
       stOffset,
       observePrice,
-      avgDownPrice,
       shouldAvgDown
     };
     logLine += Object.entries(logData)

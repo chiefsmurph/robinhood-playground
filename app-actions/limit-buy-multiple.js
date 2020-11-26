@@ -459,6 +459,7 @@ module.exports = async ({
             const urgency = (() => {
                 if (strategy.includes('red-and-bullish')) return 'agressive';
                 // if (!strategy.includes('sudden-drops')) return 'casual';
+                if (strategy.includes('avg-downer')) return 'agressive';
             })();
             const response = await eclecticBuy({
                 ticker,

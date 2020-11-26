@@ -48,12 +48,12 @@ module.exports = async () => {
       multPullback = multPullback * 1.5;
     }
 
-    const stMultiplier = {
-      bullish: 1.5,
-      bearish: 0.8
-    }[stBracket] || 1;
+    // const stMultiplier = {
+    //   bullish: 1.5,
+    //   bearish: 0.8
+    // }[stBracket] || 1;
 
-    multPullback = Math.floor(multPullback * stMultiplier);
+    // multPullback = Math.floor(multPullback * stMultiplier);
 
     const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 3) / 3;
     console.log({ targetAmt })
@@ -123,7 +123,7 @@ module.exports = async () => {
     let numSeconds = onlyUseCash 
       ? 60 * 15 // 6:45
       : 60 * 200; // 9:30
-    numSeconds *= stMultiplier;
+    // numSeconds *= stMultiplier;
     numSeconds = Math.round(numSeconds);
 
     regCronIncAfterSixThirty({
@@ -138,7 +138,7 @@ module.exports = async () => {
       }
     });
     
-    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half at market open, half spray for ${numSeconds} seconds... good luck! multPullback ${multPullback} stMultiplier ${stMultiplier}`, {
+    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half at market open, half spray for ${numSeconds} seconds... good luck! multPullback ${multPullback}`, {
       ticker,
       stMultiplier,
       qToSell,
