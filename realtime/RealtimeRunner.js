@@ -36,6 +36,7 @@ const { avgArray } = require('../utils/array-math');
 const alpacaActOnSt = require('../alpaca/act-on-st');
 const alpacaActOnMultipliers = require('../alpaca/act-on-multipliers');
 const alpacaActOnZScoreFinal = require('../alpaca/act-on-zscore-final');
+const relayMessage = require('../alpaca/relay-message');
 
 // polygon
 const polygonEveryFiveMinutes = require('../polygon/every-five-minutes');
@@ -599,6 +600,7 @@ module.exports = new (class RealtimeRunner {
     );
     const marketSentStr = marketSent.map(({ ticker, stSent: { bullBearScore }}) => `${ticker}: ${bullBearScore}`).join(' - ');
     await log(`market sentiment avg at ${avg} - ${marketSentStr}`);
+    await relayMessage();
   }
 
   async redAndBullishPicks() {

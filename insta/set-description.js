@@ -31,7 +31,7 @@ module.exports = async (description = `my new description ${Date.now()}`) => {
     );
 
     const fullTimezoneString = /\((.*)\)/.exec(new Date().toString())[1];
-    const acronym = fullTimezoneString.split(' ').map(str => str[0]);
+    const acronym = fullTimezoneString.split(' ').map(str => str[0]).join('');
     await descriptionBox.type(`${description}\nlast updated: ${(new Date()).toLocaleString()} ${acronym}`);
     await page.waitFor(2000);
     await page.evaluate(() => {
