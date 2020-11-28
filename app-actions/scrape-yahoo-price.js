@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { instagram: { username, password }} = require('../config');
 
 let browser;
 module.exports = async ticker => {
@@ -6,13 +7,13 @@ module.exports = async ticker => {
         browser = browser || await puppeteer.launch();
         const page = await browser.newPage();
 
-        await page.goto(`https://finance.yahoo.com/quote/${ticker}`, { waitUntil: 'networkidle0' });
-        await page.waitFor(2000);
-
-        const sel = '#quote-header-info > div:nth-child(3) > div:nth-child(1) > div > span:nth-child(1)';
-        const returnVal = await page.evaluate((sel) => document.querySelector(sel).textContent, sel);
-        console.log('current price', ticker, returnVal);
-        return Number(returnVal);
+        await page.goto('https://www.instagram.com/accounts/login/');
+        await page.waitForSelector('input[name="username"]');
+        await page.type('input[name="username"]', 'username');
+        await page.type('input[name="password"]', 'password');
+        await page.click('button[type="submit"]');
+        // Add a wait for some selector on the home page to load to ensure the next step works correctly
+        await page.pdf({path: 'page.pdf', format: 'A4'});
     } catch (e) {
         return null;
     }

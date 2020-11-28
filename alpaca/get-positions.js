@@ -421,6 +421,6 @@ module.exports = async (
     gNews: await queryGoogleNews(position.ticker)
   }));
 
-  return withGNews;
+  return withGNews.sort((a, b) => b.market_value - a.market_value);
 
 };
