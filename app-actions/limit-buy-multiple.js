@@ -114,7 +114,7 @@ const eclecticBuy = async ({
     const { onlyUseCash } = await getPreferences();
 
     const defaults = {
-        timeoutSeconds: onlyUseCash ? 60 * 30 : 60 * 20,
+        timeoutSeconds: onlyUseCash ? 60 * 30 : 60 * 60,
         fallbackToMarket: true
     };
     let buyStyles = [
@@ -172,33 +172,33 @@ const eclecticBuy = async ({
 
         {
             method: alpacaLimitBuy,
-            name: 'limit100',
-            limitPrice: pickPrice * 1.003,
+            name: 'limit99',
+            limitPrice: pickPrice * .99,
         },
         
         {
             method: alpacaLimitBuy,
-            name: 'limitdp5',
-            limitPrice: pickPrice * .996,
+            name: 'limit982',
+            limitPrice: pickPrice * .982,
         },
 
 
         {
             method: alpacaLimitBuy,
-            name: 'limitd1',
-            limitPrice: pickPrice * .989,
-        },
-        {
-            method: alpacaLimitBuy,
-            name: 'limitd3',
+            name: 'limit972',
             limitPrice: pickPrice * .972,
-            timeoutSeconds: 60 * 45,
         },
         {
             method: alpacaLimitBuy,
-            name: 'limitd45',
-            limitPrice: pickPrice * .965,
-            timeoutSeconds: 60 * 60,
+            name: 'limit962',
+            limitPrice: pickPrice * .962,
+            timeoutSeconds: 60 * 45 * 2,
+        },
+        {
+            method: alpacaLimitBuy,
+            name: 'limit955',
+            limitPrice: pickPrice * .955,
+            timeoutSeconds: 60 * 60 * 2,
         },
 
         // {
