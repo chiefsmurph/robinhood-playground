@@ -21,7 +21,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     const amtLeft = Number(onlyUseCash ? cash : buying_power);
     
 
-    const totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, cash);
+    let totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, cash);
     strlog({
         totalAmtToSpend,
         amtLeft,
@@ -49,7 +49,8 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         const logObj = { before: amtLeft, fundsNeeded, after: afterAmt };
         await log(`funds made available - before ${amtLeft}, after ${afterAmt}`, logObj);
         if (Number(afterAmt) < totalAmtToSpend) {
-            return log('sorry i tried to make funds available but there is still not enough.')
+            console.log('sorry i tried to make funds available but there is still not enough. going to buy what i can.');
+            totalAmtToSpend = amtLeft * 0.9;
         }
     }
 
