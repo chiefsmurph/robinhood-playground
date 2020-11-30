@@ -140,7 +140,7 @@ module.exports = async () => {
     
     await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half at market open, half spray for ${numSeconds} seconds... good luck! multPullback ${multPullback}`, {
       ticker,
-      stMultiplier,
+      // stMultiplier,
       qToSell,
       actualPercToSell,
       targetAmt,
