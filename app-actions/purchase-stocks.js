@@ -68,6 +68,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     // console.log('actually purchasing', strategy, 'count', stocksToBuy.length);
     // console.log('ratioToSpend', ratioToSpend);
     // console.log({ stocksToBuy, totalAmtToSpend });
+    await new Promise(resolve => setTimeout(resolve, 1000 * 60 * 20 * Math.random()));
     await limitBuyMultiple({
         totalAmtToSpend,
         strategy,
