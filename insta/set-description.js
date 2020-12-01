@@ -4,7 +4,7 @@ const { instagram: { username, password }} = require('../config');
 let browser;
 
 const initBrowser = async () => {
-    browser = await puppeteer.launch({ headless: false });
+    browser = await puppeteer.launch({ headless: true });
     await (async function login () {
         const page = await browser.newPage();
         await page.goto('https://www.instagram.com/accounts/login/');
