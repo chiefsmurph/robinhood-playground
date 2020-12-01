@@ -51,7 +51,7 @@ schema.statics.getRecentPickForTicker = async function(ticker, isRecommended, da
                     && { isRecommended: true },
                     // : { strategyName: /.*(sudden.*drops|rsi|downer).*/i  },
 
-            ...date && { date }
+                ...date && { date }
             },
         )
         .sort({ _id: -1 })
