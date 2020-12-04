@@ -8,7 +8,7 @@ module.exports = position => {
   } = position;
   // return true;  // nighttrading baby!
   const conditions = [
-    daysOld > 2,
+    daysOld > 3,
     // mostRecentPurchase > 2,
     // numMultipliers > 150,
     // bullBearScore < 100,

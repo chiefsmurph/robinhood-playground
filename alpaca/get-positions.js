@@ -307,7 +307,7 @@ module.exports = async (
 
     if (mostRecentPurchase < continueDownForDays / 2 && returnPerc < 20) return 0;
 
-    if (Number(market_value) < balance / 420 && daysOld >= 10 && bullBearScore < 180) return 100;
+    // if (Number(market_value) < balance / 420 && daysOld >= 10 && bullBearScore < 180) return 100;
     
 
 

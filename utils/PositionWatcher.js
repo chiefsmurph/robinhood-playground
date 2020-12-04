@@ -288,7 +288,7 @@ module.exports = class PositionWatcher {
       if (lessThanTime === 'isLessThan5Min') return -3;
       if (lessThanTime === 'isLessThan20Min') return -4;
       if (lessThanTime === 'isLessThan2Hrs') return -5;
-      return -13;
+      return -6;
     })();
 
     const stOffset = {

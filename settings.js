@@ -71,7 +71,7 @@ module.exports = {
     
     onlyAvgDownOpenPositions: false,
     makeKeeperFundsAvailable: false,
-    makeFundsOnlyForDowners: false,
+    makeFundsOnlyForDowners: true,
     
     skipPurchasing: false,   /// really?????
     disableActOnSt: false,
