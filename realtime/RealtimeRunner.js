@@ -600,7 +600,7 @@ module.exports = new (class RealtimeRunner {
     );
     const marketSentStr = marketSent.map(({ ticker, stSent: { bullBearScore }}) => `${ticker}: ${bullBearScore}`).join(' - ');
     await log(`market sentiment avg at ${avg} - ${marketSentStr}`);
-    await relayMessage();
+    // await relayMessage();
   }
 
   async redAndBullishPicks() {
