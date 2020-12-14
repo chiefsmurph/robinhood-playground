@@ -41,7 +41,7 @@ const additionalCron = [
         name: 'alpacaPreMarketSells',
         run: [
             -30,
-            -26, 
+            -26,
             -19
         ],
         fn: () => alpacaPremarketSells()
@@ -58,11 +58,11 @@ const additionalCron = [
         fn: () => saveByDateAnalysis()
     },
 
-    {
-        name: 'alpacaActOnPositions',
-        run: [-25, 220, 365],
-        fn: () => alpacaActOnPositions()
-    },
+    // {
+    //     name: 'alpacaActOnPositions',
+    //     run: [-25, 220, 365],
+    //     fn: () => alpacaActOnPositions()
+    // },
 
     // {
     //     name: 'alpacaSellOnOpen',

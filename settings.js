@@ -104,6 +104,9 @@ module.exports = {
         '[sudden-drops-brunch-down30]',
         '[rsi-firstAlert-rsilt10-brunch]',
         '[sudden-drops-down40-bearish]',
+        // because duh
+        '[sudden-drops-mediumJump]',
+        '[sudden-drops-majorJump]',
     ],
     // forPurchaseVariation: '75Perc5Day-yesincludingblanks',
     // fallbackSellStrategy: 'limit8',

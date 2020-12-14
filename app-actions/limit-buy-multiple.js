@@ -5,6 +5,7 @@ const alpacaLimitBuy = require('../alpaca/limit-buy');
 const alpacaSprayBuy = require('../alpaca/spray-buy');
 const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
+const alpacaBuyBetween = require('../alpaca/buy-between');
 
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
@@ -322,20 +323,20 @@ module.exports = async ({
 
 
     
-    let multiplier = getMinutesFromOpen() < 270 ? 0.35 : 1;
+    let multiplier = 1 // getMinutesFromOpen() < 270 ? 0.35 : 1;
 
-    if (trendSincePrevClose > 20) multiplier /= 5;   // really? maybe you shouldnt even be buying this at all
-    if (trendSincePrevClose > 0) multiplier /= 3;   // really? maybe you shouldnt even be buying this at all
-    else if (trendSincePrevClose > -10) multiplier /= 1.5;
-    else if (trendSincePrevClose > -15) multiplier /= 1.2;
-    else if (trendSincePrevClose < -40) multiplier *= 1.5;
-    else if (trendSincePrevClose < -30) multiplier *= 1.2;
+    // if (trendSincePrevClose > 20) multiplier /= 5;   // really? maybe you shouldnt even be buying this at all
+    // if (trendSincePrevClose > 0) multiplier /= 3;   // really? maybe you shouldnt even be buying this at all
+    // else if (trendSincePrevClose > -10) multiplier /= 1.5;
+    // else if (trendSincePrevClose > -15) multiplier /= 1.2;
+    // else if (trendSincePrevClose < -40) multiplier *= 1.5;
+    // else if (trendSincePrevClose < -30) multiplier *= 1.2;
 
 
-    const { shouldWatchout } = await require('../rh-actions/get-risk')({ ticker: firstStock });
-    if (shouldWatchout) {
-        multiplier /= 2;
-    }
+    // const { shouldWatchout } = await require('../rh-actions/get-risk')({ ticker: firstStock });
+    // if (shouldWatchout) {
+    //     multiplier /= 2;
+    // }
 
 
     // you cant attempt to purchase more stocks than you passed in
@@ -439,15 +440,7 @@ module.exports = async ({
 
             let totalQuantity = Math.round(perStock / pickPrice) || 1;
 
-            const isBullishTicker = bullishTickers.includes(ticker);
-            if (isBullishTicker && strategy !== 'web-client') {
-                await log('OH NELLY WE GOT A BULLISH TICKER LIMIT BUY - double quantity time');
-                totalQuantity *= 2;
-            }
-
-
             // const buyStock = strategy.includes('sudden') ? eclecticBuy : eclecticBuy;
-            console.log({ totalQuantity, pickPrice, perStock });
 
             await log(`buying ${ticker} $${Math.round(perStock)}`, {
                 ticker,
@@ -461,19 +454,25 @@ module.exports = async ({
                 // if (!strategy.includes('sudden-drops')) return 'casual';
                 if (strategy.includes('avg-downer')) return 'agressive';
             })();
-            const response = await eclecticBuy({
+
+
+            const maxPrice = pickPrice;
+            const SPREAD_PERC = 6;
+            const minPrice = pickPrice * (100 - SPREAD_PERC) / 100;
+            buyBetween(
                 ticker,
-                pickPrice,
-                quantity: totalQuantity,
-                urgency
-            });
-            
-            await log(`roundup for buying ${ticker} via ${strategy}`, {
-                ticker,
-                strategy,
-                response,
-                urgency
-            });
+                minPrice,
+                maxPrice,
+                perStock
+            );
+
+            // const response = await eclecticBuy({
+            //     ticker,
+            //     pickPrice,
+            //     quantity: totalQuantity,
+            //     urgency
+            // });
+
             numPurchased++;
         } catch (e) {
             // failed
