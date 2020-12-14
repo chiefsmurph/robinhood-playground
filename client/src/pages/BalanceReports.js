@@ -294,6 +294,24 @@ class DayReports extends Component {
         console.log('mounted');
         this.setIntensiveData();
         // setTimeout(() => this.startAnimation(), 10000);
+
+        const fetchBTC = () => 
+            this.props.socket.emit('client:getBTC', quote => {
+                console.log({ quote });
+                this.setState({
+                    btcPrice: Math.round(Number(quote.mark_price))
+                });
+            });
+        fetchBTC();
+        this.setState({
+            btcInterval: setInterval(fetchBTC, 7000)
+        });
+        
+    }
+    componentWillUnmount() {
+        clearInterval(
+            this.state.btcInterval
+        )
     }
     startAnimation = () =>
         this.setState({
@@ -651,6 +669,22 @@ class DayReports extends Component {
                                 }} /> 
                                 &nbsp;&nbsp;Only Reg Hrs
                             </label>
+
+
+                            {
+                                this.state.btcPrice && (
+                                    <div className="bitcoin">
+                                        Bitcoin: 
+                                        <Odometer 
+                                            value={this.state.btcPrice} 
+                                            format="(,ddd)"
+                                            duration={500}
+                                            style={{ fontSize: '15px' }}
+                                        />
+                                    </div>
+                                )
+                            }<hr/>
+                                
                         </div>
                         
 

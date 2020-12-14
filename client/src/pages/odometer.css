@@ -125,3 +125,9 @@ canvas {
   font-size: 3.5em !important;
   font-weight: bold;
 }
+
+
+
+.bitcoin .odometer {
+  font-size: 150% !important;
+}
