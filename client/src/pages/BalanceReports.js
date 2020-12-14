@@ -299,7 +299,7 @@ class DayReports extends Component {
             this.props.socket.emit('client:getBTC', quote => {
                 console.log({ quote });
                 this.setState({
-                    btcPrice: Math.round(Number(quote.mark_price))
+                    btcPrice: Number(quote.mark_price)
                 });
             });
         fetchBTC();
@@ -677,7 +677,7 @@ class DayReports extends Component {
                                         Bitcoin: 
                                         <Odometer 
                                             value={this.state.btcPrice} 
-                                            format="(,ddd)"
+                                            format="(,ddd).dd"
                                             duration={500}
                                             style={{ fontSize: '15px' }}
                                         />
@@ -726,7 +726,7 @@ class DayReports extends Component {
                             </div>
                         )
                     }
-                    <div style={{ paddingLeft: '5em' }}>
+                    <div style={{ paddingLeft: '5em', display: 'none' }}>
                         fuzz factor
                         <InputRange
                             maxValue={10}
