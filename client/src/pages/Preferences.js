@@ -65,19 +65,25 @@ class Preferences extends Component {
     let ticker = window.prompt('What ticker?');
     if (!ticker) return;
     ticker = ticker.toUpperCase();
-    let paramString = window.prompt('totalAmtToSpend-maxPrice-minPrice');
-    if (!paramString) return;
-    let [totalAmtToSpend, maxPrice, minPrice] = paramString.split('-').map(Number);
-    console.log({ ticker, totalAmtToSpend, maxPrice, minPrice });
-    this.props.socket.emit(
-      'client:act', 
-      'buyBetween', 
-      ticker, 
-      totalAmtToSpend, 
-      maxPrice, 
-      minPrice, 
-      () => window.alert(`LIMIT BOUGHT ${ticker}`)
-    );
+    this.props.socket.emit('lookup', ticker, quote => {
+
+      const { currentPrice } = quote;
+      let paramString = window.prompt(`totalAmtToSpend-maxPrice-minPrice || current price: ${currentPrice}`, );
+      if (!paramString) return;
+      let [totalAmtToSpend, maxPrice, minPrice] = paramString.split('-').map(Number);
+      console.log({ ticker, totalAmtToSpend, maxPrice, minPrice });
+      this.props.socket.emit(
+        'client:act', 
+        'buyBetween', 
+        ticker, 
+        totalAmtToSpend, 
+        maxPrice, 
+        minPrice, 
+        () => window.alert(`LIMIT BOUGHT ${ticker}`)
+      );
+      
+    });
+    
     
   });
   render() {
