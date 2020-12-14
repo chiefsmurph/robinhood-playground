@@ -2,11 +2,14 @@ const lookup = require('../utils/lookup');
 const alpacaLimitBuy = require('./limit-buy');
 
 
-module.exports = async (ticker, minPrice, maxPrice, dollarsToBuy) => {
+const DEFAULT_SPREAD_PERC = 6;
+module.exports = async (ticker, dollarsToBuy, maxPrice, minPrice) => {
     
-    minPrice = Number(minPrice);
-    maxPrice = Number(maxPrice);
+    if (!dollarsToBuy) return;
+    
     dollarsToBuy = Number(dollarsToBuy);
+    maxPrice = Number(maxPrice);
+    minPrice = minPrice ? Number(minPrice) : maxPrice * (100 - DEFAULT_SPREAD_PERC) / 100;
 
     if (minPrice > maxPrice) {
         [minPrice, maxPrice] = [maxPrice, minPrice];

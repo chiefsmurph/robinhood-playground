@@ -457,13 +457,10 @@ module.exports = async ({
 
 
             const maxPrice = pickPrice;
-            const SPREAD_PERC = 6;
-            const minPrice = pickPrice * (100 - SPREAD_PERC) / 100;
             buyBetween(
                 ticker,
-                minPrice,
-                maxPrice,
-                perStock
+                perStock,
+                maxPrice
             );
 
             // const response = await eclecticBuy({

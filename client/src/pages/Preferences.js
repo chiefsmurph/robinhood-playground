@@ -61,6 +61,22 @@ class Preferences extends Component {
     }, () => window.alert(`LIMIT BOUGHT ${ticker}`));
     
   });
+  buyBetween = pd(() => {
+    let ticker = window.prompt('What ticker?');
+    if (!ticker) return;
+    ticker = ticker.toUpperCase();
+    let paramString = window.prompt('totalAmtToSpend-maxPrice-minPrice', 100);
+    if (!paramString) return;
+    let [totalAmtToSpend, maxPrice, minPrice] = paramString.split('-').map(Number);
+    console.log({ ticker, totalAmtToSpend, maxPrice, minPrice });
+    minPrice = minPrice || maxPrice * 0.995;
+    this.props.socket.emit('client:act', 'limitBuyMultiple', {
+      ticker,
+      totalAmtToSpend,
+      strategy: 'web-client'
+    }, () => window.alert(`LIMIT BOUGHT ${ticker}`));
+    
+  });
   render() {
     console.log(this.props);
     return (
@@ -87,9 +103,10 @@ class Preferences extends Component {
           })} href="#">Get Position</a></li>
         </ul>
 
-        <h3>Sell</h3>
+        <h3>Buy</h3>
         <ul>
           <li><a onClick={this.limitBuyMultiple} href="#">limitBuyMultiple</a></li>
+          <li><a onClick={this.buyBetween} href="#">buyBetween</a></li>
         </ul>
 
         <h3>Sell</h3>
