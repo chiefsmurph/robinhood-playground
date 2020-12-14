@@ -205,19 +205,19 @@ module.exports = new (class RealtimeRunner {
         fn: () => this.stop()
     });
 
-    regCronIncAfterSixThirty({
-        name: 'RealtimeRunner: red-and-bullish',
-        run: [45, 130, 200, 300],
-        fn: () => this.redAndBullishPicks()
-    });
+    // regCronIncAfterSixThirty({
+    //     name: 'RealtimeRunner: red-and-bullish',
+    //     run: [45, 130, 200, 300],
+    //     fn: () => this.redAndBullishPicks()
+    // });
 
-    regCronIncAfterSixThirty({
-      name: 'RealtimeRunner: buy the red',
-      run: [450, 430, 405, 350, 275,
-        // 220, 150, 90, 30
-      ],
-      fn: () => buyTheRed()
-    });
+    // regCronIncAfterSixThirty({
+    //   name: 'RealtimeRunner: buy the red',
+    //   run: [450, 430, 405, 350, 275,
+    //     // 220, 150, 90, 30
+    //   ],
+    //   fn: () => buyTheRed()
+    // });
 
     // regCronIncAfterSixThirty({
     //     name: 'RealtimeRunner: first act on st',
@@ -252,15 +252,15 @@ module.exports = new (class RealtimeRunner {
     }
 
     // afternoon intervals
-    const AFTERNOON_START_MIN = 230; // 10:20am
-    if (dayInProgress(AFTERNOON_START_MIN)) {
-      this.startAfternoonIntervals();
-    }
-    regCronIncAfterSixThirty({
-      name: 'RealtimeRunner: start afternoon intervals',
-      run: [AFTERNOON_START_MIN],
-      fn: () => this.startAfternoonIntervals()
-    });
+    // const AFTERNOON_START_MIN = 230; // 10:20am
+    // if (dayInProgress(AFTERNOON_START_MIN)) {
+    //   this.startAfternoonIntervals();
+    // }
+    // regCronIncAfterSixThirty({
+    //   name: 'RealtimeRunner: start afternoon intervals',
+    //   run: [AFTERNOON_START_MIN],
+    //   fn: () => this.startAfternoonIntervals()
+    // });
 
     this.hasInit = true;
   }
