@@ -5,10 +5,12 @@ const alpacaLimitBuy = require('./limit-buy');
 const DEFAULT_SPREAD_PERC = 6;
 module.exports = async (ticker, dollarsToBuy, maxPrice, minPrice) => {
     
-    if (!dollarsToBuy) return;
+    if (!ticker || !dollarsToBuy) return log('not enough info to buy between');
+
+    const { currentPrice } = await lookup(ticker);
     
     dollarsToBuy = Number(dollarsToBuy);
-    maxPrice = Number(maxPrice);
+    maxPrice = maxPrice ? Number(maxPrice) : currentPrice;
     minPrice = minPrice ? Number(minPrice) : maxPrice * (100 - DEFAULT_SPREAD_PERC) / 100;
 
     if (minPrice > maxPrice) {
@@ -16,14 +18,13 @@ module.exports = async (ticker, dollarsToBuy, maxPrice, minPrice) => {
         console.log('flipped');
     }
 
-    log({
+    str({
         ticker,
         minPrice,
         maxPrice,
         dollarsToBuy
     })
 
-    const { currentPrice } = await lookup(ticker);
     const totalQuantity = Math.min(dollarsToBuy / currentPrice);
     const shareBreakdown = {
         96: 20,
