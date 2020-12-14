@@ -258,6 +258,7 @@ module.exports = new Promise(resolve => {
                 buyBetween: require('../alpaca/buy-between'),
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
+                getBTC: () => Robinhood.url('https://api.robinhood.com/marketdata/forex/quotes/3d961844-d360-45fc-989b-f6fca761d511/'),
                 log,
                 restartProcess,
             };
