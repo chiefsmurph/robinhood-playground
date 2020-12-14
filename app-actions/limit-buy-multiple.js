@@ -457,7 +457,7 @@ module.exports = async ({
 
 
             const maxPrice = pickPrice;
-            buyBetween(
+            alpacaBuyBetween(
                 ticker,
                 perStock,
                 maxPrice
