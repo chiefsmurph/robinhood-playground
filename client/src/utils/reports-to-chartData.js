@@ -18,6 +18,7 @@ const colors = ['green', 'blue', 'violet', 'violet', 'violet', 'pink', 'black', 
 // ]
 
 const showAccountBalance = window.location.href.includes('balance');
+console.log({ showAccountBalance });
 
 const fields = {
     // dayReports
@@ -85,7 +86,7 @@ export default {
             arg2,
         });
         const actualProcess = process([
-            'alpaca balance', 
+            'alpaca balance',
             ...showBalance ? ['account balance'] : [],
             'russell2000', 'SP500', 'nasdaq'
         ]);

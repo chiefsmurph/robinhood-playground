@@ -478,7 +478,7 @@ class DayReports extends Component {
             // nope not overall
             // data coming from balance reports
             
-            const chartData = reportsToChartData.balanceChart(intensiveReports, showBalance);
+            const chartData = reportsToChartData.balanceChart(intensiveReports, showBalance || window.location.href.includes('balance'));
             return chartData;
             // const withDiff = {
             //     ...chartData,

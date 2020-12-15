@@ -198,7 +198,8 @@ class App extends Component {
         tags: ['notManual', 'lastTen'].map(createTag),
         admin: localStorage.getItem('placate'),
         onlyRegHrs: false,
-        lowKey: false
+        lowKey: false,
+        showBalance: window.location.href.includes('balance')
     };
 
     handleDelete = i => {
