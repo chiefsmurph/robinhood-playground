@@ -26,6 +26,7 @@ const getHistoricals = require('../realtime/historicals/get');
 const alpacaMarketBuy = require('../alpaca/market-buy');
 const isJimmyPick = require('../utils/is-jimmy-pick');
 const cacheThis = require('../utils/cache-this');
+const getBtcPrice = require('../utils/get-btc-price');
 
 const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 
@@ -242,7 +243,7 @@ module.exports = new Promise(resolve => {
         });
 
         client.on('client:getBTC', async cb => {
-            cb(await Robinhood.url('https://api.robinhood.com/marketdata/forex/quotes/3d961844-d360-45fc-989b-f6fca761d511/'));
+            cb(await getBtcPrice());
         });
 
         client.on('client:act', async (method, ...rest) => {

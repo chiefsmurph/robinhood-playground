@@ -11,9 +11,10 @@ const schema = new Schema({
     indexPrices: {
         sp500: Number,
         nasdaq: Number,
-        russell2000: Number
+        russell2000: Number,
+        btc: Number
     },
-    isRegularHours: Boolean
+    isRegularHours: Boolean,
 });
 
 const BalanceReport = mongoose.model('BalanceReport', schema, 'balanceReport');
