@@ -41,6 +41,7 @@ const fields = {
     'russell2000': (d, i, array) =>  i === 0 ? 0 : getTrend(d.indexPrices.russell2000, array[0].indexPrices.russell2000),
     'SP500': (d, i, array) =>  i === 0 ? 0 : getTrend(d.indexPrices.sp500, array[0].indexPrices.sp500),
     'nasdaq': (d, i, array) =>  i === 0 ? 0 : getTrend(d.indexPrices.nasdaq, array[0].indexPrices.nasdaq),
+    'btc': (d, i, array) =>  i === 0 ? 0 : getTrend(d.indexPrices.btc, array[0].indexPrices.btc || 26884),
 
     'fillPerc': d => d.fillPerc
 };
@@ -88,7 +89,8 @@ export default {
         const actualProcess = process([
             'alpaca balance',
             ...showBalance ? ['account balance'] : [],
-            'russell2000', 'SP500', 'nasdaq'
+            'russell2000', 'SP500', 'nasdaq',
+            'btc'
         ]);
         return actualProcess(arg1, arg2);
     },

@@ -296,15 +296,14 @@ class DayReports extends Component {
         // setTimeout(() => this.startAnimation(), 10000);
 
         const fetchBTC = () => 
-            this.props.socket.emit('client:getBTC', quote => {
-                console.log({ quote });
+            this.props.socket.emit('client:getBTC', btcPrice => {
                 this.setState({
-                    btcPrice: Number(quote.mark_price)
+                    btcPrice
                 });
             });
         fetchBTC();
         this.setState({
-            btcInterval: setInterval(fetchBTC, 7000)
+            btcInterval: setInterval(fetchBTC, 15000)
         });
         
     }
