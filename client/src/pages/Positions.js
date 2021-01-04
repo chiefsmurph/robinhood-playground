@@ -19,13 +19,16 @@ const tooltipStr = ({ buyStrategies }) =>
 // const getByDateStats = 
 
 
-const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
+const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, spraySell }) => {
 
     console.log({ name, positions });
 
     
     const toDisplay = {
         // 'days old': 'dayAge',
+        sell: pos => (
+            <a onClick={() => this.spraySell(pos.ticker)} href="javascript:void(0)">spray-sell</a>
+        ),
         daysOld: 'daysOld',
         bought: 'mostRecentPurchase',
         // sellOffDaysLeft: 'sellOffDaysLeft',
@@ -268,6 +271,31 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey }) => {
 
 
 class Positions extends Component {
+    spraySell(position) {
+        const { ticker, quantity: totalQuantity } = position;
+        const percToSell = window.prompt('What percentage of your position would you like to sell?', 5);
+        if (!percToSell) return;
+        const quantity = Math.ceil(totalQuantity * (percToSell / 100));
+        const minutes = window.prompt('How many minutes?', 20);
+        if (!minutes) return;
+        console.log({
+            ticker,
+            minutes,
+            percToSell,
+            quantity
+        })
+        this.props.socket.emit(
+            'client:act', 
+            'spraySell', 
+            {
+                ticker,
+                quantity,
+                numSeconds: minutes * 60
+            }, 
+            () => window.alert(`SPRAY SOLD ${ticker}`)
+        );
+        console.log({ minutes, ticker });
+    }
     render() {
 
         let { 
@@ -295,6 +323,7 @@ class Positions extends Component {
                             name={name}
                             admin={true}
                             lowKey={lowKey}
+                            spraySell={this.spraySell}
                         />
                     ))
                 }

@@ -249,6 +249,7 @@ module.exports = new Promise(resolve => {
         client.on('client:act', async (method, ...rest) => {
             const methods = {
                 sellOnOpen: require('../alpaca/sell-on-open'),
+                spraySell: require('../alpaca/spray-sell'),
                 actOnSt: require('../alpaca/act-on-st'),
                 actOnMultipliers: require('../alpaca/act-on-multipliers'),
                 actOnPositions: require('../alpaca/act-on-positions'),
