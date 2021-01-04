@@ -121,7 +121,7 @@ module.exports = new Promise(resolve => {
         const { allowedIps = [] } = await getPreferences();
         const allowedClient = allowedIps.some(search => ip.includes(search));
         const location = await lookupIpLocation(ip);
-        if (!allowedClient) {
+        if (!allowedClient && false) {
             await log(`ERROR: WARNING WARNING NEW ATTEMPT TO HACK! ${ip} from ${location}`, {
                 ip,
                 userAgent,
