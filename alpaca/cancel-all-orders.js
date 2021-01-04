@@ -8,8 +8,8 @@ module.exports = async (ticker, side) => {
 
     const matchingOrders = orders.filter(order => {
         return (
-            (order.symbol === ticker || ticker === undefined) &&
-            (order.side === side || side === undefined)
+            (order.symbol === ticker || !ticker) &&
+            (order.side === side || !side)
         );
     });
     str({ matchingOrders });
