@@ -329,7 +329,7 @@ class DayReports extends Component {
     };
     componentDidUpdate(prevProps, prevState) {
         const getMemoChunk = (props, state) => ({
-            ...pick(props, ['balanceReports', 'lowKey', 'showBalance', 'onlyRegHrs']),
+            ...pick(props, ['balanceReports', 'lowKey', 'onlyRegHrs', 'hiddenFields']),
             ...pick(state, ['numDaysToShow', 'hoverIndex', 'fuzzFactor'])
         });
         const needsToRecalcIntensiveData = !this.state.intensiveData || !isEqual(
@@ -350,13 +350,14 @@ class DayReports extends Component {
             numDaysToShow,
             hoverIndex,
             fuzzFactor, 
+            keyData
         } = this.state;
 
         const {
             balanceReports,
             lowKey, 
-            showBalance, 
-            onlyRegHrs
+            onlyRegHrs,
+            hiddenFields,
         } = this.props;
 
         let intensiveReports = [...balanceReports];
@@ -369,16 +370,11 @@ class DayReports extends Component {
             },
             ...{
                 intensiveReports,
-                lowKey, 
-                showBalance, 
-                onlyRegHrs
+                lowKey,
+                onlyRegHrs,
+                hiddenFields
             }
-        })
-
-        console.log({
-            lowKey,
-            showBalance
-        })
+        });
 
         // console.log({ intensiveReports })
 
@@ -427,17 +423,30 @@ class DayReports extends Component {
         };
 
         const stats = mapObject({
+            // TODO: hiddenFields
             alpaca: 'alpacaBalance',
-            ...showBalance && { robinhood: 'accountBalance' },
+            robinhood: 'accountBalance',
         }, getStats);
-
-        console.log({ showBalance, stats })
 
         const indexStats = mapObject({
             nasdaq: 'indexPrices.nasdaq',
             russell2000: 'indexPrices.russell2000',
-            sp500: 'indexPrices.sp500'
-        }, getStats)
+            SP500: 'indexPrices.sp500'
+        }, getStats);
+
+        hiddenFields.forEach(field => {
+            const key = {
+                'account balance': 'robinhood',
+                'alpaca balance': 'alpaca'
+            }[field];
+            delete stats[key];
+            delete indexStats[field];
+            console.log({
+                field,
+                stats,
+                indexStats
+            })
+        });
 
 
         // day pruning
@@ -477,7 +486,7 @@ class DayReports extends Component {
             // nope not overall
             // data coming from balance reports
             
-            const chartData = reportsToChartData.balanceChart(intensiveReports, showBalance || window.location.href.includes('balance'));
+            const chartData = reportsToChartData.balanceChart(intensiveReports, hiddenFields);
             return chartData;
             // const withDiff = {
             //     ...chartData,
@@ -544,6 +553,13 @@ class DayReports extends Component {
             return chartData;
         })();
 
+        // handle hd
+
+        console.log({});
+        if (!window.location.href.includes('hd')) {
+            chartData.datasets.splice(0, 2);
+        }
+
 
 
         // console.log({ indexStats})
@@ -590,15 +606,32 @@ class DayReports extends Component {
                 allDates,
                 showingSince,
                 afterHoursBoxes,
+            },
+            ...!keyData && {
+                keyData: reportsToChartData.balanceChart(intensiveReports, []).datasets.map(d => pick(d, ['label', 'borderColor']))
             }
         });
     }
     setTimeFilter = timeFilter => this.setState({ timeFilter });
+    toggleField = field => {
+        const { hiddenFields } = this.props;
+        const alreadyHidden = hiddenFields.includes(field);
+        console.log({
+            field,
+            alreadyHidden,
+            hiddenFields
+        })
+        this.props.setAppState({
+            hiddenFields: alreadyHidden
+                ? hiddenFields.filter(f => f !== field)
+                : [...hiddenFields, field]
+        });
+    };
     render () {
-        let { balanceReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, showBalance, onlyRegHrs } = this.props;
-        let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations, animateCount, intensiveData } = this.state;
+        let { balanceReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, onlyRegHrs, hiddenFields } = this.props;
+        let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations, animateCount, intensiveData, keyData } = this.state;
         if (!balanceReports || !balanceReports.length || !intensiveData) return <b>LOADING</b>;
-        const { chartData, stats, indexStats, allDates, showingSince, afterHoursBoxes  } = intensiveData;
+        const { chartData, stats, indexStats, allDates, showingSince, afterHoursBoxes,   } = intensiveData;
 
         console.log({ chartData });
 
@@ -652,11 +685,6 @@ class DayReports extends Component {
                             </select>
                             <br/>
                             <a href="#" onClick={() => this.setState({ numDaysToShow: 1 })}>[reset]</a>&nbsp;&nbsp;&nbsp;
-                            <label>
-                                <input type="checkbox" checked={showBalance} onClick={() => setAppState({ showBalance: !showBalance })} /> 
-                                &nbsp;&nbsp;Show Balance
-                            </label>
-                            &nbsp;&nbsp;&nbsp;
                             <label>
                                 <input type="checkbox" checked={lowKey} onClick={() => setAppState({ lowKey: !lowKey })} /> 
                                 &nbsp;&nbsp;Lowkey
@@ -756,7 +784,7 @@ class DayReports extends Component {
                     </div>
                     <div style={{ display: lowKey ? 'none' : 'block' }}>
                         <Odometer 
-                            value={stats.alpaca.current} 
+                            value={(stats.alpaca || {}).current} 
                             format="(,ddd).dd"
                             duration={500}
                             />
@@ -804,6 +832,18 @@ class DayReports extends Component {
                         </div>
                     </div>
                 </div>
+                <div className='chart-key'>
+                    {
+                        keyData.map(({ label, borderColor }) => (
+                            <div onClick={() => this.toggleField(label)}  style={{ textDecoration: hiddenFields.includes(label) ? 'line-through' : '' }}>
+                                <div className='key-sq' style={{ backgroundColor: borderColor }}>
+                                    { hiddenFields.includes(label) ? '' : 'X'}
+                                </div>
+                                {label} - {borderColor}
+                            </div>
+                        ))
+                    }
+                </div>
                 <div style={{ height: '90%' }} className='wider-container'>
                     <Line 
                         data={slicedChartData} 
@@ -814,34 +854,35 @@ class DayReports extends Component {
                             // onHover: (event, chartEls) => this.setState({ hoverIndex: get(chartEls[0], '_index') }),
                             // responsive: true,
                             maintainAspectRatio : false,
-                            // plugins: {
-                                annotation: {
-                                    // enabled: true,
-                                    annotations: smallDevice & numDaysToShow > 5 ? [] : [
-                                        // {
-                                        //     drawTime: "beforeDatasetsDraw",
-                                        //     // id: "hline",
-                                        //     type: "line",
-                                        //     mode: "vertical",
-                                        //     scaleID: "x-axis-0",
-                                        //     value: '10/10/2019, 9:50:29 AM',
-                                        //     borderColor: "#ccc",
-                                        //     borderWidth: 10,
-                                        //     label: {
-                                        //         backgroundColor: "red",
-                                        //         content: "Test Label",
-                                        //         enabled: true
-                                        //     }
-                                        // },
+                            legend: {
+                                display: false
+                            },
+                            annotation: {
+                                // enabled: true,
+                                annotations: smallDevice & numDaysToShow > 5 ? [] : [
+                                    // {
+                                    //     drawTime: "beforeDatasetsDraw",
+                                    //     // id: "hline",
+                                    //     type: "line",
+                                    //     mode: "vertical",
+                                    //     scaleID: "x-axis-0",
+                                    //     value: '10/10/2019, 9:50:29 AM',
+                                    //     borderColor: "#ccc",
+                                    //     borderWidth: 10,
+                                    //     label: {
+                                    //         backgroundColor: "red",
+                                    //         content: "Test Label",
+                                    //         enabled: true
+                                    //     }
+                                    // },
 
 
-                                        
-                                        ...annotateBoxes(afterHoursBoxes),
-                                        ...annotateLines(getNewDayLines(slicedChartData)),
+                                    
+                                    ...annotateBoxes(afterHoursBoxes),
+                                    ...annotateLines(getNewDayLines(slicedChartData)),
 
-                                    ]
-                                },
-                            // }
+                                ]
+                            },
                             scales: {
                                 xAxes: [{
                                     // type: 'time',

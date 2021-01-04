@@ -80,18 +80,20 @@ const process = fieldsToInclude => (dayReports, dataSlice = 0) => {
 };
 
 export default {
-    balanceChart: (arg1, showBalance, arg2) => {
+    balanceChart: (arg1, hiddenFields, arg2) => {
         console.log({
             arg1,
-            showBalance,
+            hiddenFields,
             arg2,
         });
         const actualProcess = process([
             'alpaca balance',
-            ...showBalance ? ['account balance'] : [],
-            'russell2000', 'SP500', 'nasdaq',
+            'account balance',
+            'russell2000', 
+            'SP500', 
+            'nasdaq',
             'btc'
-        ]);
+        ].filter(k => !hiddenFields.includes(k)));
         return actualProcess(arg1, arg2);
     },
     unrealizedVsRealized: process(['unrealized return', 'realized return']),

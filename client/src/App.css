@@ -133,3 +133,22 @@ table th {
 .green {
   background-color: lightgreen;
 }
+
+
+.chart-key > * {
+  float: left;
+  margin-right: 50px;
+  cursor: pointer;
+}
+
+.key-sq {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  float: left;    
+  text-align: center;
+  color: white;
+  font-size: 21px;
+  padding: 0;
+  line-height: 1;
+}
