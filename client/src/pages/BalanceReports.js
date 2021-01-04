@@ -553,13 +553,6 @@ class DayReports extends Component {
             return chartData;
         })();
 
-        // handle hd
-
-        console.log({});
-        if (!window.location.href.includes('hd')) {
-            chartData.datasets.splice(0, 2);
-        }
-
 
 
         // console.log({ indexStats})

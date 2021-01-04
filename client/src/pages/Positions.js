@@ -27,7 +27,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
     const toDisplay = {
         // 'days old': 'dayAge',
         sell: pos => (
-            <a onClick={() => this.spraySell(pos.ticker)} href="javascript:void(0)">spray-sell</a>
+            <a onClick={() => spraySell(pos)} href="javascript:void(0)">spray-sell</a>
         ),
         daysOld: 'daysOld',
         bought: 'mostRecentPurchase',
@@ -271,9 +271,9 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
 
 
 class Positions extends Component {
-    spraySell(position) {
+    spraySell = position => {
         const { ticker, quantity: totalQuantity } = position;
-        const percToSell = window.prompt('What percentage of your position would you like to sell?', 5);
+        const percToSell = window.prompt('What percentage of your position would you like to sell?', 20);
         if (!percToSell) return;
         const quantity = Math.ceil(totalQuantity * (percToSell / 100));
         const minutes = window.prompt('How many minutes?', 20);
