@@ -1,6 +1,6 @@
 import getTrend from './get-trend';
 
-const colors = ['green', 'blue', 'violet', 'violet', 'violet', 'pink', 'black', 'orange', 'blue', 'green'];
+const colors = ['green', 'blue', 'violet', 'violet', 'violet', 'pink', 'black', 'orange', 'blue', 'green', 'maroon'];
 // const colors = [
 //     'orange',
 //     'orange',
@@ -58,7 +58,7 @@ const process = fieldsToInclude => (dayReports, dataSlice = 0) => {
         // pointBorderWidth: 10,
         borderColor: key === 'account balance' || false ? 'purple' : getColor(key),
         // borderCapStyle: 'butt',
-        borderWidth: 5,
+        borderWidth: key === 'btc' ? 3 : 5,
         borderDashOffset: 0.0,
         borderJoinStyle: 'round',
         // pointBorderColor: key === 'account balance' ? 'black' : getColor(key),
