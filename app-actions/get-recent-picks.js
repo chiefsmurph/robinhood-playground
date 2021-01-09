@@ -9,15 +9,13 @@ const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.p
 const oneDec = roundTo(1);
 const twoDec = roundTo(2);
 
-module.exports = async (limit = 30) => {
+module.exports = async (limit = 30, isRecommended = true) => {
     console.log('app action get recent', limit);
-    const picks = await Pick.getRecentRecommendations(limit);
+    const picks = await Pick.getRecentRecommendations(limit, isRecommended);
     const byTicker = groupBy(picks, pick => pick.picks[0].ticker);
     const prices = await lookupMultiple(Object.keys(byTicker));
     const scan = await runScan({
         tickers: Object.keys(byTicker),
-        minPrice: Number.NEGATIVE_INFINITY,
-        maxPrice: Number.POSITIVE_INFINITY
     });
     const aggregated = mapObject(byTicker, (picks, ticker) => {
         const pickPrices = picks.map(pick =>
