@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    timestamp: { type : Date, default: Date.now },
+    timestamp: { type : Date, default: Date.now, index: true },
     date: { type: String, index: true },
     strategyName: String,
     min: Number,
@@ -29,12 +29,17 @@ schema.statics.getUniqueDates = async function() {
     return response.filter(Boolean).sort((a, b) => new Date(a) - new Date(b));
 };
 
-schema.statics.getRecentRecommendations = async function() {
-    const NUM_DAYS = 3;
-    return this.find({ 
+schema.statics.getRecentRecommendations = async function(numDays = 3) {
+    console.log('go')
+    return this.find({
         isRecommended: true,
-        timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * NUM_DAYS) }
-    }).lean();
+        timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * numDays) }
+    }, {
+        data: 0
+    })
+        .sort({ _id: -1 })
+        .limit(100)
+        .lean();
 };
 
 schema.statics.getRecentPickForTicker = async function(ticker, isRecommended, date) {
