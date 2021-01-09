@@ -262,6 +262,7 @@ module.exports = new Promise(resolve => {
                 runSuperDown: require('../app-actions/run-super-down'),
                 buyTheRed: require('../alpaca/buy-the-red'),
                 buyBetween: require('../alpaca/buy-between'),
+                getRecentPicks: require('../app-actions/get-recent-picks'),
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
                 log,

@@ -29,16 +29,15 @@ schema.statics.getUniqueDates = async function() {
     return response.filter(Boolean).sort((a, b) => new Date(a) - new Date(b));
 };
 
-schema.statics.getRecentRecommendations = async function(numDays = 3) {
-    console.log('go')
+schema.statics.getRecentRecommendations = async function(limit = 100) {
     return this.find({
         isRecommended: true,
-        timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * numDays) }
+        // timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * numDays) }
     }, {
         data: 0
     })
         .sort({ _id: -1 })
-        .limit(100)
+        .limit(limit)
         .lean();
 };
 
