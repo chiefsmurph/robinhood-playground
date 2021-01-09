@@ -28,5 +28,8 @@ module.exports = async (limit = 30) => {
             scan: scan.find(s => s.ticker === ticker)
         };
     });
-    return aggregated;
+    return Object.keys(aggregated).map(ticker => ({
+        ticker,
+        ...aggregated[ticker]
+    }));
 };
