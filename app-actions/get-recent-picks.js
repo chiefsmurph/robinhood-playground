@@ -5,6 +5,10 @@ const lookupMultiple = require('../utils/lookup-multiple');
 const { avgArray } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
 
+const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.pow(10, numDec);
+const oneDec = roundTo(1);
+const twoDec = roundTo(2);
+
 module.exports = async (limit = 30) => {
     const picks = await Pick.getRecentRecommendations(limit);
     const byTicker = groupBy(picks, pick => pick.picks[0].ticker);
@@ -16,7 +20,7 @@ module.exports = async (limit = 30) => {
         const pickPrices = picks.map(pick =>
             pick.picks.find(p => p.ticker === ticker).price
         );
-        const avgPrice = avgArray(pickPrices);
+        const avgPrice = twoDec(avgArray(pickPrices));
         const nowPrice = prices[ticker];
         return {
             pickPrices,

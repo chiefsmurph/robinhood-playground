@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from 'react';
 import { MDBDataTable } from 'mdbreact';
+import { pick } from 'underscore';
 
 export default class extends Component {
     state = {
@@ -8,7 +9,23 @@ export default class extends Component {
     };
     fetchPicks = () =>
         this.props.socket.emit('client:act', 'getRecentPicks', this.state.limit, recentPicks => {
-            this.setState({ recentPicks });
+            console.log({ recentPicks})
+            this.setState({ 
+                recentPicks: recentPicks
+                    .map(({ scan, interestingWords, mostRecentTimestamp, pickPrices, ...recentPick }) => ({
+                        ...recentPick,
+                        dropType: ['major', 'medium', 'minor'].find(w => JSON.stringify(interestingWords).includes(w)),
+                        lastPick: (new Date(mostRecentTimestamp)).toLocaleString(),
+                        // pickPrices: pickPrices.join(', '),
+                        ...pick(scan, ['projectedVolumeTo2WeekAvg', 'stSent', 'dailyRSI']),
+                    }))
+                    .map(recentPick => ({
+                        ...recentPick,
+                        projectedVolumeTo2WeekAvg: recentPick.projectedVolumeTo2WeekAvg || 0,
+                        stSent: recentPick.stSent || 0,
+                        dailyRSI: recentPick.dailyRSI || 0
+                    }))
+            });
         });
     componentDidMount() {
         this.fetchPicks();
@@ -32,7 +49,7 @@ export default class extends Component {
                 </select>
                 <hr/>
                 <MDBDataTable data={{
-                  columns: Object.keys(recentPicks[0] || {}).map((label, i) => ({ label, field: label })),
+                  columns: Object.keys(recentPicks.find(p => Object.keys(p).length > 5) || {}).map((label, i) => ({ label, field: label })),
                   rows: recentPicks
                 }} />
                 <code>{JSON.stringify(this.state.recentPicks, null, 2)}</code>
