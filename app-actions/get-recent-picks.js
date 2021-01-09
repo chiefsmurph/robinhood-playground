@@ -10,6 +10,7 @@ const oneDec = roundTo(1);
 const twoDec = roundTo(2);
 
 module.exports = async (limit = 30) => {
+    console.log('app action get recent', limit);
     const picks = await Pick.getRecentRecommendations(limit);
     const byTicker = groupBy(picks, pick => pick.picks[0].ticker);
     const prices = await lookupMultiple(Object.keys(byTicker));

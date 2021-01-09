@@ -30,6 +30,7 @@ schema.statics.getUniqueDates = async function() {
 };
 
 schema.statics.getRecentRecommendations = async function(limit = 100) {
+    console.log('getting recent', limit);
     return this.find({
         isRecommended: true,
         // timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * numDays) }
