@@ -39,6 +39,7 @@ import Scan from './pages/Scan';
 import Closed from './pages/Closed';
 import Derived from './pages/Derived';
 import Logs from './pages/Logs';
+import RecentPicks from './pages/RecentPicks';
 
 import socketIOClient from "socket.io-client";
 import { partition, mapObject } from 'underscore';
@@ -156,6 +157,10 @@ const pages = [
     {
         label: 'Date Analysis',
         component: DateAnalysis,
+    },
+    {
+        label: 'Recent Picks',
+        component: RecentPicks
     },
     // {
     //     label: 'Stocks To Watch',

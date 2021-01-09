@@ -263,6 +263,7 @@ module.exports = new Promise(resolve => {
                 buyTheRed: require('../alpaca/buy-the-red'),
                 buyBetween: require('../alpaca/buy-between'),
                 getRecentPicks: require('../app-actions/get-recent-picks'),
+                lookupMultiple,
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
                 log,
