@@ -15,7 +15,9 @@ module.exports = async (limit = 30) => {
     const byTicker = groupBy(picks, pick => pick.picks[0].ticker);
     const prices = await lookupMultiple(Object.keys(byTicker));
     const scan = await runScan({
-        tickers: Object.keys(byTicker)
+        tickers: Object.keys(byTicker),
+        minPrice: Number.NEGATIVE_INFINITY,
+        maxPrice: Number.POSITIVE_INFINITY
     });
     const aggregated = mapObject(byTicker, (picks, ticker) => {
         const pickPrices = picks.map(pick =>
