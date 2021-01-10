@@ -6,7 +6,6 @@ const { avgArray } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
 
 const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.pow(10, numDec);
-const oneDec = roundTo(1);
 const twoDec = roundTo(2);
 
 module.exports = async (limit = 30, isRecommended = true) => {
@@ -29,7 +28,7 @@ module.exports = async (limit = 30, isRecommended = true) => {
             nowPrice,
             trend: getTrend(nowPrice, avgPrice),
             interestingWords: [...new Set(...picks.map(pick => pick.interestingWords))],
-            mostRecentTimestamp: picks[picks.length - 1].timestamp,
+            mostRecentTimestamp: picks[0].timestamp,
             scan: scan.find(s => s.ticker === ticker)
         };
     });
