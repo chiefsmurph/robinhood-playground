@@ -32,7 +32,13 @@ schema.statics.getUniqueDates = async function() {
 schema.statics.getRecentRecommendations = async function(limit = 100, isRecommended = true) {
     console.log('getting recent', limit);
     return this.find({
-        isRecommended,
+        ...isRecommended
+            ? {
+                isRecommended: true,
+                strategyName: /.*(sudden.*drops|rsi).*/i
+            } : {
+                isRecommended: false
+            }
         // timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * numDays) }
     }, {
         data: 0

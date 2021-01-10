@@ -30,6 +30,15 @@ export default class extends Component {
                             stSent: recentPick.stSent || 0,
                             dailyRSI: recentPick.dailyRSI || 0
                         }))
+                        .map(recentPick => ({
+                            ...recentPick,
+                            hoursSinceLastPick: (Date.now() - (new Date(recentPick.lastPick).getTime())) / (1000 * 60 * 60)
+                        }))
+                        .map(({ hoursSinceLastPick, ...recentPick }) => ({
+                            ...recentPick,
+                            trendPerHour: recentPick.trend / hoursSinceLastPick
+                        }))
+
                 });
             })
         );
