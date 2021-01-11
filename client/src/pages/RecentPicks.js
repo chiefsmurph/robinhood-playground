@@ -32,11 +32,11 @@ export default class extends Component {
                         }))
                         .map(recentPick => ({
                             ...recentPick,
-                            hoursSinceLastPick: (Date.now() - (new Date(recentPick.lastPick).getTime())) / (1000 * 60 * 60)
+                            daysSinceLastPick: (Date.now() - (new Date(recentPick.lastPick).getTime())) / (1000 * 60 * 60 * 24)
                         }))
-                        .map(({ hoursSinceLastPick, ...recentPick }) => ({
+                        .map(({ daysSinceLastPick, ...recentPick }) => ({
                             ...recentPick,
-                            trendPerHour: recentPick.trend / hoursSinceLastPick
+                            trendPerDay: +(recentPick.trend / daysSinceLastPick).toFixed(2)
                         }))
 
                 });
