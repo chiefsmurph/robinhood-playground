@@ -72,6 +72,10 @@ const runScan = async ({
   afterHoursReset = false
 } = {}) => {
 
+  if (tickers) {
+    count = Math.max(count, tickers.length);
+  }
+
   tickers = tickers ? await addQuotesToTickers(tickers) : await getTickersBetween(minPrice, maxPrice);
   tickers = tickers.map(buy => ({
     ...buy,
