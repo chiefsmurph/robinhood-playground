@@ -13,16 +13,19 @@ module.exports = async (limit = 30, isRecommended = true) => {
     const picks = await Pick.getRecentRecommendations(limit, isRecommended);
     const byTicker = groupBy(picks, pick => pick.picks[0].ticker);
     const prices = await lookupMultiple(Object.keys(byTicker));
+    const validTickers = Object.keys(prices);
     const scan = await runScan({
-        tickers: Object.keys(byTicker),
+        tickers: validTickers
     });
-    const aggregated = mapObject(byTicker, (picks, ticker) => {
+    return validTickers.map(ticker => {
+        const picks = byTicker[ticker];
         const pickPrices = picks.map(pick =>
             pick.picks.find(p => p.ticker === ticker).price
         );
         const avgPrice = twoDec(avgArray(pickPrices));
         const nowPrice = prices[ticker];
         return {
+            ticker,
             pickPrices,
             avgPrice,
             nowPrice,
@@ -32,8 +35,4 @@ module.exports = async (limit = 30, isRecommended = true) => {
             scan: scan.find(s => s.ticker === ticker)
         };
     });
-    return Object.keys(aggregated).map(ticker => ({
-        ticker,
-        ...aggregated[ticker]
-    }));
 };
