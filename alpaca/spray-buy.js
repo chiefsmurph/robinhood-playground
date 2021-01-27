@@ -75,8 +75,6 @@ module.exports = async ({
   const responses = [];
   let madeAMove = false;
   for (let i of range(numShots)) {
-    
-    await new Promise(resolve => setTimeout(resolve, spaceApart));
     const quantity = qAmts[i];
     const { lastTrade: nowPrice } = await lookup(ticker);
     console.log(`spray buying ${i+1} of ${numShots} - ${quantity} shares`);
@@ -112,8 +110,10 @@ module.exports = async ({
         })
       );
     }
+    await new Promise(resolve => setTimeout(resolve, spaceApart));
   }
 
+  await log(`done spray buying ${ticker}`);
   return responses;
 
 };

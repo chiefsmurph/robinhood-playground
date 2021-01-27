@@ -5,6 +5,7 @@ const shouldYouSellThisStock = require('../analysis/should-you-sell-this-stock')
 const getStSent = require('../utils/get-stocktwits-sentiment');
 const sellPosition = require('./sell-position');
 const getPositions = require('./get-positions');
+const Log = require('../models/Log');
 
 module.exports = async dontSell => {
 
@@ -39,6 +40,10 @@ module.exports = async dontSell => {
     };
 
     toSell.forEach(async pos => {
+      if (await Log.boughtToday(pos.ticker)) {
+        await log(`looks like we bought it today... not going to premarket sell ${pos.ticker}`);
+        return;
+      }
       const percToSell = Math.round(3 + pos.returnPerc);
       await log(`premarket sell ${pos.ticker} - ${percToSell}% bc returnPerc ${pos.returnPerc}`);
       sellPosition({

@@ -67,7 +67,6 @@ module.exports = async ({
   await log(`starting to spray ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} spaceApart ${spaceApart / 1000} sec`);
   const responses = [];
   for (let i of range(numShots)) {
-    await new Promise(resolve => setTimeout(resolve, spaceApart));
     if (await Log.boughtToday(ticker)) {
       await log(`looks like we bought it today... no more spray action ${ticker}`);
       break;
@@ -81,8 +80,10 @@ module.exports = async ({
         fallbackToMarket: true 
       })
     ); 
+    await new Promise(resolve => setTimeout(resolve, spaceApart));
   }
   
+  await log(`done spray selling ${ticker}`);
   setTimeout(() => Hold.updateOne({ ticker }, { isSelling: false }), 1000 * 60 * 5);
   
 

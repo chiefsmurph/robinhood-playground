@@ -64,8 +64,8 @@ module.exports = async (ticker, dollarsToBuy, maxPrice, minPrice) => {
     });
 
     await log([
-        'buy between: ',
-        `${ticker} $${dollarsToBuy} between ${minPrice} and ${maxPrice} -- `,
+        `buying ${ticker}:`,
+        `$${dollarsToBuy} between ${minPrice} and ${maxPrice} -- `,
         purchases.map(({ limitPrice, quantity }) => `${quantity} @ ${limitPrice}`).join(' | ')
     ].join(' '));
 
