@@ -26,7 +26,7 @@ let prevRSI;
 const getBalanceRSI = () => {
     const rsiSeries = RSI.calculate({
         values: allBalanceReports.map(report => report.alpacaBalance),
-        period: 50
+        period: 200
     }) || [];
     return rsiSeries.pop();
 };
