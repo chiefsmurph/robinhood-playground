@@ -217,9 +217,11 @@ module.exports = class PositionWatcher {
     const minSinceMostRecentPick = mostRecentTimestamp ? Math.round((Date.now() - (new Date(mostRecentTimestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
 
 
-    let comparePrice = minSinceMostRecentPick > 60 * 10
-      ? this.observedPrices[0]
-      : mostRecentPrice;
+    // let comparePrice = minSinceMostRecentPick > 60 * 10
+    //   ? this.observedPrices[0]
+    //   : mostRecentPrice;
+
+    let comparePrice = Math.min(this.observedPrices[0], mostRecentPrice);
 
     if (!comparePrice) {
       await log(`no compare price found for ${ticker}`, {
@@ -313,6 +315,7 @@ module.exports = class PositionWatcher {
       avgDownWhenPercDown,
       stOffset,
       observePrice,
+      curTrend,
       shouldAvgDown
     };
     logLine += Object.entries(logData)
