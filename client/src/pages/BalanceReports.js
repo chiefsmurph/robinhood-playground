@@ -49,15 +49,6 @@ function get(obj, path) {
     }
 }
 
-console.log(
-    get(
-        {
-            a: 1,
-            b: { c: 3 }
-        },
-        'b.c'
-    )
-)
 
 const easternTimezone = (() => {
     const est = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
@@ -263,7 +254,7 @@ class DayReports extends Component {
         super();
         this.state = {
             timeFilter: 'onlyToday',
-            numDaysToShow: 1,
+            numDaysToShow: 2,
             hoverIndex: null,
             afterHoursAnnotations: [],
             fuzzFactor: 1,
@@ -273,9 +264,11 @@ class DayReports extends Component {
     }
     componentDidMount() {
         console.log("mounted");
-        const currentlyRegularHours = oldSchoolRegularHours(Date.now());
-        console.log({ currentlyRegularHours });
-        this.props.setAppState({ onlyRegHrs: currentlyRegularHours })
+
+        // THIS SETS ONLYREGHRS BASED ON WHETHER IT IS CURRENTLY REG HRS
+        // const currentlyRegularHours = oldSchoolRegularHours(Date.now());
+        // console.log({ currentlyRegularHours });
+        // this.props.setAppState({ onlyRegHrs: currentlyRegularHours })
 
         // let caPlugin = ChartAnnotation;
         // caPlugin["id"]="annotation";
@@ -329,7 +322,7 @@ class DayReports extends Component {
     };
     componentDidUpdate(prevProps, prevState) {
         const getMemoChunk = (props, state) => ({
-            ...pick(props, ['balanceReports', 'lowKey', 'onlyRegHrs', 'hiddenFields']),
+            ...pick(props, ['balanceReports', 'lowKey', 'onlyRegHrs', 'hiddenFields', 'authLevel']),
             ...pick(state, ['numDaysToShow', 'hoverIndex', 'fuzzFactor'])
         });
         const needsToRecalcIntensiveData = !this.state.intensiveData || !isEqual(
@@ -350,7 +343,7 @@ class DayReports extends Component {
             numDaysToShow,
             hoverIndex,
             fuzzFactor, 
-            keyData
+            keyData,
         } = this.state;
 
         const {
@@ -358,6 +351,7 @@ class DayReports extends Component {
             lowKey, 
             onlyRegHrs,
             hiddenFields,
+            authLevel
         } = this.props;
 
         let intensiveReports = [...balanceReports];
@@ -431,22 +425,35 @@ class DayReports extends Component {
         const indexStats = mapObject({
             nasdaq: 'indexPrices.nasdaq',
             russell2000: 'indexPrices.russell2000',
-            SP500: 'indexPrices.sp500'
+            SP500: 'indexPrices.sp500',
+            bitcoin: 'indexPrices.btc'
         }, getStats);
 
         hiddenFields.forEach(field => {
             const key = {
                 'account balance': 'robinhood',
-                'alpaca balance': 'alpaca'
+                'alpaca balance': 'alpaca',
+                btc: 'bitcoin'
             }[field];
             delete stats[key];
-            delete indexStats[field];
+            delete indexStats[key];
             console.log({
                 field,
+                key,
                 stats,
                 indexStats
             })
         });
+
+        console.log({ indexStats})
+
+        // authLevel!
+
+        if (authLevel < 2) {
+            intensiveReports = intensiveReports.map(({ accountBalance, alpacaBalance, ...report }) => ({
+                ...report
+            }));
+        }
 
 
         // day pruning
@@ -485,7 +492,6 @@ class DayReports extends Component {
             // }
             // nope not overall
             // data coming from balance reports
-            
             const chartData = reportsToChartData.balanceChart(intensiveReports, hiddenFields);
             return chartData;
             // const withDiff = {
@@ -621,7 +627,7 @@ class DayReports extends Component {
         });
     };
     render () {
-        let { balanceReports, admin, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, onlyRegHrs, hiddenFields } = this.props;
+        let { balanceReports, authLevel, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, onlyRegHrs, hiddenFields } = this.props;
         let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations, animateCount, intensiveData, keyData } = this.state;
         if (!balanceReports || !balanceReports.length || !intensiveData) return <b>LOADING</b>;
         const { chartData, stats, indexStats, allDates, showingSince, afterHoursBoxes,   } = intensiveData;
@@ -677,11 +683,15 @@ class DayReports extends Component {
                                 }
                             </select>
                             <br/>
-                            <a href="#" onClick={() => this.setState({ numDaysToShow: 1 })}>[reset]</a>&nbsp;&nbsp;&nbsp;
-                            <label>
-                                <input type="checkbox" checked={lowKey} onClick={() => setAppState({ lowKey: !lowKey })} /> 
-                                &nbsp;&nbsp;Lowkey
-                            </label>
+                            <a href="#" onClick={() => this.setState({ numDaysToShow: 2 })}>[reset]</a>&nbsp;&nbsp;&nbsp;
+                            {
+                                authLevel === 2 && (
+                                    <label>
+                                        <input type="checkbox" checked={lowKey} onClick={() => setAppState({ lowKey: !lowKey })} /> 
+                                        &nbsp;&nbsp;Lowkey
+                                    </label>
+                                )
+                            }
                             &nbsp;&nbsp;&nbsp;
                             <label>
                                 <input type="checkbox" checked={onlyRegHrs} onClick={() => {
@@ -785,7 +795,7 @@ class DayReports extends Component {
                     <div style={{ fontSize: '80%', textAlign: 'right'  }}>
                         trend since {new Date((showingSince || {}).time).toLocaleString()}<br/>
                         {
-                            Object.keys(stats).map(stat => (
+                            authLevel === 2 && Object.keys(stats).map(stat => (
                                 <div>
                                     <span data-custom data-tooltip-str={`$${stats[stat].current}`}>
                                         {stat}
@@ -812,14 +822,20 @@ class DayReports extends Component {
                         <div style={{ border: '1px solid black', padding: '7px' }}>
                             <table style={{ marginRight: '0' }}>
                                 {
-                                    Object.keys(indexStats).map(stat => (
-                                        <tr>
-                                            <td>{stat}</td>
-                                            <td>
-                                                <TrendPerc value={indexStats[stat].trend} />
-                                            </td>
-                                        </tr>
-                                    ))
+                                    Object.keys(indexStats)
+                                        .map(stat => ({
+                                            label: stat,
+                                            value: indexStats[stat].trend
+                                        }))
+                                        .sort((a, b) => b.value - a.value)
+                                        .map(({ label, value }) => (
+                                            <tr>
+                                                <td>{label}</td>
+                                                <td>
+                                                    <TrendPerc value={value} />
+                                                </td>
+                                            </tr>
+                                        ))
                                 }
                             </table>
                         </div>

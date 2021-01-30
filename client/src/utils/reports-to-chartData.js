@@ -18,7 +18,6 @@ const colors = ['green', 'blue', 'violet', 'violet', 'violet', 'pink', 'black', 
 // ]
 
 const showAccountBalance = window.location.href.includes('balance');
-console.log({ showAccountBalance });
 
 const fields = {
     // dayReports
@@ -80,21 +79,27 @@ const process = fieldsToInclude => (dayReports, dataSlice = 0) => {
 };
 
 export default {
-    balanceChart: (arg1, hiddenFields, arg2) => {
+    balanceChart: (reports, hiddenFields, arg2) => {
         console.log({
-            arg1,
+            reports,
             hiddenFields,
             arg2,
         });
-        const actualProcess = process([
+        const fields = [
             'alpaca balance',
             'account balance',
             'russell2000', 
             'SP500', 
             'nasdaq',
             'btc'
-        ].filter(k => !hiddenFields.includes(k)));
-        return actualProcess(arg1, arg2);
+        ];
+        const isBalance = key => key.toLowerCase().includes('balance');
+        const notIncludingBalances = !Object.keys(reports[0]).some(isBalance);
+        console.log({ notIncludingBalances})
+        const balancesConsideration = notIncludingBalances ? fields.filter(key => !isBalance(key)) : fields;
+        const withoutHidden = balancesConsideration.filter(k => !hiddenFields.includes(k));
+        const actualProcess = process(withoutHidden);
+        return actualProcess(reports, arg2);
     },
     unrealizedVsRealized: process(['unrealized return', 'realized return']),
     spyVsForPurchase: process(['forPurchase PM avg trend %', 'forPurchase PM weighted trend %']),

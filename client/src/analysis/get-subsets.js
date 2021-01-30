@@ -35,7 +35,6 @@ module.exports = positions => {
         .uniq()
         .filter(Boolean)
         .sort((a, b) => (new Date(b)).getTime() - (new Date(a)).getTime());
-    console.log({ allDates })
     const lastFive = allDates.slice(0, 5);
     const lastTen = allDates.slice(0, 10);
     const lastTwenty = allDates.slice(0, 20);

@@ -118,6 +118,12 @@ const isForPurchase = (stratMin, settings = {}, pms) => {
 
 };
 
+
+// authLevel
+    // 0 public
+    // 1 friends
+    // 2 me
+
 const pages = [
     {
         label: 'Home',
@@ -126,25 +132,30 @@ const pages = [
     },
     {
         label: 'Logs',
-        component: Logs
+        component: Logs,
+        authLevel: 2,
     },
     {
         label: 'Preferences',
-        component: Preferences
+        component: Preferences,
+        authLevel: 2,
     },
     {
         label: "Strategies",
         component: TodaysStrategies,
+        authLevel: 1,
     },
     {
         label: "PM's",
         component: PmReport,
         render: state  => <PmReport {...state} />,
+        authLevel: 1,
     },
     
     {
         label: 'Positions',
         component: Positions,
+        authLevel: 2,
     },
     // {
     //     label: 'Analysis',
@@ -153,36 +164,40 @@ const pages = [
     {
         label: 'Closed',
         component: Closed,
+        authLevel: 2,
     },
     {
         label: 'Date Analysis',
         component: DateAnalysis,
+        authLevel: 2,
     },
     {
         label: 'Recent Picks',
-        component: RecentPicks
+        component: RecentPicks,
+        authLevel: 1,
     },
     // {
     //     label: 'Stocks To Watch',
     //     component: Derived,
     //     allowPublic: true,
     // },
-    {
-        label: 'Scan',
-        component: Scan,
-        allowPublic: true,
-    },
     // {
+    //     label: 'Scan',
+    //     component: Scan,
+    // },
+    // // {
     //     label: 'Day Reports',
     //     component: DayReports
     // },
     {
         label: 'Settings',
         component: Settings,
+        authLevel: 2,
     },
     {
         label: 'Cron',
         component: Cron,
+        authLevel: 2,
     }
 ];
 
@@ -201,7 +216,7 @@ class App extends Component {
         value: 0,
         socket: null,
         tags: ['notManual', 'lastTen'].map(createTag),
-        admin: localStorage.getItem('placate'),
+        authLevel: 0,
         onlyRegHrs: false,
         lowKey: true,
         hiddenFields: window.location.href.includes('balance') ? [] : ['account balance'],
@@ -221,6 +236,13 @@ class App extends Component {
     }
 
     componentDidMount() {
+        console.origLog = console.log;
+        const savedAuth = Number(localStorage.getItem('placate'));
+        if (savedAuth) {
+            this.setAuthLevel(savedAuth);
+        }
+
+
         let { origin } = window.location;
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -270,7 +292,7 @@ class App extends Component {
         //       handlePick(fakePick);
         // }, 5000)
         socket.on('server:log', data => {
-            console.log({ data })
+            // console.log({ data })
             this.setState(({ mostRecentLogs }) => ({
                 mostRecentLogs: [
                     data,
@@ -310,18 +332,29 @@ class App extends Component {
         this.setState({ value });
     };
 
+    setAuthLevel = authLevel => {
+        this.setState({ authLevel });
+        localStorage.setItem('placate', authLevel);
+        if (authLevel < 2) {
+            console.log = () => {};
+        } else {
+            console.log = console.origLog;
+        }
+    };
+
     auth = () => {
         const rabbit = window.prompt('heyyyy there?');
         if (rabbit === 'j') {
-            localStorage.setItem('placate', true);
-            // console.log({ rabbit })
-            this.setState({ admin: true }, () => console.log(this.state));
+            this.setAuthLevel(2);
+        } else if (rabbit === 'peace leave') {
+            this.setAuthLevel(1);
         } else {
+            this.setAuthLevel(0);
             localStorage.clear();
         }
     }
     render () {
-        let { value, derivedCollections, predictionModels, pms, balanceReports, newPicksData, positions, relatedPrices, showingPick, socket, admin } = this.state;
+        let { value, derivedCollections, predictionModels, pms, balanceReports, newPicksData, positions, relatedPrices, showingPick, socket, authLevel } = this.state;
         const isLoading = !derivedCollections;
 
 
@@ -379,7 +412,6 @@ class App extends Component {
         }))
         .sort((a, b) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime());
         
-        console.log({ allPositions });
         const subsets = getSubsets(allPositions);
         const filteredPositions = allPositions
             .filter(position => {
@@ -409,9 +441,9 @@ class App extends Component {
         };
 
         const tabs = pages
-            .filter(({ allowPublic }) => allowPublic || admin)
+            .filter(page => authLevel >= (page.authLevel || 0))
             .map(({ label }) => label);
-
+        
 
         const showingPage = value || 0;
         const thing = pages.find(page => page.label === tabs[showingPage]);
@@ -421,7 +453,7 @@ class App extends Component {
                 <AppBar 
                     position="static"
                     style={{
-                        minWidth: admin ? '1000px' : ''
+                        minWidth: '1000px'//admin ? '1000px' : ''
                     }}
                 >
                     <Toolbar>
@@ -432,7 +464,7 @@ class App extends Component {
                             </a> */}
                         </Typography>
                         {
-                            admin && (
+                            authLevel === 2 && (
                                 <div>
                                     <ReactTags
                                         tags={tags}
@@ -445,7 +477,7 @@ class App extends Component {
                             )
                         }
                     </Toolbar>
-                    { admin && (
+                    { authLevel >= 1 && (
                         <Tabs value={value} onChange={this.handlePageChange} scrollButtons="auto">
                             { tabs.map(label => <Tab label={label} />) }
                         </Tabs>
