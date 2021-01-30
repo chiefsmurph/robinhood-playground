@@ -4,8 +4,7 @@ const request = require('request-promise');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-const { ipstack } = require('../config');
-const { authStrings } = require('../settings');
+const { authStrings } = require('../config');
 const express = require('express');
 const http = require('http');
 const SocketIO = require('socket.io');
