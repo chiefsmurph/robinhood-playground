@@ -141,7 +141,7 @@ const pages = [
         authLevel: 2,
     },
     {
-        label: "Strategies",
+        label: "Today",
         component: TodaysStrategies,
         authLevel: 1,
     },
