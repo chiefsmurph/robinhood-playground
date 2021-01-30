@@ -117,6 +117,7 @@ module.exports = new Promise(resolve => {
     io.on('connection', async client => {
         const ip = (client.handshake.headers['x-forwarded-for'] || client.handshake.address.address).split(',')[0];
         const userAgent = client.request.headers['user-agent'];
+        let authLevel = 0;
 
         const { allowedIps = [] } = await getPreferences();
         const allowedClient = allowedIps.some(search => ip.includes(search));
@@ -134,7 +135,7 @@ module.exports = new Promise(resolve => {
         log(`new connection: ${ip} (${userAgent} - ${location}`);
 
         client.on('attemptAuth', async (authString, cb) => {
-            const authLevel = Number(Object.keys(authStrings).find(authLevel => authStrings[authLevel] === authString));
+            authLevel = Number(Object.keys(authStrings).find(authLevel => authStrings[authLevel] === authString));
             const name = {
                 1: 'A FRIEND HAS',
                 2: 'YOU HAVE'
