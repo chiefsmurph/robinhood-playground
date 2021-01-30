@@ -5,6 +5,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 const { ipstack } = require('../config');
+const { authStrings } = require('../settings');
 const express = require('express');
 const http = require('http');
 const SocketIO = require('socket.io');
@@ -132,6 +133,29 @@ module.exports = new Promise(resolve => {
 
         console.log('new connection', location);
         log(`new connection: ${ip} (${userAgent} - ${location}`);
+
+        client.on('attemptAuth', async (authString, cb) => {
+            const authLevel = Number(Object.keys(authStrings).find(authLevel => authStrings[authLevel] === authString));
+            const name = {
+                1: 'A FRIEND HAS',
+                2: 'YOU HAVE'
+            }[authLevel];
+            if (authLevel) {
+                await log(`${name} BEEN AUTHORIZED -- ${ip} from ${location}`, {
+                    ip,
+                    userAgent,
+                    location
+                });
+            } else {
+                await log(`WARNING FAILED AUTH ATTEMPT authString ${authString} -- ${ip} from ${location}`, {
+                    authString,
+                    ip,
+                    userAgent,
+                    location
+                });
+            }
+            cb(authLevel);
+        });
         
         client.emit('server:data-update', await stratManager.getWelcomeData());
 

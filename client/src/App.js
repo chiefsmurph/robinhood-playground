@@ -237,11 +237,6 @@ class App extends Component {
 
     componentDidMount() {
         console.origLog = console.log;
-        const savedAuth = Number(localStorage.getItem('placate'));
-        if (savedAuth) {
-            this.setAuthLevel(savedAuth);
-        }
-
 
         let { origin } = window.location;
 
@@ -253,7 +248,7 @@ class App extends Component {
             path: '/rh/socket.io',
             secure: true
         });
-        
+
         const handlePick = data => {
             const { settings, pms } = this.state;
             this.setState({
@@ -323,7 +318,12 @@ class App extends Component {
                 additionalAccountInfo
             }));
         });
-        this.setState({ socket });
+        this.setState({ socket }, () => {
+            const savedAuth = Number(localStorage.getItem('placate'));
+            if (savedAuth) {
+                this.attemptAuth(savedAuth);
+            }
+        });
         ReactGA.pageview(window.location.pathname + 'index');
     }
 
@@ -334,7 +334,6 @@ class App extends Component {
 
     setAuthLevel = authLevel => {
         this.setState({ authLevel });
-        localStorage.setItem('placate', authLevel);
         if (authLevel < 2) {
             console.log = () => {};
         } else {
@@ -342,16 +341,20 @@ class App extends Component {
         }
     };
 
+    attemptAuth = authString => {
+        this.state.socket.emit('authAttempt', authString, authLevel => {
+            this.setAuthLevel(authLevel);
+            if (!authLevel) {
+                localStorage.clear();
+            } else {
+                localStorage.setItem('placate', authLevel);
+            }
+        });
+    };
+
     auth = () => {
-        const rabbit = window.prompt('heyyyy there?');
-        if (rabbit === 'j') {
-            this.setAuthLevel(2);
-        } else if (rabbit === 'peace leave') {
-            this.setAuthLevel(1);
-        } else {
-            this.setAuthLevel(0);
-            localStorage.clear();
-        }
+        const authString = window.prompt('heyyyy there?');
+        this.attemptAuth(authString);
     }
     render () {
         let { value, derivedCollections, predictionModels, pms, balanceReports, newPicksData, positions, relatedPrices, showingPick, socket, authLevel } = this.state;
