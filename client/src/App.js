@@ -342,12 +342,14 @@ class App extends Component {
     };
 
     attemptAuth = authString => {
-        this.state.socket.emit('authAttempt', authString, authLevel => {
+        console.log('attempt auth', { authString })
+        this.state.socket.emit('attemptAuth', authString, authLevel => {
+            console.log("received auth response", authLevel);
             this.setAuthLevel(authLevel);
             if (!authLevel) {
                 localStorage.clear();
             } else {
-                localStorage.setItem('placate', authLevel);
+                localStorage.setItem('placate', authString);
             }
         });
     };
