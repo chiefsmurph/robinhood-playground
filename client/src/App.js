@@ -237,6 +237,7 @@ class App extends Component {
 
     componentDidMount() {
         console.origLog = console.log;
+        console.log = () => {};
 
         let { origin } = window.location;
 
@@ -319,7 +320,7 @@ class App extends Component {
             }));
         });
         this.setState({ socket }, () => {
-            const savedAuth = Number(localStorage.getItem('placate'));
+            const savedAuth = localStorage.getItem('placate');
             if (savedAuth) {
                 this.attemptAuth(savedAuth);
             }
@@ -334,14 +335,13 @@ class App extends Component {
 
     setAuthLevel = authLevel => {
         this.setState({ authLevel });
-        if (authLevel < 2) {
-            console.log = () => {};
-        } else {
+        if (authLevel === 2) {
             console.log = console.origLog;
         }
     };
 
     attemptAuth = authString => {
+        if (!authString) return;
         console.log('attempt auth', { authString })
         this.state.socket.emit('attemptAuth', authString, authLevel => {
             console.log("received auth response", authLevel);
@@ -355,7 +355,7 @@ class App extends Component {
     };
 
     auth = () => {
-        const authString = window.prompt('heyyyy there?');
+        const authString = window.prompt('');
         this.attemptAuth(authString);
     }
     render () {

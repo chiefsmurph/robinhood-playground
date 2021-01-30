@@ -56,7 +56,7 @@ export default class extends Component {
     render () {
         const { recentPicks, isRecommended, loading } = this.state;
         return (
-            <div>
+            <div style={{ padding: '15px' }}>
                 <h1>Recent Picks</h1>
                 numDays:
                 <select onChange={this.numDayHandler}>
@@ -73,9 +73,9 @@ export default class extends Component {
                         : (
                             <div>
                                 <MDBDataTable data={{
-                                columns: Object.keys(recentPicks.find(p => Object.keys(p).length > 5) || {}).map((label, i) => ({ label, field: label })),
-                                rows: recentPicks
-                                }} />
+                                    columns: Object.keys(recentPicks.find(p => Object.keys(p).length > 5) || {}).map((label, i) => ({ label, field: label })),
+                                    rows: recentPicks
+                                }} responsive />
                                 <code>{JSON.stringify(this.state.recentPicks, null, 2)}</code>
                             </div>
                         )
