@@ -59,13 +59,17 @@ export default class extends Component {
             <div style={{ padding: '15px' }}>
                 <h1>Recent Picks</h1>
                 numDays:
-                <select onChange={this.numDayHandler}>
+                &nbsp;
+                <select onChange={this.numDayHandler} disabled={loading} >
                     {
                         [30, 60, 100, 300, 900, 2000, 5000].map(n => <option>{n}</option>)
                     }
                 </select>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 only recommended:
-                <input type="checkbox" checked={isRecommended} onChange={evt => this.setState({ isRecommended: !isRecommended })}/>
+                &nbsp;
+                <input type="checkbox" checked={isRecommended} onChange={evt => this.setState({ isRecommended: !isRecommended })} disabled={loading} />
                 <hr/>
                 {
                     loading
