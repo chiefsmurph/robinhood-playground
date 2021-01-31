@@ -42,7 +42,7 @@ const ScanResults = ({ results }) => {
     },
     recentPicks
   } = results;
-  const renderWLs = wls => wls.length ? <span>, found these words: {wls.join(' and ')}</span> : '';
+  const renderWLs = wls => wls.length ? <span>found these words: {wls.join(' and ')}</span> : '';
   return (
     <div>
 
@@ -111,7 +111,7 @@ const ScanResults = ({ results }) => {
       <h4>Links</h4>
       <ul>
         <li><a href={`https://stocktwits.com/symbol/${ticker}`} target="_blank">{ticker} on Stocktwits</a></li>
-        <div style={{ fontStyle: 'italic' }}>in my scan of recent posts... bullish: {bullishCount}, bearish: {bearishCount}{renderWLs(stWordFlags)}</div>
+        <div style={{ fontStyle: 'italic' }}>in my scan of recent posts... bullish: {bullishCount}, bearish: {bearishCount}{stWordFlags.length ? `, `: ''}{renderWLs(stWordFlags)}</div>
         <li><a href={`https://www.finviz.com/quote.ashx?t=${ticker}`} target="_blank">{ticker} on Finviz</a></li>
         <li><a href={`https://trends.google.com/trends/explore?date=today%201-m&geo=US&q=${ticker}%20stock`} target="_blank">{ticker} on Google Trends (last 30 days)</a></li>
         <li><a href={`https://www.algowins.com/?wdt_column_filter%5B1%5D=${ticker}`} target="_blank">{ticker} on Algowins.com</a></li>

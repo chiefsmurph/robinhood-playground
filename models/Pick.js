@@ -7,7 +7,7 @@ const schema = new Schema({
     strategyName: String,
     min: Number,
     picks: [{
-        ticker: String,
+        ticker: { type: String, index: true },
         price: Number
     }],
     data: Schema.Types.Mixed,
@@ -68,7 +68,7 @@ schema.statics.getRecentPicksForTicker = async function({
                     // : { strategyName: /.*(sudden.*drops|rsi|downer).*/i  },
                 
                 ...date && { date },
-                timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * 10) }
+                // timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * 10) }
             },
         )
         .sort({ _id: -1 })
