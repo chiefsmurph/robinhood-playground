@@ -415,6 +415,6 @@ module.exports = async (
 
   const withSingleZScores = addSingleZScores(withScan);
 
-  return withGNews.sort((a, b) => b.market_value - a.market_value);
+  return withSingleZScores.sort((a, b) => b.market_value - a.market_value);
 
 };
