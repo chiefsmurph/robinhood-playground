@@ -247,6 +247,7 @@ const runScan = async ({
     theGoodStuff: theGoodStuff.length,
   })
 
+  console.log({ includeGoogleNews });
   if (includeGoogleNews) {
     theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => ({
       ...buy,
@@ -258,7 +259,7 @@ const runScan = async ({
     return theGoodStuff;
   }
 
-  const withStSent = await mapLimit(withDailyRSI, 3, async buy => {
+  const withStSent = await mapLimit(theGoodStuff, 3, async buy => {
     const fullStSent = await getStSent(buy.ticker) || {};
     return {
       ...buy,

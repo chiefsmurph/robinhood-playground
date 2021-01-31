@@ -20,6 +20,12 @@ const ScanResults = ({ results }) => {
       sector,
       industry
     },
+    fullStSent: {
+      bullBearScore,
+      bullishCount,
+      bearishCount,
+      wordFlags,
+    },
     computed: {
       actualVolume,
       dollarVolume,
@@ -34,23 +40,35 @@ const ScanResults = ({ results }) => {
   return (
     <div>
 
+      <h1>{ticker}</h1>
       <h4>{description}</h4>
       <h5>{sector} | {industry}</h5>
+
+      <br/>
+
       <div class="stats">
         <div>float: {numberWithCommas(Math.round(float))}</div>
         <div>shares outstanding: {numberWithCommas(Math.round(shares_outstanding))}</div>
-        <div>average_volume: {numberWithCommas(Math.round(average_volume))}</div>
+        <div>average volume: {numberWithCommas(Math.round(average_volume))}</div>
       </div>
+
+      <br/>
 
       <h4>Today</h4>
       <div class="stats">
         <div>volume: {numberWithCommas(Math.round(actualVolume))}</div>
         <div>dollar volume: ~${numberWithCommas(Math.round(dollarVolume))}</div>
         <div>projectedVolumeTo2WeekAvg: {projectedVolumeTo2WeekAvg}</div>
-        
-        <div>since prev close: <Trend value={tsc}/></div>
-        <div>since open: <Trend value={tso}/></div>
-        <div>since hod: <Trend value={tsh}/></div>
+        <div>trend since prev close: <Trend value={tsc}/></div>
+        <div>trend since open: <Trend value={tso}/></div>
+        <div>trend since hod: <Trend value={tsh}/></div>
+      </div>
+
+      <hr/>
+
+      <h4>Google News</h4>
+      <div class="stats">
+        <div>Stocktwits</div>
       </div>
 
       <hr/>
@@ -58,6 +76,7 @@ const ScanResults = ({ results }) => {
       <h4>Links</h4>
       <ul>
         <li><a href={`https://stocktwits.com/symbol/${ticker}`} target="_blank">{ticker} on Stocktwits</a></li>
+        <div style={{ fontStyle: 'italic' }}>in my scan of recent posts... bullish: {bullishCount}, bearish: {bearishCount}{wordFlags.length ? <span>, found these words: {wordFlags.join(' and ')}</span> : ''}</div>
         <li><a href={`https://www.finviz.com/quote.ashx?t=${ticker}`} target="_blank">{ticker} on Finviz</a></li>
         <li><a href={`https://trends.google.com/trends/explore?date=today%201-m&geo=US&q=${ticker}%20stock`} target="_blank">{ticker} on Google Trends (last 30 days)</a></li>
         <li><a href={`https://www.algowins.com/?wdt_column_filter%5B1%5D=${ticker}`} target="_blank">{ticker} on Algowins.com</a></li>
@@ -77,7 +96,8 @@ class Stock extends Component {
 
   }
   send = () => {
-    console.log('sending')
+    console.log('sending');
+    if (this.state.isLoading) return;
     this.setState({ isLoading: true });
     this.props.socket.emit('client:scan-tickers', [this.state.stock.trim().toUpperCase()], ([scanResults]) => {
       console.log({ scanResults});
@@ -101,8 +121,14 @@ class Stock extends Component {
           value={this.state.stock} 
           onChange={evt => this.setState({ stock: evt.target.value })} 
           onKeyUp={this.onKeyUp}
+          disabled={isLoading}
         />
-        <input type="submit" onClick={this.send} value="Submit" />
+        <input 
+          type="submit" 
+          onClick={this.send} 
+          value="Submit" 
+          disabled={isLoading}
+        />
         <hr/>
         {
           isLoading

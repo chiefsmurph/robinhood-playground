@@ -58,11 +58,14 @@ export default class extends Component {
         return (
             <div style={{ padding: '15px' }}>
                 <h1>Recent Picks</h1>
-                numDays:
+                numPicks:
                 &nbsp;
                 <select onChange={this.numDayHandler} disabled={loading} >
                     {
-                        [30, 60, 100, 300, 900, 2000, 5000].map(n => <option>{n}</option>)
+                        [
+                            30, 60, 100, 300, 
+                            //900, 2000, 5000
+                        ].map(n => <option>{n}</option>)
                     }
                 </select>
 

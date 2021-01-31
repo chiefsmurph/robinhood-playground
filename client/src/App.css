@@ -156,4 +156,9 @@ table th {
 .stats {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.stats > div {
+  flex: 0 0 33.333333%;
 }
