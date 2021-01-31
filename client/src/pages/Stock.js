@@ -138,12 +138,12 @@ class Stock extends Component {
   send = () => {
     console.log('sending');
     if (this.state.isLoading) return;
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, scanResults: null });
     const formatted = this.state.stock.trim().toUpperCase();
     this.props.socket.emit('client:scan-tickers', [formatted], ([scanResults]) => {
       if (!scanResults) {
         alert(`ERROR SCANNING ${formatted}...are you sure you got that right?`);
-        this.setState({ stock: '' });
+        this.setState({ stock: '', isLoading: false });
         return;
       }
       console.log({ scanResults});

@@ -66,8 +66,9 @@ schema.statics.getRecentPicksForTicker = async function({
                 ...isRecommended 
                     && { isRecommended: true },
                     // : { strategyName: /.*(sudden.*drops|rsi|downer).*/i  },
-
-                ...date && { date }
+                
+                ...date && { date },
+                timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * 10) }
             },
         )
         .sort({ _id: -1 })
