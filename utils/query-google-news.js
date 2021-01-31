@@ -20,7 +20,7 @@ const promiseTimeout = function(ms, promise){
   ])
 }
 
-module.exports = cacheThis(async ticker => { 
+module.exports = cacheThis(async (ticker, daysBack = 2) => { 
   let items; 
   try {
     const news = await promiseTimeout(3000, googleNewsAPI.getNews(googleNewsAPI.SEARCH, ticker, "en-US").catch(e => {
@@ -32,9 +32,9 @@ module.exports = cacheThis(async ticker => {
     items = [];
   }
   
-  const twentyFourHrsMs = 1000 * 60 * 60 * 48;
+  const daysBackInMs = 1000 * 60 * 60 * 24 * daysBack;
   const recentNews = items
-    .filter(result => result.created > Date.now() - twentyFourHrsMs)
+    .filter(result => result.created > Date.now() - daysBackInMs)
     .filter(result => result.title.includes(ticker.toUpperCase()))
     .sort((a, b) => b.created - a.created);
 
@@ -43,7 +43,7 @@ module.exports = cacheThis(async ticker => {
 
   console.log(`found ${recentNews.length} recent news articles for ${ticker}`);
   return {
-    recentNews: recentNews.slice(0, 3),
+    recentNews: recentNews.slice(0, 6),
     wordFlags: wordFlags
       .filter(word => str.includes(word))
       .map(word => ['gnews', word].join(''))

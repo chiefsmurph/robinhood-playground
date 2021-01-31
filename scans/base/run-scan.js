@@ -251,7 +251,7 @@ const runScan = async ({
   if (includeGoogleNews) {
     theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => ({
       ...buy,
-      gNews: await queryGoogleNews(buy.ticker)
+      gNews: await queryGoogleNews(buy.ticker, 6)
     }));
   }
 
