@@ -40,6 +40,7 @@ import Closed from './pages/Closed';
 import Derived from './pages/Derived';
 import Logs from './pages/Logs';
 import RecentPicks from './pages/RecentPicks';
+import Stock from './pages/Stock';
 
 import socketIOClient from "socket.io-client";
 import { partition, mapObject } from 'underscore';
@@ -174,6 +175,11 @@ const pages = [
     {
         label: 'Recent Picks',
         component: RecentPicks,
+        authLevel: 1,
+    },
+    {
+        label: 'Single Stock',
+        component: Stock,
         authLevel: 1,
     },
     // {

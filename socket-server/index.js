@@ -27,6 +27,7 @@ const alpacaMarketBuy = require('../alpaca/market-buy');
 const isJimmyPick = require('../utils/is-jimmy-pick');
 const cacheThis = require('../utils/cache-this');
 const getBtcPrice = require('../utils/get-btc-price');
+const runScan = require('../scans/base/run-scan');
 
 const howManySuddenDrops = require('../tests/how-many-sudden-drops');
 
@@ -342,6 +343,13 @@ module.exports = new Promise(resolve => {
             client.emit('server:scan-results', {
                 results: stepTwo
             });
+        });
+
+        client.on('client:scan-tickers', async (tickers, cb) => {
+            const response = await runScan({
+                tickers: [ticker]
+            });
+            cb(response);
         });
 
 
