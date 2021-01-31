@@ -62,7 +62,7 @@ select {
   outline: 0;
 }
 h2 {
-  margin-left: 15px;
+  /* margin-left: 15px; */
   font-variant: small-caps;
   text-decoration: underline;
 }

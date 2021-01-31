@@ -9,6 +9,8 @@ const getTrend = require('../../utils/get-trend');
 const getStSent = require('../../utils/get-stocktwits-sentiment');
 const queryGoogleNews = require('../../utils/query-google-news');
 
+const Pick = require('../../models/Pick');
+
 const { uniq, get, mapObject } = require('underscore');
 const { avgArray, zScore } = require('../../utils/array-math');
 const dayInProgress = require('../../realtime/day-in-progress');
@@ -75,6 +77,7 @@ const runScan = async ({
 
   includeStSent = true,
   includeGoogleNews = false,
+  includeRecentPicks = false,
   detailed = false,
 } = {}) => {
 
@@ -252,6 +255,16 @@ const runScan = async ({
     theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => ({
       ...buy,
       gNews: await queryGoogleNews(buy.ticker, 6)
+    }));
+  }
+
+  if (includeRecentPicks) {
+    theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => ({
+      ...buy,
+      recentPicks: await Pick.getRecentPicksForTicker({
+        ticker: buy.ticker
+      }),
+      singlePick: await Pick.getRecentPickForTicker(ticker, true)
     }));
   }
 

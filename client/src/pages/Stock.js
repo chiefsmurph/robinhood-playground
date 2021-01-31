@@ -49,15 +49,16 @@ const ScanResults = ({ results }) => {
       <h4>{description}</h4>
       <h5>{sector} | {industry}</h5>
 
-      <br/>
+      <hr/>
 
       <div class="stats">
         <div>float: {numberWithCommas(Math.round(float))}</div>
         <div>shares outstanding: {numberWithCommas(Math.round(shares_outstanding))}</div>
         <div>average volume: {numberWithCommas(Math.round(average_volume))}</div>
+        <div>dailyRSI: {dailyRSI}</div>
       </div>
 
-      <br/>
+      <hr/>
 
       <h4>Today</h4>
       <div class="stats">
@@ -73,13 +74,21 @@ const ScanResults = ({ results }) => {
       
       <h4>Google News</h4>
       {renderWLs(gnewsWordFlags)}
-      <ul>
-        {
-          recentNews.map(({ title, url, created }) => (
-            <li><i>{(new Date(created).toLocaleString())}</i> - <a href={url} target="_blank">{title}</a></li>
-          ))
-        }
-      </ul>
+      {
+        recentNews.length
+          ? (
+            <ul>
+              {
+                recentNews.map(({ title, url, created }) => (
+                  <li><i>{(new Date(created).toLocaleString())}</i> - <a href={url} target="_blank">{title}</a></li>
+                ))
+              }
+            </ul>
+          ) : (
+            <i>nothing, nada, ziltch</i>
+          )
+      }
+      
 
       <hr/>
 
