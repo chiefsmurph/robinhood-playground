@@ -198,7 +198,11 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
     // last minute check to make sure we havent already recommended this at a lower price today (??? wat)
     if (dontRecommendAtHigherPrices) {
         for (let { ticker, price } of withPrices) {
-            const recentPick = await Pick.getRecentPickForTicker(ticker, true, dateStr);
+            const [recentPick] = await Pick.getRecentPicksForTicker({
+                ticker, 
+                date: dateStr,
+                limit: 1
+            });
             if (!recentPick) continue;
             const recentRecPrice = ((recentPick.picks || []).find(pick => pick.ticker === ticker) || {}).price;
             if (recentRecPrice && getTrend(price, recentRecPrice) < -2) {

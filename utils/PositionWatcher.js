@@ -210,7 +210,7 @@ module.exports = class PositionWatcher {
     // );
     // const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
 
-    const recentPick = (await Pick.getRecentPickForTicker(ticker, true)) || {};
+    const recentPick = (await Pick.getRecentPicksForTicker({ ticker, limit: 1 }))[0] || {}
     const mostRecentPick = (recentPick.picks || []).find(p => p.ticker === ticker) || {};
     const mostRecentPrice = mostRecentPick.price;
     const mostRecentTimestamp = recentPick.timestamp;
