@@ -350,8 +350,12 @@ module.exports = new Promise(resolve => {
                 tickers,
                 detailed: true,
                 includeGoogleNews: true,
-                includeRecentPicks: true
             });
+            cb(response);
+        });
+
+        client.on('client:get-recent-picks', async (ticker, cb) => {
+            const response = await Pick.getRecentPicksForTicker({ ticker });
             cb(response);
         });
 

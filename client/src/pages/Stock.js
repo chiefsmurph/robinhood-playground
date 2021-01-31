@@ -7,7 +7,7 @@ function numberWithCommas(x) {
 }
 
 
-const ScanResults = ({ results }) => {
+const ScanResults = ({ results, recentPicks }) => {
   if (!results) return null;
   console.log({ results })
   const {
@@ -29,7 +29,6 @@ const ScanResults = ({ results }) => {
     computed: {
       actualVolume,
       dollarVolume,
-      projectedVolume,
       tso,
       tsc,
       tsh,
@@ -40,7 +39,6 @@ const ScanResults = ({ results }) => {
       recentNews,
       wordFlags: gnewsWordFlags
     },
-    recentPicks
   } = results;
   const renderWLs = wls => wls.length ? <span>found these words: {wls.join(' and ')}</span> : '';
   return (
@@ -74,18 +72,21 @@ const ScanResults = ({ results }) => {
       <hr/>
       <h4>Recent Picks</h4>
       {
-        recentPicks.length ? (
-          <ul>
-            {
-              recentPicks.map(({ strategyName, timestamp }) => (
-                <li><i>{(new Date(timestamp).toLocaleString())}</i> - {strategyName}</li>
-              ))
-            }
-          </ul>
-        ) : (
-          <i>nothing, nada, ziltch</i>
-        )
+        !recentPicks
+          ? <ClipLoader/>
+          : recentPicks.length ? (
+            <ul>
+              {
+                recentPicks.map(({ strategyName, timestamp }) => (
+                  <li><i>{(new Date(timestamp).toLocaleString())}</i> - {strategyName}</li>
+                ))
+              }
+            </ul>
+          ) : (
+            <i>nothing, nada, ziltch</i>
+          )
       }
+
       <hr/>
       
       <h4>Google News</h4>
@@ -131,6 +132,7 @@ class Stock extends Component {
     stock: '',
     scanResults: null,
     isLoading: false,
+    recentPicksCache = {}
   };
   componentDidMount() {
 
@@ -148,7 +150,17 @@ class Stock extends Component {
       }
       console.log({ scanResults});
       this.setState({ scanResults, isLoading: false });
-    })
+    });
+    if (!this.state.recentPicksCache[formatted]) {
+      this.props.socket.emit('client:get-recent-picks', formatted, recentPicks => {
+        this.setState(({ recentPicksCache }) => ({
+          recentPicksCache: {
+            ...recentPicksCache,
+            [formatted]: recentPicks
+          }
+        }));
+      });
+    }
   };
   onKeyUp = event => {
     if (event.keyCode === 13) {
@@ -158,7 +170,8 @@ class Stock extends Component {
     }
   }
   render() {
-    const { scanResults, isLoading } = this.state;
+    const { scanResults, isLoading, recentPicksCache } = this.state;
+    const recentPicks = recentPicksCache[scanResults.ticker];
     return (
       <div style={{ padding: '20px' }}>
         <h2>Stock</h2>
@@ -179,7 +192,7 @@ class Stock extends Component {
         {
           isLoading
             ? <ClipLoader/>
-            : <ScanResults results={scanResults} />
+            : <ScanResults results={scanResults} recentPicks={recentPicks} />
         }
 
       </div>
