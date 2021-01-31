@@ -258,14 +258,21 @@ const runScan = async ({
     }));
   }
 
+  console.log({ includeRecentPicks })
   if (includeRecentPicks) {
-    theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => ({
-      ...buy,
-      recentPicks: await Pick.getRecentPicksForTicker({
+    theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => {
+      const recentPicks = await Pick.getRecentPicksForTicker({
         ticker: buy.ticker
-      }),
-      singlePick: (await Pick.getRecentPicksForTicker({ ticker: buy.ticker, limit: 1 }))[0]
-    }));
+      });
+      console.log({ recentPicks })
+      const singlePick = (await Pick.getRecentPicksForTicker({ ticker: buy.ticker, limit: 1 }))[0];
+      console.log({ singlePick });
+      return {
+        ...buy,
+        recentPicks,
+        singlePick
+      };
+    });
   }
 
   if (!includeStSent) {

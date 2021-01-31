@@ -39,7 +39,8 @@ const ScanResults = ({ results }) => {
     gNews: {
       recentNews,
       wordFlags: gnewsWordFlags
-    }
+    },
+    recentPicks
   } = results;
   const renderWLs = wls => wls.length ? <span>, found these words: {wls.join(' and ')}</span> : '';
   return (
@@ -70,6 +71,21 @@ const ScanResults = ({ results }) => {
         <div>trend since hod: <Trend value={tsh}/></div>
       </div>
 
+      <hr/>
+      <h4>Recent Picks</h4>
+      {
+        recentPicks.length ? (
+          <ul>
+            {
+              recentPicks.map(({ strategyName, timestamp }) => (
+                <li><i>{(new Date(timestamp).toLocaleString())}</i> - {strategyName}</li>
+              ))
+            }
+          </ul>
+        ) : (
+          <i>nothing, nada, ziltch</i>
+        )
+      }
       <hr/>
       
       <h4>Google News</h4>
@@ -123,7 +139,13 @@ class Stock extends Component {
     console.log('sending');
     if (this.state.isLoading) return;
     this.setState({ isLoading: true });
-    this.props.socket.emit('client:scan-tickers', [this.state.stock.trim().toUpperCase()], ([scanResults]) => {
+    const formatted = this.state.stock.trim().toUpperCase();
+    this.props.socket.emit('client:scan-tickers', [formatted], ([scanResults]) => {
+      if (!scanResults) {
+        alert(`ERROR SCANNING ${formatted}...are you sure you got that right?`);
+        this.setState({ stock: '' });
+        return;
+      }
       console.log({ scanResults});
       this.setState({ scanResults, isLoading: false });
     })
