@@ -246,13 +246,17 @@ const runScan = async ({
     return theGoodStuff;
   }
 
-  const withStSent = await mapLimit(withDailyRSI, 3, async buy => ({
-    ...buy,
-    computed: {
-      ...buy.computed,
-      stSent: (await getStSent(buy.ticker) || {}).bullBearScore || 0
-    }
-  }));
+  const withStSent = await mapLimit(withDailyRSI, 3, async buy => {
+    const fullStSent = await getStSent(buy.ticker) || {};
+    return {
+      ...buy,
+      fullStSent,
+      computed: {
+        ...buy.computed,
+        stSent: fullStSent.bullBearScore || 0
+      }
+    };
+  });
   
 
   return finalize(addZScores(withStSent), detailed);
