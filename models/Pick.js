@@ -48,7 +48,7 @@ schema.statics.getRecentRecommendations = async function(limit = 100, isRecommen
         .lean();
 };
 
-schema.statics.getRecentPicksForTicker = async function({
+const getRecentPickForTicker = async function({
     ticker,
     isRecommended = true,
     date,
@@ -73,10 +73,11 @@ schema.statics.getRecentPicksForTicker = async function({
         .sort({ _id: -1 })
         .limit(limit)
         .lean();
-}
+};
+schema.statics.getRecentPicksForTicker = getRecentPickForTicker;
 
 schema.statics.getRecentPickForTicker = async (ticker, isRecommended, date) => {
-    const picks = await this.getRecentPicksForTicker({ ticker, isRecommended, date });
+    const picks = await getRecentPicksForTicker({ ticker, isRecommended, date });
     return picks[0];
 };
 
