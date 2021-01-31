@@ -349,6 +349,7 @@ module.exports = new Promise(resolve => {
             const response = await runScan({
                 tickers,
                 detailed: true,
+                includeGoogleNews: true
             });
             cb(response);
         });

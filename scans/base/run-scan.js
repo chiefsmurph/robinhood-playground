@@ -66,10 +66,13 @@ const runScan = async ({
   filterFn = () => true,
   minDailyRSI = Number.NEGATIVE_INFINITY,
   maxDailyRSI = Number.POSITIVE_INFINITY,
-  includeStSent = true,
   count = COUNT,
   excludeTickers = [],
   afterHoursReset = false,
+
+
+  includeStSent = true,
+  includeGoogleNews = false,
   detailed = false,
 } = {}) => {
 
@@ -241,6 +244,13 @@ const runScan = async ({
   console.log({
     theGoodStuff: theGoodStuff.length,
   })
+
+  if (includeGoogleNews) {
+    theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => ({
+      ...buy,
+      gNews: await queryGoogleNews(buy.ticker)
+    }));
+  }
 
   if (!includeStSent) {
     return theGoodStuff;

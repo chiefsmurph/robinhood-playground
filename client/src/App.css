@@ -152,3 +152,8 @@ table th {
   padding: 0;
   line-height: 1;
 }
+
+.stats {
+  display: flex;
+  justify-content: space-evenly;
+}

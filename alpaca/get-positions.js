@@ -22,6 +22,7 @@ const shouldSellOff = require('./should-sell-off');
 const cachedScan = cacheThis(async tickers => {
   const scan = await runScan({
     tickers,
+    includeGoogleNews: true,
     minPrice: Number.NEGATIVE_INFINITY,
     maxPrice: Number.POSITIVE_INFINITY
   });
@@ -415,11 +416,6 @@ module.exports = async (
 
 
   const withSingleZScores = addSingleZScores(withScan);
-
-  const withGNews = await mapLimit(withSingleZScores, 3, async position => ({
-    ...position,
-    gNews: await queryGoogleNews(position.ticker)
-  }));
 
   return withGNews.sort((a, b) => b.market_value - a.market_value);
 
