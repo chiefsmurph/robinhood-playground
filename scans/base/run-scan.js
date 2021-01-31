@@ -7,6 +7,8 @@ const { isTradeable } = require('../../utils/filter-by-tradeable');
 const getMinutesFromOpen = require('../../utils/get-minutes-from-open');
 const getTrend = require('../../utils/get-trend');
 const getStSent = require('../../utils/get-stocktwits-sentiment');
+const queryGoogleNews = require('../../utils/query-google-news');
+
 const { uniq, get, mapObject } = require('underscore');
 const { avgArray, zScore } = require('../../utils/array-math');
 const dayInProgress = require('../../realtime/day-in-progress');

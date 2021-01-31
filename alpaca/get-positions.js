@@ -3,8 +3,6 @@ const getStSentiment = require('../utils/get-stocktwits-sentiment');
 const { avgArray } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
 const getSpyTrend = require('../utils/get-spy-trend');
-const queryGoogleNews = require('../utils/query-google-news');
-
 const Holds = require('../models/Holds');
 const Pick = require('../models/Pick');
 const Log = require('../models/Log');
