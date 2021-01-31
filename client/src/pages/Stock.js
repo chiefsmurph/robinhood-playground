@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 
 class Stock extends Component {
-  state = {};
+  state = {
+    stock: '',
+    scanResults: null,
+  };
   componentDidMount() {
 
   }
   send = () => {
     console.log('sending')
-    this.props.socket.emit('client:scan-tickers', [this.state.stock], response => {
-      console.log({ response});
+    this.props.socket.emit('client:scan-tickers', [this.state.stock], scanResults => {
+      console.log({ scanResults});
+      this.setState({ scanResults });
     })
   };
   render() {
@@ -16,7 +20,11 @@ class Stock extends Component {
     return (
       <div>
         <h2>Stock</h2>
-        <input type="text" onChange={evt => this.setState({ stock: evt.target.value })} />
+        <input 
+          type="text" 
+          value={this.state.stock} 
+          onChange={evt => this.setState({ stock: evt.target.value })} 
+        />
         <button onClick={this.send}>Send</button>
         <pre>
           {}

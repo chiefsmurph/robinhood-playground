@@ -69,7 +69,8 @@ const runScan = async ({
   includeStSent = true,
   count = COUNT,
   excludeTickers = [],
-  afterHoursReset = false
+  afterHoursReset = false,
+  detailed = false,
 } = {}) => {
 
   if (tickers) {
@@ -254,7 +255,7 @@ const runScan = async ({
   }));
   
 
-  return finalize(addZScores(withStSent));
+  return finalize(addZScores(withStSent), detailed);
 
 };
 
@@ -293,7 +294,7 @@ const addZScores = array => {
 };
 
 
-const finalize = array => {
+const finalize = (array, detailed) => {
   
 
   return array
@@ -363,6 +364,10 @@ const finalize = array => {
 
       delete buy.historicals;
       return {
+
+        ...detailed && { ...buy },
+
+
         ticker: buy.ticker,
         ...buy.computed,
 

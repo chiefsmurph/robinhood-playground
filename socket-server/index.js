@@ -347,7 +347,8 @@ module.exports = new Promise(resolve => {
 
         client.on('client:scan-tickers', async (tickers, cb) => {
             const response = await runScan({
-                tickers
+                tickers,
+                detailed: true,
             });
             cb(response);
         });
