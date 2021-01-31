@@ -64,7 +64,7 @@ const ScanResults = ({ results }) => {
       <div class="stats">
         <div>volume: {numberWithCommas(Math.round(actualVolume))}</div>
         <div>dollar volume: ~${numberWithCommas(Math.round(dollarVolume))}</div>
-        <div>projectedVolumeTo2WeekAvg: {projectedVolumeTo2WeekAvg}</div>
+        <div>projectedVolumeTo2WeekAvg: <Trend value={projectedVolumeTo2WeekAvg * 100}/></div>
         <div>trend since prev close: <Trend value={tsc}/></div>
         <div>trend since open: <Trend value={tso}/></div>
         <div>trend since hod: <Trend value={tsh}/></div>

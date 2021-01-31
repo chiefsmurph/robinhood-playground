@@ -264,7 +264,7 @@ const runScan = async ({
       recentPicks: await Pick.getRecentPicksForTicker({
         ticker: buy.ticker
       }),
-      singlePick: await Pick.getRecentPickForTicker(ticker, true)
+      singlePick: await Pick.getRecentPickForTicker(buy.ticker, true)
     }));
   }
 
