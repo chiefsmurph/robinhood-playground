@@ -225,7 +225,7 @@ class App extends Component {
         authLevel: 0,
         onlyRegHrs: false,
         lowKey: true,
-        hiddenFields: window.location.href.includes('balance') ? [] : ['account balance'],
+        hiddenFields: window.location.href.includes('balance') ? [] : ['btc'],
         // hiddenFields: [],
     };
 

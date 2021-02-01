@@ -262,6 +262,23 @@ class DayReports extends Component {
             intensiveData: null,
         };
     }
+    startBtcFetching = () => {
+        console.log('starting btc fetching');
+        const fetchBTC = () => 
+            this.props.socket.emit('client:getBTC', btcPrice => {
+                this.setState({
+                    btcPrice
+                });
+            });
+        fetchBTC();
+        this.setState({
+            btcInterval: setInterval(fetchBTC, 15000)
+        });
+    };
+    stopBtcFetching = () => {
+        console.log('stopping btc fetching');
+        window.clearInterval(this.state.btcInterval);
+    }
     componentDidMount() {
         console.log("mounted");
 
@@ -287,23 +304,9 @@ class DayReports extends Component {
         console.log('mounted');
         this.setIntensiveData();
         // setTimeout(() => this.startAnimation(), 10000);
-
-        const fetchBTC = () => 
-            this.props.socket.emit('client:getBTC', btcPrice => {
-                this.setState({
-                    btcPrice
-                });
-            });
-        fetchBTC();
-        this.setState({
-            btcInterval: setInterval(fetchBTC, 15000)
-        });
-        
     }
     componentWillUnmount() {
-        clearInterval(
-            this.state.btcInterval
-        )
+        this.stopBtcFetching();
     }
     startAnimation = () =>
         this.setState({
@@ -336,6 +339,13 @@ class DayReports extends Component {
         });
         if (needsToRecalcIntensiveData) {
             this.setIntensiveData();
+        }
+        if (prevProps.hiddenFields.includes('btc') !== this.props.hiddenFields.includes('btc')) {
+            if (!this.props.hiddenFields.includes('btc')) {
+                this.startBtcFetching();
+            } else {
+                this.stopBtcFetching();
+            }
         }
     }
     setIntensiveData = () => {
@@ -702,7 +712,7 @@ class DayReports extends Component {
 
 
                             {
-                                this.state.btcPrice && (
+                                !hiddenFields.includes('btc') && this.state.btcPrice && (
                                     <div className="bitcoin">
                                         Bitcoin: 
                                         <Odometer 
