@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 // const Pick = require('../Pick');
-const getRecentPicksForTicker = require('../utils/get-recent-picks-for-ticker');
+const getRecentPicksForTicker = require('../../utils/get-recent-picks-for-ticker');
 
 const schema = new Schema({
     ticker: String,
