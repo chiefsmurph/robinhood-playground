@@ -48,7 +48,7 @@ schema.statics.scannedToday = async function(ticker) {
     d.setHours(0);
     d.setMinutes(0);
     const docs = await this.find({
-        title: new RegExp(`is scanning`),
+        title: new RegExp(`just scanned`),
         timestamp: {
             $gt: d
         }

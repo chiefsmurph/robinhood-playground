@@ -353,17 +353,19 @@ module.exports = new Promise(resolve => {
         });
 
         client.on('client:scan-tickers', async (tickers, cb) => {
-            await log(`${location} is scanning ${tickers.join(', ')}`, {
-                tickers, 
-                ip,
-                userAgent,
-                location
-            });
             const response = await runScan({
                 tickers,
                 detailed: true,
                 includeGoogleNews: true,
             });
+            if (response) {
+                await log(`${location} just scanned ${tickers.join(', ')}`, {
+                    tickers, 
+                    ip,
+                    userAgent,
+                    location
+                });
+            }
             cb(response);
         });
 

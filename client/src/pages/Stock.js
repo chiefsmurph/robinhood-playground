@@ -137,16 +137,22 @@ class Stock extends Component {
     stock: '',
     scanResults: null,
     isLoading: false,
-    recentPicksCache: {}
+    recentPicksCache: {},
+    scannedToday: null
   };
   componentDidMount() {
-
+    this.props.socket.emit('client:get-scanned-today', scannedToday => 
+      this.setState({ scannedToday })
+    );
   }
   send = () => {
     console.log('sending');
     if (this.state.isLoading) return;
-    this.setState({ isLoading: true, scanResults: null });
     const formatted = this.state.stock.trim().toUpperCase();
+    this.setState({ 
+      isLoading: true, 
+      scanResults: null,
+    });
     this.props.socket.emit('client:scan-tickers', [formatted], ([scanResults]) => {
       if (!scanResults) {
         alert(`ERROR SCANNING ${formatted}...are you sure you got that right?`);
@@ -154,7 +160,11 @@ class Stock extends Component {
         return;
       }
       console.log({ scanResults});
-      this.setState({ scanResults, isLoading: false });
+      this.setState(({ scannedToday }) => ({ 
+        scanResults, 
+        isLoading: false,
+        scannedToday: [...new Set([...scannedToday, formatted])]
+      }));
     });
     if (!this.state.recentPicksCache[formatted]) {
       this.props.socket.emit('client:get-recent-picks', formatted, recentPicks => {
@@ -174,8 +184,12 @@ class Stock extends Component {
       this.send();
     }
   }
+  scanThis = ticker => {
+    if ((this.state.scanResults || {}).ticker === ticker) return;
+    this.setState({ stock: ticker }, () => this.send());
+  };
   render() {
-    const { scanResults, isLoading, recentPicksCache } = this.state;
+    const { scanResults, isLoading, recentPicksCache, scannedToday } = this.state;
     const recentPicks = recentPicksCache[(scanResults || {}).ticker];
     console.log({ recentPicks})
     return (
@@ -194,6 +208,23 @@ class Stock extends Component {
           value="Submit" 
           disabled={isLoading}
         />
+        <br/>
+        {
+          scannedToday && scannedToday.length && (
+            <small>
+              scanned today...
+              {
+                scannedToday
+                  .map((ticker, i) => (
+                    <span>
+                      <a href={'#'} onClick={evt => { evt.preventDefault(); this.scanThis(ticker) }}>{ticker}</a>
+                      {i === scannedToday.length - 1 ? '' : ', '}
+                    </span>
+                  ))
+              }
+            </small>
+          )
+        }
         <hr/>
         {
           isLoading
