@@ -132,7 +132,7 @@ class Stock extends Component {
     stock: '',
     scanResults: null,
     isLoading: false,
-    recentPicksCache = {}
+    recentPicksCache: {}
   };
   componentDidMount() {
 
@@ -171,7 +171,8 @@ class Stock extends Component {
   }
   render() {
     const { scanResults, isLoading, recentPicksCache } = this.state;
-    const recentPicks = recentPicksCache[scanResults.ticker];
+    const recentPicks = recentPicksCache[(scanResults || {}).ticker];
+    console.log({ recentPicks})
     return (
       <div style={{ padding: '20px' }}>
         <h2>Stock</h2>

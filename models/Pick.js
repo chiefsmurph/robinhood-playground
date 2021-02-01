@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const cacheThis = require('../utils/cache-this');
 
 const schema = new Schema({
     timestamp: { type : Date, default: Date.now, index: true },
@@ -48,7 +49,7 @@ schema.statics.getRecentRecommendations = async function(limit = 100, isRecommen
         .lean();
 };
 
-schema.statics.getRecentPicksForTicker = async function({
+schema.statics.getRecentPicksForTicker = cacheThis(async function({
     ticker,
     isRecommended = true,
     date,
@@ -74,7 +75,7 @@ schema.statics.getRecentPicksForTicker = async function({
         .sort({ _id: -1 })
         .limit(limit)
         .lean();
-};;
+});
 
 const Pick = mongoose.model('Pick', schema, 'picks');
 module.exports = Pick;
