@@ -13,6 +13,7 @@ const stratManager = require('./strat-manager');
 const path = require('path');
 const DayReport = require('../models/DayReport');
 const Pick = require('../models/Pick');
+const Log = require('../models/Log');
 
 const mapLimit = require('promise-map-limit');
 const lookupMultiple = require('../utils/lookup-multiple');
@@ -346,7 +347,18 @@ module.exports = new Promise(resolve => {
             });
         });
 
+        client.on('client:get-scanned-today', async cb => {
+            const response = await Log.scannedToday();
+            cb(response);
+        });
+
         client.on('client:scan-tickers', async (tickers, cb) => {
+            await log(`${location} is scanning ${tickers.join(', ')}`, {
+                tickers, 
+                ip,
+                userAgent,
+                location
+            });
             const response = await runScan({
                 tickers,
                 detailed: true,
@@ -357,6 +369,7 @@ module.exports = new Promise(resolve => {
 
         client.on('client:get-recent-picks', async (ticker, cb) => {
             const response = await getRecentPicksForTicker({ ticker });
+            await log(``)
             cb(response);
         });
 

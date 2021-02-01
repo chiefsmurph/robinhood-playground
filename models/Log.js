@@ -43,5 +43,19 @@ schema.statics.boughtToday = async function(ticker) {
 };
 
 
+schema.statics.scannedToday = async function(ticker) {
+    const d = new Date();
+    d.setHours(0);
+    d.setMinutes(0);
+    const docs = await this.find({
+        title: new RegExp(`is scanning`),
+        timestamp: {
+            $gt: d
+        }
+    }).lean();
+    const uniqTickers = [...new Set(...docs.map(d => d.data.tickers))];
+    return uniqTickers;
+};
+
 const Log = mongoose.model('Log', schema, 'logs');
 module.exports = Log;
