@@ -210,7 +210,7 @@ module.exports = class PositionWatcher {
     // );
     // const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
 
-    const recentPick = (await getRecentPicksForTicker({ ticker, limit: 1 }))[0] || {}
+    const recentPick = (await getRecentPicksForTicker({ ticker, limit: 1 }))[0] || {};
     const mostRecentPick = (recentPick.picks || []).find(p => p.ticker === ticker) || {};
     const mostRecentPrice = mostRecentPick.price;
     const mostRecentTimestamp = recentPick.timestamp;
@@ -221,7 +221,7 @@ module.exports = class PositionWatcher {
     //   ? this.observedPrices[0]
     //   : mostRecentPrice;
 
-    let comparePrice = Math.min(this.observedPrices[0], mostRecentPrice);
+    let comparePrice = Math.min(...[this.observedPrices[0], mostRecentPrice].filter(Boolean));
 
     if (!comparePrice) {
       await log(`no compare price found for ${ticker}`, {
