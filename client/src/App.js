@@ -146,12 +146,6 @@ const pages = [
         component: TodaysStrategies,
         authLevel: 1,
     },
-    {
-        label: "PM Perfs",
-        component: PmReport,
-        render: state  => <PmReport {...state} />,
-        authLevel: 1,
-    },
     
     {
         label: 'Positions',
@@ -195,6 +189,12 @@ const pages = [
     //     label: 'Day Reports',
     //     component: DayReports
     // },
+    {
+        label: "PM Perfs",
+        component: PmReport,
+        render: state  => <PmReport {...state} />,
+        authLevel: 1,
+    },
     {
         label: 'Settings',
         component: Settings,
