@@ -53,7 +53,7 @@ schema.statics.scannedToday = async function(ticker) {
             $gt: d
         }
     }).lean();
-    const uniqTickers = [...new Set(...docs.map(d => d.data.tickers))];
+    const uniqTickers = [...new Set(docs.map(d => d.data.tickers).flat())];
     return uniqTickers;
 };
 

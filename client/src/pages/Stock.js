@@ -210,7 +210,7 @@ class Stock extends Component {
         />
         <br/>
         {
-          scannedToday && scannedToday.length && (
+          Boolean(scannedToday && scannedToday.length) && (
             <small>
               scanned today...
               {
