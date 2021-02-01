@@ -6,8 +6,12 @@ const getStSentiment = require('../utils/get-stocktwits-sentiment');
 // const positionOutsideBracket = require('../utils/position-outside-bracket');
 
 
+let prevPositions;
+
 const getPositions = async () => {
-    const { results: allPositions } = await Robinhood.nonzero_positions();
+    let { results: allPositions } = await Robinhood.nonzero_positions();
+    allPositions = allPositions || prevPositions;
+    prevPositions = allPositions;
     const formattedPositions = allPositions.map(pos => ({
         ...pos,
         avgEntry: Number(pos.average_buy_price),

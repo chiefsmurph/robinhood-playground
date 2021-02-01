@@ -76,14 +76,21 @@ export default class extends Component {
                 </select>
 
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                only recommended:
-                &nbsp;
-                <input type="checkbox" checked={isRecommended} onChange={evt => this.setState({ isRecommended: !isRecommended })} disabled={loading} />
+
+                <label>
+                    only recommended:
+                    &nbsp;
+                    <input type="checkbox" checked={isRecommended} onChange={evt => this.setState({ isRecommended: !isRecommended })} disabled={loading} />
+                </label>
 
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                include stSent (stocktwits sentiment):
-                &nbsp;
-                <input type="checkbox" checked={includeStSent} onChange={evt => this.setState({ includeStSent: !includeStSent })} disabled={loading} />
+
+                <label>
+                    include <span data-custom data-tooltip-str='stocktwits sentiment'>stSent</span>:
+                    &nbsp;
+                    <input type="checkbox" checked={includeStSent} onChange={evt => this.setState({ includeStSent: !includeStSent })} disabled={loading} />
+                </label>
+                
 
                 <hr/>
                 {
