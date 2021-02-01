@@ -10,6 +10,7 @@ const getStSent = require('../../utils/get-stocktwits-sentiment');
 const queryGoogleNews = require('../../utils/query-google-news');
 
 const Pick = require('../../models/Pick');
+const getRecentPicksForTicker = require('../../utils/get-recent-picks-for-ticker');
 
 const { uniq, get, mapObject } = require('underscore');
 const { avgArray, zScore } = require('../../utils/array-math');
@@ -261,11 +262,11 @@ const runScan = async ({
   console.log({ includeRecentPicks })
   if (includeRecentPicks) {
     theGoodStuff = await mapLimit(theGoodStuff, 3, async buy => {
-      const recentPicks = await Pick.getRecentPicksForTicker({
+      const recentPicks = await getRecentPicksForTicker({
         ticker: buy.ticker
       });
       console.log({ recentPicks })
-      const singlePick = (await Pick.getRecentPicksForTicker({ ticker: buy.ticker, limit: 1 }))[0];
+      const singlePick = (await getRecentPicksForTicker({ ticker: buy.ticker, limit: 1 }))[0];
       console.log({ singlePick });
       return {
         ...buy,

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const Pick = require('../Pick');
+// const Pick = require('../Pick');
+const getRecentPicksForTicker = require('../utils/get-recent-picks-for-ticker');
 
 const schema = new Schema({
     ticker: String,
@@ -41,9 +42,9 @@ schema.statics.registerAlpacaFill = async function(fillData) {
         alpacaOrder,
         relatedPick
     } = fillData;
-    relatedPick = relatedPick || (await Pick.getRecentPicksForTicker({ ticker, limit: 1 }))[0];
+    relatedPick = relatedPick || (await getRecentPicksForTicker({ ticker, limit: 1 }))[0];
     if (!relatedPick) {
-        relatedPick = (await Pick.getRecentPicksForTicker({ticker, isRecommended: false, limit: 1 }))[0];
+        relatedPick = (await getRecentPicksForTicker({ticker, isRecommended: false, limit: 1 }))[0];
     }
     strlog({ relatedPick })
     const strategy = relatedPick ? relatedPick.strategyName : 'manual';

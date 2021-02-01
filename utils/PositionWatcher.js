@@ -19,7 +19,7 @@ const sendEmail = require('./send-email');
 const { disableDayTrades, breakdownRSIs } = require('../settings');
 const { get } = require('underscore');
 
-const Pick = require('../models/Pick');
+const getRecentPicksForTicker = require('./get-recent-picks-for-ticker');
 
 
 const randomString = () => Math.random().toString(36).substring(7);
@@ -210,7 +210,7 @@ module.exports = class PositionWatcher {
     // );
     // const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
 
-    const recentPick = (await Pick.getRecentPicksForTicker({ ticker, limit: 1 }))[0] || {}
+    const recentPick = (await getRecentPicksForTicker({ ticker, limit: 1 }))[0] || {}
     const mostRecentPick = (recentPick.picks || []).find(p => p.ticker === ticker) || {};
     const mostRecentPrice = mostRecentPick.price;
     const mostRecentTimestamp = recentPick.timestamp;

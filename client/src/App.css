@@ -155,12 +155,13 @@ table th {
 
 .stats {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
 .stats > div {
   flex: 0 0 33.333333%;
+  padding: 5px;
 }
 .stats > div:last-of-type {
   margin-right: auto;

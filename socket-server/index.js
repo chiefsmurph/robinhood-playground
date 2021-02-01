@@ -27,6 +27,7 @@ const alpacaMarketBuy = require('../alpaca/market-buy');
 const isJimmyPick = require('../utils/is-jimmy-pick');
 const cacheThis = require('../utils/cache-this');
 const getBtcPrice = require('../utils/get-btc-price');
+const getRecentPicksForTicker = require('../utils/get-recent-picks-for-ticker');
 const runScan = require('../scans/base/run-scan');
 
 const howManySuddenDrops = require('../tests/how-many-sudden-drops');
@@ -355,7 +356,7 @@ module.exports = new Promise(resolve => {
         });
 
         client.on('client:get-recent-picks', async (ticker, cb) => {
-            const response = await Pick.getRecentPicksForTicker({ ticker });
+            const response = await getRecentPicksForTicker({ ticker });
             cb(response);
         });
 

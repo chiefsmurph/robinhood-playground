@@ -14,6 +14,7 @@ const getTrend = require('../utils/get-trend');
 const tweeter = require('./tweeter');
 const calcEmailsFromStrategy = require('../utils/calc-emails-from-strategy');
 const stocktwits = require('../utils/stocktwits');
+const getRecentPicksForTicker = require('../utils/get-recent-picks-for-ticker');
 const { 
     disableMultipliers, 
     forPurchase, 
@@ -198,7 +199,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
     // last minute check to make sure we havent already recommended this at a lower price today (??? wat)
     if (dontRecommendAtHigherPrices) {
         for (let { ticker, price } of withPrices) {
-            const [recentPick] = await Pick.getRecentPicksForTicker({
+            const [recentPick] = await getRecentPicksForTicker({
                 ticker, 
                 date: dateStr,
                 limit: 1
