@@ -84,8 +84,12 @@ const ScanResults = ({ results, recentPicks }) => {
             <div>
               <ul>
                 {
-                  recentPicks.map(({ timestamp, picks }) => (
-                    <li><i>{(new Date(timestamp).toLocaleString())}</i> - ${picks.find(p => p.ticker === ticker).price}</li>
+                  recentPicks.map(({ timestamp, picks, strategyName }) => (
+                    <li>
+                      <span data-custom data-tooltip-str={strategyName}>
+                        <i>{(new Date(timestamp).toLocaleString())}</i> - ${picks.find(p => p.ticker === ticker).price}
+                      </span>
+                    </li>
                   ))
                 }
               </ul>

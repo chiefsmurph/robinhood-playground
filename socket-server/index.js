@@ -371,7 +371,6 @@ module.exports = new Promise(resolve => {
 
         client.on('client:get-recent-picks', async (ticker, cb) => {
             const response = await getRecentPicksForTicker({ ticker });
-            await log(``)
             cb(response);
         });
 
