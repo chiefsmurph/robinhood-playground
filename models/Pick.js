@@ -49,7 +49,7 @@ schema.statics.getRecentRecommendations = async function(limit = 100, isRecommen
         .lean();
 };
 
-schema.statics.getRecentPicksForTicker = cacheThis(async function({
+schema.statics.getRecentPicksForTicker = async function({
     ticker,
     isRecommended = true,
     date,
@@ -75,7 +75,7 @@ schema.statics.getRecentPicksForTicker = cacheThis(async function({
         .sort({ _id: -1 })
         .limit(limit)
         .lean();
-});
+};
 
 const Pick = mongoose.model('Pick', schema, 'picks');
 module.exports = Pick;
