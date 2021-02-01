@@ -9,7 +9,7 @@ function numberWithCommas(x) {
 
 const ScanResults = ({ results, recentPicks }) => {
   if (!results) return null;
-  console.log({ results })
+  console.log({ results });
   const {
     ticker,
     fundamentals: {
@@ -40,7 +40,9 @@ const ScanResults = ({ results, recentPicks }) => {
       wordFlags: gnewsWordFlags
     },
   } = results;
+  const recentPicksWords = [...new Set(...(recentPicks || []).map(pick => pick.interestingWords))];
   const renderWLs = wls => wls.length ? <span>found these words: {wls.join(' and ')}</span> : '';
+  const getHost = url => url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
   return (
     <div>
 
@@ -75,13 +77,16 @@ const ScanResults = ({ results, recentPicks }) => {
         !recentPicks
           ? <ClipLoader/>
           : recentPicks.length ? (
-            <ul>
-              {
-                recentPicks.map(({ strategyName, timestamp }) => (
-                  <li><i>{(new Date(timestamp).toLocaleString())}</i> - {strategyName}</li>
-                ))
-              }
-            </ul>
+            <div>
+              <ul>
+                {
+                  recentPicks.map(({ timestamp, picks }) => (
+                    <li><i>{(new Date(timestamp).toLocaleString())}</i> - ${picks.find(p => p.ticker === ticker).price}</li>
+                  ))
+                }
+              </ul>
+              interesting words: <i>{recentPicksWords.join(', ')}</i>
+            </div>
           ) : (
             <i>nothing, nada, ziltch</i>
           )
@@ -97,7 +102,7 @@ const ScanResults = ({ results, recentPicks }) => {
             <ul>
               {
                 recentNews.map(({ title, url, created }) => (
-                  <li><i>{(new Date(created).toLocaleString())}</i> - <a href={url} target="_blank">{title}</a></li>
+                  <li><i>{(new Date(created).toLocaleString())}</i> - <a href={url} target="_blank">{title}</a> ({getHost(url)})</li>
                 ))
               }
             </ul>
@@ -121,7 +126,7 @@ const ScanResults = ({ results, recentPicks }) => {
       <hr/>
       <br/>
       <pre>
-        {JSON.stringify(results, null, 2)}
+        {JSON.stringify({ ...results, recentPicks }, null, 2)}
       </pre>
     </div>
   )

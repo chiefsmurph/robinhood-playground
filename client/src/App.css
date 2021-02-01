@@ -162,3 +162,6 @@ table th {
 .stats > div {
   flex: 0 0 33.333333%;
 }
+.stats > div:last-of-type {
+  margin-right: auto;
+}

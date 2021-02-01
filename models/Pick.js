@@ -49,6 +49,8 @@ schema.statics.getRecentRecommendations = async function(limit = 100, isRecommen
         .lean();
 };
 
+
+
 schema.statics.getRecentPicksForTicker = async function({
     ticker,
     isRecommended = true,
