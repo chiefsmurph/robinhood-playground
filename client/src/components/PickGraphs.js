@@ -257,7 +257,9 @@ export default class PickGraphs extends Component {
           )
         }
         <h3>Quote: {JSON.stringify(pickProp(curQuote, ['currentPrice', 'askPrice', 'bidPrice', 'count']))} <TrendPerc value={getTrend(curQuote.currentPrice, pickPrice)} /></h3>
-        <button onClick={() => this.slapTheAsk()}>SLAP THE ASK</button>
+        {
+          this.props.authLevel === 2 && <button onClick={() => this.slapTheAsk()}>SLAP THE ASK</button>
+        }
         {
           data ? (
             <div>
