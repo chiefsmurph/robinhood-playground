@@ -147,7 +147,7 @@ const pages = [
         authLevel: 1,
     },
     {
-        label: "PM's",
+        label: "PM Perfs",
         component: PmReport,
         render: state  => <PmReport {...state} />,
         authLevel: 1,
