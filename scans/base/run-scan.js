@@ -79,7 +79,7 @@ const runScan = async ({
   includeStSent = true,
   includeGoogleNews = false,
   includeRecentPicks = false,
-  detailed = false,
+  detailed = true,
 } = {}) => {
 
   if (tickers) {

@@ -10,10 +10,11 @@ export default class extends Component {
         recentPicks: [],
         loading: false
     };
-    fetchPicks = () =>
+    fetchPicks = () => {
+        const { limit, isRecommended, includeStSent } = this.state;
         this.setState(
             { loading: true },
-            () => this.props.socket.emit('client:act', 'getRecentPicks', this.state.limit, this.state.isRecommended, this.state.includeStSent, recentPicks => {
+            () => this.props.socket.emit('client:act', 'getRecentPicks', limit, isRecommended, includeStSent, recentPicks => {
                 console.log({ recentPicks})
                 this.setState({
                     loading: false,
@@ -23,13 +24,14 @@ export default class extends Component {
                             dropType: ['major', 'medium', 'minor'].find(w => JSON.stringify(interestingWords).includes(w)),
                             lastPick: (new Date(mostRecentTimestamp)).toLocaleString(),
                             // pickPrices: pickPrices.join(', '),
-                            ...pick(scan, ['projectedVolumeTo2WeekAvg', 'stSent', 'dailyRSI']),
+                            ...pick(scan.computed, ['projectedVolumeTo2WeekAvg', 'dailyRSI']),
+                            ...includeStSent && pick(scan, ['stSent']),
                         }))
                         .map(recentPick => ({
                             ...recentPick,
                             projectedVolumeTo2WeekAvg: recentPick.projectedVolumeTo2WeekAvg || 0,
-                            stSent: recentPick.stSent || 0,
-                            dailyRSI: recentPick.dailyRSI || 0
+                            dailyRSI: recentPick.dailyRSI || 0,
+                            ...includeStSent && { stSent: recentPick.stSent || 0 },
                         }))
                         .map(recentPick => ({
                             ...recentPick,
@@ -43,13 +45,16 @@ export default class extends Component {
                 });
             })
         );
+    }
+        
         
         
     componentDidMount() {
         this.fetchPicks();
     }
     componentDidUpdate(_, prevState) {
-        if (prevState.limit !== this.state.limit || prevState.isRecommended !== this.state.isRecommended) {
+        const propsToWatch = ['limit', 'isRecommended', 'includeStSent'];
+        if (propsToWatch.some(key => prevState[key] !== this.state[key])) {
             this.fetchPicks();
         }
     }
