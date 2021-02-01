@@ -6,13 +6,14 @@ export default class extends Component {
     state = {
         limit: 30,
         isRecommended: true,
+        includeStSent: false,
         recentPicks: [],
         loading: false
     };
     fetchPicks = () =>
         this.setState(
             { loading: true },
-            () => this.props.socket.emit('client:act', 'getRecentPicks', this.state.limit, this.state.isRecommended, recentPicks => {
+            () => this.props.socket.emit('client:act', 'getRecentPicks', this.state.limit, this.state.isRecommended, this.state.includeStSent, recentPicks => {
                 console.log({ recentPicks})
                 this.setState({
                     loading: false,
@@ -54,7 +55,7 @@ export default class extends Component {
     }
     numDayHandler = evt => this.setState({ limit: Number(evt.target.value) });
     render () {
-        const { recentPicks, isRecommended, loading } = this.state;
+        const { recentPicks, isRecommended, includeStSent, loading } = this.state;
         return (
             <div style={{ padding: '15px' }}>
                 <h1>Recent Picks</h1>
@@ -73,6 +74,12 @@ export default class extends Component {
                 only recommended:
                 &nbsp;
                 <input type="checkbox" checked={isRecommended} onChange={evt => this.setState({ isRecommended: !isRecommended })} disabled={loading} />
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                include stSent (stocktwits sentiment):
+                &nbsp;
+                <input type="checkbox" checked={includeStSent} onChange={evt => this.setState({ includeStSent: !includeStSent })} disabled={loading} />
+
                 <hr/>
                 {
                     loading
