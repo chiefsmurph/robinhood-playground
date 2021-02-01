@@ -12,6 +12,9 @@ const ScanResults = ({ results, recentPicks }) => {
   console.log({ results });
   const {
     ticker,
+    quote: {
+      currentPrice
+    },
     fundamentals: {
       description,
       float,
@@ -56,6 +59,7 @@ const ScanResults = ({ results, recentPicks }) => {
         <div>float: {numberWithCommas(Math.round(float))}</div>
         <div>shares outstanding: {numberWithCommas(Math.round(shares_outstanding))}</div>
         <div>average volume: {numberWithCommas(Math.round(average_volume))}</div>
+        <div>current price: ${currentPrice}</div>
         <div>daily RSI: {dailyRSI}</div>
       </div>
 
