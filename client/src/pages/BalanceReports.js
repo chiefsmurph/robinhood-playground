@@ -304,6 +304,9 @@ class DayReports extends Component {
         console.log('mounted');
         this.setIntensiveData();
         // setTimeout(() => this.startAnimation(), 10000);
+        if (!this.props.hiddenFields.includes('btc')) {
+            this.startBtcFetching();
+        }
     }
     componentWillUnmount() {
         this.stopBtcFetching();
