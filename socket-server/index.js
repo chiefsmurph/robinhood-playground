@@ -305,7 +305,7 @@ module.exports = new Promise(resolve => {
             // const ip = lastCallArg && lastCallArg.ip;
             // const append = ip ? ` from ${await lookupIpLocation(ip)}` : '';
             // console.log({ lastCallArg, ip, append });
-            await log(`${location} about to ${method} with ${callarg.map(JSON.stringify).join(' and ')}`, { args: callArgs });
+            await log(`${location} about to ${method} with ${callArgs.map(JSON.stringify).join(' and ')}`, { args: callArgs });
             const response = await actFn(...callArgs);
             return cb && cb(response);
         });
