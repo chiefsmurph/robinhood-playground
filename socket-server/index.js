@@ -274,10 +274,7 @@ module.exports = new Promise(resolve => {
         });
 
         client.on('client:act', async (method, ...rest) => {
-            const actFn = methods[method];
             const [cb] = rest.filter(arg => typeof arg === 'function').splice(-1, 1) // callback is last arg;
-            console.log({ actFn });
-            if (!actFn) return cb && cb(`${method} is not a valid action`);
             const callArgs = rest.filter(arg => typeof arg !== 'function');
             const [lastCallArg] = callArgs.slice(-1);
             const ip = lastCallArg && lastCallArg.ip;
@@ -304,6 +301,9 @@ module.exports = new Promise(resolve => {
                 log: str => log(`${actualLocation} says ${str}`, { ip, location, userAgent }),
                 restartProcess,
             };
+            const actFn = methods[method];
+            console.log({ actFn });
+            if (!actFn) return cb && cb(`${method} is not a valid action`);
             if (method !== 'log') {
                 await log(`${actualLocation} about to ${method}`, { args: callArgs });
             }
