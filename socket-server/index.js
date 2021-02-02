@@ -127,7 +127,7 @@ module.exports = new Promise(resolve => {
                 1: 'A FRIEND HAS',
                 2: 'YOU HAVE'
             }[authLevel];
-            return short ? base.split(' ').slice(0, -1).join(' ') : base;
+            return base && short ? base.split(' ').slice(0, -1).join(' ') : base;
         };
 
 
