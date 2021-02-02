@@ -151,7 +151,7 @@ module.exports = new Promise(resolve => {
         client.on('attemptAuth', async (authString, cb) => {
             authLevel = Number(Object.keys(authStrings).find(authLevel => authStrings[authLevel] === authString));
             if (authLevel) {
-                await log(`${{name()}} BEEN AUTHORIZED -- ${ip} from ${location}`, {
+                await log(`${name()} BEEN AUTHORIZED -- ${ip} from ${location}`, {
                     ip,
                     userAgent,
                     location
