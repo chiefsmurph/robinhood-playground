@@ -301,11 +301,10 @@ module.exports = new Promise(resolve => {
             console.log({ actFn });
             if (!actFn) return cb && cb(`${method} is not a valid action`);
             const callArgs = rest.filter(arg => typeof arg !== 'function');
-            // const [lastCallArg] = callArgs.slice(-1);
-            // const ip = lastCallArg && lastCallArg.ip;
-            // const append = ip ? ` from ${await lookupIpLocation(ip)}` : '';
-            // console.log({ lastCallArg, ip, append });
-            await log(`${location} about to ${method} with ${callarg.map(JSON.stringify).join(' and ')}`, { args: callArgs });
+            const [lastCallArg] = callArgs.slice(-1);
+            const ip = lastCallArg && lastCallArg.ip;
+            const actualLocation = ip ? await lookupIpLocation(ip) : location;
+            await log(`${actualLocation} about to ${method}`, { args: callArgs });
             const response = await actFn(...callArgs);
             return cb && cb(response);
         });
