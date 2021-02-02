@@ -304,14 +304,14 @@ module.exports = new Promise(resolve => {
                 lookupMultiple,
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
-                log: str => log(`${n(true)} in ${actualLocation} says ${str}`, { ip, location, userAgent }),
+                log: str => log(`${name(true)} in ${actualLocation} says ${str}`, { ip, location, userAgent }),
                 restartProcess,
             };
             const actFn = methods[method];
             console.log({ actFn });
             if (!actFn) return cb && cb(`${method} is not a valid action`);
             if (method !== 'log') {
-                await log(`${n(true)} in ${actualLocation} about to ${method}`, { args: callArgs });
+                await log(`${name(true)} in ${actualLocation} about to ${method}`, { args: callArgs });
             }
             const response = await actFn(...callArgs);
             return cb && cb(response);
@@ -366,7 +366,7 @@ module.exports = new Promise(resolve => {
                 includeGoogleNews: true,
             });
             if (response) {
-                await log(`${location} just scanned ${tickers.join(', ')}`, {
+                await log(`${name(true)} in ${location} just scanned ${tickers.join(', ')}`, {
                     tickers, 
                     ip,
                     userAgent,
