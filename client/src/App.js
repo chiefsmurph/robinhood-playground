@@ -337,6 +337,9 @@ class App extends Component {
     handlePageChange = (event, value) => {
         ReactGA.pageview(window.location.pathname + camelize(pages[value].label.replace(/'/g, '')));
         this.setState({ value });
+        if (this.state.authLevel !== 2) {
+            this.state.socket.emit('client:act', 'log', `switched to ${pages[value].label}`)
+        }
     };
 
     setAuthLevel = authLevel => {

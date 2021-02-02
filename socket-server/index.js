@@ -274,6 +274,14 @@ module.exports = new Promise(resolve => {
         });
 
         client.on('client:act', async (method, ...rest) => {
+            const actFn = methods[method];
+            const [cb] = rest.filter(arg => typeof arg === 'function').splice(-1, 1) // callback is last arg;
+            console.log({ actFn });
+            if (!actFn) return cb && cb(`${method} is not a valid action`);
+            const callArgs = rest.filter(arg => typeof arg !== 'function');
+            const [lastCallArg] = callArgs.slice(-1);
+            const ip = lastCallArg && lastCallArg.ip;
+            const actualLocation = ip ? await lookupIpLocation(ip) : location;
             const methods = {
                 sellOnOpen: require('../alpaca/sell-on-open'),
                 spraySell: require('../alpaca/spray-sell'),
@@ -293,18 +301,12 @@ module.exports = new Promise(resolve => {
                 lookupMultiple,
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
-                log,
+                log: str => log(`${actualLocation} says ${str}`, { ip, location, userAgent }),
                 restartProcess,
             };
-            const actFn = methods[method];
-            const [cb] = rest.filter(arg => typeof arg === 'function').splice(-1, 1) // callback is last arg;
-            console.log({ actFn });
-            if (!actFn) return cb && cb(`${method} is not a valid action`);
-            const callArgs = rest.filter(arg => typeof arg !== 'function');
-            const [lastCallArg] = callArgs.slice(-1);
-            const ip = lastCallArg && lastCallArg.ip;
-            const actualLocation = ip ? await lookupIpLocation(ip) : location;
-            await log(`${actualLocation} about to ${method}`, { args: callArgs });
+            if (method !== 'log') {
+                await log(`${actualLocation} about to ${method}`, { args: callArgs });
+            }
             const response = await actFn(...callArgs);
             return cb && cb(response);
         });
