@@ -285,6 +285,8 @@ module.exports = new Promise(resolve => {
             const [lastCallArg] = callArgs.slice(-1);
             const ip = lastCallArg && lastCallArg.ip;
             const actualLocation = ip ? await lookupIpLocation(ip) : location;
+            const n = name(true);
+            const nPrefix = n ? n + ' in ' : n;
             const methods = {
                 sellOnOpen: require('../alpaca/sell-on-open'),
                 spraySell: require('../alpaca/spray-sell'),
@@ -304,14 +306,14 @@ module.exports = new Promise(resolve => {
                 lookupMultiple,
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
-                log: str => log(`${name(true)} in ${actualLocation} says ${str}`, { ip, location, userAgent }),
+                log: str => log(`${nPrefix}${actualLocation} says ${str}`, { ip, location, userAgent }),
                 restartProcess,
             };
             const actFn = methods[method];
             console.log({ actFn });
             if (!actFn) return cb && cb(`${method} is not a valid action`);
             if (method !== 'log') {
-                await log(`${name(true)} in ${actualLocation} about to ${method}`, { args: callArgs });
+                await log(`${nPrefix}${actualLocation} about to ${method}`, { args: callArgs });
             }
             const response = await actFn(...callArgs);
             return cb && cb(response);
