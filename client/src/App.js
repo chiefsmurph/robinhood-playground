@@ -125,7 +125,7 @@ const isForPurchase = (stratMin, settings = {}, pms) => {
     // 1 friends
     // 2 me
 
-const pages = [
+const pages = authLevel => [
     {
         label: 'Home',
         component: BalanceReports,
@@ -205,7 +205,7 @@ const pages = [
         component: Cron,
         authLevel: 2,
     }
-];
+].filter(page => authLevel >= (page.authLevel || 0));
 
 
 
@@ -335,10 +335,10 @@ class App extends Component {
     }
 
     handlePageChange = (event, value) => {
-        ReactGA.pageview(window.location.pathname + camelize(pages[value].label.replace(/'/g, '')));
+        ReactGA.pageview(window.location.pathname + camelize(pages(this.state.authLevel)[value].label.replace(/'/g, '')));
         this.setState({ value });
         if (this.state.authLevel !== 2) {
-            this.state.socket.emit('client:act', 'log', `switched to ${pages[value].label}`)
+            this.state.socket.emit('client:act', 'log', `switched to ${pages(this.state.authLevel)[value].label}`)
         }
     };
 
@@ -453,14 +453,12 @@ class App extends Component {
             suggestions,
             subsets
         };
-
-        const tabs = pages
-            .filter(page => authLevel >= (page.authLevel || 0))
-            .map(({ label }) => label);
         
+        const ps = pages(authLevel);
+        const tabs = ps.map(({ label }) => label);
 
         const showingPage = value || 0;
-        const thing = pages.find(page => page.label === tabs[showingPage]);
+        const thing = ps.find(page => page.label === tabs[showingPage]);
         const { component: PageComponent } = thing;
         return (
             <div className="App">
