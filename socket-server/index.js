@@ -122,6 +122,16 @@ module.exports = new Promise(resolve => {
         const userAgent = client.request.headers['user-agent'];
         let authLevel = 0;
 
+        const name = short => {
+            const base = {
+                1: 'A FRIEND HAS',
+                2: 'YOU HAVE'
+            }[authLevel];
+            return short ? base.split(' ').slice(0, -1).join(' ') : base;
+        };
+
+
+
         const { allowedIps = [] } = await getPreferences();
         const allowedClient = allowedIps.some(search => ip.includes(search));
         const location = await lookupIpLocation(ip);
@@ -139,12 +149,8 @@ module.exports = new Promise(resolve => {
 
         client.on('attemptAuth', async (authString, cb) => {
             authLevel = Number(Object.keys(authStrings).find(authLevel => authStrings[authLevel] === authString));
-            const name = {
-                1: 'A FRIEND HAS',
-                2: 'YOU HAVE'
-            }[authLevel];
             if (authLevel) {
-                await log(`${name} BEEN AUTHORIZED -- ${ip} from ${location}`, {
+                await log(`${name()} BEEN AUTHORIZED -- ${ip} from ${location}`, {
                     ip,
                     userAgent,
                     location
@@ -298,14 +304,14 @@ module.exports = new Promise(resolve => {
                 lookupMultiple,
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
-                log: str => log(`${actualLocation} says ${str}`, { ip, location, userAgent }),
+                log: str => log(`${n(true)} in ${actualLocation} says ${str}`, { ip, location, userAgent }),
                 restartProcess,
             };
             const actFn = methods[method];
             console.log({ actFn });
             if (!actFn) return cb && cb(`${method} is not a valid action`);
             if (method !== 'log') {
-                await log(`${actualLocation} about to ${method}`, { args: callArgs });
+                await log(`${n(true)} in ${actualLocation} about to ${method}`, { args: callArgs });
             }
             const response = await actFn(...callArgs);
             return cb && cb(response);
