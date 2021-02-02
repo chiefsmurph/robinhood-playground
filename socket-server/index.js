@@ -127,7 +127,8 @@ module.exports = new Promise(resolve => {
                 1: 'A FRIEND HAS',
                 2: 'YOU HAVE'
             }[authLevel];
-            return base && short ? base.split(' ').slice(0, -1).join(' ') : base;
+            if (!base) return '';
+            return short ? base.split(' ').slice(0, -1).join(' ') : base;
         };
 
 
@@ -150,7 +151,7 @@ module.exports = new Promise(resolve => {
         client.on('attemptAuth', async (authString, cb) => {
             authLevel = Number(Object.keys(authStrings).find(authLevel => authStrings[authLevel] === authString));
             if (authLevel) {
-                await log(`${name()} BEEN AUTHORIZED -- ${ip} from ${location}`, {
+                await log(`${{name}()} BEEN AUTHORIZED -- ${ip} from ${location}`, {
                     ip,
                     userAgent,
                     location
