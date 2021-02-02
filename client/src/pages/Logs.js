@@ -20,7 +20,7 @@ class Logs extends Component {
                                 <b>{
                                     (new Date(log.timestamp)).toLocaleString()
                                 }:&nbsp;</b>
-                                {log.title}{log.args ? ` -- args equals ${JSON.stringify(log.args)}` : ''}
+                                {log.title}{(log.data || {}).args ? ` -- args equals ${(log.data || {}).args.map(JSON.stringify)}` : ''}
                             </div>
                         ))
                 }
