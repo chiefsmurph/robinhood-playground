@@ -253,7 +253,8 @@ class App extends Component {
         const socketEndpoint = origin.includes('localhost') && false ? 'http://localhost:3000' : `https://chiefsmurph.com`;
         const socket = socketIOClient(socketEndpoint, {
             path: '/rh/socket.io',
-            secure: true
+            secure: true,
+            transports: ['websocket']
         });
 
         const handlePick = data => {
