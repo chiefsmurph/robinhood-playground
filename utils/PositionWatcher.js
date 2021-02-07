@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const INITIAL_TIMEOUT = 16 * 1000;      // 10 seconds
+const INITIAL_TIMEOUT = 40 * 1000;      // 40 seconds
 const END_AFTER = 2 * 1000 * 60 * 60;   // 2 hr
 
 const { RSI } = require('technicalindicators');
@@ -114,7 +114,7 @@ module.exports = class PositionWatcher {
         perc = perc / 1.2;
       }
       const q = Math.ceil(quantity * perc / 100);
-      await log(`${ticker} hit an RSI break - ${foundBreak}${canSellBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
+      await log(`${ticker} hit an upper RSI break - ${foundBreak}${canSellBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
         returnPerc,
         wouldBeDayTrade,
         canSellBreaks

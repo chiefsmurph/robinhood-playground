@@ -49,7 +49,6 @@ module.exports = async () => {
         return;
     }
 
-
     for (let { ticker, nowPrice } of allToBuy) {
         // prevent day trades!!
         await alpacaCancelAllOrders(ticker, 'sell');
@@ -61,6 +60,7 @@ module.exports = async () => {
             quantity
         });
 
+        await log(`buying ${ticker} about $${Math.round(quantity * nowPrice)}`);
         attemptBuy({
             ticker,
             quantity,
