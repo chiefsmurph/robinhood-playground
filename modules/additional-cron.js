@@ -63,7 +63,7 @@ const additionalCron = [
         name: 'runBasedOnRecentPicks',
         run: [-3, 40, 70, 120, 190, 240, 300, 370],
         fn: () => runBasedOnRecentPicks(),
-    }
+    },
 
     {
         name: 'alpacaActOnPositions',
