@@ -15,7 +15,7 @@ module.exports = async () => {
 
     // ANYTHING DROPPED 20%
     const definiteBuys = recentPicks.filter(pick => pick.trend < -20);
-    console.log(`definite buys: ${definiteBuys.map(getTicker)}`);
+    await log(`definite buys: ${definiteBuys.map(getTicker)}`);
     
 
 
@@ -28,12 +28,13 @@ module.exports = async () => {
     }));
     const downAndHighSt = withStSent.filter(pick => pick.stSent.bullBearScore > 100);
 
+    await log(`downAndHighSt: ${downAndHighSt.map(getTicker)}`);
     const allToBuy = [
         ...definiteBuys,
         ...downAndHighSt
     ];
 
-    console.log(`all to buy: ${allToBuy.map(getTicker)}`);
+    await log(`all to buy: ${allToBuy.map(getTicker)}`);
 
 
     const account = await alpaca.getAccount();
