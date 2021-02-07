@@ -260,9 +260,9 @@ module.exports = async (
 
     if (notSelling || wouldBeDayTrade) return 0;
 
-    if (returnPerc > 200) {
-      return 0;
-    }
+    // if (returnPerc > 200) {
+    //   return 0;
+    // }
 
     // if (market_value <= mostRecentPurchase * 10 && daysOld >= 2) {
     //   return 100;
@@ -280,7 +280,7 @@ module.exports = async (
     // }
 
 
-    const isInitialSell = (min >= -15 && min <= 5);
+    const isInitialSell = (min >= -15 && min <= 25);
     // const initialSellPerc = (() => {
     //   if (bullBearScore > 100) return 0;
     //   if (returnPerc < -15 || returnPerc > 20) return 60;
@@ -291,8 +291,7 @@ module.exports = async (
     //   return 0;
     // }
 
-    if (sellOffToday) {
-      if (isInitialSell && bullBearScore > 100) return 0;
+    if (sellOffToday && !isInitialSell) {
       return 100;
     }
 

@@ -23,7 +23,7 @@ const sendScreenshot = async (numDays, queryString = '') => {
   page.setViewport({ ...dims, deviceScaleFactor: 3 });
 
   await page.on('dialog', async dialog => {
-    dialog.accept('j');
+    dialog.accept();
   });
   await page.goto(`http://chiefsmurph.com/stocks/?p=3000&numDays=${numDays}&${queryString}`);
   // await page.goto(`http://localhost:3000/?p=3000&numDays=${numDays}&${queryString}`);

@@ -397,6 +397,7 @@ module.exports = new Promise(resolve => {
 
         client.on('disconnect', () => {
             client.broadcast.emit('userDisconnect');
+            log(`${n()} been disconnected`);
         });
 
     });

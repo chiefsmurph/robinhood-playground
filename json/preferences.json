@@ -1,6 +1,27 @@
 {
-  "purchaseAmt": 1.2,
-  "actOnStPercent": 0.5,
+  "onlyUseCash": true,
+  "purchaseAmt": 1.5,
+  "recentBuyAmt": 5,
+  "actOnStPercent": 1,
   "maxPerPositionAfterOpenPerc": 2.5,
-  "dontBuyPositionsBeingSold": true
+  "dontBuyPositionsBeingSold": true,
+  "allowedIps": [
+    "2603:8001:2801:",
+    "2603:8001:2801:6c0e:ec41:3b91:8fc7:ca15",
+    "2605:e000:1000:c2ad",
+    "2600:1012",
+    "38.108.119.159",
+    "76.170.201.164",
+    "72.132.253.93",
+    "2600:1010:b05b:14bc:759a:9b07:49d:63d1",
+    "2605:e000:100e:4026:1d21:ad37:ec03:77f",
+    "2605:e000:100e:402",
+    "2600:1700:f0b1:430:254d:a926:fb13:fc22",
+    "72.132.179.194",
+    "2600:1700:f0b1:430:9c8d:6ece:f080:9639",
+    "2001:550:2:29::4f9:a62",
+    "2600:1700:f0b1:4",
+    "204.134.154.226",
+    "24.156.17.50"
+  ]
 }

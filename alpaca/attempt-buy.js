@@ -19,7 +19,7 @@ const calcLimitPrice = async ({ ticker, pickPrice, attemptNum }) => {
     const highVal = avgArray([bidPrice, lastTrade].filter(Boolean));// Math.max(bidPrice, askPrice, lastTrade);
     
     const aboveHigh = highVal * attemptPercAbove / 100;
-    const maxPrice = Math.min(pickPrice * 1.042, bidPrice * 1.03);
+    const maxPrice = Math.min(...[pickPrice * 1.042, bidPrice * 1.03].filter(Boolean));
     const finalPrice = Math.min(highVal + aboveHigh, maxPrice);
     strlog({
         bidPrice,

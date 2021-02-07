@@ -8,13 +8,13 @@ const getTrend = require('../utils/get-trend');
 const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.pow(10, numDec);
 const twoDec = roundTo(2);
 
-module.exports = async (limit = 30, isRecommended = true, includeStSent = false) => {
+module.exports = async (limit = 30, isRecommended = true, includeStSent = false, skipScan = false) => {
     console.log('app action get recent', limit);
     const picks = await Pick.getRecentRecommendations(limit, isRecommended);
     const byTicker = groupBy(picks, pick => pick.picks[0].ticker);
     const prices = await lookupMultiple(Object.keys(byTicker));
     const validTickers = Object.keys(prices);
-    const scan = await runScan({
+    const scan = !skipScan && await runScan({
         tickers: validTickers,
         includeStSent
     });
@@ -33,7 +33,7 @@ module.exports = async (limit = 30, isRecommended = true, includeStSent = false)
             trend: getTrend(nowPrice, avgPrice),
             interestingWords: [...new Set(...picks.map(pick => pick.interestingWords))],
             mostRecentTimestamp: picks[0].timestamp,
-            scan: scan.find(s => s.ticker === ticker)
+            ...!skipScan && { scan: scan.find(s => s.ticker === ticker) }
         };
     });
 };

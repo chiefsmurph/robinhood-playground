@@ -58,11 +58,11 @@ const additionalCron = [
         fn: () => saveByDateAnalysis()
     },
 
-    // {
-    //     name: 'alpacaActOnPositions',
-    //     run: [-25, 220, 365],
-    //     fn: () => alpacaActOnPositions()
-    // },
+    {
+        name: 'alpacaActOnPositions',
+        run: [-25, 22, 220, 365],
+        fn: () => alpacaActOnPositions()
+    },
 
     // {
     //     name: 'alpacaSellOnOpen',

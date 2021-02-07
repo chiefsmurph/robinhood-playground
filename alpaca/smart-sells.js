@@ -34,8 +34,6 @@ module.exports = async (dontSell) => {
         shouldSell: await shouldYouSellThisStock(pos.ticker, pos.avgEntry)
     }));
 
-    console.log('selling' + withShouldSells.map(p => p.ticker));
-
     str({ withShouldSells })
 
     const toSell = withShouldSells.filter(pos => pos.shouldSell);

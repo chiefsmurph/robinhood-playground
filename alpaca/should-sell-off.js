@@ -8,10 +8,10 @@ module.exports = position => {
   } = position;
   // return true;  // nighttrading baby!
   const conditions = [
-    daysOld > 3,
-    // mostRecentPurchase > 2,
+    daysOld > 8,
+    mostRecentPurchase > 2,
     // numMultipliers > 150,
-    // bullBearScore < 100,
+    bullBearScore < 100,
   ];
   return conditions.every(Boolean);
 };
