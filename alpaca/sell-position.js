@@ -8,7 +8,7 @@ const alpacaCancelAllOrders = require('./cancel-all-orders');
 const getMinFromOpen = require('../utils/get-minutes-from-open');
 const Hold = require('../models/Holds');
 
-const bothAttemptAndSpray = ({ ticker, quantity }) => {
+const bothAttemptAndSpray = ({ ticker, quantity, numSeconds }) => {
     const halfQuantity = Math.floor(quantity / 2);
     const secondQuantity = quantity - halfQuantity;
     return Promise.all([
@@ -21,12 +21,13 @@ const bothAttemptAndSpray = ({ ticker, quantity }) => {
          }),
          spraySell({
              ticker,
-             quantity: secondQuantity
+             quantity: secondQuantity,
+             ...numSeconds && { numSeconds }
          })
     ]);
 };
 
-module.exports = async position => {
+module.exports = async (position, numSeconds) => {
 
     let { 
         ticker, 
@@ -66,12 +67,13 @@ module.exports = async position => {
     const response = getMinFromOpen() >= 0 && market_value > 30
         ? await bothAttemptAndSpray({   // reg hours
             ticker,
-            quantity: sellQuantity
+            quantity: sellQuantity,
+            numSeconds
         })
         : await attemptSell({       // premarket
             ticker,
             quantity: sellQuantity,
-            fallbackToMarket: false     
+            fallbackToMarket: false,
         });
 
 

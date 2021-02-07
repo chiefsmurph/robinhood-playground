@@ -3,13 +3,14 @@ const sellPosition = require('./sell-position');
 
 module.exports = async () => {
   const positions = await getPositions();
-  return Promise.all(
+  await Promise.all(
     positions
-      .filter(({ ticker }) => ticker !== 'TUES')
       .filter(({ wouldBeDayTrade }) => !wouldBeDayTrade)
       .map(position => sellPosition({
         ...position,
-        percToSell: 100
+        percToSell: 100,
+        numSeconds: 60 * 60 * 3
       }))
   );
+  await log('done selling all');
 };
