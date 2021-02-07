@@ -10,14 +10,17 @@ module.exports = async () => {
 
 
     const getTicker = pick => pick.ticker;
-    const recentPicks = await getRecentPicks(300, true, false, true);
+    const recentPicks = await getRecentPicks(300);
 
 
     // ANYTHING DROPPED 20%
-    const definiteBuys = recentPicks.filter(pick => pick.trend < -20);
-    await log(`definite buys: ${definiteBuys.map(getTicker)}`);
-    
+    const trendDownBig = recentPicks.filter(pick => pick.trend < -20);
+    await log(`trendDownBig: ${trendDownBig.map(getTicker)}`);
 
+    // DAILY RSI BELOW 30
+    const rsiOversold = recentPicks.filter(pick => pick.scan.computed.dailyRSI < 30);
+    await log(`rsiOversold: ${rsiOversold.map(getTicker)}`);
+    
 
     // ALSO ANYTHING BELOW 3% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
     const onlyDown = recentPicks.filter(pick => pick.trend < 3);
@@ -30,7 +33,8 @@ module.exports = async () => {
 
     await log(`downAndHighSt: ${downAndHighSt.map(getTicker)}`);
     const allToBuy = [
-        ...definiteBuys,
+        ...trendDownBig,
+        ...rsiOversold,
         ...downAndHighSt
     ];
 
