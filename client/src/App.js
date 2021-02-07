@@ -256,7 +256,13 @@ class App extends Component {
             secure: true,
             transports: ['websocket']
         });
-
+        this.setState({ socket });
+        socket.on('connect', () => {
+            const savedAuth = localStorage.getItem('placate');
+            if (savedAuth) {
+                this.attemptAuth(savedAuth);
+            }
+        })
         const handlePick = data => {
             const { settings, pms } = this.state;
             this.setState({
@@ -325,12 +331,6 @@ class App extends Component {
                 balanceReports: (balanceReports || []).concat(report),
                 additionalAccountInfo
             }));
-        });
-        this.setState({ socket }, () => {
-            const savedAuth = localStorage.getItem('placate');
-            if (savedAuth) {
-                this.attemptAuth(savedAuth);
-            }
         });
         ReactGA.pageview(window.location.pathname + 'index');
     }
