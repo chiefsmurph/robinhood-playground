@@ -116,6 +116,7 @@ class Preferences extends Component {
         <ul>
           <li><a onClick={this.limitBuyMultiple} href="#">limitBuyMultiple</a></li>
           <li><a onClick={this.buyBetween} href="#">buyBetween</a></li>
+          <li><a onClick={this.act('runBasedOnRecent')} href="#">runBasedOnRecent</a></li>
         </ul>
 
         <h3>Sell</h3>
