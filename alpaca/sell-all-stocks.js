@@ -8,7 +8,7 @@ module.exports = async () => {
       .filter(({ wouldBeDayTrade }) => !wouldBeDayTrade)
       .map(position => sellPosition({
         ...position,
-        percToSell: 100,
+        percToSell: 20, // HAHAHAHAHA 100,
         numSeconds: 60 * 60 * 3
       }))
   );
