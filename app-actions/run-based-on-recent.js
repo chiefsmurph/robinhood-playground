@@ -40,7 +40,7 @@ module.exports = async () => {
 
 
     const topSt = downAndHighSt.shift();
-    await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
+    topSt && await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
     const allToBuy = [
         ...trendDownBig,
         ...rsiOversold,
