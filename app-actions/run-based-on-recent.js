@@ -61,7 +61,7 @@ module.exports = async () => {
         const logObj = { before: amtLeft, fundsNeeded, after: afterAmt };
         await log(`funds made available - before ${amtLeft}, after ${afterAmt}`, logObj);
         if (Number(afterAmt) < amtNeeded) {
-            console.log('sorry i tried to make funds available but there is still not enough. going to buy what i can.');
+            await log('sorry i tried to make funds available for run based on recent but there is still not enough.');
             return;
         }
     }
