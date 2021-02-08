@@ -3,6 +3,7 @@ const getRecentPicks = require('./get-recent-picks');
 const getStSentiment = require('../utils/get-stocktwits-sentiment');
 const attemptBuy = require('../alpaca/attempt-buy');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
+const makeFundsAvailable = require('../alpaca/make-funds-available');
 const Log = require('../models/Log');
 
 
@@ -50,8 +51,19 @@ module.exports = async () => {
 
     console.log({ amtLeft, onlyUseCash, amtNeeded, allToBuyCount: allToBuy.length, recentBuyAmt });
     if (amtLeft < amtNeeded) {
-        await log(`skipping recent picks purchase because amtLeft ${amtLeft} and amtNeeded ${amtNeeded}`);
-        return;
+        // await log(`skipping recent picks purchase because amtLeft ${amtLeft} and amtNeeded ${amtNeeded}`);
+        // return;
+        const fundsNeeded = (amtNeeded * 1.1) - amtLeft;
+        await makeFundsAvailable(fundsNeeded);
+        await log(`making $${fundsNeeded} available`);
+        const afterAccount = await alpaca.getAccount();
+        const afterAmt = Number(onlyUseCash ? afterAccount.cash : afterAccount.buying_power);
+        const logObj = { before: amtLeft, fundsNeeded, after: afterAmt };
+        await log(`funds made available - before ${amtLeft}, after ${afterAmt}`, logObj);
+        if (Number(afterAmt) < amtNeeded) {
+            console.log('sorry i tried to make funds available but there is still not enough. going to buy what i can.');
+            return;
+        }
     }
 
     for (let { ticker, nowPrice } of allToBuy) {
