@@ -30,17 +30,25 @@ module.exports = async () => {
         ...pick,
         stSent: await getStSentiment(pick.ticker)
     }));
-    const downAndHighSt = withStSent.filter(pick => pick.stSent.bullBearScore > 100);
 
+
+    const getSt = pick => pick.stSent.bullBearScore;
+    const downAndHighSt = withStSent
+        .filter(pick => getSt(pick) > 100)
+        .sort((a, b) => getSt(b) - getSt(a));
     await log(`downAndHighSt: ${downAndHighSt.map(getTicker)}`);
+
+
+    const topSt = downAndHighSt.shift();
+    await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
     const allToBuy = [
         ...trendDownBig,
         ...rsiOversold,
-        ...downAndHighSt
+        ...downAndHighSt,
+        ...topSt ? [topSt] : []
     ];
 
     await log(`all to buy: ${allToBuy.map(getTicker)}`);
-
 
     const account = await alpaca.getAccount();
     const { cash, buying_power } = account;
