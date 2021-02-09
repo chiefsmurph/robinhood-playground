@@ -26,13 +26,26 @@ module.exports = async () => {
     // ALSO ANYTHING BELOW 3% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
     const onlyDown = recentPicks.filter(pick => pick.trend < 3);
     // console.log(`onlyDown: ${onlyDown.map(getTicker)}`);
-    const withStSent = await mapLimit(onlyDown, 3, async pick => ({
-        ...pick,
-        stSent: await getStSentiment(pick.ticker)
-    }));
 
 
-    const getSt = pick => pick.stSent;
+    const getSt = pick => pick.stSent.bullBearScore;
+
+    
+    const withStSent = (
+        await mapLimit(onlyDown, 3, async pick => ({
+            ...pick,
+            stSent: await getStSentiment(pick.ticker)
+        }))
+    ).sort((a, b) => getSt(b) - getSt(a));
+
+
+
+    await log(
+        withStSent.map(pick => [pick.ticker, getSt(pick)].join(': '))
+    );
+
+
+
     const downAndHighSt = withStSent
         .filter(pick => getSt(pick) > 100)
         .sort((a, b) => getSt(b) - getSt(a));
