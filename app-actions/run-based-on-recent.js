@@ -5,7 +5,7 @@ const attemptBuy = require('../alpaca/attempt-buy');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const makeFundsAvailable = require('../alpaca/make-funds-available');
 const Log = require('../models/Log');
-
+const { get } = require('underscore');
 
 module.exports = async () => {
 
@@ -15,24 +15,24 @@ module.exports = async () => {
 
 
     // ANYTHING DROPPED 20%
-    const trendDownBig = recentPicks.filter(pick => pick.trend < -20);
+    let trendDownBig = recentPicks.filter(pick => pick.trend < -20);
     await log(`trendDownBig: ${trendDownBig.map(getTicker)}`);
 
     // DAILY RSI BELOW 30
-    const rsiOversold = recentPicks.filter(pick => pick.scan.computed.dailyRSI < 30);
+    const rsiOversold = recentPicks.filter(pick => get(pick.scan, 'computed.dailyRSI') < 30);
     await log(`rsiOversold: ${rsiOversold.map(getTicker)}`);
     
 
     // ALSO ANYTHING BELOW 3% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
     const onlyDown = recentPicks.filter(pick => pick.trend < 3);
-    console.log(`onlyDown: ${onlyDown.map(getTicker)}`);
+    // console.log(`onlyDown: ${onlyDown.map(getTicker)}`);
     const withStSent = await mapLimit(onlyDown, 3, async pick => ({
         ...pick,
         stSent: await getStSentiment(pick.ticker)
     }));
 
 
-    const getSt = pick => pick.stSent.bullBearScore;
+    const getSt = pick => pick.stSent;
     const downAndHighSt = withStSent
         .filter(pick => getSt(pick) > 100)
         .sort((a, b) => getSt(b) - getSt(a));

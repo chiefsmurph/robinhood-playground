@@ -33,7 +33,7 @@ module.exports = async (limit = 30, isRecommended = true, includeStSent = false)
             trend: getTrend(nowPrice, avgPrice),
             interestingWords: [...new Set(...picks.map(pick => pick.interestingWords))],
             mostRecentTimestamp: picks[0].timestamp,
-            scan: scan.find(s => s.ticker === ticker),
+            scan: scan.find(s => s.ticker === ticker)
         };
     });
 };
