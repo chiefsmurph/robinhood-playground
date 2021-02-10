@@ -131,8 +131,8 @@ const additionalCron = [
 
 
     {
-        name: 'make funds available on open',
-        run: [45],
+        name: 'make funds available because why not',
+        run: [46],
         fn: async () => {
             const PERCENT_TO_LIQUIDATE = 20;
             const { equity } = await alpaca.getAccount();

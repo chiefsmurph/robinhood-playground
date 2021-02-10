@@ -166,3 +166,8 @@ table th {
 .stats > div:last-of-type {
   margin-right: auto;
 }
+
+
+header > div:nth-child(2) > div > div {
+  overflow-x: scroll;
+}
