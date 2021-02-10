@@ -6,7 +6,7 @@ module.exports = {
     
     registerNewBuy: (ticker, strategy) => {
         buysInProgress[ticker] = [
-            ...buysInProgress[ticker],
+            ...buysInProgress[ticker] || [],
             strategy
         ];
         const timeoutKey = [ticker, strategy].join('-');

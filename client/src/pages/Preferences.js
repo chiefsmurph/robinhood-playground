@@ -86,6 +86,14 @@ class Preferences extends Component {
     
     
   });
+  getActiveStrategy = pd(() => {
+    let ticker = window.prompt('What ticker?');
+    if (!ticker) return;
+    ticker = ticker.toUpperCase();
+    this.props.socket.emit('getActiveStrategy', ticker, activeStrategy => {
+      alert(`${ticker} active strategy: ${activeStrategy}`);
+    });
+  });
   render() {
     console.log(this.props);
     return (
@@ -112,29 +120,31 @@ class Preferences extends Component {
           })} href="#">Get Position</a></li>
         </ul>
 
-        <h3>Buy</h3>
+        <h3>Manual Buys</h3>
         <ul>
           <li><a onClick={this.limitBuyMultiple} href="#">limitBuyMultiple</a></li>
           <li><a onClick={this.buyBetween} href="#">buyBetween</a></li>
+        </ul>
+
+        <h3>Algobuys</h3>
+        <ul>
           <li><a onClick={this.act('runBasedOnRecent')} href="#">runBasedOnRecent</a></li>
+          <li><a onClick={this.act('actOnSt')} href="#">actOnSt</a></li>
+          <li><a onClick={this.act('actOnMultipliers')} href="#">actOnMultipliers</a></li>
+          <li><a onClick={this.act('actOnZScoreFinal')} href="#">actOnZScoreFinal</a></li>
+          <li><a onClick={this.act('buyTheRed')} href="#">buyTheRed</a></li>
         </ul>
 
         <h3>Sell</h3>
         <ul>
           <li><a onClick={this.act('sellOnOpen')} href="#">sellOnOpen</a></li>
+          <li><a onClick={this.act('actOnPositions')} href="#">actOnPositions</a></li>
         </ul>
           
-        <h3>Act on...</h3>
-        <ul>
-          <li><a onClick={this.act('actOnSt')} href="#">actOnSt</a></li>
-          <li><a onClick={this.act('actOnMultipliers')} href="#">actOnMultipliers</a></li>
-          <li><a onClick={this.act('actOnPositions')} href="#">actOnPositions</a></li>
-          <li><a onClick={this.act('actOnZScoreFinal')} href="#">actOnZScoreFinal</a></li>
-          <li><a onClick={this.act('buyTheRed')} href="#">buyTheRed</a></li>
-        </ul>
 
         <hr/>
-        <a onClick={this.act('refreshPositions')} href="#">REFRESH POSITIONS</a>
+          <a onClick={this.act('refreshPositions')} href="#">REFRESH POSITIONS</a>
+          <a onClick={this.getActiveStrategy} href="#">GET ACTIVE STRATEGY</a>
         <hr/>
 
         <button onClick={pd(() => {
