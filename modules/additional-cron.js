@@ -183,7 +183,10 @@ const additionalCron = [
 
     {
         name: 'runBasedOnRecentPicks',
-        run: [9, 40, 70, 120, 190, 240, 300, 370],
+        run: [
+            // 9,
+            40, 70, 120, 190, 240, 300, 370, 430
+        ],
         fn: () => runBasedOnRecentPicks(),
     },
 
