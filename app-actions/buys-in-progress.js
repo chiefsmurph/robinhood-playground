@@ -4,11 +4,12 @@ const timeouts = {};
 
 module.exports = {
     
-    registerNewBuy: (ticker, strategy) => {
+    registerNewStrategy: (ticker, strategy) => {
         buysInProgress[ticker] = [
             ...buysInProgress[ticker] || [],
             strategy
         ];
+        log(`registering new strategy ${ticker} ${strategy} now it is ${buysInProgress[ticker]}`);
         const timeoutKey = [ticker, strategy].join('-');
         clearTimeout(timeouts[timeoutKey])
         timeouts[timeoutKey] = setTimeout(() => {

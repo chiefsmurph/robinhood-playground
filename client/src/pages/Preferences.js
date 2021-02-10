@@ -90,7 +90,7 @@ class Preferences extends Component {
     let ticker = window.prompt('What ticker?');
     if (!ticker) return;
     ticker = ticker.toUpperCase();
-    this.props.socket.emit('getActiveStrategy', ticker, activeStrategy => {
+    this.props.socket.emit('client:act', 'getActiveStrategy', ticker, activeStrategy => {
       alert(`${ticker} active strategy: ${activeStrategy}`);
     });
   });
