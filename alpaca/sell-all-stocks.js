@@ -1,6 +1,5 @@
 const getPositions = require('./get-positions');
 const sellPosition = require('./sell-position');
-const Log = require('../models/log');
 
 module.exports = async () => {
   const percToSell = 5;
