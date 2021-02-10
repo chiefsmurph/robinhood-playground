@@ -15,6 +15,8 @@ const DayReport = require('../models/DayReport');
 const Pick = require('../models/Pick');
 const Log = require('../models/Log');
 
+
+const alpacaSellAllStocks = require('../alpaca/sell-all-stocks');
 const { getActiveStrategy } = require('../app-actions/buys-in-progress');
 const mapLimit = require('promise-map-limit');
 const lookupMultiple = require('../utils/lookup-multiple');
@@ -290,6 +292,7 @@ module.exports = new Promise(resolve => {
             const n = name(true);
             const nPrefix = n ? n + ' in ' : n;
             const methods = {
+                alpacaSellAllStocks,
                 sellOnOpen: require('../alpaca/sell-on-open'),
                 spraySell: require('../alpaca/spray-sell'),
                 actOnSt: require('../alpaca/act-on-st'),

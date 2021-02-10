@@ -1,7 +1,7 @@
 .App {
   text-align: left;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 /* 
 .MuiAppBar-root-1 {
