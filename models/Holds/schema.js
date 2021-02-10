@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 // const Pick = require('../Pick');
 const getRecentPicksForTicker = require('../../utils/get-recent-picks-for-ticker');
+const { getActiveStrategy } = require('../../app-actions/buys-in-progress');
 
 const schema = new Schema({
     ticker: String,
@@ -42,18 +43,25 @@ schema.statics.registerAlpacaFill = async function(fillData) {
         alpacaOrder,
         relatedPick
     } = fillData;
-    relatedPick = relatedPick || (await getRecentPicksForTicker({ ticker, limit: 1 }))[0];
-    if (!relatedPick) {
-        relatedPick = (await getRecentPicksForTicker({ticker, isRecommended: false, limit: 1 }))[0];
-    }
-    strlog({ relatedPick })
-    const strategy = relatedPick ? relatedPick.strategyName : 'manual';
+
+    const activeStrategy = getActiveStrategy(ticker) 
+    await log(`activeStrategy ${ticker} ${activeStrategy}`)
+    const strategy = activeStrategy || (async () => {
+        relatedPick = relatedPick || (await getRecentPicksForTicker({ ticker, limit: 1 }))[0];
+        if (!relatedPick) {
+            relatedPick = (await getRecentPicksForTicker({ticker, isRecommended: false, limit: 1 }))[0];
+        }
+        strlog({ relatedPick })
+        const strategy = relatedPick ? relatedPick.strategyName : 'manual'; 
+        return strategy;
+    })();
+    
     const newBuy = {
         date: (new Date(alpacaOrder.filled_at)).toLocaleDateString().split('/').join('-'),
         fillPrice: Number(alpacaOrder.filled_avg_price),
         quantity: Number(alpacaOrder.filled_qty),
         strategy,
-        relatedPick,
+        ...relatedPick && { relatedPick },
         data: fillData.data
     };
     strlog({ newBuy })

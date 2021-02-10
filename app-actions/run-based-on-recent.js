@@ -7,6 +7,13 @@ const makeFundsAvailable = require('../alpaca/make-funds-available');
 const Log = require('../models/Log');
 const { get } = require('underscore');
 
+
+
+const { registerNewBuy } = require('./buys-in-progress');
+
+
+
+
 module.exports = async () => {
 
 
@@ -16,10 +23,12 @@ module.exports = async () => {
 
     // ANYTHING DROPPED 20%
     let trendDownBig = recentPicks.filter(pick => pick.trend < -20);
+    trendDownBig.map(getTicker).forEach(ticker => registerNewBuy(ticker, 'trendDownBig'));
     await log(`trendDownBig: ${trendDownBig.map(getTicker)}`);
 
     // DAILY RSI BELOW 30
     const rsiOversold = recentPicks.filter(pick => get(pick.scan, 'computed.dailyRSI') < 30);
+    rsiOversold.map(getTicker).forEach(ticker => registerNewBuy(ticker, 'rsiOversold'));
     await log(`rsiOversold: ${rsiOversold.map(getTicker)}`);
     
 
@@ -49,11 +58,13 @@ module.exports = async () => {
     const downAndHighSt = withStSent
         .filter(pick => getSt(pick) > 100)
         .sort((a, b) => getSt(b) - getSt(a));
+    downAndHighSt.map(getTicker).forEach(ticker => registerNewBuy(ticker, 'downAndHighSt'));
     await log(`downAndHighSt: ${downAndHighSt.map(getTicker)}`);
 
 
     const topSt = downAndHighSt.shift();
     topSt && await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
+    registerNewBuy(getTicker(topSt, 'topSt'));
     const allToBuy = [
         ...trendDownBig,
         ...rsiOversold,
