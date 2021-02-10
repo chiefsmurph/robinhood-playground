@@ -23,7 +23,7 @@
   .App > div:nth-child(4) {
     overflow: scroll;
     /* margin-top: 104px; */
-    /* height: 86vh; */
+    height: 86vh;
   }
 
 
