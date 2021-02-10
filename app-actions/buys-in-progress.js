@@ -27,6 +27,6 @@ module.exports = {
         return [
             ...curVal,
             ...rocketStr ? [rocketString] : []
-        ].join('-');    // strategy1-strategy-rocket
+        ].uniq().join('-');    // strategy1-strategy-rocket
     }
 };
