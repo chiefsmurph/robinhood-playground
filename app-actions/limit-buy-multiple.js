@@ -115,7 +115,7 @@ const eclecticBuy = async ({
     const { onlyUseCash } = await getPreferences();
 
     const defaults = {
-        timeoutSeconds: onlyUseCash ? 60 * 30 : 60 * 60,
+        timeoutSeconds: 60 * 30,
         fallbackToMarket: true
     };
     let buyStyles = [
@@ -157,7 +157,6 @@ const eclecticBuy = async ({
             name: 'limitu1',
             limitPrice: pickPrice * 1.01,
             fallbackToMarket: true,
-            timeoutSeconds: 60 * 15,
         },
 
 
