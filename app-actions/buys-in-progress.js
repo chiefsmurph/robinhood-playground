@@ -26,7 +26,7 @@ module.exports = {
         const rocketString = relatedPosition.stSent.wordFlags.includes('rocket') && 'rocket';
         return [
             ...curVal,
-            ...rocketStr ? [rocketString] : []
+            ...rocketString ? [rocketString] : []
         ].uniq().join('-');    // strategy1-strategy-rocket
     }
 };
