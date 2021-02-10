@@ -16,7 +16,7 @@ module.exports = async (ticker, side) => {
 
     for (let order of matchingOrders) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        await log(`canceling specific order id ${order.id} for ${ticker}`, {order}); 
+        await log(`canceling specific order id ${order.id} for ${order.symbol}`, {order}); 
         console.log(await alpaca.cancelOrder(order.id));
     }
 
