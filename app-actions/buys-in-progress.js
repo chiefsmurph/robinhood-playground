@@ -21,7 +21,7 @@ module.exports = {
     getActiveStrategy: ticker => {
         const curVal = buysInProgress[ticker];
         log(`${ticker} currently ${curVal}`)
-        if (!curVal || curVal.length) return;   // nothing ? return undefined
+        if (!curVal || !curVal.length) return;   // nothing ? return undefined
         const relatedPosition = getRelatedPosition(ticker);
         const rocketString = relatedPosition.stSent.wordFlags.includes('rocket') && 'rocket';
         return [
