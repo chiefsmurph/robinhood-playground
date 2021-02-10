@@ -68,7 +68,7 @@ const cTable = require('console.table');
 const _ = require('underscore');
 
 _.mixin({
-    get: function(obj, path) {
+    get: function(obj, path, fallback) {
         if (!obj && !path) {
             return undefined;
         } else {
@@ -94,7 +94,7 @@ _.mixin({
             }, []).join('.');
   
             if (_.isEmpty(remainingPath)) {
-                return obj[nPath];
+                return obj ? obj[nPath] : fallback;
             } else {
                 return _.has(obj, nPath) && _.get(obj[nPath], remainingPath);
             }
