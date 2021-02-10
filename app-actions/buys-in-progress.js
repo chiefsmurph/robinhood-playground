@@ -17,8 +17,14 @@ module.exports = {
         }, 1000 * 60 * 10); // 10 min
     },
 
-    getActiveStrategy: ticker =>
-        buysInProgress[ticker] 
-            ? buysInProgress[ticker].join('-') 
-            : undefined,
+    getActiveStrategy: ticker => {
+        const curVal = buysInProgress[ticker];
+        if (!curVal || curVal.length) return;   // nothing ? return undefined
+        const relatedPosition = getRelatedPosition(ticker);
+        const rocketString = relatedPosition.stSent.wordFlags.includes('rocket') && 'rocket';
+        return [
+            ...curVal,
+            ...rocketStr ? [rocketString] : []
+        ].join('-');    // strategy1-strategy-rocket
+    }
 };
