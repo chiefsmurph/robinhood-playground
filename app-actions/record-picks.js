@@ -263,7 +263,10 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                 console.log('strategy enabled: ', stratMin, 'purchasing', stocksToBuy, multiplier);
 
                 const includesDontBuyTicker = stocksToBuy.filter(s => dontBuy.includes(s)).length;
-                const { purchaseAmt } = await getPreferences();
+
+                const { purchaseAmt, skipForPurchaseBuying } = await getPreferences();
+                if (skipForPurchaseBuying) return log(`skipping buying ${stocksToBuy} because skipForPurchaseBuying`);
+
                 if (!strategy.includes('supr-dwn')) {
                     for (const ticker of stocksToBuy) {
                         const pickPoints = multiplier * purchaseAmt;
