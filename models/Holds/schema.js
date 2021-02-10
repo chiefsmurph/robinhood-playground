@@ -46,7 +46,7 @@ schema.statics.registerAlpacaFill = async function(fillData) {
 
     const activeStrategy = getActiveStrategy(ticker) 
     await log(`activeStrategy ${ticker} ${activeStrategy}`)
-    const strategy = activeStrategy || (async () => {
+    const strategy = activeStrategy || await (async () => {
         relatedPick = relatedPick || (await getRecentPicksForTicker({ ticker, limit: 1 }))[0];
         if (!relatedPick) {
             relatedPick = (await getRecentPicksForTicker({ticker, isRecommended: false, limit: 1 }))[0];
