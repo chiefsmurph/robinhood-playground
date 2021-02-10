@@ -1,3 +1,6 @@
+
+const { alpaca } = require('../alpaca');
+
 // analysis
 const stratPerfMultiple = require('../analysis/strategy-perf-multiple');
 
@@ -36,17 +39,14 @@ const getAllTickers = require('../rh-actions/get-all-tickers');
 // socket-server
 const stratManager = require('../socket-server/strat-manager');
 const saveByDateAnalysis = require('../analysis/positions/save-bydate-analysis');
+const makeFundsAvailable = require('../alpaca/make-funds-available');
 
 const additionalCron = [
-    {
-        name: 'alpacaPreMarketSells',
-        run: [
-            -30,
-            -26,
-            -19
-        ],
-        fn: () => alpacaPremarketSells()
-    },
+
+
+
+    // ADMIN
+
     // {
     //     name: 'alpacaContinueDown',
     //     run: [1],
@@ -60,30 +60,147 @@ const additionalCron = [
     },
 
     {
-        name: 'runBasedOnRecentPicks',
-        run: [-3, 40, 70, 120, 190, 240, 300, 370],
-        fn: () => runBasedOnRecentPicks(),
+        name: 'getAllTickers',
+        run: [1027, 70, 200],
+        fn: getAllTickers
     },
 
     {
+        name: 'record-strat-perfs, refresh past data',
+        run: [9],
+        fn: async min => {
+            await recordStratPerfs(min);
+            await stratManager.refreshPastData();
+        }
+    },
+    {
+        name: 'record-strat-perfs',
+        run: [85, 230, 330],
+        fn: async (min) => {
+            await recordStratPerfs(min);
+            // await sellAllBasedOnPlayout();
+        }
+    },
+
+
+
+    {
+        name: 'send day screenshot',
+        run: [390],
+        fn: () => sendScreenshot()
+    },
+
+    {
+        name: 'strat perf multiple',    // the big analyze all strategies function
+        run: [520],
+        fn: () => stratPerfMultiple(25, 'fourth-day-9')
+    },
+
+    {
+        name: 'restart pm2 process',
+        run: [700],
+        fn: restartProcess
+    },
+
+
+
+
+
+    // SELLING
+
+
+    {
+        name: 'alpacaPreMarketSells',
+        run: [
+            -30,
+            -26,
+            -19
+        ],
+        fn: () => alpacaPremarketSells()
+    },
+
+
+    // SELLING AT OPEN
+
+
+    {
+        name: 'alpacaSellOnOpen',
+        run: [-12],
+        fn: () => alpacaSellOnOpen()
+    },
+
+
+    {
+        name: 'make funds available on open',
+        run: [45],
+        fn: async () => {
+            const PERCENT_TO_LIQUIDATE = 20;
+            const { equity } = await alpaca.getAccount();
+            const amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
+            await log(`going to make funds available on open: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
+            await makeFundsAvailable(amt);
+        }
+    },
+
+
+    {
+        name: 'alpaca sell all stocks',
+        run: [4, 50],
+        fn: () => alpacaSellAllStocks()
+    },
+
+
+
+    {
         name: 'alpacaActOnPositions',
-        run: [-25, 22, 220, 365],
+        run: [22, 220, 365],
         fn: () => alpacaActOnPositions()
     },
 
-    // {
-    //     name: 'alpacaSellOnOpen',
-    //     run: [-12],
-    //     fn: () => alpacaSellOnOpen()
-    // },
 
+    {
+        name: 'alpaca smart sells',
+        run: [30, 145, 200, 263, 300, 340],
+        // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
+        fn: () => alpacaSmartSells()
+    },
 
     // this is good ! for nighttrading
-    // {
-    //     name: 'alpacaHopefulSells',
-    //     run: [-25, 20, 120, 240, 291],
-    //     fn: () => alpacaHopefulSells()
-    // },
+    {
+        name: 'alpacaHopefulSells',
+        run: [-25, 20, 120, 240, 291],
+        fn: () => alpacaHopefulSells()
+    },
+
+
+
+
+
+
+
+    // BUYING
+
+
+    {
+        name: 'runBasedOnRecentPicks',
+        run: [9, 40, 70, 120, 190, 240, 300, 370],
+        fn: () => runBasedOnRecentPicks(),
+    },
+
+
+
+    {
+        name: 'afterhours buys',
+        run: [
+            // 389,
+            // 420, 
+            455, 480
+        ],
+        fn: afterHoursBuys
+    },
+
+
+
 
     // {
     //     name: 'alpacaMostLow',
@@ -93,19 +210,7 @@ const additionalCron = [
     //     ],
     //     fn: () => alpacaMostLow()
     // },
-    {
-        name: 'alpaca smart sells',
-        run: [30, 145, 200, 263, 300, 340],
-        // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
-        fn: () => alpacaSmartSells()
-    },
 
-
-    {
-        name: 'alpaca sell all stocks',
-        run: [-7],
-        fn: () => alpacaSellAllStocks()
-    },
     // {
     //     name: 'smartSells',
     //     run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300].map(n => n + 5),
@@ -143,43 +248,13 @@ const additionalCron = [
     //     fn: getTrendAndSave
     // },
     // record prev day strat performances,
-    {
-        name: 'record-strat-perfs, refresh past data',
-        run: [9],
-        fn: async min => {
-            await recordStratPerfs(min);
-            await stratManager.refreshPastData();
-        }
-    },
-    {
-        name: 'record-strat-perfs',
-        run: [85, 230, 330],
-        fn: async (min) => {
-            await recordStratPerfs(min);
-            // await sellAllBasedOnPlayout();
-        }
-    },
     //sellAllOlderThanTwoDays
     // {
     //     name: 'sell all if older than one day',
     //     run: [45],
     //     fn: sellAllOlderThanTwoDays
     // },
-    {
-        name: 'getAllTickers',
-        run: [1027, 70, 200],
-        fn: getAllTickers
-    },
 
-    {
-        name: 'afterhours buys',
-        run: [
-            // 389,
-            // 420, 
-            455, 480
-        ],
-        fn: afterHoursBuys
-    },
 
     // {
     //     name: 'doubleDown',
@@ -197,24 +272,6 @@ const additionalCron = [
     //     run: [400],
     //     fn: saveDayReport
     // },
-
-    {
-        name: 'send day screenshot',
-        run: [390],
-        fn: () => sendScreenshot()
-    },
-
-    {
-        name: 'strat perf multiple',    // the big analyze all strategies function
-        run: [520],
-        fn: () => stratPerfMultiple(25, 'fourth-day-9')
-    },
-
-    {
-        name: 'restart pm2 process',
-        run: [700],
-        fn: restartProcess
-    },
 
     // {
     //     name: 'commit strat-perf-multiple to git'

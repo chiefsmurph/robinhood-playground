@@ -1,17 +1,19 @@
 const getPositions = require('./get-positions');
 const sellPosition = require('./sell-position');
+const Log = require('../models/log');
 
 module.exports = async () => {
-  const positions = await getPositions();
+  const percToSell = 5;
+  await log(`selling all stocks: ${percToSell}%`);
+  let positions = await getPositions();
   await Promise.all(
     positions
-      .filter(({ ticker }) => ['AMC', 'EXPR'].includes(ticker))
       .filter(({ wouldBeDayTrade }) => !wouldBeDayTrade)
       .map(position => 
         sellPosition({
           ...position,
-          percToSell: 70, // HAHAHAHAHA 100,
-        }, 5)
+          percToSell, // HAHAHAHAHA 100,
+        }, 7)
       )
   );
   await log('done selling all');

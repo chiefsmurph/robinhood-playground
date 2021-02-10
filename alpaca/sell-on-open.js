@@ -9,7 +9,7 @@ const Hold = require('../models/Holds');
 
 module.exports = async () => {
 
-  const { onlyUseCash, maxPerPositionAfterOpenPerc, bullishTickers = [], definedPercent = {} } = await getPreferences();
+  const { onlyUseCash, maxPerPositionAfterOpenPerc = 40, bullishTickers = [], definedPercent = {} } = await getPreferences();
   const { equity } = await alpaca.getAccount();
 
   const maxPerPositionAfterSell = equity * (maxPerPositionAfterOpenPerc / 100);
@@ -55,8 +55,10 @@ module.exports = async () => {
 
     // multPullback = Math.floor(multPullback * stMultiplier);
 
-    const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 3) / 3;
-    console.log({ targetAmt })
+    const targetAmt = onlyUseCash && false ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 3) / 3;
+    console.log({ targetAmt });
+
+
 
     let actualPercToSell = (() => {
       if (percToSell === 100) return 100;
