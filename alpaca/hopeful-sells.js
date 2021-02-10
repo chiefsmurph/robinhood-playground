@@ -1,6 +1,10 @@
 const getPositions = require('./get-positions');
 const limitSell = require('./limit-sell');
 
+
+const STRENGTH = 1;
+
+
 module.exports = async () => {
 
   const positions = await getPositions(true);
@@ -11,21 +15,21 @@ module.exports = async () => {
     await limitSell({
       ticker,
       limitPrice: currentPrice * 1.02,
-      quantity: Math.ceil(quantity * .02),
+      quantity: Math.ceil(quantity * .02 * STRENGTH),
       timeoutSeconds: Number.POSITIVE_INFINITY
     });
     await new Promise(resolve => setTimeout(resolve, 200));
     await limitSell({
       ticker,
       limitPrice: currentPrice * 1.03,
-      quantity: Math.ceil(quantity * .05),
+      quantity: Math.ceil(quantity * .05 * STRENGTH),
       timeoutSeconds: Number.POSITIVE_INFINITY
     });
     await new Promise(resolve => setTimeout(resolve, 200));
     await limitSell({
       ticker,
       limitPrice: currentPrice * 1.045,
-      quantity: Math.ceil(quantity * .1),
+      quantity: Math.ceil(quantity * .1 * STRENGTH),
       timeoutSeconds: Number.POSITIVE_INFINITY
     });
     await log(`hopeful ${ticker}`);

@@ -145,7 +145,7 @@ const additionalCron = [
 
     {
         name: 'alpaca sell all stocks',
-        run: [4, 50],
+        run: [4, 170],
         fn: () => alpacaSellAllStocks()
     },
 
