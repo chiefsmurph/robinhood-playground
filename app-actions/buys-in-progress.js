@@ -9,7 +9,7 @@ module.exports = {
             ...buysInProgress[ticker] || [],
             strategy
         ];
-        log(`registering new strategy ${ticker} ${strategy} now it is ${buysInProgress[ticker]}`);
+        // log(`registering new strategy ${ticker} ${strategy} now it is ${buysInProgress[ticker]}`);
         const timeoutKey = [ticker, strategy].join('-');
         clearTimeout(timeouts[timeoutKey])
         timeouts[timeoutKey] = setTimeout(() => {
@@ -20,10 +20,11 @@ module.exports = {
 
     getActiveStrategy: ticker => {
         const curVal = buysInProgress[ticker];
-        log(`${ticker} currently ${curVal}`)
+        // log(`${ticker} currently ${curVal}`)
         if (!curVal || !curVal.length) return;   // nothing ? return undefined
         const relatedPosition = getRelatedPosition(ticker);
         const rocketString = relatedPosition.stSent.wordFlags.includes('rocket') && 'rocket';
+        if (rocketString) log(`we got a rocket! ${ticker}`);
         return [
             ...curVal,
             ...rocketString ? [rocketString] : []
