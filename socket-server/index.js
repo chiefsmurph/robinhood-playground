@@ -310,7 +310,7 @@ module.exports = new Promise(resolve => {
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
                 log: str => log(`${nPrefix}${actualLocation} says ${str}`, { ip, location, userAgent }),
-                getActiveStrategy,
+                getActiveStrategy: ticker => getActiveStrategy(ticker),
                 restartProcess,
             };
             const actFn = methods[method];

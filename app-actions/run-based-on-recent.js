@@ -64,7 +64,7 @@ module.exports = async () => {
 
     const topSt = downAndHighSt.shift();
     topSt && await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
-    registerNewStrategy(getTicker(topSt, 'topSt'));
+    registerNewStrategy(getTicker(topSt), 'topSt');
     const allToBuy = [
         ...trendDownBig,
         ...rsiOversold,
