@@ -1,7 +1,7 @@
 .App {
   text-align: left;
   height: 100vh;
-  overflow: scroll;
+  overflow: hidden;
 }
 /* 
 .MuiAppBar-root-1 {
@@ -17,6 +17,16 @@
   .wider-container {
     width: 112%;
   }
+
+
+
+  .App > div:nth-child(4) {
+    overflow: scroll;
+    /* margin-top: 104px; */
+    /* height: 86vh; */
+  }
+
+
 }
 
 .split-vertical {

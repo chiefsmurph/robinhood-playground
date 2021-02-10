@@ -466,7 +466,7 @@ class App extends Component {
                 <AppBar 
                     position="static"
                     style={{
-                        minWidth: authLevel === 2 ? '1000px' : ''
+                        // minWidth: authLevel === 2 ? '1000px' : ''
                     }}
                 >
                     <Toolbar>
