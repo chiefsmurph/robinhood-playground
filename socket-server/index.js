@@ -15,6 +15,7 @@ const DayReport = require('../models/DayReport');
 const Pick = require('../models/Pick');
 const Log = require('../models/Log');
 
+const { getActiveStrategy } = require('../app-actions/buys-in-progress');
 const mapLimit = require('promise-map-limit');
 const lookupMultiple = require('../utils/lookup-multiple');
 const lookup = require('../utils/lookup');
@@ -309,6 +310,7 @@ module.exports = new Promise(resolve => {
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 getRelatedPosition,
                 log: str => log(`${nPrefix}${actualLocation} says ${str}`, { ip, location, userAgent }),
+                getActiveStrategy,
                 restartProcess,
             };
             const actFn = methods[method];
