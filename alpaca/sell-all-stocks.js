@@ -12,7 +12,7 @@ module.exports = async () => {
         sellPosition({
           ...position,
           percToSell, // HAHAHAHAHA 100,
-        }, 7)
+        }, 7 * 10)  // 7 minutes what!!
       )
   );
   await log('done selling all');
