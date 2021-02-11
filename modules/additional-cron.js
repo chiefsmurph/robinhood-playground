@@ -147,11 +147,11 @@ const additionalCron = [
 
 
     {
-        name: 'make funds available get buying power to 30% of equity',
+        name: 'make funds available get buying power to 40% of equity',
         run: [42],
         fn: async () => {
             const { equity, cash, buying_power } = await alpaca.getAccount();
-            const oneThirdOfEquity = equity * 30 / 100;
+            const oneThirdOfEquity = equity * 40 / 100;
             const amtLeft = Number(getPreferences().onlyUseCash ? cash : buying_power);
             const amt = Math.round(oneThirdOfEquity - amtLeft);
             await log(`going to make funds available: $${amt} because oneThirdOfEquity $${oneThirdOfEquity} and amtLeft $${amtLeft}`);

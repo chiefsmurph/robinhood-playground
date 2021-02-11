@@ -15,13 +15,11 @@ module.exports = async (tickers, period, daysBack, includeAfterHours = true) => 
 
     const extendedHistoricals = !includeAfterHours || period === 30 ? [] : await chunkApi(
       tickers,
-      async tickerStr => {
-        return (
-          await Robinhood.url(
-            `https://api.robinhood.com/quotes/historicals/?symbols=${tickerStr}&interval=${period}minute`
-          )
-        ).results;
-      },
+      async tickerStr => (
+        await Robinhood.url(
+          `https://api.robinhood.com/quotes/historicals/?symbols=${tickerStr}&interval=${period}minute`
+        )
+      ).results.filter(Boolean),
       75,
       `robinhood historicals ${period}minute extended (not)`
     );
