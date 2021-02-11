@@ -204,7 +204,7 @@ const additionalCron = [
             // 9,
             40, 70, 120, 190, 240, 300, 330, 370, 430
         ],
-        fn: min => {
+        fn: async min => {
             if (min > 290) {
                 await alpacaCancelAllOrders();
             }
