@@ -455,7 +455,7 @@ module.exports = async ({
             })();
 
 
-            const maxPrice = pickPrice;
+            const maxPrice = pickPrice * 1.03;
             alpacaBuyBetween(
                 ticker,
                 perStock,

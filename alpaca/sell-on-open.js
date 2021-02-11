@@ -22,12 +22,13 @@ module.exports = async () => {
   const ofInterest = positions
     .filter(p => !p.wouldBeDayTrade)
     .filter(p => Number(p.market_value) > equity / 142); // ~$40
-  const totalValue = sumArray(ofInterest.map(p => Number(p.market_value)));
 
 
+
+  // const totalValue = sumArray(ofInterest.map(p => Number(p.market_value)));
   // onlyUseCash same sell perc for all
-  const totalCashTarget = equity / 5;
-  const cashOnlySellPerc = totalCashTarget / totalValue * 100;
+  // const totalCashTarget = equity / 5;
+  // const cashOnlySellPerc = totalCashTarget / totalValue * 100;
 
   strlog({
     ofInterest
@@ -37,16 +38,16 @@ module.exports = async () => {
   for (let p of ofInterest) {
     let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
 
-    const multiplierMult = Math.floor(numMultipliers / 300) + Number(avgMultipliersPerPick > 150);
-    const downPercMult = returnPerc > 0 ? 0 : Math.abs(Math.floor(returnPerc / 3));
+    // const multiplierMult = Math.floor(numMultipliers / 300) + Number(avgMultipliersPerPick > 150);
+    // const downPercMult = returnPerc > 0 ? 0 : Math.abs(Math.floor(returnPerc / 3));
 
-    let multPullback = multiplierMult + downPercMult;
+    // let multPullback = multiplierMult + downPercMult;
 
-    const isBullishTicker = bullishTickers.includes(ticker);
-    if (isBullishTicker) {
-      // boom go for the gold I say!
-      multPullback = multPullback * 1.5;
-    }
+    // const isBullishTicker = bullishTickers.includes(ticker);
+    // if (isBullishTicker) {
+    //   // boom go for the gold I say!
+    //   multPullback = multPullback * 1.5;
+    // }
 
     // const stMultiplier = {
     //   bullish: 1.5,
@@ -55,7 +56,8 @@ module.exports = async () => {
 
     // multPullback = Math.floor(multPullback * stMultiplier);
 
-    const targetAmt = onlyUseCash && false ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 3) / 3;
+    // const targetAmt = onlyUseCash ? cashOnlySellPerc : maxPerPositionAfterSell * (multPullback + 3) / 3;
+    const targetAmt = maxPerPositionAfterSell;
     console.log({ targetAmt });
 
 
