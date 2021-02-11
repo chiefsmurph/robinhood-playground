@@ -26,8 +26,11 @@ const MIN_POSITIONS = 40;
 module.exports = async amt => {
 
   // return log('ERROR: SHOULDNT BE HEsRE...FORCE DISABLE MAKE FUNDS AVAILABLE WHAT THE HECK')
-
-  console.log(`making funds available: ${amt}`);
+  if (amt <= 3) {
+    await log(`make funds available amt way too low come on now!`);
+    return;
+  }
+  await log(`making funds available: ${amt}`);
   let positions = await getPositions(true);
   if (!makeKeeperFundsAvailable) {
     positions = positions.filter(({ notSelling }) => !notSelling);

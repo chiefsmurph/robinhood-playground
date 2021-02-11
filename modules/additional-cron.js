@@ -132,21 +132,27 @@ const additionalCron = [
 
 
     {
-        name: 'make funds available because why not',
-        run: [10, 36],
-        fn: async min => {
+        name: 'make funds available sell 10 percent of equity',
+        run: [10],
+        fn: async () => {
+            const { equity } = await alpaca.getAccount();
+            const PERCENT_TO_LIQUIDATE = 10;
+            const amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
+            await log(`going to make funds available: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
+            await makeFundsAvailable(amt);
+        }
+    },
+
+
+    {
+        name: 'make funds available get buying power to 30% of equity',
+        run: [36],
+        fn: async () => {
             const { equity, cash, buying_power } = await alpaca.getAccount();
-            let amt;
-            if (min === 10) {
-                const PERCENT_TO_LIQUIDATE = 14;
-                amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
-                await log(`going to make funds available: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
-            } else {
-                const oneThirdOfEquity = equity * 30 / 1000;
-                const amtLeft = Number(ogetPreferences().onlyUseCash ? cash : buying_power);
-                amt = Math.round(oneThirdOfEquity - amtLeft);
-                await log(`going to make funds available: $${amt} because oneThirdOfEquity $${oneThirdOfEquity} and amtLeft $${amtLeft}`);
-            }
+            const oneThirdOfEquity = equity * 30 / 1000;
+            const amtLeft = Number(getPreferences().onlyUseCash ? cash : buying_power);
+            const amt = Math.round(oneThirdOfEquity - amtLeft);
+            await log(`going to make funds available: $${amt} because oneThirdOfEquity $${oneThirdOfEquity} and amtLeft $${amtLeft}`);
             await makeFundsAvailable(amt);
         }
     },
@@ -177,7 +183,7 @@ const additionalCron = [
     // this is good ! for nighttrading
     {
         name: 'alpacaHopefulSells',
-        run: [-25, 20, 40, 60, 120, 160, 240, 291],
+        run: [-25, -14, 20, 60, 120, 160, 240, 291],
         fn: () => alpacaHopefulSells()
     },
 
