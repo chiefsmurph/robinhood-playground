@@ -461,10 +461,10 @@ module.exports = async ({
                 Math.round(perStock / 2),
                 maxPrice,
                 undefined,
-                60 * 60
+                60 * 60 // 1hour
             );
 
-            const response = await eclecticBuy({
+            eclecticBuy({
                 ticker,
                 pickPrice,
                 quantity: Math.round(totalQuantity / 2),
@@ -472,6 +472,8 @@ module.exports = async ({
             });
 
             numPurchased++;
+
+            return response;
         } catch (e) {
             // failed
             failedStocks.push(ticker);
