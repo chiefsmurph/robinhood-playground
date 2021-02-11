@@ -134,11 +134,19 @@ const additionalCron = [
     {
         name: 'make funds available because why not',
         run: [10, 36],
-        fn: async () => {
-            const PERCENT_TO_LIQUIDATE = 20;
-            const { equity } = await alpaca.getAccount();
-            const amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
-            await log(`going to make funds available on open: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
+        fn: async min => {
+            const { equity, cash, buying_power } = await alpaca.getAccount();
+            let amt;
+            if (min === 10) {
+                const PERCENT_TO_LIQUIDATE = 14;
+                amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
+                await log(`going to make funds available: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
+            } else {
+                const oneThirdOfEquity = equity * 30 / 1000;
+                const amtLeft = Number(ogetPreferences().onlyUseCash ? cash : buying_power);
+                amt = Math.round(oneThirdOfEquity - amtLeft);
+                await log(`going to make funds available: $${amt} because oneThirdOfEquity $${oneThirdOfEquity} and amtLeft $${amtLeft}`);
+            }
             await makeFundsAvailable(amt);
         }
     },

@@ -1,6 +1,6 @@
 const limitBuyMultiple = require('./limit-buy-multiple');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
-let { expectedPickCount, makeFundsOnlyForDowners } = require('../settings');
+let { expectedPickCount } = require('../settings');
 const { alpaca } = require('../alpaca');
 const makeFundsAvailable = require('../alpaca/make-funds-available');
 const sendEmail = require('../utils/send-email');
@@ -10,7 +10,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     const account = await alpaca.getAccount();
     const { portfolio_value, cash, buying_power, long_market_value } = account;
 
-    const { onlyUseCash, purchaseAmt = Math.ceil(portfolio_value / expectedPickCount) } = await getPreferences();
+    const { onlyUseCash, purchaseAmt = Math.ceil(portfolio_value / expectedPickCount), makeFundsOnlyForDowners } = await getPreferences();
     const amountPerBuy = purchaseAmt * multiplier;
     strlog({
         purchaseAmt,
