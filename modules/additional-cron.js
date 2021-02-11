@@ -148,7 +148,7 @@ const additionalCron = [
 
     {
         name: 'make funds available get buying power to 30% of equity',
-        run: [36],
+        run: [42],
         fn: async () => {
             const { equity, cash, buying_power } = await alpaca.getAccount();
             const oneThirdOfEquity = equity * 30 / 1000;
@@ -202,7 +202,7 @@ const additionalCron = [
         name: 'runBasedOnRecentPicks',
         run: [
             // 9,
-            40, 70, 120, 190, 240, 300, 330, 370, 430
+            44, 70, 120, 190, 240, 300, 330, 370, 430
         ],
         fn: async min => {
             if (min > 290) {
