@@ -3,7 +3,7 @@ const alpacaLimitBuy = require('./limit-buy');
 
 
 const DEFAULT_SPREAD_PERC = 6;
-module.exports = async (ticker, dollarsToBuy, maxPrice, minPrice) => {
+module.exports = async (ticker, dollarsToBuy, maxPrice, minPrice, timeoutSeconds = 60 * 60 * 2.5) => {
     
     if (!ticker || !dollarsToBuy) return log('not enough info to buy between');
 
@@ -74,7 +74,7 @@ module.exports = async (ticker, dollarsToBuy, maxPrice, minPrice) => {
             ticker,
             limitPrice,
             quantity,
-            timeoutSeconds: 60 * 60 * 2.5,
+            timeoutSeconds,
             fallbackToMarket: false
         });
     }

@@ -14,6 +14,8 @@ const runBasedOnRecentPicks = require('../app-actions/run-based-on-recent');
 // const sellAllOlderThanTwoDays = require('../app-actions/sell-all-older-than-two-days');
 // const sellAllBasedOnPlayout = require('../app-actions/sell-all-based-on-playout');
 // const sellAllIfWentUp = require('../app-actions/sell-all-if-went-up');
+
+const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const alpacaSellAllStocks = require('../alpaca/sell-all-stocks');
 const alpacaPremarketSells = require('../alpaca/premarket-sells');
 // const smartSells = require('../app-actions/smart-sells');
@@ -202,7 +204,12 @@ const additionalCron = [
             // 9,
             40, 70, 120, 190, 240, 300, 330, 370, 430
         ],
-        fn: () => runBasedOnRecentPicks(),
+        fn: min => {
+            if (min > 290) {
+                await alpacaCancelAllOrders();
+            }
+            runBasedOnRecentPicks()
+        },
     },
 
 
