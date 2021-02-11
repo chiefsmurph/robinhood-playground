@@ -464,7 +464,7 @@ module.exports = async ({
                 60 * 60 // 1hour
             );
 
-            eclecticBuy({
+            const response = await eclecticBuy({
                 ticker,
                 pickPrice,
                 quantity: Math.round(totalQuantity / 2),
