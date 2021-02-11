@@ -6,7 +6,7 @@ const Hold = require('../models/Holds');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
-const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1, iteration) => {
+const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1, runCount = 0) => {
   const qAmts = [];
   let qLeft = quantity;
   while (qLeft > 0) {
@@ -21,14 +21,15 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1, iteration) => {
   const numMs = numSeconds * 1000;
   const spaceApart = numMs / numShots;
 
-  if (spaceApart < 1000 * 60 || numShots > 30) {
+  if (runCount < 30 && (spaceApart < 1000 * 60 || numShots > 30)) {
     return calculateQAmts(
       quantity, 
       numSeconds, 
       Math.min(
         quantity,
         Math.ceil(sharesAtATime * 1.3)
-      )
+      ),
+      ++runCount
     );
   }
   return {
@@ -51,7 +52,7 @@ module.exports = async ({
   const { bidPrice, askPrice, lastTrade } = await lookup(ticker);
   const amt = quantity * lastTrade;
 
-
+  console.log('spraysell', { ticker, quantity, numSeconds });
   const { 
     qAmts, 
     spaceApart, 
