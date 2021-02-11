@@ -6,7 +6,7 @@ const Hold = require('../models/Holds');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
-const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1) => {
+const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1, iteration) => {
   const qAmts = [];
   let qLeft = quantity;
   while (qLeft > 0) {

@@ -114,7 +114,8 @@ const additionalCron = [
         run: [
             -30,
             -26,
-            -19
+            -19,
+            -8
         ],
         fn: () => alpacaPremarketSells()
     },
@@ -132,7 +133,7 @@ const additionalCron = [
 
     {
         name: 'make funds available because why not',
-        run: [46],
+        run: [10, 36],
         fn: async () => {
             const PERCENT_TO_LIQUIDATE = 20;
             const { equity } = await alpaca.getAccount();
@@ -168,7 +169,7 @@ const additionalCron = [
     // this is good ! for nighttrading
     {
         name: 'alpacaHopefulSells',
-        run: [-25, 20, 120, 240, 291],
+        run: [-25, 20, 40, 60, 120, 160, 240, 291],
         fn: () => alpacaHopefulSells()
     },
 
@@ -185,7 +186,7 @@ const additionalCron = [
         name: 'runBasedOnRecentPicks',
         run: [
             // 9,
-            40, 70, 120, 190, 240, 300, 370, 430
+            40, 70, 120, 190, 240, 300, 330, 370, 430
         ],
         fn: () => runBasedOnRecentPicks(),
     },
