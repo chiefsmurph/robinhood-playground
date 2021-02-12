@@ -94,9 +94,10 @@ module.exports = async () => {
     const perBuy = Math.round(recentBuyAmt / allToBuyCount);
     await log(`runBasedOnRecent - recentBuyAmt: $${recentBuyAmt} bc equity $${equity} & recentBuyPerc ${recentBuyPerc}%.... perBuy $${perBuy}`);
 
-    console.log({ amtLeft, onlyUseCash, amtNeeded, allToBuyCount: allToBuy.length, recentBuyAmt });
 
     const amtLeft = Number(onlyUseCash ? cash : buying_power);
+    console.log({ amtLeft, onlyUseCash, amtNeeded, allToBuyCount: allToBuy.length, recentBuyAmt });
+    
     if (amtLeft < amtNeeded) {
         // await log(`skipping recent picks purchase because amtLeft ${amtLeft} and amtNeeded ${amtNeeded}`);
         // return;
