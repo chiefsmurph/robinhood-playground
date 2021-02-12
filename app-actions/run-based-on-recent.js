@@ -15,7 +15,7 @@ const { registerNewStrategy } = require('./buys-in-progress');
 
 
 module.exports = async () => {
-
+    
 
     const getTicker = pick => pick.ticker;
     const recentPicks = await getRecentPicks(300);
@@ -27,7 +27,14 @@ module.exports = async () => {
     await log(`trendDownBig: ${trendDownBig.map(getTicker)}`);
 
     // DAILY RSI BELOW 30
-    const rsiOversold = recentPicks.filter(pick => get(pick.scan, 'computed.dailyRSI') < 30);
+    const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
+    let rsiOversold = recentPicks
+        .sort((a, b) => getRSI(a) - getRSI(b))  // ascending - lowest first
+        .filter(pick => getRSI(pick) < 30);
+    if (rsiOversold.length > 6) {
+        await log(`too many rsiOversold something is up, resetting`, { rsiOversold});
+        rsiOversold = [];
+    }
     rsiOversold.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'rsiOversold'));
     await log(`rsiOversold: ${rsiOversold.map(getTicker)}`);
     
@@ -57,7 +64,8 @@ module.exports = async () => {
 
     const downAndHighSt = withStSent
         .filter(pick => getSt(pick) > 100)
-        .sort((a, b) => getSt(b) - getSt(a));
+        .sort((a, b) => getSt(b) - getSt(a))
+        .slice(0, 12);
     downAndHighSt.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'downAndHighSt'));
     await log(`downAndHighSt: ${downAndHighSt.map(getTicker)}`);
 
@@ -77,11 +85,18 @@ module.exports = async () => {
     const account = await alpaca.getAccount();
     const { cash, buying_power } = account;
 
-    const { onlyUseCash, recentBuyAmt } = await getPreferences();
-    const amtLeft = Number(onlyUseCash ? cash : buying_power);
-    const amtNeeded = allToBuy.length * recentBuyAmt * 1.1;
+    const { onlyUseCash, recentBuyPerc, equity } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
+
+
+    const recentBuyAmt = Math.round(equity * recentBuyPerc / 100);
+    const amtNeeded = recentBuyAmt;
+    const allToBuyCount = allToBuy.length;
+    const perBuy = Math.round(recentBuyAmt / allToBuyCount);
+    await log(`runBasedOnRecent - recentBuyAmt: $${recentBuyAmt} bc equity $${equity} & recentBuyPerc ${recentBuyPerc}%.... perBuy $${perBuy}`);
 
     console.log({ amtLeft, onlyUseCash, amtNeeded, allToBuyCount: allToBuy.length, recentBuyAmt });
+
+    const amtLeft = Number(onlyUseCash ? cash : buying_power);
     if (amtLeft < amtNeeded) {
         // await log(`skipping recent picks purchase because amtLeft ${amtLeft} and amtNeeded ${amtNeeded}`);
         // return;
@@ -102,7 +117,7 @@ module.exports = async () => {
         // prevent day trades!!
         await alpacaCancelAllOrders(ticker, 'sell');
 
-        const quantity = Math.round(recentBuyAmt / nowPrice) || 1;
+        const quantity = Math.round(perBuy / nowPrice) || 1;
         console.log({
             ticker,
             nowPrice,
