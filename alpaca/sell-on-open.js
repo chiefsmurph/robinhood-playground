@@ -142,16 +142,12 @@ module.exports = async () => {
       }
     });
     
-    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half at market open, half spray for ${numSeconds} seconds... good luck! multPullback ${multPullback}`, {
+    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half at market open, half spray for ${numSeconds} seconds... good luck!`, {
       ticker,
       // stMultiplier,
       qToSell,
       actualPercToSell,
       targetAmt,
-      multPullback,
-      downPercMult,
-      numMultipliers,
-      avgMultipliersPerPick,
       dollarsToSell,
       currentPrice,
       definedPercent: definedPercent[ticker]
