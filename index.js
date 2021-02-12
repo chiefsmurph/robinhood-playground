@@ -32,6 +32,7 @@ const mongoose = require('mongoose');
 const { mongoConnectionString } = require('./config');
 
 const Pick = require('./models/Pick');
+const Hold = require('./models/Holds');
 const stocktwits = require('./utils/stocktwits');
 
 const restartProcess = require('./app-actions/restart-process');
@@ -123,6 +124,9 @@ process.on('unhandledRejection', async (reason, p) => {
 
     await initModules();
     console.log(regCronIncAfterSixThirty.toString());
+
+
+    await Hold.updateMany({}, { isSelling: false });
 
     await log(`playground init'd`);
 
