@@ -83,9 +83,9 @@ module.exports = async () => {
     await log(`all to buy: ${allToBuy.map(getTicker)}`);
 
     const account = await alpaca.getAccount();
-    const { cash, buying_power } = account;
+    const { cash, buying_power, equity } = account;
 
-    const { onlyUseCash, recentBuyPerc, equity } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
+    const { onlyUseCash, recentBuyPerc } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
 
 
     const recentBuyAmt = Math.round(equity * recentBuyPerc / 100);
