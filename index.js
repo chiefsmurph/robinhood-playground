@@ -44,18 +44,19 @@ const { emails } = require('./config');
 
 mongoose.connect(mongoConnectionString, { useNewUrlParser: true, autoIndex: false });
 
-process.on('unhandledRejection', async (reason, p) => {
-    if (!reason.toString) {
-        console.log('oh shit wt heck', reason);
+process.on('unhandledRejection', async (err, p) => {
+    if (!err || !err.toString) {
+        console.log('oh shit wt heck', err);
+        throw err;
     }
-    if (reason.toString().includes('depende')) return;
+    if (err.toString().includes('depende')) return;
     // application specific logging, throwing an error, or other logic here
-    const logStr = `Unhandled Rejection at: ${p.toString()}, reason: ${reason}`;
+    const logStr = `Unhandled Rejection at: ${p.toString()}, err: ${err}`;
     console.log('we hit an error oh shit');
-    console.log({ p, reason: reason.toString(), p: p.toString() });
+    console.log({ p, err: err.toString(), p: p.toString() });
     await log(`ERROR: unhandledRejection: ${logStr}`);
     await sendEmail('force', 'unhandledRejection', logStr, Object.keys(emails)[1]); // cell phone
-    // if (!reason.toString().includes('order_id')) {
+    // if (!err.toString().includes('order_id')) {
         // return restartProcess();
     // }
 });
