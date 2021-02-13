@@ -91,7 +91,7 @@ module.exports = async () => {
     const recentBuyAmt = Math.round(equity * recentBuyPerc / 100);
     const amtNeeded = recentBuyAmt;
     const allToBuyCount = allToBuy.length;
-    const perBuy = Math.round(recentBuyAmt / allToBuyCount);
+    let perBuy = Math.round(recentBuyAmt / allToBuyCount);
     await log(`runBasedOnRecent - recentBuyAmt: $${recentBuyAmt} bc equity $${equity} & recentBuyPerc ${recentBuyPerc}%.... perBuy $${perBuy}`);
 
 
@@ -109,8 +109,14 @@ module.exports = async () => {
         const logObj = { before: amtLeft, fundsNeeded, after: afterAmt };
         await log(`funds made available - before ${amtLeft}, after ${afterAmt}`, logObj);
         if (Number(afterAmt) < amtNeeded) {
-            await log('sorry i tried to make funds available for run based on recent but there is still not enough.');
-            return;
+            if (afterAmt < 20) {
+                await log('sorry i tried to make funds available for run based on recent but there is still not enough.');
+                return;
+            } else {
+                const origPerBuy = perBuy;
+                perBuy = Math.round(afterAmt / allToBuyCount);
+                await log(`didnt get everything I wanted but still enough to do something . originally ${origPerBuy} => now ${perBuy}`);
+            }
         }
     }
 

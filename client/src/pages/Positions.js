@@ -112,6 +112,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         mostDownPoints: 'mostDownPoints',
         actOnMultPoints: 'actOnMultPoints',
         buyTheRedPoints: 'buyTheRedPoints',
+        numMultipliers: 'numMultipliers',
         avgMultipliersPerPick: 'avgMultipliersPerPick',
         ...admin ? {
             'avgPickPrice': 'avgPickPrice',

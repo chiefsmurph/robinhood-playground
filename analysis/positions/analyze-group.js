@@ -22,7 +22,7 @@ const analyzeGroup = analyzedPositions => {
     ),
     avgMultiplierImpactPerc: avgArray(
       forConsideration.map(pos => 
-        (new Array(Math.round(pos.numMultipliers))).fill(pos.impactPerc)
+        (new Array(Math.round(pos.numMultipliers || 1))).fill(pos.impactPerc)
       ).flatten()
     ),
     // percUp: percUp(
