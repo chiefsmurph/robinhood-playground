@@ -10,6 +10,9 @@ const getMinutesFromOpen = require('./get-minutes-from-open');
 const lookup = require('./lookup');
 const getTrend = require('./get-trend');
 // const { avgArray } = require('./array-math');
+
+
+const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const alpacaLimitSell = require('../alpaca/limit-sell');
 const alpacaSprayBuy = require('../alpaca/spray-buy');
 const alpacaAttemptSell = require('../alpaca/attempt-sell');
@@ -191,181 +194,50 @@ module.exports = class PositionWatcher {
       avgEntry,
       market_value,
       quantity,
-      buys = [],
-      // returnPerc,
-      numAvgDowners,
-      daysOld,
-      mostRecentPurchase,
       stSent: { stBracket } = {}
     } = this.getRelatedPosition();
     
     if (!avgEntry) return this.scheduleTimeout();
 
-    // const firstBuy = buys.find(b => b.timestamp);
-    // const firstBuyDate = new Date(firstBuy.timestamp);
-    
-    // const lowestFill = Math.min(
-    //   ...(buys || []).map(buy => buy.fillPrice),
-    //   buyPrice || Number.POSITIVE_INFINITY
-    // );
-    // const mostRecentBuyPrice = buyPrice || (buys[buys.length - 1] || {}).fillPrice
-
-    const recentPick = (await getRecentPicksForTicker({ ticker, limit: 1 }))[0] || {};
-    const mostRecentPick = (recentPick.picks || []).find(p => p.ticker === ticker) || {};
-    const mostRecentPrice = mostRecentPick.price;
-    const mostRecentTimestamp = recentPick.timestamp;
-    const minSinceMostRecentPick = mostRecentTimestamp ? Math.round((Date.now() - (new Date(mostRecentTimestamp).getTime())) / (1000 * 60)): Number.POSITIVE_INFINITY;
-
-
-    // let comparePrice = minSinceMostRecentPick > 60 * 10
-    //   ? this.observedPrices[0]
-    //   : mostRecentPrice;
-
-    let comparePrice = Math.min(...[this.observedPrices[0], mostRecentPrice].filter(Boolean));
-
-    if (!comparePrice) {
-      await log(`no compare price found for ${ticker}`, {
-        observed: this.observedPrices,
-        mostRecentPrice
-      });
-      comparePrice = mostRecentPrice;
-    }
-
-    strlog({
-      recentPick,
-      mostRecentPrice,
-      minSinceMostRecentPick,
-      observedPrices: this.observedPrices,
-      comparePrice,
-    });
-
     const l = await lookup(ticker);
-    // strlog({ ticker, l })
     const { currentPrice, askPrice } = l;
     const prices = [
       currentPrice,
       askPrice
     ];
-    const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
+    // const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
     const observePrice = Math.max(...prices);
-    this.lastPrices = prices;
+    // this.lastPrices = prices;
     this.observedPrices.push(currentPrice);
     await this.checkRSI();
 
-    // const lowestPrice = Math.min(...prices);
-    // const lowestAvgDownPrice = Math.min(...this.avgDownPrices);
     const returnPerc = getTrend(observePrice, avgEntry);
-
-    // strlog({
-    //   ticker,
-    //   avgEntry,
-    //   prices,
-
-    //   lowestPrice,
-    //   trendToLowestAvg,
-    //   returnPerc
-    // });
-
-    // const baseTime = (numAvgDowners + 0.2) * .75;
-    // const minNeededToPass = isSame ?  baseTime : basesTime * 2;
-
-
-    const minSinceLastAvgDown = this.lastAvgDown ? Math.round((Date.now() - this.lastAvgDown) / (1000 * 60)): undefined;
-    // const isRushed = Boolean(msSinceLastAvgDown < 1000 * 60 * minNeededToPass);
-    const skipChecks = isSame;
-
-
-
-    // const totalNum = numAvgDowners + daysOld + mostRecentPurchase;
-
-    const msPast = Date.now() - this.startTime;
-    const minPast = Math.floor(msPast / 60000);
-    const lessThanTime = (() => {
-      if (daysOld) return undefined;
-      if (minPast <= 5) return 'isLessThan5Min';
-      if (minPast <= 20) return 'isLessThan20Min';
-      if (minPast <= 120) return 'isLessThan2Hrs';
-    })();
-    let avgDownWhenPercDown = (() => {
-      if (lessThanTime === 'isLessThan5Min') return -3;
-      if (lessThanTime === 'isLessThan20Min') return -4;
-      if (lessThanTime === 'isLessThan2Hrs') return -5;
-      return -6;
-    })();
-
-    const stOffset = {
-      bearish: 2,
-      bullish: 1,
-    }[stBracket] || 0;
-
-    avgDownWhenPercDown = avgDownWhenPercDown + stOffset;
-
-    const curTrend = getTrend(observePrice, comparePrice);
-
-
-    const shouldAvgDown = curTrend <= avgDownWhenPercDown;
-
-
-    let logLine = `AVG-DOWNER: ${ticker} (${id}) observed at ${currentPrice} / ${askPrice}...`;
-    const logData = {
-      comparePrice,
-      minSinceMostRecentPick,
-      mostRecentPrice,
-      firstObserved: this.observedPrices[0],
-      avgDownWhenPercDown,
-      stOffset,
-      observePrice,
-      curTrend,
-      shouldAvgDown
-    };
-    logLine += Object.entries(logData)
-      .map(keyVal => keyVal.join(': '))
-      .join(', ');
-    console.log(logLine);
     
     if (skipChecks) {
       return this.scheduleTimeout();
     }
 
-    const okToAvgDown = Boolean(mostRecentPurchase === 0 || getMinutesFromOpen() > 25) && minSinceMostRecentPick > 1 && (minSinceLastAvgDown > 1 || minSinceLastAvgDown === undefined);
-    if (shouldAvgDown && okToAvgDown) {
-      const realtimeRunner = require('../realtime/RealtimeRunner');
-      await realtimeRunner.handlePick({
-        strategyName: 'avg-downer',
-        ticker,
-        keys: {
-          [`${daysOld}daysOld`]: Boolean(daysOld),  // only >= 1
-          [`${numAvgDowners}count`]: true,
-          [this.getMinKey()]: true,
-          [lessThanTime]: lessThanTime,
-          isBeforeClose,
-          // quickAvgDown,
-        },
-        data: logData
-      }, true);
-      await log(`avging down: ${logLine}`);
-      // this.avgDownPrices.push(currentPrice);
-      this.lastAvgDown = Date.now();
-    } else if (!alreadyDayTraded && returnPerc >= 11 && !disableDayTrades) {
+    if (!alreadyDayTraded && returnPerc >= 11 && !disableDayTrades) {
       const account = await alpaca.getAccount();
       const { portfolio_value, daytrade_count } = account;
-      if (Number(market_value) > Number(portfolio_value) * 0.29) {
+      if (Number(market_value) > Number(portfolio_value) * 0.2) {
         if (daytrade_count <= 2) {
           await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 14% & 17% up?`);
+          await alpacaCancelAllOrders(ticker, 'buy');
           const firstChunk = Math.round(Number(quantity) / 2.2);
           const secondChunk = firstChunk;//Number(quantity) - firstChunk;
           alpacaLimitSell({
             ticker,
             quantity: firstChunk,
             limitPrice: avgEntry * 1.14,
-            timeoutSeconds: 60 * 20,
+            timeoutSeconds: 60 * 30,
             fallbackToMarket: false
           });
           alpacaLimitSell({
             ticker,
             quantity: secondChunk,
             limitPrice: avgEntry * 1.26,
-            timeoutSeconds: 60 * 20,
+            timeoutSeconds: 60 * 40,
             fallbackToMarket: false
           });
           this.alreadyDayTraded = true;
