@@ -93,7 +93,7 @@ module.exports = {
     dontRecommendAtHigherPrices: false,
 
     forPurchase: [
-        '[avg-downer]',
+        // '[avg-downer]',
         '[sudden-drops-watchout-brunch]',
         '[sudden-drops-down30]',
         '[sudden-drops-!watchout-straightDown60]',
@@ -106,6 +106,8 @@ module.exports = {
         // because duh
         '[sudden-drops-mediumJump]',
         '[sudden-drops-majorJump]',
+
+        '[rsi-notWatchout-firstAlert-rsilt10]',
     ],
     // forPurchaseVariation: '75Perc5Day-yesincludingblanks',
     // fallbackSellStrategy: 'limit8',
