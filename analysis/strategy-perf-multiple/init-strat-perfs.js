@@ -10,8 +10,8 @@ module.exports = async (daysBack, skipDays = 0) => {
 
     let dates = await StratPerf.getUniqueDates();
     let datesOfInterest = dates.slice(0, dates.length - skipDays);
-    // console.log({ datesOfInterest})
-    // datesOfInterest = datesOfInterest.slice(0 - daysBack);
+    console.log({ datesOfInterest, skipDays})
+    datesOfInterest = datesOfInterest.slice(0 - daysBack);
     console.log('selected days', { datesOfInterest, dates, daysBack, skipDays });
 
     const stratObj = {};
