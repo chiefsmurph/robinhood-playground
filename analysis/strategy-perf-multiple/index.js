@@ -72,7 +72,7 @@ module.exports = async (daysBack = 2, skipDays = 0, ...strategiesArgs) => {
     }
 
     const analyzed = analyzeRoundup(allRoundup);
-    if (daysBack > 15 && !suppliedStrategies) {
+    if (daysBack > 15) {
         await saveToJson(analyzed, days.pop());
     }
     return analyzed;
