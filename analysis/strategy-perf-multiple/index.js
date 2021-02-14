@@ -7,6 +7,8 @@ const { isBreakdownKey } = require('../../utils/breakdown-key-compares');
 const saveToJson = require('./save-to-json');
 
 module.exports = async (daysBack = 2, skipDays, ...strategiesArgs) => {
+    daysBack = Number(daysBack);
+    skipDays = Number(skipDays);
     console.log('days back', daysBack);
 
     let maxBreakdownKey = (() => {
