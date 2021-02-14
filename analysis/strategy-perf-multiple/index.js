@@ -44,7 +44,10 @@ module.exports = async (daysBack = 2, skipDays = 0, ...strategiesArgs) => {
         return filteredStrats;
     })();
     const includeDetailed = suppliedStrategies && !isSearch;
-
+    console.log({
+        includeDetailed,
+        suppliedStrategies
+    })
     if (suppliedStrategies) {
         console.log('strategies of interest', strategiesOfInterest);
         console.log('isSearch', isSearch);
@@ -73,6 +76,7 @@ module.exports = async (daysBack = 2, skipDays = 0, ...strategiesArgs) => {
 
     const analyzed = analyzeRoundup(allRoundup);
     if (daysBack > 15) {
+        console.log('saving to json');
         await saveToJson(analyzed, days.pop());
     }
     return analyzed;

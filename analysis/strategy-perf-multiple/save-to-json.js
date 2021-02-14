@@ -5,6 +5,7 @@ const StratPerf = require('../../models/StratPerf');
 module.exports = async (json, fileName) => {
     
     fileName = fileName || (await StratPerf.getUniqueDates()).pop();
-    jsonMgr.save(`./json/strat-perf-multiples/${fileName}.json`, json);
+    // console.log({ fileName });
+    return jsonMgr.save(`./json/strat-perf-multiples/${fileName}.json`, json);
 
 };

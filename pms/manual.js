@@ -73,6 +73,117 @@ const feelingGoodInTheNeighborhood = [
     ...highVolumePicks,
     ...newHighPicks,
 ];
+
+
+const feb122021RSI = [
+    'rsi-twoToFive-10min-rsilt25-spread1-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-neutral-notWatchout-brunch-5000',
+    'rsi-twoToFive-10min-rsilt25-straightDown30-spread1-avgDollarVolume20000-dailyRSIgt50-firstAlert-neutral-notWatchout-lunch-5000',
+    'rsi-twoToFive-10min-rsilt25-straightDown30-spread1-avgDollarVolume20000-dailyRSIgt50-firstAlert-neutral-notWatchout-dinner-5000',
+    'rsi-twoToFive-10min-rsilt25-spread1-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-neutral-notWatchout-initial-5000',
+    'rsi-twoToFive-10min-rsilt25-straightDown60-spread1-avgDollarVolume20000-dailyRSIgt50-neutral-notWatchout-lunch-5000'
+];
+
+const feb122021Stocktwits = [
+    'stocktwits-hotSt-mostBullish-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-lunch-5000',
+    'stocktwits-hotSt-mostBullish-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-brunch-5000',
+    'stocktwits-hotSt-mostBullish-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'stocktwits-hotSt-mostBullish-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-dinner-5000',
+    'stocktwits-hotSt-mostBullish-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-offering-watchout-initial-5000',
+    'stocktwits-hotSt-mostBullish-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-rocket-watchout-dinner-5000',
+    'stocktwits-hotSt-mostBullish-spreadgt6-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-afterhours-5000',
+    'stocktwits-hotSt-mostBullish-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-afterhours-5000'
+];
+
+const feb122021SmoothKST = [
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-brunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-dinner-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spreadgt6-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-afterhours-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-dinner-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-brunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-neutral-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-dinner-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-brunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-neutral-watchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-offering-watchout-brunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-brunch-5000',
+    'smoothkst-hotSt-30min-isZeroCross-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-watchout-dinner-5000',
+    'smoothkst-hotSt-10min-isZeroCross-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-neutral-watchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-watchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-notWatchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-offering-watchout-initial-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-rocket-watchout-dinner-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-watchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-offering-watchout-afterhours-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-firstAlert-neutral-notWatchout-lunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume10000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume10000-dailyRSIgt50-notStraightDowner-firstAlert-neutral-notWatchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread3-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-afterhours-5000',
+    'smoothkst-hotSt-10min-isZeroCross-spread2-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-firstAlert-neutral-notWatchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spreadgt6-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-watchout-afterhours-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-neutral-notWatchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-firstAlert-bullish-watchout-dinner-5000',
+    'smoothkst-hotSt-10min-isZeroCross-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-gnewsrocket-watchout-initial-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-notWatchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-gnewsrocket-watchout-initial-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread2-avgDollarVolume10000-dailyRSIgt50-notStraightDowner-firstAlert-neutral-notWatchout-initial-5000',
+    'smoothkst-hotSt-30min-isZeroCross-spread1-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread5-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-firstAlert-bullish-notWatchout-dinner-5000',
+    'smoothkst-hotSt-10min-isZeroCross-spread2-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-neutral-watchout-afterhours-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread4-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-notWatchout-afterhours-5000',
+    'smoothkst-hotSt-30min-isZeroCross-spread2-avgDollarVolume10000-dailyRSIgt50-notStraightDowner-firstAlert-neutral-notWatchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread2-avgDollarVolume10000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-brunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume10000-dailyRSIgt30-notStraightDowner-firstAlert-neutral-notWatchout-lunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-lunch-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread3-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-afterhours-5000',
+    'smoothkst-hotSt-30min-isSignalCross-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume3500-dailyRSIgt30-notStraightDowner-firstAlert-neutral-notWatchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-rocket-watchout-dinner-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spreadgt6-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-neutral-watchout-afterhours-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread2-avgDollarVolume10000-dailyRSIgt50-notStraightDowner-neutral-notWatchout-initial-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume3500-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread2-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-neutral-notWatchout-dinner-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-offering-watchout-dinner-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-neutral-watchout-lunch-5000',
+    'smoothkst-hotSt-30min-isZeroCross-spread2-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spreadgt6-avgDollarVolume20000-dailyRSIgt30-notStraightDowner-neutral-notWatchout-afterhours-5000',
+    'smoothkst-hotSt-30min-isSignalCross-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-dinner-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-neutral-watchout-initial-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread5-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-afterhours-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread2-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-watchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread2-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-dinner-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-notWatchout-lunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread2-avgDollarVolume3500-dailyRSIgt50-notStraightDowner-firstAlert-neutral-notWatchout-initial-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume10000-dailyRSIgt50-notStraightDowner-firstAlert-bullish-notWatchout-brunch-5000',
+    'smoothkst-hotSt-10min-isZeroCross-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-firstAlert-bullish-watchout-initial-5000',
+    'smoothkst-hotSt-30min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-notWatchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-watchout-brunch-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread2-avgDollarVolume20000-dailyRSIgt70-notStraightDowner-bullish-watchout-afterhours-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread2-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-afterhours-5000',
+    'smoothkst-hotSt-10min-bearishSignal-spread1-avgDollarVolume20000-dailyRSIgt50-notStraightDowner-bullish-watchout-dinner-5000'
+];
+
+
+
+
+const feb122021 = [
+    ...feb122021RSI,
+    ...feb122021Stocktwits,
+    ...feb122021SmoothKST
+];
+
+
 module.exports = {
     ...require('./ticker-watchers'),
     // ...require('./ask-watchers'),
@@ -94,5 +205,10 @@ module.exports = {
 
     murphysAnalytics,
 
-    ...require('./sep-2019')
+    ...require('./sep-2019'),
+
+    feb122021,
+    feb122021RSI,
+    feb122021Stocktwits,
+    feb122021SmoothKST
 };
