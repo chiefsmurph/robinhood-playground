@@ -477,7 +477,7 @@ class App extends Component {
                             </a> */}
                         </Typography>
                         {
-                            authLevel === 2 && (
+                            authLevel === 2 && ['Closed', 'Date Analysis'].some(page => page === tabs[showingPage]) && (
                                 <div>
                                     <ReactTags
                                         tags={tags}
