@@ -213,9 +213,9 @@ module.exports = class PositionWatcher {
 
     const returnPerc = getTrend(observePrice, avgEntry);
     
-    if (skipChecks) {
-      return this.scheduleTimeout();
-    }
+    // if (skipChecks) {
+    //   return this.scheduleTimeout();
+    // }
 
     if (!alreadyDayTraded && returnPerc >= 11 && !disableDayTrades) {
       const account = await alpaca.getAccount();
