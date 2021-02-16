@@ -1089,12 +1089,12 @@ module.exports = new (class RealtimeRunner {
           'minorJump',
           'mediumJump'
         ],
-        [
-          'dinner',
-          'lunch',
-          'brunch',
-          'initial',
-        ],
+        // [
+        //   'dinner',
+        //   'lunch',
+        //   'brunch',
+        //   'initial',
+        // ],
         [
           ...[
             10,
@@ -1295,7 +1295,7 @@ module.exports = new (class RealtimeRunner {
 
     const onlyShort = obj => 
       Object.keys(obj)
-        .filter(key => key.split('-').length < 5)
+        .filter(key => key.split('-').length < 7)
         .reduce((acc, key) => ({
           ...acc,
           [key]: obj[key]
@@ -1306,6 +1306,7 @@ module.exports = new (class RealtimeRunner {
     this.pms = onlyShort({
       ...mapObject(mustIncludeAll, arr => [arr]),
       // ...require('../pms/sep-2019'),
+      ...require('../pms/manual'),
     });
 
     return this.pms;

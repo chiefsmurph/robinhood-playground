@@ -185,27 +185,27 @@ const feb122021 = [
 
 
 module.exports = {
-    ...require('./ticker-watchers'),
-    // ...require('./ask-watchers'),
-    ...require('./best-st-sentiment'),
-    ...require('./ema-crossovers'),
+    // ...require('./ticker-watchers'),
+    // // ...require('./ask-watchers'),
+    // ...require('./best-st-sentiment'),
+    // ...require('./ema-crossovers'),
 
-    ...require('./feb13'),
+    // ...require('./feb13'),
 
-    ...require('./rsi-watchers'),
-    ...require('./kst-watchers'),
+    // ...require('./rsi-watchers'),
+    // ...require('./kst-watchers'),
 
-    onlyUp: require('./only-up'),
+    // onlyUp: require('./only-up'),
 
-    feelingGoodInTheNeighborhood,
-        highVolumePicks,
-        newHighPicks,
+    // feelingGoodInTheNeighborhood,
+    //     highVolumePicks,
+    //     newHighPicks,
 
-    stockInvest,
+    // stockInvest,
 
-    murphysAnalytics,
+    // murphysAnalytics,
 
-    ...require('./sep-2019'),
+    // ...require('./sep-2019'),
 
     feb122021,
     feb122021RSI,
