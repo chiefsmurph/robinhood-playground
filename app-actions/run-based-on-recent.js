@@ -28,7 +28,7 @@ const setRecentBuyPerc = async () => {
     const runAfterCount = runAfter.length;
 
     const newRecentBuyAmt = buyingPower / runAfterCount;
-    const newRecentBuyPerc = Math.ceil(newRecentBuyAmt / equity * 100);
+    const newRecentBuyPerc = Math.ceil(newRecentBuyAmt / equity * 100) + 1;
 
     const prefs = await getPreferences();
     prefs.recentBuyPerc = newRecentBuyPerc;
