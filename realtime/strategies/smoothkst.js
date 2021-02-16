@@ -128,10 +128,10 @@ module.exports = {
     pms: {
 
         ...Combinatorics.cartesianProduct(
+            ['isLow'],
             [
                 'isSignalCross',
                 'isZeroCross',
-                'isLow'
             ],
             [
                 'notWatchout',

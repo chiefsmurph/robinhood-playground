@@ -12,7 +12,7 @@ schema.statics.getMostRecent = async function(limit = 100) {
 
     const recentDates = await Pick.getUniqueDates();
     const date = recentDates[recentDates.length - 2];
-    console.log('getMostRecent', { date })
+    // console.log('getMostRecent', { date })
     const d = new Date(date);
     d.setHours(0);
     d.setMinutes(0);
