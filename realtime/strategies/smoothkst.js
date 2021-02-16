@@ -125,6 +125,56 @@ module.exports = {
         };
     },
     pms: {
+
+        ...Combinatorics.cartesianProduct(
+            [
+                'isSignalCross',
+                'isZeroCross',
+                'isLow'
+            ],
+            [
+                'notWatchout',
+                'shouldWatchout',
+            ],
+            [
+                'firstAlert'
+            ],
+            [
+                'dinner',
+                'lunch',
+                'brunch',
+                'initial'
+            ],
+            [ 
+                'spy',
+                'options',
+                'droppers',
+                'hotSt',
+                'fitty',
+                'lowVolFitty',
+                'zeroToOne',
+                'oneToTwo',
+                'twoToFive',
+                'fiveToTen' 
+            ]
+        ).toArray().reduce((acc, arr) => {
+    
+        return {
+            ...acc,
+            ...Combinatorics.power(arr)
+            .toArray()
+            .filter(s => s && s.length)
+            .reduce((inner, combo) => ({
+                ...inner,
+                [combo.join('-')]: combo
+            }), {})
+        }
+    
+        }, {}),
+
+
+
+
         signalCrosses: 'isSignalCross',
         zeroCrosses: 'isZeroCross',
         isLow: 'isLow',
