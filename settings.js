@@ -96,9 +96,13 @@ module.exports = {
         // '[avg-downer]',
         '[sudden-drops-watchout-brunch]',
         '[sudden-drops-down30]',
+        '[sudden-drops-down40]',
         '[sudden-drops-!watchout-straightDown60]',
         '[sudden-drops-!watchout]',
         '[sudden-drops-brunch-straightDown30]',
+        '[sudden-drops-straightDown120]',
+        '[sudden-drops-fitty]',
+        '[sudden-drops-down15]',
         '[sudden-drops-down30-neutral]',
         '[sudden-drops-brunch-down30]',
         '[rsi-firstAlert-rsilt10-brunch]',
@@ -108,6 +112,10 @@ module.exports = {
         '[sudden-drops-majorJump]',
 
         '[rsi-notWatchout-firstAlert-rsilt10]',
+        '[rsi-rsilt10-initial]',
+        '[rsi-rsilt10-brunch]',
+        '[rsi-rsilt10-dinner]',
+        '[rsi-rsilt5]',
 
 
 
