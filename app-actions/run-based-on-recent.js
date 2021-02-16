@@ -6,16 +6,49 @@ const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const makeFundsAvailable = require('../alpaca/make-funds-available');
 const Log = require('../models/Log');
 const { get } = require('underscore');
-
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 
 const { registerNewStrategy } = require('./buys-in-progress');
 
+const runArray = [
+    // 9,
+    44, 70, 120, 190, 240, 300, 330, 370, 430
+];
+
+const setRecentBuyPerc = async () => {
+    const account = await alpaca.getAccount();
+    const { cash, buying_power, equity } = account;
+
+    const { onlyUseCash } = await getPreferences();
+    const buyingPower = Number(onlyUseCash ? cash : buying_power);
+
+    const curMin = getMinutesFromOpen();
+    const runAfter = runArray.filter(min => min >= curMin - 3); // include this one
+    const runAfterCount = runAfter.length;
+
+    const newRecentBuyAmt = buyingPower / runAfterCount;
+    const newRecentBuyPerc = Math.ceil(newRecentBuyAmt / equity * 100);
+
+    const prefs = await getPreferences();
+    prefs.recentBuyPerc = newRecentBuyPerc;
+    console.log({
+        runAfter,
+        buyingPower,
+        prefs,
+        newRecentBuyPerc
+    });
+    await log(`setting recent buy perc to ${newRecentBuyPerc}% ($${Math.round(newRecentBuyAmt)}) because runAfterCount ${runAfterCount} and buyingPower ${buyingPower} and equity ${equity}`)
+    await savePreferences(prefs);
+};
 
 
+
+module.exports.runArray = runArray;
 
 module.exports = async () => {
     
+    await setRecentBuyPerc();
 
     const getTicker = pick => pick.ticker;
     const recentPicks = await getRecentPicks(300);
@@ -82,11 +115,11 @@ module.exports = async () => {
 
     await log(`all to buy: ${allToBuy.map(getTicker)}`);
 
-    const account = await alpaca.getAccount();
-    const { cash, buying_power, equity } = account;
+
 
     const { onlyUseCash, recentBuyPerc } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
-
+    const account = await alpaca.getAccount();
+    const { cash, buying_power, equity } = account;
 
     const recentBuyAmt = Math.round(equity * recentBuyPerc / 100);
     const amtNeeded = recentBuyAmt;

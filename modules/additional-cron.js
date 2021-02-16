@@ -8,7 +8,7 @@ const stratPerfMultiple = require('../analysis/strategy-perf-multiple');
 // const getTrendAndSave = require('../app-actions/get-trend-and-save');
 // const logPortfolioValue = require('../app-actions/log-portfolio-value');
 const { default: recordStratPerfs } = require('../app-actions/record-strat-perfs');
-const runBasedOnRecentPicks = require('../app-actions/run-based-on-recent');
+const runBasedOnRecentPicks, { runArray: basedOnRecentRunArray } = require('../app-actions/run-based-on-recent');
 // const doubleDown = require('../app-actions/double-down');
 
 // const sellAllOlderThanTwoDays = require('../app-actions/sell-all-older-than-two-days');
@@ -200,10 +200,7 @@ const additionalCron = [
 
     {
         name: 'runBasedOnRecentPicks',
-        run: [
-            // 9,
-            44, 70, 120, 190, 240, 300, 330, 370, 430
-        ],
+        run: basedOnRecentRunArray,
         fn: async min => {
             if (min > 290) {
                 await alpacaCancelAllOrders();
