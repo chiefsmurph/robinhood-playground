@@ -42,9 +42,9 @@ const setRecentBuyPerc = async () => {
     await savePreferences(prefs);
 };
 
-const runBasedOnRecent = async () => {
+const runBasedOnRecent = async (skipSetPerc) => {
     
-    await setRecentBuyPerc();
+    if (!skipSetPerc) await setRecentBuyPerc();
 
     const getTicker = pick => pick.ticker;
     const recentPicks = await getRecentPicks(300);
