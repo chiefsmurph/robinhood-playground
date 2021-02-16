@@ -305,7 +305,7 @@ module.exports = new Promise(resolve => {
                 limitBuyMultiple: require('../app-actions/limit-buy-multiple'),
                 getCheapest: cacheThis(require('../app-actions/get-cheapest')),
                 runSuperDown: require('../app-actions/run-super-down'),
-                runBasedOnRecent: require('../app-actions/run-based-on-recent'),
+                runBasedOnRecent: require('../app-actions/run-based-on-recent').runBasedOnRecent,
                 buyTheRed: require('../alpaca/buy-the-red'),
                 buyBetween: require('../alpaca/buy-between'),
                 getRecentPicks: require('../app-actions/get-recent-picks'),
