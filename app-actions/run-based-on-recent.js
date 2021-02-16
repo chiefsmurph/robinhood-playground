@@ -42,11 +42,7 @@ const setRecentBuyPerc = async () => {
     await savePreferences(prefs);
 };
 
-
-
-module.exports.runArray = runArray;
-
-module.exports = async () => {
+const runBasedOnRecent = async () => {
     
     await setRecentBuyPerc();
 
@@ -174,4 +170,9 @@ module.exports = async () => {
 
 
     return allToBuy;
+};
+
+module.exports = {
+    runBasedOnRecent,
+    runArray
 }
