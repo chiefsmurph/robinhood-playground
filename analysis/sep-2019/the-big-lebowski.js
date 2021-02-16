@@ -21,7 +21,7 @@ module.exports = async (daysBack = 8, skipDays = 1, addTodayTrend = true) => {
 
 
   for (let date of datesOfInterest) {
-    console.log({ date });
+    console.log('lebowski', { date });
     const allStratPerfs = await StratPerf.find({ date }).lean();
 
     allStratPerfs.forEach(stratPerf => {

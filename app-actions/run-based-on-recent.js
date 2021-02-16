@@ -13,7 +13,7 @@ const { registerNewStrategy } = require('./buys-in-progress');
 
 const runArray = [
     // 9,
-    57, 70, 120, 190, 240, 300, 330, 370, 430
+    49, 70, 120, 190, 240, 300, 330, 370, 430
 ];
 
 const setRecentBuyPerc = async () => {

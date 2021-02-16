@@ -307,7 +307,26 @@ class DayReports extends Component {
         if (!this.props.hiddenFields.includes('btc')) {
             this.startBtcFetching();
         }
+        this.loadLsSettings();
     }
+    loadLsSettings = () => {
+        const settingsStr = localStorage.getItem('balanceSettings');
+        if (!settingsStr) return;
+        const parsed = JSON.parse(settingsStr);
+        this.props.setAppState(
+            pick(parsed, ['lowKey', 'hiddenFields', 'onlyRegHrs'])
+        );
+        this.setState(
+            pick(parsed, 'numDaysToShow')
+        );
+    };
+    saveLsSettings = () => {
+        const saveSettings = {
+            ...pick(this.props, ['lowKey', 'hiddenFields', 'onlyRegHrs']),
+            ...pick(this.state, ['numDaysToShow'])
+        };
+        localStorage.setItem('balanceSettings', JSON.stringify(saveSettings));
+    };
     componentWillUnmount() {
         this.stopBtcFetching();
     }
@@ -327,6 +346,7 @@ class DayReports extends Component {
         });
     };
     componentDidUpdate(prevProps, prevState) {
+        this.saveLsSettings();
         const getMemoChunk = (props, state) => ({
             ...pick(props, ['balanceReports', 'lowKey', 'onlyRegHrs', 'hiddenFields', 'authLevel']),
             ...pick(state, ['numDaysToShow', 'hoverIndex', 'fuzzFactor'])
@@ -335,11 +355,11 @@ class DayReports extends Component {
             getMemoChunk(prevProps, prevState),
             getMemoChunk(this.props, this.state)
         );
-        console.log({ 
-            needsToRecalcIntensiveData, 
-            prev: getMemoChunk(prevProps, prevState), 
-            now: getMemoChunk(this.props, this.state) 
-        });
+        // console.log({ 
+        //     needsToRecalcIntensiveData, 
+        //     prev: getMemoChunk(prevProps, prevState), 
+        //     now: getMemoChunk(this.props, this.state) 
+        // });
         if (needsToRecalcIntensiveData) {
             this.setIntensiveData();
         }

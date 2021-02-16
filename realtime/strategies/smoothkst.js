@@ -1,4 +1,5 @@
 const { KST, EMA } = require('technicalindicators');
+const Combinatorics = require('js-combinatorics');
 
 const smoothKST = kstSeries => {
 
