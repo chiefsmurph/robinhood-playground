@@ -26,39 +26,39 @@ module.exports = {
     };
   },
   pms: {
-    ...Combinatorics.cartesianProduct(
-      [
-          '10min',
-          '30min',
-          'daily'
-      ],
-      [
-          'notWatchout',
-          'shouldWatchout',
-      ],
-      [
-          'firstAlert'
-      ],
-      [
-          'dinner',
-          'lunch',
-          'brunch',
-          'initial'
-      ]
-    ).toArray().reduce((acc, arr) => {
+    // ...Combinatorics.cartesianProduct(
+    //   [
+    //       '10min',
+    //       '30min',
+    //       'daily'
+    //   ],
+    //   [
+    //       'notWatchout',
+    //       'shouldWatchout',
+    //   ],
+    //   [
+    //       'firstAlert'
+    //   ],
+    //   [
+    //       'dinner',
+    //       'lunch',
+    //       'brunch',
+    //       'initial'
+    //   ]
+    // ).toArray().reduce((acc, arr) => {
 
-      return {
-        ...acc,
-        ...Combinatorics.power(arr)
-          .toArray()
-          .filter(s => s && s.length)
-          .reduce((inner, combo) => ({
-            ...inner,
-            [combo.join('-')]: combo
-          }), {})
-      }
+    //   return {
+    //     ...acc,
+    //     ...Combinatorics.power(arr)
+    //       .toArray()
+    //       .filter(s => s && s.length)
+    //       .reduce((inner, combo) => ({
+    //         ...inner,
+    //         [combo.join('-')]: combo
+    //       }), {})
+    //   }
 
-    }, {}),
+    // }, {}),
   }
 };
 
