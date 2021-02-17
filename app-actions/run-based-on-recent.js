@@ -72,7 +72,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
     
 
     // ALSO ANYTHING BELOW 3% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
-    const onlyDown = recentPicks.filter(pick => pick.trend < 3);
+    const onlyDown = recentPicks.filter(pick => pick.trend < 10 && getRSI(pick) < 70);
     // console.log(`onlyDown: ${onlyDown.map(getTicker)}`);
 
 
