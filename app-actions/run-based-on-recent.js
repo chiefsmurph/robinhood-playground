@@ -72,15 +72,15 @@ const runBasedOnRecent = async (skipSetPerc) => {
     
 
     // ALSO ANYTHING BETWEEN -1 to 15% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
-    const onlyDown = recentPicks.filter(pick => pick.trend < 15 && pick.trend > -1 && getRSI(pick) < 70);
-    // console.log(`onlyDown: ${onlyDown.map(getTicker)}`);
+    const readyToGo = recentPicks.filter(pick => pick.trend < 15 && pick.trend > -1 && getRSI(pick) < 70);
+    // console.log(`readyToGo: ${readyToGo.map(getTicker)}`);
 
 
     const getSt = pick => pick.stSent.bullBearScore;
 
     
     const withStSent = (
-        await mapLimit(onlyDown, 3, async pick => ({
+        await mapLimit(readyToGo, 3, async pick => ({
             ...pick,
             stSent: await getStSentiment(pick.ticker)
         }))
@@ -94,21 +94,21 @@ const runBasedOnRecent = async (skipSetPerc) => {
 
 
 
-    const downAndHighSt = withStSent
+    const readyToGoAndHighSt = withStSent
         .filter(pick => getSt(pick) > 100)
         .sort((a, b) => getSt(b) - getSt(a))
         .slice(0, 12);
-    downAndHighSt.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'downAndHighSt'));
-    await log(`downAndHighSt: ${downAndHighSt.map(getTicker)}`);
+    readyToGoAndHighSt.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'readyToGoAndHighSt'));
+    await log(`readyToGoAndHighSt: ${readyToGoAndHighSt.map(getTicker)}`);
 
 
-    const topSt = downAndHighSt.shift();
+    const topSt = readyToGoAndHighSt.shift();
     topSt && await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
     registerNewStrategy(getTicker(topSt), 'topSt');
     const allToBuy = [
         ...trendDownBig,
         ...rsiOversold,
-        ...downAndHighSt,
+        ...readyToGoAndHighSt,
         ...topSt ? [topSt] : []
     ];
 
