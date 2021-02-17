@@ -134,11 +134,11 @@ const additionalCron = [
 
 
     {
-        name: 'make funds available sell 10 percent of equity',
+        name: 'make funds available sell 5 percent of equity',
         run: [10],
         fn: async () => {
             const { equity } = await alpaca.getAccount();
-            const PERCENT_TO_LIQUIDATE = 10;
+            const PERCENT_TO_LIQUIDATE = 2;
             const amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
             await log(`going to make funds available: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
             await makeFundsAvailable(amt);
@@ -185,7 +185,7 @@ const additionalCron = [
     // this is good ! for nighttrading
     {
         name: 'alpacaHopefulSells',
-        run: [-25, -14, 20, 60, 120, 160, 240, 291],
+        run: [-25, -14, 5, 20, 30, 45, 60, 80, 95, 120, 160, 240, 291],
         fn: () => alpacaHopefulSells()
     },
 

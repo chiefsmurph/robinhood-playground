@@ -4,7 +4,7 @@ const analyzeGroup = require('./analyze-group');
 module.exports = positions => {
   const allDates = positions.map(pos => pos.date).uniq();
   const lastFive = allDates.slice(0, 5);
-  strlog({ allDates, lastFive })
+  // strlog({ allDates, lastFive })
   
   const notWatchout = ({ interestingWords }) => interestingWords.includes('!watchout');
   const majorJump = ({ interestingWords }) => interestingWords.includes('majorJump');

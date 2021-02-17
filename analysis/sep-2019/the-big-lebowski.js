@@ -100,9 +100,9 @@ module.exports = async (daysBack = 8, skipDays = 1, addTodayTrend = true) => {
     // .filter(s => s.todayCount <= 3 && s.todayCount);
 
 
-  strlog('---------------------------');
-  strlog('STRATEGIES WITH TODAY TREND')
-  strlog('---------------------------')
+  // strlog('---------------------------');
+  // strlog('STRATEGIES WITH TODAY TREND')
+  // strlog('---------------------------')
 
   const highestPercUp = withTodayTrend.sort((a, b) => b.percUp - a.percUp);
   const mult = withTodayTrend
@@ -113,11 +113,11 @@ module.exports = async (daysBack = 8, skipDays = 1, addTodayTrend = true) => {
     .filter(s => s.mult)
     .sort((a, b) => b.mult - a.mult);
 
-  strlog({
-    withTodayTrend,
-    highestPercUp: highestPercUp.slice(0, 30),
-    multi: mult.slice(0, 40)
-  })
+  // strlog({
+  //   withTodayTrend,
+  //   highestPercUp: highestPercUp.slice(0, 30),
+  //   multi: mult.slice(0, 40)
+  // })
 
 
 
