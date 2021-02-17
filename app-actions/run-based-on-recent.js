@@ -24,11 +24,16 @@ const setRecentBuyPerc = async () => {
     const buyingPower = Number(onlyUseCash ? cash : buying_power);
 
     const curMin = getMinutesFromOpen();
-    const runAfter = runArray.filter(min => min >= curMin - 3); // include this one
-    const runAfterCount = runAfter.length;
 
-    const newRecentBuyAmt = buyingPower / runAfterCount;
-    const newRecentBuyPerc = Math.ceil(newRecentBuyAmt / equity * 100);
+    const newRecentBuyPerc = curMin < 370
+        ? 5
+        : (() => {
+            const runAfter = runArray.filter(min => min >= curMin - 3); // include this one
+            const runAfterCount = runAfter.length;
+        
+            const newRecentBuyAmt = buyingPower / runAfterCount;
+            return Math.ceil(newRecentBuyAmt / equity * 100);
+        })();
 
     const prefs = await getPreferences();
     prefs.recentBuyPerc = newRecentBuyPerc;

@@ -211,13 +211,13 @@ module.exports = new (class RealtimeRunner {
     //     fn: () => this.redAndBullishPicks()
     // });
 
-    // regCronIncAfterSixThirty({
-    //   name: 'RealtimeRunner: buy the red',
-    //   run: [450, 430, 405, 350, 275,
-    //     // 220, 150, 90, 30
-    //   ],
-    //   fn: () => buyTheRed()
-    // });
+    regCronIncAfterSixThirty({
+      name: 'RealtimeRunner: buy the red',
+      run: [450, 430, 405, 350, 275,
+        // 220, 150, 90, 30
+      ],
+      fn: () => buyTheRed()
+    });
 
     // regCronIncAfterSixThirty({
     //     name: 'RealtimeRunner: first act on st',
@@ -225,11 +225,11 @@ module.exports = new (class RealtimeRunner {
     //     fn: () => alpacaActOnSt()
     // });
 
-    // regCronIncAfterSixThirty({
-    //   name: 'RealtimeRunner: first act on zscore final',
-    //   run: [12],
-    //   fn: () => alpacaActOnZScoreFinal()
-    // });
+    regCronIncAfterSixThirty({
+      name: 'RealtimeRunner: first act on zscore final',
+      run: [67],
+      fn: () => alpacaActOnZScoreFinal()
+    });
 
     if (dayInProgress(START_MIN)) {
       console.log('in progress');
@@ -252,15 +252,15 @@ module.exports = new (class RealtimeRunner {
     }
 
     // afternoon intervals
-    // const AFTERNOON_START_MIN = 230; // 10:20am
-    // if (dayInProgress(AFTERNOON_START_MIN)) {
-    //   this.startAfternoonIntervals();
-    // }
-    // regCronIncAfterSixThirty({
-    //   name: 'RealtimeRunner: start afternoon intervals',
-    //   run: [AFTERNOON_START_MIN],
-    //   fn: () => this.startAfternoonIntervals()
-    // });
+    const AFTERNOON_START_MIN = 92; // 10:20am
+    if (dayInProgress(AFTERNOON_START_MIN)) {
+      this.startAfternoonIntervals();
+    }
+    regCronIncAfterSixThirty({
+      name: 'RealtimeRunner: start afternoon intervals',
+      run: [AFTERNOON_START_MIN],
+      fn: () => this.startAfternoonIntervals()
+    });
 
     this.hasInit = true;
   }
