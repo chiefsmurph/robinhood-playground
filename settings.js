@@ -94,6 +94,7 @@ module.exports = {
 
     forPurchase: [
         // '[avg-downer]',
+        '[sudden-drops]',
         '[sudden-drops-watchout-brunch]',
         '[sudden-drops-down30]',
         '[sudden-drops-down40]',
