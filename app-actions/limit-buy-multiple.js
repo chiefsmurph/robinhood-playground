@@ -380,9 +380,10 @@ module.exports = async ({
             // 'bankruptcy',
             // 'afterhours', 
             // 'bearish',
-            'gnewssplit',
-            'gnewsbankrupt',
-            'gnewsbankruptcy',
+            // 'gnewssplit',
+            'gnewsdelist',
+            // 'gnewsbankrupt',
+            // 'gnewsbankruptcy',
             // 'hotSt'
             // 'straightDown30',
             // 'halt'
