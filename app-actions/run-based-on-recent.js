@@ -138,8 +138,8 @@ const runBasedOnRecent = async (skipSetPerc) => {
         if (makeFundsForRecent) {
             await makeFundsAvailable(fundsNeeded);
             await log(`making $${fundsNeeded} available`);
-            const afterAccount = await alpaca.getAccount();
         }
+        const afterAccount = await alpaca.getAccount();
         const afterAmt = Number(onlyUseCash ? afterAccount.cash : afterAccount.buying_power);
         const logObj = { before: amtLeft, fundsNeeded, after: afterAmt };
         await log(`funds made available - before ${amtLeft}, after ${afterAmt}`, logObj);
