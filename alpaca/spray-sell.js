@@ -85,7 +85,7 @@ module.exports = async ({
   }
   
   await log(`done spray selling ${ticker}`);
-  setTimeout(() => Hold.updateOne({ ticker }, { isSelling: false }), 1000 * 60 * 5);
+  setTimeout(() => Hold.updateOne({ ticker }, { isSelling: false }), 1000 * numSeconds * 1.05);
   
 
   return responses;

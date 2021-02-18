@@ -13,7 +13,8 @@ const { registerNewStrategy } = require('./buys-in-progress');
 
 const runArray = [
     // 9,
-    49, 80, 120, 152, 183, 202, 240, 271, 300, 330, 370, 401, 430, 446
+    // 49, 80, 120, 152, 183, 202, 240, 
+    271, 300, 330, 370, 401, 430, 446
 ];
 
 const setRecentBuyPerc = async () => {
@@ -30,7 +31,7 @@ const setRecentBuyPerc = async () => {
 
     const newRecentBuyAmt = buyingPower / runAfterCount;
     const newRecentBuyPerc = curMin < 370
-        ? 5
+        ? 2.5
         : Math.ceil(newRecentBuyAmt / equity * 100);
 
     const prefs = await getPreferences();
@@ -97,7 +98,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
     const readyToGoAndHighSt = withStSent
         .filter(pick => getSt(pick) > 100)
         .sort((a, b) => getSt(b) - getSt(a))
-        .slice(0, 12);
+        .slice(0, 5);
     readyToGoAndHighSt.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'readyToGoAndHighSt'));
     await log(`readyToGoAndHighSt: ${readyToGoAndHighSt.map(getTicker)}`);
 
