@@ -15,5 +15,5 @@ module.exports = position => {
     // numMultipliers > 150,
     // bullBearScore < 100,
   ];
-  return conditions.every(Boolean);
+  return conditions.some(Boolean);
 };
