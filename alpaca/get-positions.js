@@ -270,14 +270,14 @@ module.exports = async (
 
     
     const sellOffToday = shouldSellOff(position);
-    // if (sellOffToday) {
-    //   log(`SELLOFF REC - ${ticker}`, {
-    //     daysOld,
-    //     mostRecentPurchase,
-    //     bullBearScore,
-    //     numMultipliers
-    //   })
-    // }
+    if (sellOffToday) {
+      log(`SELLOFF REC - ${ticker}`, {
+        daysOld,
+        mostRecentPurchase,
+        bullBearScore,
+        numMultipliers
+      })
+    }
 
 
     const isInitialSell = (min >= -15 && min <= 25);
