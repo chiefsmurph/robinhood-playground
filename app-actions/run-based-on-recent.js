@@ -116,7 +116,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
 
 
 
-    const { onlyUseCash, recentBuyPerc } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
+    const { onlyUseCash, recentBuyPerc, makeFundsForRecent = false } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
     const account = await alpaca.getAccount();
     const { cash, buying_power, equity } = account;
 
@@ -134,9 +134,11 @@ const runBasedOnRecent = async (skipSetPerc) => {
         // await log(`skipping recent picks purchase because amtLeft ${amtLeft} and amtNeeded ${amtNeeded}`);
         // return;
         const fundsNeeded = (amtNeeded * 1.1) - amtLeft;
-        await makeFundsAvailable(fundsNeeded);
-        await log(`making $${fundsNeeded} available`);
-        const afterAccount = await alpaca.getAccount();
+        if (makeFundsForRecent) {
+            await makeFundsAvailable(fundsNeeded);
+            await log(`making $${fundsNeeded} available`);
+            const afterAccount = await alpaca.getAccount();
+        }
         const afterAmt = Number(onlyUseCash ? afterAccount.cash : afterAccount.buying_power);
         const logObj = { before: amtLeft, fundsNeeded, after: afterAmt };
         await log(`funds made available - before ${amtLeft}, after ${afterAmt}`, logObj);
