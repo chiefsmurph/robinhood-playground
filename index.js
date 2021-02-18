@@ -93,6 +93,7 @@ process.on('unhandledRejection', async (err, p) => {
     // await cancelAllOrders();         // no dont cancel robinhood
     (await getPreferences()).onlyUseCash && getMinutesFromOpen() < 220 && await alpacaCancelAllOrders();
 
+    await Hold.updateMany({}, { isSelling: false });
 
     await RealtimeRunner.init(DISABLE_REALTIME);
     await require('./socket-server');
@@ -127,7 +128,6 @@ process.on('unhandledRejection', async (err, p) => {
     console.log(regCronIncAfterSixThirty.toString());
 
 
-    await Hold.updateMany({}, { isSelling: false });
 
     await log(`playground init'd`);
 
