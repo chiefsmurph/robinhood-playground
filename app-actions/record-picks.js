@@ -160,7 +160,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         multiplier = Math.max(multiplier, minMultiplier);           // MIN
         multiplier = Math.min(multiplier, maxMultiplier);           // MAX
         
-        if (onlyAvgDownOpenPositions && !strategy.includes('avg-downer') {
+        if (onlyAvgDownOpenPositions && !strategy.includes('avg-downer')) {
             const { positions = {} } = require('../socket-server/strat-manager');
             const openPosition = (positions.alpaca || []).find(pos => pos.ticker === stocksToBuy[0]);
             if (openPosition) {
