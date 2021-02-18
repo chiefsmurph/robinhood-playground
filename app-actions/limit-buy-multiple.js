@@ -373,11 +373,11 @@ module.exports = async ({
 
         // dont buy positions with bad words
         const badWords = [
-            'reverse split',
-            'offering', 
-            'bankrupt', 
-            'delist',
-            'bankruptcy',
+            // 'reverse split',
+            // 'offering', 
+            // 'bankrupt', 
+            // 'delist',
+            // 'bankruptcy',
             // 'afterhours', 
             // 'bearish',
             'gnewssplit',
