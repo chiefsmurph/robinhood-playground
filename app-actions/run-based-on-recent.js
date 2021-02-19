@@ -73,7 +73,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
     
 
     // ALSO ANYTHING BETWEEN -1 to 15% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
-    const readyToGo = recentPicks.filter(pick => pick.trend < 15 && pick.trend > -1 && getRSI(pick) < 70);
+    const readyToGo = recentPicks.filter(pick => pick.trend < 15 && getRSI(pick) < 70);
     // console.log(`readyToGo: ${readyToGo.map(getTicker)}`);
 
 

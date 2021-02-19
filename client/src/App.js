@@ -250,7 +250,7 @@ class App extends Component {
         const urlParams = new URLSearchParams(window.location.search);
         const port = urlParams.get('p') || 3001;
 
-        const socketEndpoint = origin.includes('localhost') && false ? 'http://localhost:3000' : `https://chiefsmurph.com`;
+        const socketEndpoint = origin.includes('localhost') && true ? 'http://localhost:3000' : `https://chiefsmurph.com`;
         const socket = socketIOClient(socketEndpoint, {
             path: '/rh/socket.io',
             secure: true,
