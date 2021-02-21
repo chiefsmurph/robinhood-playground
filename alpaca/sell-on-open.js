@@ -74,6 +74,9 @@ module.exports = async () => {
       return perc;
     })();
 
+    const sellOffStr = actualPercToSell === 100 ? 'SELLING OFF ' : '';
+    await log(`${sellOffStr}${ticker} IS SELLING ${actualPercToSell}%`)
+
     console.log({ actualPercToSell })
     
     if (actualPercToSell < 2) continue;
@@ -82,7 +85,7 @@ module.exports = async () => {
     const dollarsToSell = qToSell * currentPrice;
 
     let firstQ = Math.ceil(qToSell / 2);
-    if (returnPerc < 0) firstQ /= 2;
+    // if (returnPerc < 0) firstQ /= 2;
     const secondQ = qToSell - firstQ;
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
