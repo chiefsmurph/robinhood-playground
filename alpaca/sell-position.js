@@ -61,7 +61,7 @@ module.exports = async (position, numSeconds) => {
     });
 
     await Hold.updateOne({ ticker }, { isSelling: true });
-
+    await log(`isSelling true ${ticker}`);
     const halfQuantity = Math.ceil(sellQuantity / 2);
 
     const response = getMinFromOpen() >= 0 && market_value > 30
@@ -85,6 +85,9 @@ module.exports = async (position, numSeconds) => {
     });
 
 
-    setTimeout(() => Hold.updateOne({ ticker }, { isSelling: false }), 1000 * 60 * 5);
+    setTimeout(async () => {
+        await Hold.updateOne({ ticker }, { isSelling: false });
+        await log(`isSelling false ${ticker}`);
+    }, 1000 * 60 * 5);
   
 };

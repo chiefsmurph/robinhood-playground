@@ -18,7 +18,7 @@ module.exports = async () => {
   if (disableActOnZscore) return log('act on zscore disabled');
   
   const account = await alpaca.getAccount();
-  let amtToSpend = Number(account.equity * actOnStPercent / 100);
+  let amtToSpend = Number(account.equity * 1.5 * actOnStPercent / 100);
 
   if (onlyUseCash) {
     amtToSpend *= 0.6;
@@ -50,8 +50,8 @@ module.exports = async () => {
   const toBuy = positions
     .filter(p => p.scan)
     .filter(p => (
-      p.zScoreFinal > 2 ||
-      p.zScoreSum > 15
+      p.zScoreFinal > 2.8 ||
+      p.zScoreSum > 24
     ))
   const label = ps => ps.map(p => p.ticker).join(', ');
 

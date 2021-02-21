@@ -64,6 +64,7 @@ module.exports = async ({
 
   // strlog({ delayAmts });
   await Hold.updateOne({ ticker }, { isSelling: true });
+  await log(`isSelling true ${ticker}`);
   
   await log(`starting to spray ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} spaceApart ${spaceApart / 1000} sec`);
   const responses = [];
@@ -85,7 +86,10 @@ module.exports = async ({
   }
   
   await log(`done spray selling ${ticker}`);
-  setTimeout(() => Hold.updateOne({ ticker }, { isSelling: false }), 1000 * numSeconds * 1.05);
+  setTimeout(async () => {
+    await Hold.updateOne({ ticker }, { isSelling: false });
+    await log(`isSelling false ${ticker}`);
+  }, 1000 * numSeconds * 1.05);
   
 
   return responses;

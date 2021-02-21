@@ -90,6 +90,9 @@ module.exports = async () => {
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
     await Hold.updateOne({ ticker }, { isSelling: true });
+    await log(`isSelling true ${ticker} sellonopen`);
+
+
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
       qty: Math.ceil(firstQ / 2),
