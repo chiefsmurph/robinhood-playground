@@ -115,10 +115,13 @@ module.exports = async (pms, strategy, stocksToBuy) => {
   if (avgMultipliersPerPick) {
     // if position already open
     subsetOffsetMultiplier = Math.round(
-      Math.max(
-        avgMarketValue * 0.7,
-        avgMultipliersPerPick * 1.1,
-      ) + subsetOffsetMultiplier / 2
+      Math.min(
+        200,
+        Math.max(
+          avgMarketValue * 0.7,
+          avgMultipliersPerPick * 1.1,
+        ) + subsetOffsetMultiplier / 2
+      )
     );
   }
   
