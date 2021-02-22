@@ -97,9 +97,9 @@ module.exports = class PositionWatcher {
       const breaks = [60, 70, 80, 90];
       const foundBreak = breaks.find(b => prevRSI < b && curRSI > b);
       if (!foundBreak) return;
-      const canSellBreaks = Boolean(returnPerc > 3 && !wouldBeDayTrade);
+      const canSellUpperBreaks = Boolean(returnPerc > 3 && !wouldBeDayTrade);
       // only sell green positions
-      if (!canSellBreaks) return;
+      if (!canSellUpperBreaks) return;
       const breakSellPercents = {
         60: 15,
         70: 30,
@@ -117,10 +117,10 @@ module.exports = class PositionWatcher {
         perc = perc / 1.2;
       }
       const q = Math.ceil(quantity * perc / 100);
-      await log(`${ticker} hit an upper RSI break - ${foundBreak}${canSellBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
+      await log(`${ticker} hit an upper RSI break - ${foundBreak}${canSellUpperBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
         returnPerc,
         wouldBeDayTrade,
-        canSellBreaks
+        canSellUpperBreaks
       });
       await alpacaAttemptSell({
         ticker,
@@ -131,7 +131,8 @@ module.exports = class PositionWatcher {
       const brokeDown = breakdownRSIs.find(rsiBreak => 
         prevRSI > rsiBreak && curRSI < rsiBreak
       );
-      if (brokeDown && wouldBeDayTrade && getMinutesFromOpen() > 6) {
+      const canBuyLowerBreaks = wouldBeDayTrade || (!wouldBeDayTrade && getMinutesFromOpen() > 200);
+      if (brokeDown && canBuyLowerBreaks) {
         const account = await alpaca.getAccount();
         const { cash, buying_power, equity } = account;
 
@@ -166,11 +167,16 @@ module.exports = class PositionWatcher {
           approxValue,
           lastObserved
         });
-        fundsToBuy && await alpacaSprayBuy({
-          ticker,
-          quantity: brokeDownQuantity,
-          numSeconds: 60 * 40,
-        });
+        if (fundsToBuy) {
+          limitBuyMultiple({  // how is this real
+            totalAmtToSpend: approxValue,
+            strategy: `RSIBREAK-BROKEDOWN${brokeDown}`,
+            withPrices: [{
+              ticker,
+              price: lastObserved // wat
+            }]
+          });
+        }
       }
     }
     

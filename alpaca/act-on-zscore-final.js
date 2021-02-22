@@ -13,12 +13,12 @@ const { disableActOnZscore } = require('../settings');
 
 module.exports = async () => {
 
-  const { onlyUseCash, actOnStPercent } = await getPreferences();
+  const { onlyUseCash, actOnPercent } = await getPreferences();
 
   if (disableActOnZscore) return log('act on zscore disabled');
   
   const account = await alpaca.getAccount();
-  let amtToSpend = Number(account.equity * 1.5 * actOnStPercent / 100);
+  let amtToSpend = Number(account.equity * 1.5 * actOnPercent / 100);
 
   if (onlyUseCash) {
     amtToSpend *= 0.6;
@@ -56,7 +56,7 @@ module.exports = async () => {
   const label = ps => ps.map(p => p.ticker).join(', ');
 
   const totalValue = sumArray(
-    toBuy.map(p => Number(p.market_value)).filter(Boolean)
+    toBuy.map(p => Number(p.market_value))
   );
 
   const dollarsToBuyPerStock = Math.ceil(amtToSpend / 3.5);

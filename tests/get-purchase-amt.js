@@ -1,4 +1,4 @@
 module.exports = () => {
-  const { actOnStPercent } = await getPreferences();
-  return actOnStPercent;
+  const { actOnPercent } = await getPreferences();
+  return actOnPercent;
 }

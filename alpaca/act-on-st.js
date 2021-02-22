@@ -15,10 +15,10 @@ module.exports = async () => {
 
   if (disableActOnSt) return log('act on st disabled');
 
-  const { onlyUseCash, actOnStPercent } = await getPreferences();
+  const { onlyUseCash, actOnPercent } = await getPreferences();
 
   const account = await alpaca.getAccount();
-  let amtToSpend = Number(account.equity * actOnStPercent / 100);
+  let amtToSpend = Number(account.equity * actOnPercent / 100);
 
   if (onlyUseCash) {
     amtToSpend *= 0.6;
@@ -55,26 +55,27 @@ module.exports = async () => {
   const toSell = notDaytrades.filter(p => (p.stSent || {}).stBracket === 'bearish');
   await log(`ACTONST-BEARISH: ${label(toSell)}`, {
     toSell,
-    actOnStPercent
+    actOnPercent
   });
   for (let position of toSell) {
     await cancelAllOrders(position.ticker, 'buy');
     sellPosition({
       ...position,
-      percToSell: actOnStPercent * 2
+      percToSell: actOnPercent * 2
     });
   }
 
   // buy bullish dayTrades
   const BULLBEARSUPERBLASTLIMIT = 270;
   const bullishDayTrades = daytrades
-    .filter(p => (p.stSent || {}).stBracket === 'bullish' && p.returnPerc < 0.5)
-    .filter(p => (p.stSent || {}).bullBearScore > 170)
+    .filter(p => (p.stSent || {}).stBracket === 'bullish')  // LOL
+    .filter(p => (p.stSent || {}).bullBearScore > 400)
     .sort((a, b) => (b.stSent || {}).bullBearScore - (a.stSent || {}).bullBearScore)
     .slice(0, 7);
 
     strlog({ notDaytrades })
   const exceptionAmts = {
+    // stSent min: down at least this %
     400: 10,
     350: 8,
     300: 6,

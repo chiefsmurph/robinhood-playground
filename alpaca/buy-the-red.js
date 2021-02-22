@@ -12,10 +12,10 @@ const Hold = require('../models/Holds');
 
 module.exports = async () => {
 
-  const { actOnStPercent, onlyUseCash } = await getPreferences();
+  const { actOnPercent, onlyUseCash } = await getPreferences();
 
   const account = await alpaca.getAccount();
-  let amtToSpend = Number(account.equity * actOnStPercent / 100);
+  let amtToSpend = Number(account.equity * actOnPercent / 100);
 
   if (onlyUseCash) {
     amtToSpend *= 0.6;
@@ -40,7 +40,7 @@ module.exports = async () => {
   const toBuy = positions
     .filter(p => p.wouldBeDayTrade)
     // .filter(p => (p.stSent || {}).stBracket !== 'bearish')
-    .filter(p => p.returnPerc < -2);
+    .filter(p => p.returnPerc < -8);
   await log(`BUYTHERED: $${amtToSpend} total - ${label(toBuy)}`, {
     toBuy,
     amtToSpend,

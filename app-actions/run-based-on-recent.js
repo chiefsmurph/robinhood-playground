@@ -96,7 +96,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
 
 
     const readyToGoAndHighSt = withStSent
-        .filter(pick => getSt(pick) > 100)
+        .filter(pick => getSt(pick) > 300)
         .sort((a, b) => getSt(b) - getSt(a))
         .slice(0, 5);
     readyToGoAndHighSt.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'readyToGoAndHighSt'));
