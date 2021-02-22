@@ -12,6 +12,8 @@ const getTrend = require('./get-trend');
 // const { avgArray } = require('./array-math');
 
 
+const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
+
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const alpacaLimitSell = require('../alpaca/limit-sell');
 const alpacaSprayBuy = require('../alpaca/spray-buy');
