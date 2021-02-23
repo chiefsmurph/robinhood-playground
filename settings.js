@@ -113,7 +113,7 @@ module.exports = {
         '[sudden-drops-majorJump]',
 
         '[rsi-notWatchout-firstAlert-rsilt10]',
-        '[rsi-rsilt10-initial]',
+        // '[rsi-rsilt10-initial]',
         '[rsi-rsilt10-brunch]',
         '[rsi-rsilt10-dinner]',
         '[rsi-rsilt5]',
