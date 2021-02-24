@@ -51,7 +51,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
     if (!skipSetPerc) await setRecentBuyPerc();
 
     const getTicker = pick => pick.ticker;
-    const getSt = pick => pick.stSent.bullBearScore;
+    const getSt = pick => get(pick.stSent, 'bullBearScore', 0);
 
 
 
@@ -59,7 +59,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
     const hundredInverseStTrend = recentHundredPicks
         .map(recentPick => ({
             ...recentPick,
-            inverseStTrend: Math.round(recentPick.scan.stSent - (recentPick.trend * 14))
+            inverseStTrend: Math.round(getSt(recentPick) - (recentPick.trend * 14))
         }))
         .sort((a, b) => b.inverseStTrend - a.inverseStTrend)
         .slice(0, 3);
