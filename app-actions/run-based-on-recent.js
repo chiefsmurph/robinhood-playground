@@ -51,6 +51,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
     if (!skipSetPerc) await setRecentBuyPerc();
 
     const getTicker = pick => pick.ticker;
+    const getSt = pick => pick.stSent.bullBearScore;
 
 
 
@@ -93,9 +94,6 @@ const runBasedOnRecent = async (skipSetPerc) => {
     // ALSO ANYTHING BETWEEN -1 to 15% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
     const readyToGo = recentThreeHundredPicks.filter(pick => pick.trend < 15 && getRSI(pick) < 70);
     // console.log(`readyToGo: ${readyToGo.map(getTicker)}`);
-
-
-    const getSt = pick => pick.stSent.bullBearScore;
 
     
     const withStSent = (
