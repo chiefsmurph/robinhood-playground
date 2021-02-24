@@ -41,6 +41,10 @@ export default class extends Component {
                             ...recentPick,
                             trendPerDay: +(recentPick.trend / daysSinceLastPick).toFixed(2)
                         }))
+                        .map(recentPick => ({
+                            ...recentPick,
+                            inverseStTrend: Math.round(recentPick.stSent - (recentPick.trend * 14))
+                        }))
 
                 });
             })

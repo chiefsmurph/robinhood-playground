@@ -52,7 +52,11 @@ require('./utils/fix-locale-date-string');
 
     
 
-    const fnToRun = relatedFile.trendFilter || relatedFile.fn || relatedFile.init || relatedFile.default || relatedFile;
+    let fnToRun = relatedFile.trendFilter || relatedFile.fn || relatedFile.init || relatedFile.default || relatedFile;
+    if (typeof fnToRun !== 'function') {
+        fnToRun = Object.values(fnToRun).find(value => typeof value === 'function');
+        console.log('found function');
+    }
     const response = await fnToRun(...callArgs, ...restArgs);
     console.log('response');
     console.log(JSON.stringify(response, null, 2));

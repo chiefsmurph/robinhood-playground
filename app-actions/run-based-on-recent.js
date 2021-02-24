@@ -51,17 +51,35 @@ const runBasedOnRecent = async (skipSetPerc) => {
     if (!skipSetPerc) await setRecentBuyPerc();
 
     const getTicker = pick => pick.ticker;
-    const recentPicks = await getRecentPicks(300);
+
+
+
+    const recentHundredPicks = await getRecentPicks(100, true, true);
+    const hundredInverseStTrend = recentHundredPicks
+        .map(recentPick => ({
+            ...recentPick,
+            inverseStTrend: Math.round(recentPick.scan.stSent - (recentPick.trend * 14))
+        }))
+        .sort((a, b) => b.inverseStTrend - a.inverseStTrend)
+        .slice(0, 3);
+    hundredInverseStTrend.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'hundredInverseStTrend'));
+    await log(`hundredInverseStTrend: ${hundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(': '))}`);
+
+
+
+
+
+    const recentThreeHundredPicks = await getRecentPicks(300);
 
 
     // ANYTHING DROPPED 20%
-    let trendDownBig = recentPicks.filter(pick => pick.trend < -20);
+    let trendDownBig = recentThreeHundredPicks.filter(pick => pick.trend < -20);
     trendDownBig.map(getTicker).forEach(ticker => registerNewStrategy(ticker, 'trendDownBig'));
     await log(`trendDownBig: ${trendDownBig.map(getTicker)}`);
 
     // DAILY RSI BELOW 30
     const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
-    let rsiOversold = recentPicks
+    let rsiOversold = recentThreeHundredPicks
         .sort((a, b) => getRSI(a) - getRSI(b))  // ascending - lowest first
         .filter(pick => getRSI(pick) < 30);
     if (rsiOversold.length > 6) {
@@ -73,7 +91,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
     
 
     // ALSO ANYTHING BETWEEN -1 to 15% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
-    const readyToGo = recentPicks.filter(pick => pick.trend < 15 && getRSI(pick) < 70);
+    const readyToGo = recentThreeHundredPicks.filter(pick => pick.trend < 15 && getRSI(pick) < 70);
     // console.log(`readyToGo: ${readyToGo.map(getTicker)}`);
 
 
@@ -106,7 +124,12 @@ const runBasedOnRecent = async (skipSetPerc) => {
     const topSt = readyToGoAndHighSt.shift();
     topSt && await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
     registerNewStrategy(getTicker(topSt), 'topSt');
+
+
+
+
     const allToBuy = [
+        ...hundredInverseStTrend,
         ...trendDownBig,
         ...rsiOversold,
         ...readyToGoAndHighSt,
