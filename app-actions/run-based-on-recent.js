@@ -13,7 +13,9 @@ const { registerNewStrategy } = require('./buys-in-progress');
 
 const runArray = [
     // 9,
-    // 49, 80, 120, 152, 183, 202, 240, 
+    // 49, 80, 120, 152, 
+    183, 
+    202, 240, 
     271, 300, 330, 370, 401, 430, 446
 ];
 

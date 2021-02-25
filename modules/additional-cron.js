@@ -148,7 +148,7 @@ const additionalCron = [
 
     {
         name: 'make funds available get buying power to 40% of equity',
-        run: [42],
+        run: [105],
         fn: async () => {
             const { equity, cash, buying_power } = await alpaca.getAccount();
             const oneThirdOfEquity = equity * 40 / 100;
@@ -177,7 +177,7 @@ const additionalCron = [
 
     {
         name: 'alpaca smart sells',
-        run: [30, 145, 200, 263, 300, 340],
+        run: [30, 55, 145, 200, 263, 300, 340],
         // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
         fn: () => alpacaSmartSells()
     },
@@ -185,7 +185,7 @@ const additionalCron = [
     // this is good ! for nighttrading
     {
         name: 'alpacaHopefulSells',
-        run: [-25, -14, 5, 20, 30, 45, 60, 80, 95, 120, 160, 240, 291],
+        run: [-25, -14, 5, 20, 30, 45, 60, 80, 95, 120, 140, 160, 240, 291],
         fn: () => alpacaHopefulSells()
     },
 
