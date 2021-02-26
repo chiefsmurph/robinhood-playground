@@ -156,16 +156,9 @@ module.exports = async (
     // const sellOffDaysLeft = Math.floor(numDaysNeeded - mostRecentPurchase);
 
     // strlog({ buys});
+    const { dontSell = [] } = getPreferences();
 
-    const DONTSELL = [
-      // 'KEG',
-      // 'TCON',
-      // 'ASLN',
-      // 'SFET',
-      // 'IBIO'
-    ];
-
-    let wouldBeDayTrade = DONTSELL.includes(ticker) || Boolean(mostRecentPurchase === 0);
+    let wouldBeDayTrade = dontSell.includes(ticker) || Boolean(mostRecentPurchase === 0);
     if (!wouldBeDayTrade) {
       const foundInLogs = await Log.boughtToday(ticker);
       if (!!foundInLogs) {
