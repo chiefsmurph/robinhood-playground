@@ -85,6 +85,8 @@ module.exports = async (
   skipStSent = false
 ) => {
 
+  console.log(await getPreferences())
+
   const spyTrend = await getSpyTrend();
   const balance = await getBalance();
 
@@ -158,7 +160,7 @@ module.exports = async (
     // strlog({ buys});
     const { dontSell = [] } = getPreferences();
     console.log({ dontSell });
-    
+
     let wouldBeDayTrade = dontSell.includes(ticker) || Boolean(mostRecentPurchase === 0);
     if (!wouldBeDayTrade) {
       const foundInLogs = await Log.boughtToday(ticker);
