@@ -35,7 +35,7 @@ module.exports = async amt => {
   if (!makeKeeperFundsAvailable) {
     positions = positions.filter(({ notSelling }) => !notSelling);
   }
-  const notDTs = positions.filter(({ wouldBeDayTrade }) =>!wouldBeDayTrade);
+  const notDTs = positions.filter(({ wouldBeDayTrade }) => !wouldBeDayTrade);
 
   const buyTickers = await getBuyTickers();
   strlog({ buyTickers})
