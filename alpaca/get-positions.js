@@ -85,8 +85,6 @@ module.exports = async (
   skipStSent = false
 ) => {
 
-  console.log(await getPreferences())
-
   const spyTrend = await getSpyTrend();
   const balance = await getBalance();
 
@@ -134,6 +132,9 @@ module.exports = async (
     ...rest
   }));
 
+
+  const { dontSell = [] } = await getPreferences();
+
   positions = await mapLimit(positions, 3, async position => {
     const { ticker } = position;
     const hold = await Holds.findOne({ ticker }).lean() || {};
@@ -158,8 +159,6 @@ module.exports = async (
     // const sellOffDaysLeft = Math.floor(numDaysNeeded - mostRecentPurchase);
 
     // strlog({ buys});
-    const { dontSell = [] } = getPreferences();
-    console.log({ dontSell });
 
     let wouldBeDayTrade = dontSell.includes(ticker) || Boolean(mostRecentPurchase === 0);
     if (!wouldBeDayTrade) {
