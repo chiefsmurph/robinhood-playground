@@ -34,12 +34,14 @@ schema.statics.boughtToday = async function(ticker) {
     d.setHours(0);
     d.setMinutes(0);
 
-    return this.countDocuments({
-        title: new RegExp(`buying ${ticker}`),
-        timestamp: {
-            $gt: d
-        }
-    });
+    return Boolean(
+        await this.countDocuments({
+            title: new RegExp(`^buying ${ticker}`),
+            timestamp: {
+                $gt: d
+            }
+        })
+    );
 };
 
 
