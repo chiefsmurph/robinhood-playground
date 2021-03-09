@@ -30,7 +30,7 @@ schema.statics.getUniqueDates = async function() {
     return response.filter(Boolean).sort((a, b) => new Date(a) - new Date(b));
 };
 
-schema.statics.getRecentRecommendations = async function(limit = 100, isRecommended = true) {
+schema.statics.getRecentRecommendations = async function(limit = 100, isRecommended = true, strategyName) {
     console.log('getting recent', limit);
     return this.find({
         ...isRecommended
@@ -39,7 +39,8 @@ schema.statics.getRecentRecommendations = async function(limit = 100, isRecommen
                 strategyName: /.*(sudden.*drops|rsi).*/i
             } : {
                 isRecommended: false
-            }
+            },
+        strategyName
         // timestamp: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000 * numDays) }
     }, {
         data: 0
