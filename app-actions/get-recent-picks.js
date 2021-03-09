@@ -9,7 +9,7 @@ const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.p
 const twoDec = roundTo(2);
 
 module.exports = async (limit = 30, isRecommended = true, includeStSent = false, strategyName) => {
-    console.log('app action get recent', limit);
+    console.log('app action get recent', limit, strategyName);
     const picks = await Pick.getRecentRecommendations(limit, isRecommended, strategyName);
     const byTicker = groupBy(picks, pick => pick.picks[0].ticker);
     const prices = await lookupMultiple(Object.keys(byTicker));

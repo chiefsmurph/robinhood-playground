@@ -14,7 +14,7 @@ export default class extends Component {
         const { limit, isRecommended, includeStSent } = this.state;
         this.setState(
             { loading: true },
-            () => this.props.socket.emit('client:act', 'getRecentPicks', limit, isRecommended, includeStSent, recentPicks => {
+            () => this.props.socket.emit('client:act', 'getRecentPicks', limit, isRecommended, includeStSent, undefined, recentPicks => {
                 console.log({ recentPicks})
                 this.setState({
                     loading: false,
