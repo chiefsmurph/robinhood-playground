@@ -6,15 +6,16 @@ export default class extends Component {
     state = {
         limit: 30,
         isRecommended: true,
+        onlyDrops: true,
         includeStSent: false,
         recentPicks: [],
         loading: false
     };
     fetchPicks = () => {
-        const { limit, isRecommended, includeStSent } = this.state;
+        const { limit, isRecommended, includeStSent, onlyDrops } = this.state;
         this.setState(
             { loading: true },
-            () => this.props.socket.emit('client:act', 'getRecentPicks', limit, isRecommended, includeStSent, undefined, recentPicks => {
+            () => this.props.socket.emit('client:act', 'getRecentPicks', limit, isRecommended, includeStSent, onlyDrops ? 'sudden-drops' : undefined, recentPicks => {
                 console.log({ recentPicks})
                 this.setState({
                     loading: false,
@@ -57,14 +58,14 @@ export default class extends Component {
         this.fetchPicks();
     }
     componentDidUpdate(_, prevState) {
-        const propsToWatch = ['limit', 'isRecommended', 'includeStSent'];
+        const propsToWatch = ['limit', 'isRecommended', 'includeStSent', 'onlyDrops'];
         if (propsToWatch.some(key => prevState[key] !== this.state[key])) {
             this.fetchPicks();
         }
     }
     numDayHandler = evt => this.setState({ limit: Number(evt.target.value) });
     render () {
-        const { recentPicks, isRecommended, includeStSent, loading } = this.state;
+        const { recentPicks, isRecommended, includeStSent, onlyDrops, loading } = this.state;
         return (
             <div style={{ padding: '15px' }}>
                 <h1>Recent Picks</h1>
@@ -73,7 +74,7 @@ export default class extends Component {
                 <select onChange={this.numDayHandler} disabled={loading} >
                     {
                         [
-                            30, 60, 100, 300, 
+                            30, 60, 100, 300, 500
                             //900, 2000, 5000
                         ].map(n => <option>{n}</option>)
                     }
@@ -90,11 +91,18 @@ export default class extends Component {
                 &nbsp;&nbsp;&nbsp;&nbsp;
 
                 <label>
+                    only drops:
+                    &nbsp;
+                    <input type="checkbox" checked={onlyDrops} onChange={evt => this.setState({ onlyDrops: !onlyDrops })} disabled={loading} />
+                </label>
+                
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                <label>
                     include <span data-custom data-tooltip-str='stocktwits sentiment'>stSent</span>:
                     &nbsp;
                     <input type="checkbox" checked={includeStSent} onChange={evt => this.setState({ includeStSent: !includeStSent })} disabled={loading} />
                 </label>
-                
 
                 <hr/>
                 {

@@ -60,7 +60,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
 
 
 
-    const recentHundredPicks = await getRecentPicks(100, true, true);
+    const recentHundredPicks = await getRecentPicks(100, true, true, 'sudden-drops');
     const hundredInverseStTrend = recentHundredPicks
         .map(recentPick => ({
             ...recentPick,
@@ -75,7 +75,7 @@ const runBasedOnRecent = async (skipSetPerc) => {
 
 
 
-    const recentThreeHundredPicks = await getRecentPicks(300);
+    const recentThreeHundredPicks = await getRecentPicks(300, true, false, 'sudden-drops');
 
 
     // ANYTHING DROPPED 20%
