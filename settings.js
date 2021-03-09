@@ -106,17 +106,17 @@ module.exports = {
         '[sudden-drops-down15]',
         '[sudden-drops-down30-neutral]',
         '[sudden-drops-brunch-down30]',
-        '[rsi-firstAlert-rsilt10-brunch]',
+        // '[rsi-firstAlert-rsilt10-brunch]',
         '[sudden-drops-down40-bearish]',
         // because duh
         '[sudden-drops-mediumJump]',
         '[sudden-drops-majorJump]',
 
-        '[rsi-notWatchout-firstAlert-rsilt10]',
+        // '[rsi-notWatchout-firstAlert-rsilt10]',
         // '[rsi-rsilt10-initial]',
-        '[rsi-rsilt10-brunch]',
-        '[rsi-rsilt10-dinner]',
-        '[rsi-rsilt5]',
+        // '[rsi-rsilt10-brunch]',
+        // '[rsi-rsilt10-dinner]',
+        // '[rsi-rsilt5]',
 
 
 
