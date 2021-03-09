@@ -201,7 +201,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
     if (dontRecommendAtHigherPrices) {
         for (let { ticker, price } of withPrices) {
             const [recentPick] = await getRecentPicksForTicker({
-                ticker, 
+                ticker,
                 date: dateStr,
                 limit: 1
             });
