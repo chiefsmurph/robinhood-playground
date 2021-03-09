@@ -12,10 +12,13 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const { registerNewStrategy } = require('./buys-in-progress');
 
 const runArray = [
-    // 9,
-    // 49, 80, 120, 152, 
-    183, 
-    202, 240, 
+    25,
+    49,
+    80,
+    120,
+    152,
+    183,
+    202, 240,
     271, 300, 330, 370, 401, 430, 446
 ];
 
@@ -48,7 +51,7 @@ const setRecentBuyPerc = async () => {
     await savePreferences(prefs);
 };
 
-const runBasedOnRecent = async (skipSetPerc) => {
+const runBasedOnRecent = async skipSetPerc => {
     
     if (!skipSetPerc) await setRecentBuyPerc();
 
