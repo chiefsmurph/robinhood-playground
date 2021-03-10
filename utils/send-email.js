@@ -18,7 +18,7 @@ module.exports = (force, subject, text = '', to = credentials.username, files = 
       text = undefined;
     }
     send({
-        subject: `robinhood-playground: ${subject}`,
+        subject: `rh-playground: ${subject}`,
         text,
         html,
         to,
