@@ -27,7 +27,10 @@ const getBasedOnRecentPicks = async () => {
 
 
     // ANYTHING DROPPED 20%
-    let trendDownBig = recentThreeHundredPicks.filter(pick => pick.trend < -20);
+    let trendDownBig = recentThreeHundredPicks
+        .filter(pick => pick.trend < -20)
+        .sort((a, b) => a.trend - b.trend)
+        .slice(0, 5);
     await log(`trendDownBig: ${trendDownBig.map(getTicker)}`);
     
 
@@ -35,7 +38,8 @@ const getBasedOnRecentPicks = async () => {
     const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
     let rsiOversold = recentThreeHundredPicks
         .sort((a, b) => getRSI(a) - getRSI(b))  // ascending - lowest first
-        .filter(pick => getRSI(pick) < 30);
+        .filter(pick => getRSI(pick) < 30)
+        .slice(0, 3);
     if (rsiOversold.length > 12) {
         await log(`too many rsiOversold something is up, resetting`, { rsiOversold});
         rsiOversold = [];
@@ -43,7 +47,7 @@ const getBasedOnRecentPicks = async () => {
     await log(`rsiOversold: ${rsiOversold.map(getTicker)}`);
     
 
-    // ALSO ANYTHING BETWEEN -1 to 15% TRENDING AND HIGH ST (>100 BULLBEARSCORE)
+    // readyToGo = ANYTHING BELOW 15% TRENDING
     const readyToGo = recentThreeHundredPicks.filter(pick => pick.trend < 15 && getRSI(pick) < 70);
     // console.log(`readyToGo: ${readyToGo.map(getTicker)}`);
 
@@ -62,7 +66,7 @@ const getBasedOnRecentPicks = async () => {
     );
 
 
-
+    // AND HIGH ST (>300 BULLBEARSCORE)
     const readyToGoAndHighSt = withStSent
         .filter(pick => getSt(pick) > 300)
         .sort((a, b) => getSt(b) - getSt(a))
