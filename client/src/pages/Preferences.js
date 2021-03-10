@@ -129,8 +129,6 @@ class Preferences extends Component {
         <h3>Algobuys</h3>
         <ul>
           <li><a onClick={this.act('runBasedOnRecent')} href="#">runBasedOnRecent</a></li>
-          <li><a onClick={this.act('sendReportBasedOnRecent')} href="#">sendReportBasedOnRecent</a></li>
-          <li><a onClick={this.act('getBasedOnRecent')} href="#">getBasedOnRecent</a></li>
           <li><a onClick={this.act('actOnSt')} href="#">actOnSt</a></li>
           <li><a onClick={this.act('actOnMultipliers')} href="#">actOnMultipliers</a></li>
           <li><a onClick={this.act('actOnZScoreFinal')} href="#">actOnZScoreFinal</a></li>
@@ -145,8 +143,14 @@ class Preferences extends Component {
           
 
         <hr/>
-          <a onClick={this.act('refreshPositions')} href="#">REFRESH POSITIONS</a>
-          <a onClick={this.getActiveStrategy} href="#">GET ACTIVE STRATEGY</a>
+
+        <ul>
+          <li><a onClick={this.act('sendReportBasedOnRecent')} href="#">sendReportBasedOnRecent</a></li>
+          <li><a onClick={this.act('getBasedOnRecent')} href="#">getBasedOnRecent</a></li>
+          <li><a onClick={this.act('refreshPositions')} href="#">REFRESH POSITIONS</a></li>
+          <li><a onClick={this.getActiveStrategy} href="#">GET ACTIVE STRATEGY</a></li>
+        </ul>
+            
         <hr/>
 
         <button onClick={pd(() => {
