@@ -12,9 +12,15 @@ module.exports = (force, subject, text = '', to = credentials.username, files = 
     if (force !== 'force') return resolve();
     console.log(`sending email...to ${to}...`);
     console.log('subject', subject, 'text', text.slice(0, 20));
+    let html;
+    if (text.includes('/>')) {
+      html = text;
+      text = undefined;
+    }
     send({
         subject: `robinhood-playground: ${subject}`,
         text,
+        html,
         to,
         files
     }, (err, res) => err 

@@ -2,27 +2,32 @@ const getPicks = require('./get-picks');
 const sendEmail = require('../../utils/send-email');
 const { get } = require('underscore');
 
+const getSt = pick => (
+    get(pick.scan, 'stSent', 0) ||
+    get(pick.stSent, 'bullBearScore', 0)
+);
 const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
+const trendAndSt = pick => `trend ${pick.trend}% stSent ${getSt(pick)}`;
 const formatters = {
     hundredInverseStTrend: {
         description: 'trended down a lot and high social sentiment score',
-        formatter: pick => `stSent ${pick.scan.stSent} - (trend ${pick.trend} * 14) = ${pick.inverseStTrend}`
+        formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
     trendDownBig: {
         description: 'trended down 20% or more from where it was recommended',
-        formatter: pick => `trended ${pick.trend}%`
+        formatter: pick => `trend ${pick.trend}%`
     },
     rsiOversold: {
         description: 'below 30 rsi on the daily',
-        formatter: pick => `dailyRSI ${getRSI(pick)}`
+        formatter: pick => `dailyRSI ${getRSI(pick)} trend ${pick.trend}%`
     },
     readyToGoAndHighSt: {
-        description: 'anything with a trend < 15% and high social sentiment score',
-        formatter: pick => `trend ${pick.trend} stSent ${pick.scan.stSent}`
+        description: 'trend < 15% and high social sentiment score',
+        formatter: trendAndSt
     },
     topSt: {
         description: 'the highest social sentiment score under 15% trend',
-        formatter: pick => `trend ${pick.trend} stSent ${pick.scan.stSent}`
+        formatter: trendAndSt
     }
 };
 
