@@ -129,6 +129,8 @@ class Preferences extends Component {
         <h3>Algobuys</h3>
         <ul>
           <li><a onClick={this.act('runBasedOnRecent')} href="#">runBasedOnRecent</a></li>
+          <li><a onClick={this.act('sendReportBasedOnRecent')} href="#">sendReportBasedOnRecent</a></li>
+          <li><a onClick={this.act('getBasedOnRecent')} href="#">getBasedOnRecent</a></li>
           <li><a onClick={this.act('actOnSt')} href="#">actOnSt</a></li>
           <li><a onClick={this.act('actOnMultipliers')} href="#">actOnMultipliers</a></li>
           <li><a onClick={this.act('actOnZScoreFinal')} href="#">actOnZScoreFinal</a></li>

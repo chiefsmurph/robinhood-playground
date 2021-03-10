@@ -307,6 +307,7 @@ module.exports = new Promise(resolve => {
                 runSuperDown: require('../app-actions/run-super-down'),
                 runBasedOnRecent: () => require('../app-actions/based-on-recent/run').runBasedOnRecent(true),
                 getBasedOnRecent: () => require('../app-actions/based-on-recent/get-picks'),
+                sendReportBasedOnRecent: () => require('../app-actions/based-on-recent/send-report'),
                 buyTheRed: require('../alpaca/buy-the-red'),
                 buyBetween: require('../alpaca/buy-between'),
                 getRecentPicks: require('../app-actions/get-recent-picks'),
