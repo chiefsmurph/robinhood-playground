@@ -8,7 +8,7 @@ module.exports = async () => {
         '----------------',
         ...specificPicks.map(({ ticker, nowPrice }) => `${ticker } @ ${nowPrice}`),
         '\n',
-    ]);
+    ], []);
 
     return sendEmail('force', 'based on recent picks', lines.join('\n'));
 }
