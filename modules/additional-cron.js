@@ -66,7 +66,7 @@ const additionalCron = [
         name: 'sendReportBasedOnRecent',
         run: [-5],
         fn: sendReportBasedOnRecent
-    }
+    },
 
     {
         name: 'getAllTickers',
