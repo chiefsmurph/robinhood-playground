@@ -9,6 +9,7 @@ const stratPerfMultiple = require('../analysis/strategy-perf-multiple');
 // const logPortfolioValue = require('../app-actions/log-portfolio-value');
 const { default: recordStratPerfs } = require('../app-actions/record-strat-perfs');
 const { runBasedOnRecent, runArray: basedOnRecentRunArray } = require('../app-actions/based-on-recent/run');
+const sendReportBasedOnRecent = require('../app-actions/based-on-recent/send-report');
 // const doubleDown = require('../app-actions/double-down');
 
 // const sellAllOlderThanTwoDays = require('../app-actions/sell-all-older-than-two-days');
@@ -60,6 +61,12 @@ const additionalCron = [
         run: [-30, 30, 130, 230, 330, 400, 600],
         fn: () => saveByDateAnalysis()
     },
+
+    {
+        name: 'sendReportBasedOnRecent',
+        run: [-5],
+        fn: sendReportBasedOnRecent
+    }
 
     {
         name: 'getAllTickers',

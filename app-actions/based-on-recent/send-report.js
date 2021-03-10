@@ -36,12 +36,12 @@ module.exports = async () => {
     const picks = await getPicks();
     const lines = Object.entries(picks).reduce((acc, [collection, specificPicks]) => [
         ...acc,
-        collection,
+        `<b>${collection}</b>`,
         `<i>${formatters[collection].description}</i>`,
         '----------------',
         ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`),
-        '\n',
+        '<br>',
     ], []);
 
-    return sendEmail('force', 'based on recent picks', lines.join('\n'));
+    return sendEmail('force', 'based on recent picks', lines.join('<br>'));
 }
