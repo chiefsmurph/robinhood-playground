@@ -24,7 +24,7 @@ const formatters = {
         formatter: pick => `dailyRSI ${getRSI(pick)} trend ${pick.trend}%`
     },
     readyToGoAndHighSt: {
-        description: 'trend < 15% and high social sentiment score',
+        description: 'trend < 15% and stSent > 300',
         formatter: trendAndSt
     },
     topSt: {
@@ -39,8 +39,8 @@ module.exports = async (onlyMe = true) => {
     const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
     const picks = await getPicks();
     const intro = [
-        `Congrats!  You made a wise choice to join rh-playground's based-on-recent report!  These are the recommendations going into today.`,
-        `<i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[2]}" no quote all lowercase.</i>`
+        `Congrats!  You made a wise choice to join rh-playground's based-on-recent report!  These are the recommendations going into today.<br>`,
+        `<i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[1]}" no quotes all lowercase.</i><br>`
     ];
     const lines = Object.entries(picks).reduce((acc, [collection, specificPicks]) => [
         ...acc,
@@ -49,10 +49,7 @@ module.exports = async (onlyMe = true) => {
         '----------------',
         ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`),
         '<br>',
-    ], [
-        ...intro,
-        '<br>'
-    ]);
+    ], intro);
     const toEmails = onlyMe ? [username] : Object.keys(emails).filter(email => emails[email].includes('recentReport'));
     for (let email of toEmails) {
         await sendEmail('force', `based-on-recent report for ${dateStr}`, lines.join('<br>'), email);   
