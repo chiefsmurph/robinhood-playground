@@ -19,7 +19,7 @@ const analyzePosition = async position => {
   const percentSharesSold = numSharesSold / numSharesBought;
   const individualize = array => {
       const grouped = array.map(({ quantity, fillPrice }) => 
-          (new Array(quantity)).fill(fillPrice)
+          (new Array(Math.ceil(quantity))).fill(fillPrice)
       );
       // flatten
       return grouped.reduce((acc, arr) => [...acc, ...arr], []);
