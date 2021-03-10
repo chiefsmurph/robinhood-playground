@@ -40,7 +40,6 @@ module.exports = async (onlyMe = true) => {
     const picks = await getPicks();
     const intro = [
         `Congrats!  You made a wise choice to join rh-playground's based-on-recent report!  These are the recommendations going into today.<br>`,
-        `<i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[1]}" no quotes all lowercase.</i><br>`
     ];
     const lines = Object.entries(picks).reduce((acc, [collection, specificPicks]) => [
         ...acc,
@@ -50,6 +49,7 @@ module.exports = async (onlyMe = true) => {
         ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`),
         '<br>',
     ], intro);
+    lines.push(`<hr><i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[1]}" no quotes all lowercase.</i><br>`);
     const toEmails = onlyMe ? [username] : Object.keys(emails).filter(email => emails[email].includes('recentReport'));
     for (let email of toEmails) {
         await sendEmail('force', `based-on-recent report for ${dateStr}`, lines.join('<br>'), email);   
