@@ -131,7 +131,7 @@ module.exports = async () => {
     // }
 
     let numSeconds = onlyUseCash 
-      ? 60 * 15 // 6:45
+      ? 60 * 30 // 6:45
       : 60 * 200; // 9:30
     // numSeconds *= stMultiplier;
     numSeconds = Math.round(numSeconds);
