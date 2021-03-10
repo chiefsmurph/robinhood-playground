@@ -71,7 +71,7 @@ const getBasedOnRecentPicks = async () => {
 
 
     const topSt = readyToGoAndHighSt.slice(0, 1);
-    topSt && await log(`topSt: ${getTicker(topSt)} @ ${getSt(topSt)}`);
+    await log(`topSt: ${topSt.map(getTicker)}`);
 
     return {
         hundredInverseStTrend,
