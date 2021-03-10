@@ -2,6 +2,8 @@ const getPicks = require('./get-picks');
 const sendEmail = require('../../utils/send-email');
 const { get } = require('underscore');
 
+const { gmail: { username }, emails, authStrings } = require('../../config');
+
 const getSt = pick => (
     get(pick.scan, 'stSent', 0) ||
     get(pick.stSent, 'bullBearScore', 0)
@@ -32,8 +34,14 @@ const formatters = {
 };
 
 
-module.exports = async () => {
+module.exports = async (onlyMe = true) => {
+
+    const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
     const picks = await getPicks();
+    const intro = [
+        `Congrats!  You made a wise choice to join rh-playground's based-on-recent report!  These are the recommendations going into today.`,
+        `<i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[2]}" no quote all lowercase.</i>`
+    ];
     const lines = Object.entries(picks).reduce((acc, [collection, specificPicks]) => [
         ...acc,
         `<b>${collection}</b>`,
@@ -41,7 +49,12 @@ module.exports = async () => {
         '----------------',
         ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`),
         '<br>',
-    ], []);
-
-    return sendEmail('force', 'based on recent picks', lines.join('<br>'));
+    ], [
+        ...intro,
+        '<br>'
+    ]);
+    const toEmails = onlyMe ? [username] : Object.keys(emails).filter(email => emails[email].includes('recentReport'));
+    for (let email of toEmails) {
+        await sendEmail('force', `based-on-recent report for ${dateStr}`, lines.join('<br>'), email);   
+    }
 }
