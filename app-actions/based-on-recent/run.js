@@ -31,9 +31,16 @@ const setRecentBuyPerc = async () => {
     const runAfterCount = runAfter.length;
 
     const newRecentBuyAmt = buyingPower / runAfterCount;
-    const newRecentBuyPerc = curMin < 370
-        ? 2.5
-        : Math.ceil(newRecentBuyAmt / equity * 100);
+
+
+    // curMin < 370
+    //     ? 2.5
+    //     : 
+    let newRecentBuyPerc = newRecentBuyAmt / equity * 100;
+    if (curMin < 370) {
+        newRecentBuyPerc = newRecentBuyPerc * 0.8
+    }
+    newRecentBuyPerc = Math.ceil(newRecentBuyPerc);
 
     const prefs = await getPreferences();
     prefs.recentBuyPerc = newRecentBuyPerc;
