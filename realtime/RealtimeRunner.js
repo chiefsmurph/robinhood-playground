@@ -252,7 +252,7 @@ module.exports = new (class RealtimeRunner {
     }
 
     // afternoon intervals
-    const AFTERNOON_START_MIN = 90; // 10:20am
+    const AFTERNOON_START_MIN = 75; // 10:20am
     if (dayInProgress(AFTERNOON_START_MIN)) {
       this.startAfternoonIntervals();
     }
