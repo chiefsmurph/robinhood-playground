@@ -61,7 +61,12 @@ const runBasedOnRecent = async skipSetPerc => {
     
     if (!skipSetPerc) await setRecentBuyPerc();
 
-    
+    const { onlyUseCash, recentBuyPerc, makeFundsForRecent = false } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
+    if (recentBuyPerc < 1) {
+        await log('sorry not enough to buy with');
+        return;
+    }
+
     const picks = await getBasedOnRecentPicks();
     Object.entries(picks).forEach(([collection, specificPicks]) => {
         specificPicks.map(getTicker).forEach(ticker => {
@@ -76,7 +81,6 @@ const runBasedOnRecent = async skipSetPerc => {
 
 
 
-    const { onlyUseCash, recentBuyPerc, makeFundsForRecent = false } = await getPreferences();   // recentBuyPerc = total to buy per run not per stock
     const account = await alpaca.getAccount();
     const { cash, buying_power, equity } = account;
 
