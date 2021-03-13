@@ -146,12 +146,19 @@ class Stock extends Component {
     scanResults: null,
     isLoading: false,
     recentPicksCache: {},
-    scannedToday: null
+    scannedToday: []
   };
+  newScannedToday = tickers =>
+    this.setState(({ scannedToday }) => ({
+      scannedToday: [...new Set([...scannedToday, ...tickers])]
+    }));
   componentDidMount() {
-    this.props.socket.emit('client:get-scanned-today', scannedToday => 
-      this.setState({ scannedToday })
-    );
+    const { forceSingleStock, socket, setAppState } = this.props;
+    socket.emit('client:get-scanned-today', this.newScannedToday);
+    if (forceSingleStock) {
+      this.setState({ stock: forceSingleStock }, () => this.send());
+      setAppState({ forceSingleStock: undefined });
+    }
   }
   send = () => {
     console.log('sending');
@@ -167,12 +174,10 @@ class Stock extends Component {
         this.setState({ stock: '', isLoading: false });
         return;
       }
-      console.log({ scanResults});
-      this.setState(({ scannedToday }) => ({ 
-        scanResults, 
+      this.setState(() => ({
+        scanResults,
         isLoading: false,
-        scannedToday: [...new Set([...scannedToday, formatted])]
-      }));
+      }), () => this.newScannedToday([formatted]));
     });
     if (!this.state.recentPicksCache[formatted]) {
       this.props.socket.emit('client:get-recent-picks', formatted, recentPicks => {

@@ -19,7 +19,7 @@ const tooltipStr = ({ buyStrategies }) =>
 // const getByDateStats = 
 
 
-const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, spraySell }) => {
+const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, spraySell, navigateToSingleStock }) => {
 
     console.log({ name, positions });
 
@@ -34,7 +34,11 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         // sellOffDaysLeft: 'sellOffDaysLeft',
         ticker: pos => {
             const tooltipText = (pos.interestingWords || []).join(' ');
-            return <span {...tooltipText && { 'data-custom': true, 'data-tooltip-str': tooltipText }}>{pos.ticker}</span>
+            return (
+                <a href='javascript:void' onClick={() => navigateToSingleStock(pos.ticker)}>
+                    <span {...tooltipText && { 'data-custom': true, 'data-tooltip-str': tooltipText }}>{pos.ticker}</span>
+                </a>
+            );
         },
         
         ...!admin ? {
@@ -306,7 +310,8 @@ class Positions extends Component {
             // admin, 
             positions, 
             relatedPrices,
-            lowKey
+            lowKey,
+            navigateToSingleStock
         } = this.props;
 
 
@@ -325,6 +330,7 @@ class Positions extends Component {
                             admin={true}
                             lowKey={lowKey}
                             spraySell={this.spraySell}
+                            navigateToSingleStock={navigateToSingleStock}
                         />
                     ))
                 }

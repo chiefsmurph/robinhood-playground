@@ -349,6 +349,8 @@ class App extends Component {
         }
     };
 
+
+
     setAuthLevel = authLevel => {
         this.setState({ authLevel });
         if (authLevel === 100) {
@@ -451,6 +453,18 @@ class App extends Component {
             setAppState: state => {
                 console.log({ update: state })
                 this.setState(state);
+            },
+            navigateToSingleStock: ticker => {
+                this.setState({ forceSingleStock: ticker });
+                console.log()
+                const index = pages(this.state.authLevel).findIndex(p => p.label === 'Single Stock');
+                console.log({
+                    index,
+                    ps: pages(this.state.authLevel)
+                })
+                this.handlePageChange(
+                    undefined, pages(this.state.authLevel).findIndex(p => p.label === 'Single Stock')
+                );
             },
             // position analysis
             allPositions,

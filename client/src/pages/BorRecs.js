@@ -73,7 +73,7 @@ const formatters = {
 
 class BorRecs extends Component {
     render() {
-        const { borRecs: { lastUpdated, picks } = {} } = this.props;
+        const { borRecs: { lastUpdated, picks } = {}, navigateToSingleStock } = this.props;
         if (!lastUpdated) {
             return <b>loading</b>
         }
@@ -93,7 +93,7 @@ class BorRecs extends Component {
                                 <ul>
                                     {
                                         specificPicks.map(pick => 
-                                            <li>{`${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`}</li>
+                                            <li><a href='javascript:void' onClick={() => navigateToSingleStock(pick.ticker)}>{pick.ticker}</a>{` @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`}</li>
                                         )
                                     }
                                 </ul>
