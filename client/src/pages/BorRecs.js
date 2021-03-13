@@ -76,7 +76,7 @@ class BorRecs extends Component {
         const { borRecs: { lastUpdated, picks } } = this.props;
         return (
             <div style={{ padding: '20px' }}>
-                <h2>Based On Recent Picks</h2>
+                <h2>Based on Recent Recommendations</h2>
                 <i>last updated: {(new Date(lastUpdated)).toLocaleString()}</i>
                 <hr/>
                 {

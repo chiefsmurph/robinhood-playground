@@ -143,11 +143,6 @@ const pages = authLevel => [
         authLevel: 2,
     },
     {
-        label: 'BoR Picks',
-        component: BorRecs,
-        authLevel: 1,
-    },
-    {
         label: "Today",
         component: TodaysStrategies,
         authLevel: 1,
@@ -175,6 +170,11 @@ const pages = authLevel => [
     {
         label: 'Recent Picks',
         component: RecentPicks,
+        authLevel: 1,
+    },
+    {
+        label: 'BoR Recs',
+        component: BorRecs,
         authLevel: 1,
     },
     {
