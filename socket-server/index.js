@@ -129,6 +129,7 @@ module.exports = new Promise(resolve => {
             const base = {
                 1: 'A FRIEND HAS',
                 3: 'AN ST FRIEND HAS',
+                4: 'THE TOP tt APE',
                 100: 'YOU HAVE'
             }[authLevel];
             if (!base) return '';
