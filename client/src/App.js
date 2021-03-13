@@ -27,6 +27,7 @@ import Tab from '@material-ui/core/Tab'
 import Popup from "reactjs-popup";
 
 import PmReport from './pages/PmReport';
+import BorRecs from './pages/BorRecs';
 import BalanceReports from './pages/BalanceReports';
 import Preferences from './pages/Preferences';
 import TodaysStrategies from './pages/TodaysStrategies';
@@ -140,6 +141,11 @@ const pages = authLevel => [
         label: 'Preferences',
         component: Preferences,
         authLevel: 2,
+    },
+    {
+        label: 'BoR Picks',
+        component: BorRecs,
+        authLevel: 1,
     },
     {
         label: "Today",

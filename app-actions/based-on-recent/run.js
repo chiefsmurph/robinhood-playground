@@ -67,7 +67,10 @@ const runBasedOnRecent = async skipSetPerc => {
         return;
     }
 
-    const picks = await getBasedOnRecentPicks();
+    const stratManager = require('../../socket-server/strat-manager');    
+    const getPs = stratManager ? stratManager.refreshBorRecs : getBasedOnRecentPicks; 
+
+    const picks = await getPs();
     Object.entries(picks).forEach(([collection, specificPicks]) => {
         specificPicks.map(getTicker).forEach(ticker => {
             console.log(`registering ${collection} - ${ticker}`);

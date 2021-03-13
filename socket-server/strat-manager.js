@@ -41,7 +41,7 @@ const settings = require('../settings');
 const getAnalyzedClosed = require('../analysis/positions/get-closed');
 const dayInProgress = require('../realtime/day-in-progress');
 
-const getBorPicks = require('../app-actions/based-on-recent/get-picks');
+const getBorRecs = require('../app-actions/based-on-recent/get-picks');
 
 // const RealtimeRunner = ;
 
@@ -108,8 +108,8 @@ const stratManager = {
         setInterval(() => this.refreshPositions(), 1000 * 60 * 15);
         await this.refreshPositions(true);
 
-        setInterval(() => this.refreshBorPicks(), 1000 * 60 * 45);
-        await this.refreshBorPicks();
+        setInterval(() => this.refreshBorRecs(), 1000 * 60 * 45);
+        await this.refreshBorRecs();
 
         new CronJob(`50 8 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);
         if (dayInProgress(-40, 510)) {
@@ -148,7 +148,7 @@ const stratManager = {
                 'positions',
                 'pastData',
                 'analyzedClosed',
-                'borPicks'
+                'borRecs'
             ]),
             relatedPrices: this.tickerWatcher.relatedPrices,
             settings,
@@ -162,17 +162,18 @@ const stratManager = {
             preferences: await getPreferences()
         };
     },
-    async refreshBorPicks() {
-        const picks = await getBorPicks();
-        const borPicks = {
+    async refreshBorRecs() {
+        const picks = await getBorRecs();
+        const borRecs = {
             lastUpdated: Date.now(),
             picks
         };
-        this.borPicks = borPicks;
+        this.borRecs = borRecs;
         this.sendToAll('server:data-update', { 
-            borPicks,
+            borRecs,
         });
-        return borPicks;
+        await log('done refreshing borRecs in the stratmanager')
+        return borRecs;
     },
     async refreshPositions(refreshClosed) {
         console.log('refreshing positions', (new Date().toLocaleTimeString()));

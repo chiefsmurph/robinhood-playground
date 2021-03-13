@@ -313,6 +313,7 @@ module.exports = new Promise(resolve => {
                 getRecentPicks: require('../app-actions/get-recent-picks'),
                 lookupMultiple,
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
+                refreshBorRecs: () => require('../socket-server/strat-manager').refreshBorRecs(),
                 getRelatedPosition,
                 log: str => log(`${nPrefix}${actualLocation} says ${str}`, { ip, location, userAgent }),
                 getActiveStrategy: ticker => getActiveStrategy(ticker),
