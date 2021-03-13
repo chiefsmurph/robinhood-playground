@@ -135,12 +135,12 @@ const pages = authLevel => [
     {
         label: 'Logs',
         component: Logs,
-        authLevel: 2,
+        authLevel: 100,
     },
     {
         label: 'Preferences',
         component: Preferences,
-        authLevel: 2,
+        authLevel: 100,
     },
     {
         label: "Today",
@@ -151,7 +151,7 @@ const pages = authLevel => [
     {
         label: 'Positions',
         component: Positions,
-        authLevel: 2,
+        authLevel: 100,
     },
     // {
     //     label: 'Analysis',
@@ -160,12 +160,12 @@ const pages = authLevel => [
     {
         label: 'Closed',
         component: Closed,
-        authLevel: 2,
+        authLevel: 100,
     },
     {
         label: 'Date Analysis',
         component: DateAnalysis,
-        authLevel: 2,
+        authLevel: 100,
     },
     {
         label: 'Recent Picks',
@@ -204,12 +204,12 @@ const pages = authLevel => [
     {
         label: 'Settings',
         component: Settings,
-        authLevel: 2,
+        authLevel: 100,
     },
     {
         label: 'Cron',
         component: Cron,
-        authLevel: 2,
+        authLevel: 100,
     }
 ].filter(page => authLevel >= (page.authLevel || 0));
 
@@ -344,14 +344,14 @@ class App extends Component {
     handlePageChange = (event, value) => {
         ReactGA.pageview(window.location.pathname + camelize(pages(this.state.authLevel)[value].label.replace(/'/g, '')));
         this.setState({ value });
-        if (this.state.authLevel !== 2) {
+        if (this.state.authLevel < 100) {
             this.state.socket.emit('client:act', 'log', `switched to ${pages(this.state.authLevel)[value].label}`)
         }
     };
 
     setAuthLevel = authLevel => {
         this.setState({ authLevel });
-        if (authLevel === 2) {
+        if (authLevel === 100) {
             console.log = console.origLog;
         }
     };
@@ -472,7 +472,7 @@ class App extends Component {
                 <AppBar 
                     position="static"
                     style={{
-                        // minWidth: authLevel === 2 ? '1000px' : ''
+                        // minWidth: authLevel === 100 ? '1000px' : ''
                     }}
                 >
                     <Toolbar>
@@ -483,7 +483,7 @@ class App extends Component {
                             </a> */}
                         </Typography>
                         {
-                            authLevel === 2 && ['Closed', 'Date Analysis'].some(page => page === tabs[showingPage]) && (
+                            authLevel === 100 && ['Closed', 'Date Analysis'].some(page => page === tabs[showingPage]) && (
                                 <div>
                                     <ReactTags
                                         tags={tags}
@@ -496,7 +496,7 @@ class App extends Component {
                             )
                         }
                     </Toolbar>
-                    { authLevel >= 1 && (
+                    { authLevel > 0 && (
                         <Tabs value={value} onChange={this.handlePageChange} scrollButtons="auto">
                             { tabs.map(label => <Tab label={label} />) }
                         </Tabs>

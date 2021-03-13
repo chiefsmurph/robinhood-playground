@@ -482,7 +482,7 @@ class DayReports extends Component {
 
         // authLevel!
 
-        if (authLevel < 2) {
+        if (authLevel < 100) {
             intensiveReports = intensiveReports.map(({ accountBalance, alpacaBalance, ...report }) => ({
                 ...report
             }));
@@ -718,7 +718,7 @@ class DayReports extends Component {
                             <br/>
                             <a href="#" onClick={() => this.setState({ numDaysToShow: 2 })}>[reset]</a>&nbsp;&nbsp;&nbsp;
                             {
-                                authLevel === 2 && (
+                                authLevel === 100 && (
                                     <label>
                                         <input type="checkbox" checked={lowKey} onClick={() => setAppState({ lowKey: !lowKey })} /> 
                                         &nbsp;&nbsp;Lowkey
@@ -779,7 +779,7 @@ class DayReports extends Component {
                         } */}
                     </div>
                     {
-                        !lowKey && (
+                        !lowKey && authLevel === 100 && (
                             <div>
                                 Cash: ${cash}<br/>
                                 Buying Power: ${buyingPower}<br/>
@@ -818,17 +818,21 @@ class DayReports extends Component {
                             ))
                         } */}
                     </div>
-                    <div style={{ display: lowKey ? 'none' : 'block' }}>
-                        <Odometer 
-                            value={(stats.alpaca || {}).current} 
-                            format="(,ddd).dd"
-                            duration={500}
-                            />
-                    </div>
+                    {
+                        authLevel === 100 && (
+                            <div style={{ display: lowKey ? 'none' : 'block' }}>
+                                <Odometer
+                                    value={(stats.alpaca || {}).current} 
+                                    format="(,ddd).dd"
+                                    duration={500}
+                                    />
+                            </div>
+                        )
+                    }
                     <div style={{ fontSize: '80%', textAlign: 'right'  }}>
                         trend since {new Date((showingSince || {}).time).toLocaleString()}<br/>
                         {
-                            authLevel === 2 && Object.keys(stats).map(stat => (
+                            authLevel === 100 && Object.keys(stats).map(stat => (
                                 <div>
                                     <span data-custom data-tooltip-str={`$${stats[stat].current}`}>
                                         {stat}

@@ -73,7 +73,10 @@ const formatters = {
 
 class BorRecs extends Component {
     render() {
-        const { borRecs: { lastUpdated, picks } } = this.props;
+        const { borRecs: { lastUpdated, picks } = {} } = this.props;
+        if (!lastUpdated) {
+            return <b>loading</b>
+        }
         return (
             <div style={{ padding: '20px' }}>
                 <h2>Based on Recent Recommendations</h2>

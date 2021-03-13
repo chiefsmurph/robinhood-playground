@@ -128,7 +128,8 @@ module.exports = new Promise(resolve => {
         const name = short => {
             const base = {
                 1: 'A FRIEND HAS',
-                2: 'YOU HAVE'
+                3: 'AN ST FRIEND HAS',
+                100: 'YOU HAVE'
             }[authLevel];
             if (!base) return '';
             return short ? base.split(' ').slice(0, -1).join(' ') : base;
