@@ -38,7 +38,7 @@ const getBasedOnRecentPicks = async () => {
     const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
     let rsiOversold = recentThreeHundredPicks
         .sort((a, b) => getRSI(a) - getRSI(b))  // ascending - lowest first
-        .filter(pick => getRSI(pick) < 30)
+        .filter(pick => getRSI(pick) < 30 && getRSI(pick) > 1)
         .slice(0, 3);
     if (rsiOversold.length > 12) {
         await log(`too many rsiOversold something is up, resetting`, { rsiOversold});
