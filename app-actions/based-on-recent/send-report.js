@@ -50,6 +50,7 @@ module.exports = async (onlyMe = true) => {
         '<br>',
     ], intro);
     lines.push(`<hr><i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[1]}" no quotes all lowercase.</i><br>`);
+    lines.push(`<i>Also if you would like to stop receiving these emails just reply with the phrase "I eat water" and you will be promptly removed.</i><br>`);
     const toEmails = onlyMe ? [username] : Object.keys(emails).filter(email => emails[email].includes('recentReport'));
     for (let email of toEmails) {
         await sendEmail('force', `based-on-recent report for ${dateStr}`, lines.join('<br>'), email);   
