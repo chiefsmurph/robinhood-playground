@@ -7,6 +7,7 @@ const getSt = pick => (
     get(pick.scan, 'stSent', 0) ||
     get(pick.stSent, 'bullBearScore', 0)
 );
+const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
 
 
 const getReadyToGoWithStWithInverse = async recentPicks => {
@@ -49,7 +50,6 @@ const getBasedOnRecentPicks = async () => {
     
 
     // DAILY RSI BELOW 30
-    const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
     let rsiOversold = recentThreeHundredPicks
         .sort((a, b) => getRSI(a) - getRSI(b))  // ascending - lowest first
         .filter(pick => getRSI(pick) < 30 && getRSI(pick) > 1)
