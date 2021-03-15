@@ -68,7 +68,7 @@ const runBasedOnRecent = async skipSetPerc => {
     }
 
     const stratManager = require('../../socket-server/strat-manager');    
-    const getPs = stratManager ? stratManager.refreshBorRecs : getBasedOnRecentPicks; 
+    const getPs = stratManager ? stratManager.refreshBorRecs.bind(stratManager) : getBasedOnRecentPicks; 
 
     const picks = await getPs();
     Object.entries(picks).forEach(([collection, specificPicks]) => {
