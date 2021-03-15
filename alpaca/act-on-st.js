@@ -118,7 +118,7 @@ module.exports = async () => {
     let multiplier = bullBearMultiplier;
     multiplier += Math.min(4, multiplierMultiplier + returnPercMultiplier);
     const totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
-    const quantity = Math.ceil(totalAmtToSpend / pickPrice);
+    const quantity = Math.ceil(totalAmtToSpend / pickPrice) || 1;
     await log(`ST buying ${ticker} about $${totalAmtToSpend} around ${pickPrice}`, {
       ticker,
       quantity,
