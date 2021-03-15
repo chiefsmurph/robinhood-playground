@@ -71,6 +71,9 @@ const runBasedOnRecent = async skipSetPerc => {
     const getPs = stratManager ? stratManager.refreshBorRecs.bind(stratManager) : getBasedOnRecentPicks; 
 
     const picks = await getPs();
+    strlog({
+        picks
+    })
     Object.entries(picks).forEach(([collection, specificPicks]) => {
         specificPicks.map(getTicker).forEach(ticker => {
             console.log(`registering ${collection} - ${ticker}`);
