@@ -173,7 +173,7 @@ const stratManager = {
             borRecs,
         });
         await log('done refreshing borRecs in the stratmanager')
-        return borRecs;
+        return borRecs.picks;
     },
     async refreshPositions(refreshClosed) {
         console.log('refreshing positions', (new Date().toLocaleTimeString()));
