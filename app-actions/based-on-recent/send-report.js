@@ -45,14 +45,16 @@ module.exports = async (onlyMe = true) => {
     const intro = [
         `Congrats!  You made a wise choice to join rh-playground's based-on-recent report!  These are the recommendations going into today.<br>`,
     ];
-    const lines = Object.entries(picks).reduce((acc, [collection, specificPicks]) => [
-        ...acc,
-        `<b>${collection}</b>`,
-        `<i>${formatters[collection].description}</i>`,
-        '----------------',
-        ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`),
-        '<br>',
-    ], intro);
+    const lines = Object.entries(picks)
+        .filter(([_, specificPicks]) => specificPicks.length)
+        .reduce((acc, [collection, specificPicks]) => [
+            ...acc,
+            `<b>${collection}</b>`,
+            `<i>${formatters[collection].description}</i>`,
+            '----------------',
+            ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`),
+            '<br>',
+        ], intro);
     lines.push(`<hr><i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[1]}" no quotes all lowercase.</i><br>`);
     lines.push(`<i>Also if you would like to stop receiving these emails just reply with the phrase "I eat water" and you will be promptly removed.</i><br>`);
     const toEmails = onlyMe ? [username] : Object.keys(emails).filter(email => emails[email].includes('recentReport'));
