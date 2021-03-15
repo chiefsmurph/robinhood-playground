@@ -94,16 +94,17 @@ const getBasedOnRecentPicks = async () => {
     await log(`topSt: ${topSt.map(getTicker)}`);
 
 
-    // const recentSevenHundredPicks = await getReadyToGoWithStWithInverse(
-    //     await getRecentPicks(700, true, false, 'sudden-drops')
-    // );
-    // const sevenHundredInverseStTrend = recentSevenHundredPicks.slice(0, 3);
-    // await log(`sevenHundredInverseStTrend: ${sevenHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
+    const recentFiveHundredPicks = await getReadyToGoWithStWithInverse(
+        await getRecentPicks(500, true, false, 'sudden-drops')
+    );
+    const fiveHundredInverseStTrend = recentFiveHundredPicks.slice(0, 3);
+    await log(`fiveHundredInverseStTrend: ${fiveHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
+
 
 
     return {
         hundredInverseStTrend,
-        sevenHundredInverseStTrend,
+        fiveHundredInverseStTrend,
         trendDownBig,
         rsiOversold,
         readyToGoAndHighSt,
