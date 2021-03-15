@@ -64,7 +64,7 @@ const additionalCron = [
 
     {
         name: 'sendReportBasedOnRecent',
-        run: [-5],
+        run: [-8],
         fn: () => sendReportBasedOnRecent(false)
     },
 
