@@ -12,7 +12,11 @@ const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
 const trendAndSt = pick => `trend ${pick.trend}% stSent ${getSt(pick)}`;
 const formatters = {
     hundredInverseStTrend: {
-        description: 'trended down a lot and high social sentiment score',
+        description: 'last 100 picks - trended down a lot and high social sentiment score',
+        formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
+    },
+    sevenHundredInverseStTrend: {
+        description: 'last 700 picks - trended down a lot and high social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
     trendDownBig: {

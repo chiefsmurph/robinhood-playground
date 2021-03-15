@@ -9,8 +9,8 @@ module.exports = position => {
   } = position;
   // return true;  // nighttrading baby!
   const conditions = [
-    daysOld > 3,
-    Number(market_value) < 35
+    daysOld > 6,
+    Number(market_value) < 20,
     // mostRecentPurchase > 2,
     // numMultipliers > 150,
     // bullBearScore < 100,
