@@ -12,19 +12,21 @@ const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
 
 const getReadyToGoWithStWithInverse = async recentPicks => {
     const readyToGo = recentPicks.filter(pick => pick.trend < 15 && getRSI(pick) < 70);
-    
-    const withStSent = (
-        await mapLimit(readyToGo, 3, async pick => ({
-            ...pick,
-            stSent: await getStSentiment(pick.ticker)
-        }))
-    ).sort((a, b) => getSt(b) - getSt(a));
+    console.log({
+        before: recentPicks.length,
+        after: readyToGo.length
+    })
+    const withStSent = await mapLimit(readyToGo, 3, async pick => ({
+        ...pick,
+        stSent: await getStSentiment(pick.ticker)
+    }));
 
     return withStSent
         .map(recentPick => ({
             ...recentPick,
             inverseStTrend: Math.round(getSt(recentPick) - (recentPick.trend * 14))
         }))
+        .filter(p => p.inverseStTrend)
         .sort((a, b) => b.inverseStTrend - a.inverseStTrend);
 };
 
@@ -92,11 +94,11 @@ const getBasedOnRecentPicks = async () => {
     await log(`topSt: ${topSt.map(getTicker)}`);
 
 
-    const recentSevenHundredPicks = await getReadyToGoWithStWithInverse(
-        await getRecentPicks(700, true, false, 'sudden-drops')
-    );
-    const sevenHundredInverseStTrend = recentSevenHundredPicks.slice(0, 3);
-    await log(`sevenHundredInverseStTrend: ${sevenHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
+    // const recentSevenHundredPicks = await getReadyToGoWithStWithInverse(
+    //     await getRecentPicks(700, true, false, 'sudden-drops')
+    // );
+    // const sevenHundredInverseStTrend = recentSevenHundredPicks.slice(0, 3);
+    // await log(`sevenHundredInverseStTrend: ${sevenHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
 
     return {
