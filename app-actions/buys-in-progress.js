@@ -23,7 +23,7 @@ module.exports = {
         // log(`${ticker} currently ${curVal}`)
         if (!curVal || !curVal.length) return;   // nothing ? return undefined
         const relatedPosition = getRelatedPosition(ticker);
-        const rocketString = relatedPosition && get(relatedPosition.stSent, 'wordFlags', []).includes('rocket') && 'rocket';
+        const rocketString = relatedPosition && get(relatedPosition.stSent || {}, 'wordFlags', []).includes('rocket') && 'rocket';
         if (rocketString) log(`we got a rocket! ${ticker}`);
         return [
             ...curVal,
