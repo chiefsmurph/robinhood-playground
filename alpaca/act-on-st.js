@@ -116,7 +116,7 @@ module.exports = async () => {
     const multiplierMultiplier = Math.floor(numMultipliers / 300);
     const returnPercMultiplier = Math.abs(Math.ceil(returnPerc / 5));
     let multiplier = bullBearMultiplier;
-    multiplier += Math.min(4, multiplierMultiplier + returnPercMultiplier);
+    multiplier += Math.min(4, Number(multiplierMultiplier) + Number(returnPercMultiplier));
     const totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
     const quantity = Math.ceil(totalAmtToSpend / pickPrice) || 1;
     await log(`ST buying ${ticker} about $${totalAmtToSpend} around ${pickPrice}`, {
