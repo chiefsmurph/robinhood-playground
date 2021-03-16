@@ -23,11 +23,11 @@ module.exports = {
         // log(`${ticker} currently ${curVal}`)
         if (!curVal || !curVal.length) return;   // nothing ? return undefined
         const relatedPosition = getRelatedPosition(ticker);
-        const rocketString = relatedPosition && get(relatedPosition.stSent || {}, 'wordFlags', []).includes('rocket') && 'rocket';
+        const isRocket = relatedPosition && (get(relatedPosition.stSent || {}, 'wordFlags') ||  [].includes('rocket'));
         if (rocketString) log(`we got a rocket! ${ticker}`);
         return [
             ...curVal,
-            ...rocketString ? [rocketString] : []
+            ...isRocket ? ['rocket'] : []
         ].uniq().join('-');    // strategy1-strategy-rocket
     }
 };
