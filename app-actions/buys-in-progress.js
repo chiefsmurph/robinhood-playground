@@ -24,7 +24,7 @@ module.exports = {
         if (!curVal || !curVal.length) return;   // nothing ? return undefined
         const relatedPosition = getRelatedPosition(ticker);
         const isRocket = relatedPosition && (get(relatedPosition.stSent || {}, 'wordFlags') ||  [].includes('rocket'));
-        if (rocketString) log(`we got a rocket! ${ticker}`);
+        if (isRocket) log(`we got a rocket! ${ticker}`);
         return [
             ...curVal,
             ...isRocket ? ['rocket'] : []
