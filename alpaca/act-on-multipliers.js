@@ -9,6 +9,7 @@ const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
+const { registerNewStrategy } = require('../app-actions/buys-in-progress');
 
 module.exports = async () => {
 
@@ -62,6 +63,7 @@ module.exports = async () => {
       numMultipliers,
       returnPerc
     });
+    registerNewStrategy(ticker, 'actOnMult');
     limitBuyMultiple({
       ticker,
       totalAmtToSpend: dollarsToBuy,

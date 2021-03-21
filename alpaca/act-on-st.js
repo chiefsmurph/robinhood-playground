@@ -10,6 +10,7 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
+const { registerNewStrategy } = require('../app-actions/buys-in-progress');
 
 module.exports = async () => {
 
@@ -129,8 +130,9 @@ module.exports = async () => {
       bullBearScore,
       numMultipliers
     });
+    registerNewStrategy(ticker, 'actOnSt');
     await Hold.updateOne(
-      { ticker},
+      { ticker },
       { $inc: { stPoints: Math.round(totalAmtToSpend) } }
     );
     limitBuyMultiple({

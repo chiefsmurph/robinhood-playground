@@ -10,6 +10,8 @@ const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
 const { disableActOnZscore } = require('../settings');
+const { registerNewStrategy } = require('../app-actions/buys-in-progress');
+
 
 module.exports = async () => {
 
@@ -92,6 +94,7 @@ module.exports = async () => {
       quantity,
       multiplier,
     });
+    registerNewStrategy(ticker, 'actOnZScore');
     await Hold.updateOne(
       { ticker},
       { $inc: { zScorePoints: Math.round(totalAmtToSpend) } }
