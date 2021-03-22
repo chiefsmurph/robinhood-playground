@@ -10,17 +10,15 @@ const getMinutesFromOpen = require('./get-minutes-from-open');
 const lookup = require('./lookup');
 const getTrend = require('./get-trend');
 // const { avgArray } = require('./array-math');
+const { registerNewStrategy } = require('../app-actions/buys-in-progress');
 
 
 const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const alpacaLimitSell = require('../alpaca/limit-sell');
-const alpacaSprayBuy = require('../alpaca/spray-buy');
 const alpacaAttemptSell = require('../alpaca/attempt-sell');
-const alpacaAttemptBuy = require('../alpaca/attempt-buy');
 const { alpaca } = require('../alpaca');
-const sendEmail = require('./send-email');
 const { disableDayTrades, breakdownRSIs } = require('../settings');
 const { get } = require('underscore');
 
@@ -170,6 +168,7 @@ module.exports = class PositionWatcher {
           lastObserved
         });
         if (fundsToBuy) {
+          registerNewStrategy(ticker, `rsiBreak-rsiBrokeDown${brokeDown}`);
           limitBuyMultiple({  // how is this real
             totalAmtToSpend: approxValue,
             strategy: `RSIBREAK-BROKEDOWN${brokeDown}`,
