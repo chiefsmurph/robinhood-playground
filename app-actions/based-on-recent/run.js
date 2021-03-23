@@ -10,7 +10,7 @@ const { registerNewStrategy } = require('../buys-in-progress');
 
 const runArray = [
     // limit .98
-    25,
+    32,
     49,
     80,
     120,
@@ -44,9 +44,6 @@ const setRecentBuyPerc = async () => {
     //     ? 2.5
     //     : 
     let newRecentBuyPerc = newRecentBuyAmt / equity * 100;
-    if (curMin < 370) {
-        newRecentBuyPerc = newRecentBuyPerc * 0.8
-    }
     newRecentBuyPerc = Math.ceil(newRecentBuyPerc);
 
     const prefs = await getPreferences();

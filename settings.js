@@ -51,7 +51,8 @@ module.exports = {
     ],
 
     breakdownRSIs: [
-        // 13,
+        25,
+        13,
         7, 
         3
     ],
@@ -93,7 +94,7 @@ module.exports = {
     dontRecommendAtHigherPrices: false,
 
     forPurchase: [
-        // '[avg-downer]',
+        '[avg-downer]',
         '[sudden-drops]',
         '[sudden-drops-watchout-brunch]',
         '[sudden-drops-down30]',

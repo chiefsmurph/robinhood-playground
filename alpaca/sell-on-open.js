@@ -131,14 +131,14 @@ module.exports = async () => {
     // }
 
     let numSeconds = onlyUseCash 
-      ? 60 * 30 // 6:45
+      ? 60 * 25 // 6:45
       : 60 * 200; // 9:30
     // numSeconds *= stMultiplier;
     numSeconds = Math.round(numSeconds);
 
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
-      run: [6],
+      run: [5],
       fn: () => {
         spraySell({
           ticker,
