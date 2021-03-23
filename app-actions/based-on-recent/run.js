@@ -131,10 +131,10 @@ const runBasedOnRecent = async skipSetPerc => {
     const curMin = getMinutesFromOpen();
     for (let { ticker, nowPrice } of allToBuy) {
         // prevent day trades!!
+        const quantity = Math.round(perBuy / nowPrice) || 1;
         await log(`buying ${ticker} about $${Math.round(quantity * nowPrice)}`);
         await alpacaCancelAllOrders(ticker, 'sell');
 
-        const quantity = Math.round(perBuy / nowPrice) || 1;
         console.log({
             ticker,
             nowPrice,
