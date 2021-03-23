@@ -86,16 +86,16 @@ module.exports = async () => {
 
     let firstQ = Math.ceil(qToSell / 2);
     // if (returnPerc < 0) firstQ /= 2;
-    const secondQ = qToSell - firstQ;
+    const secondQ = qToSell - firstQ + 2;
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
     await Hold.updateOne({ ticker }, { isSelling: true });
     await log(`isSelling true ${ticker} sellonopen`);
 
-
+    const marketQ = Math.ceil(firstQ / 3);
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
-      qty: Math.ceil(firstQ / 2),
+      qty: marketQ,
       side: 'sell',
       type: 'market',
       time_in_force: 'opg',
@@ -107,8 +107,8 @@ module.exports = async () => {
       fn: () => {
         spraySell({
           ticker,
-          quantity: firstQ - Math.ceil(firstQ / 2),
-          numSeconds: 60 * 5
+          quantity: firstQ - marketQ,
+          numSeconds: 60 * 30
         });
       }
     });
@@ -130,25 +130,19 @@ module.exports = async () => {
     //   }, 1000 * 60 * 6);
     // }
 
-    let numSeconds = onlyUseCash 
-      ? 60 * 25 // 6:45
-      : 60 * 200; // 9:30
-    // numSeconds *= stMultiplier;
-    numSeconds = Math.round(numSeconds);
-
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
-      run: [5],
+      run: [-30],
       fn: () => {
         spraySell({
           ticker,
           quantity: secondQ,
-          numSeconds
+          numSeconds: 60
         });
       }
     });
     
-    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell - half at market open, half spray for ${numSeconds} seconds... good luck!`, {
+    await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell ... good luck!`, {
       ticker,
       // stMultiplier,
       qToSell,
