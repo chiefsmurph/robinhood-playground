@@ -3516,7 +3516,7 @@ module.exports = class PositionWatcher {
     return Object.entries({
       notRunning: !this.running,
       hitEndAfter: this.timeout > END_AFTER,
-      // marketClosed: min > 510 || min < -100
+      marketClosed: min > 510 || min < -100
     }).filter(([reason, boolean]) => boolean).map(([ reason ]) => reason).shift();
   }
   stop() {
