@@ -1,6 +1,7 @@
 const getBasedOnRecentPicks = require('./get-picks');
 const { alpaca } = require('../../alpaca');
 const attemptBuy = require('../../alpaca/attempt-buy');
+const limitBuy = require('../../alpaca/limit-buy');
 const alpacaCancelAllOrders = require('../../alpaca/cancel-all-orders');
 const makeFundsAvailable = require('../../alpaca/make-funds-available');
 const getMinutesFromOpen = require('../../utils/get-minutes-from-open');
@@ -8,14 +9,20 @@ const getMinutesFromOpen = require('../../utils/get-minutes-from-open');
 const { registerNewStrategy } = require('../buys-in-progress');
 
 const runArray = [
+    // limit .98
     25,
     49,
     80,
     120,
     152,
     183,
+    // limit .99 yes fallbackmarket
     202, 240,
-    271, 300, 330, 370, 401, 430, 446
+    271, 300, 
+    // attempt
+    330, 370,
+    // after hours
+    401, 430, 446
 ];
 
 const setRecentBuyPerc = async () => {
@@ -124,8 +131,10 @@ const runBasedOnRecent = async skipSetPerc => {
         }
     }
 
+    const curMin = getMinutesFromOpen();
     for (let { ticker, nowPrice } of allToBuy) {
         // prevent day trades!!
+        await log(`buying ${ticker} about $${Math.round(quantity * nowPrice)}`);
         await alpacaCancelAllOrders(ticker, 'sell');
 
         const quantity = Math.round(perBuy / nowPrice) || 1;
@@ -135,14 +144,30 @@ const runBasedOnRecent = async skipSetPerc => {
             quantity
         });
 
-        await log(`buying ${ticker} about $${Math.round(quantity * nowPrice)}`);
-        attemptBuy({
-            ticker,
-            quantity,
-            fallbackToMarket: true
-        });
+        if (curMin < 185) {
+            limitBuy({
+                ticker,
+                limitPrice: nowPrice * .98,
+                quantity,
+                fallbackToMarket: false,
+                timeoutSeconds: 60 * 30
+            });
+        } else if (curMin < 320) {
+            limitBuy({
+                ticker,
+                limitPrice: nowPrice * .99,
+                quantity,
+                fallbackToMarket: true,
+                timeoutSeconds: 60 * 30
+            });
+        } else {
+            attemptBuy({
+                ticker,
+                quantity,
+                fallbackToMarket: true
+            });
+        }
     }
-
 
     return allToBuy;
 };

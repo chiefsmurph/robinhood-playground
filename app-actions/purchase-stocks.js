@@ -8,7 +8,7 @@ const sendEmail = require('../utils/send-email');
 const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}, dontBuy) => {
 
     const account = await alpaca.getAccount();
-    const { portfolio_value, cash, buying_power, long_market_value } = account;
+    const { portfolio_value, cash, buying_power, long_market_value, maintenance_margin, equity } = account;
 
     const { onlyUseCash, purchaseAmt = Math.ceil(portfolio_value / expectedPickCount), makeFundsOnlyForDowners } = await getPreferences();
     const amountPerBuy = purchaseAmt * multiplier;
@@ -18,8 +18,14 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         amountPerBuy,
     });
 
-    const amtLeft = Number(onlyUseCash ? cash : buying_power);
-    
+    let amtLeft = Number(onlyUseCash ? cash : buying_power);
+    if (getMinutesFromOpen() > 386 && onlyUseCash) {
+        // use all maintenance_margin if after hours
+        const origAmt = amtLeft;
+        const newAmtLeft = (Number(equity) - Number(maintenance_margin)) * 0.7;
+        await log(`after hours so lets use the full maintenance margin - before ${origAmt} and now ${newAmtLeft}`);
+        amtLeft = newAmtLeft;
+    }
 
     let totalAmtToSpend = amountPerBuy;//disableCashCheck ?  : Math.min(amountPerBuy, cash);
     strlog({
