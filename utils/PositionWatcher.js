@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const INITIAL_TIMEOUT = 5 * 1000;      // 40 seconds
+const INITIAL_TIMEOUT = 40 * 1000;      // 40 seconds
 const END_AFTER = 2 * 1000 * 60 * 60;   // 2 hr
 
 const { RSI } = require('technicalindicators');
