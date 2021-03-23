@@ -237,24 +237,25 @@ module.exports = class PositionWatcher {
       currentPrice,
       askPrice
     ];
-    // const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
-    const observePrice = Math.max(...prices);
-    // this.lastPrices = prices;
+    const observePrice = Math.min(...prices);
+    this.lastPrices = prices;
     this.observedPrices.push(currentPrice);
-    await this.checkRSI();
 
     const returnPerc = getTrend(observePrice, avgEntry);
     
-    // if (skipChecks) {
-    //   return this.scheduleTimeout();
-    // }
+    const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
+    if (isSame) {
+      return this.scheduleTimeout();
+    }
 
+    await this.checkRSI();
 
 
     // only check for avg-downer if isTodayPick
     const msPast = Date.now() - pickTimestamp;
     const minPast = Math.floor(msPast / 60000);
     if (isTodayPick && minPast >= 1) {
+      const trendSinceLastPick = getTrend(observePrice, pickPrice);
       const lessThanTime = (() => {
         if (minPast <= 5) return 'isLessThan5Min';
         if (minPast <= 20) return 'isLessThan20Min';
@@ -266,14 +267,14 @@ module.exports = class PositionWatcher {
         if (lessThanTime === 'isLessThan2Hrs') return -6;
         return -9;
       })();
-      const shouldAvgDown = returnPerc <= avgDownWhenPercDown;
+      const shouldAvgDown = trendSinceLastPick <= avgDownWhenPercDown;
       
       strlog({
         minPast,
         lessThanTime,
         avgDownWhenPercDown,
         shouldAvgDown,
-        returnPerc
+        trendSinceLastPick
       });
   
       if (shouldAvgDown) {
@@ -287,6 +288,7 @@ module.exports = class PositionWatcher {
           },
         }, true);
         this.pickTimestamp = Date.now();
+        this.pickPrice = currentPrice;
       }
 
     }
