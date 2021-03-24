@@ -43,7 +43,7 @@ module.exports = async (onlyMe = true) => {
     const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
     const picks = await getPicks();
     const intro = [
-        `Hey dude!  I changed the time of this email.  Now you will receive these recommendations going into "power hour" (the final hour of the day) aka 3pm EST / 12pm PST.  My suspicion is that this time will work better to catch the mid-day dips.  If you want to get the recommendations earlier feel free to check the website using the directions at the bottom of this email.<br>`,
+        `Hope you're having a great day.  Here's the current stocks that have dropped a whole lot and might be good to buy and hold.<br>`,
     ];
     const lines = Object.entries(picks)
         .filter(([_, specificPicks]) => specificPicks.length)
