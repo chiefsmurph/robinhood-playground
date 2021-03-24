@@ -1,3 +1,4 @@
+const { alpaca } = require('../../alpaca');
 const getPicks = require('./get-picks');
 const sendEmail = require('../../utils/send-email');
 const { get } = require('underscore');
@@ -34,14 +35,30 @@ const formatters = {
     topSt: {
         description: 'the highest social sentiment score under 15% trend',
         formatter: trendAndSt
+    },
+    myLargestPositions: {
+        description: 'pretty self explanatory',
+        formatter: pick => `my current unrealizedPl: ${pick.returnPerc}%`
     }
 };
 
+const getMyLargestPositions = async () => {
+    const positions = await alpaca.getPositions();
+    const sorted = positions.sort((a, b) => Number(b.market_value) - Number(a.market_value));
+    strlog(sorted);
+    return sorted.slice(0, 3).map(p => ({
+        ticker: p.symbol,
+        returnPerc: (Number(p.unrealized_plpc) * 100).twoDec(),
+        nowPrice: Number(p.current_price)
+    }));
+};
 
 module.exports = async (onlyMe = true) => {
-
     const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
     const picks = await getPicks();
+
+    picks.myLargestPositions = await getMyLargestPositions();
+
     const intro = [
         `Hope you're having a great day.  Here's the current stocks that have dropped a whole lot and might be good to buy and hold.<br>`,
     ];
