@@ -101,17 +101,20 @@ module.exports = async () => {
       time_in_force: 'opg',
     }).catch(console.error);
 
-    regCronIncAfterSixThirty({
-      name: `start spray selling ${ticker}`,
-      run: [0],
-      fn: () => {
-        spraySell({
-          ticker,
-          quantity: firstQ - marketQ,
-          numSeconds: 60 * 30
-        });
-      }
+
+    spraySell({
+      ticker,
+      quantity: firstQ - marketQ,
+      numSeconds: 60 * 20
     });
+
+    // regCronIncAfterSixThirty({
+    //   name: `start spray selling ${ticker}`,
+    //   run: [-5],
+    //   fn: () => {
+        
+    //   }
+    // });
 
 
 
@@ -132,12 +135,12 @@ module.exports = async () => {
 
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
-      run: [-30],
+      run: [0],
       fn: () => {
         spraySell({
           ticker,
           quantity: secondQ,
-          numSeconds: 60
+          numSeconds: 60 * 30
         });
       }
     });
