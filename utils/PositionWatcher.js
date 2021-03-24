@@ -238,12 +238,13 @@ module.exports = class PositionWatcher {
       askPrice
     ];
     const observePrice = Math.min(...prices);
+    const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
+    
     this.lastPrices = prices;
     this.observedPrices.push(currentPrice);
 
     const returnPerc = getTrend(observePrice, avgEntry);
     
-    const isSame = Boolean(JSON.stringify(prices) === JSON.stringify(this.lastPrices));
     if (isSame) {
       return this.scheduleTimeout();
     }
@@ -254,6 +255,13 @@ module.exports = class PositionWatcher {
     // only check for avg-downer if isTodayPick
     const msPast = Date.now() - pickTimestamp;
     const minPast = Math.floor(msPast / 60000);
+    console.log({
+      ticker,
+      isTodayPick,
+      minPast,
+      pickPrice,
+      pickTimestamp
+    })
     if (isTodayPick && minPast >= 1) {
       const trendSinceLastPick = getTrend(observePrice, pickPrice);
       const lessThanTime = (() => {
