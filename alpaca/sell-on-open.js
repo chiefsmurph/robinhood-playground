@@ -6,6 +6,7 @@ const getSpyTrend = require('../utils/get-spy-trend');
 const spraySell = require('./spray-sell');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 const Hold = require('../models/Holds');
+const cancelAllOrders = require('./cancel-all-orders');
 
 module.exports = async () => {
 
@@ -144,6 +145,19 @@ module.exports = async () => {
         });
       }
     });
+
+
+    if (actualPercToSell === 100) {
+      regCronIncAfterSixThirty({
+        name: `liquidating ${ticker}`,
+        run: [31],
+        fn: async () => {
+          await cancelAllOrders(ticker);
+          await alpaca.closePosition(ticker);
+          await log(`liquidated ${ticker}`);
+        }
+      });
+    }
     
     await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell ... good luck!`, {
       ticker,

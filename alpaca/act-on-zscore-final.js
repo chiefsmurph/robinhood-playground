@@ -52,8 +52,8 @@ module.exports = async () => {
   const toBuy = positions
     .filter(p => p.scan)
     .filter(p => (
-      p.zScoreFinal > 2.8 ||
-      p.zScoreSum > 24
+      p.zScoreFinal > 2.4 ||
+      p.zScoreSum > 16
     ))
   const label = ps => ps.map(p => p.ticker).join(', ');
 
