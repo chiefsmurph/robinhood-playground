@@ -55,9 +55,11 @@ const getMyLargestPositions = async () => {
 
 module.exports = async (onlyMe = true) => {
     const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
-    const picks = await getPicks();
 
-    picks.myLargestPositions = await getMyLargestPositions();
+    const picks = {
+        myLargestPositions = await getMyLargestPositions(),
+        ...await getPicks()
+    };
 
     const intro = [
         `Hope you're having a great day.  Here's the current stocks that have dropped a whole lot and might be good to buy and hold.<br>`,
