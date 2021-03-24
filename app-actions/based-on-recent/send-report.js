@@ -57,7 +57,7 @@ module.exports = async (onlyMe = true) => {
     const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
 
     const picks = {
-        myLargestPositions = await getMyLargestPositions(),
+        myLargestPositions: await getMyLargestPositions(),
         ...await getPicks()
     };
 
