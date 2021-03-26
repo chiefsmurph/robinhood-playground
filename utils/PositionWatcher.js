@@ -225,6 +225,7 @@ module.exports = class PositionWatcher {
       avgEntry,
       market_value,
       quantity,
+      wouldBeDayTrade,
       // stSent: { stBracket } = {}
     } = this.getRelatedPosition();
     
@@ -308,7 +309,7 @@ module.exports = class PositionWatcher {
 
 
 
-    if (!alreadyDayTraded && returnPerc >= 11 && !disableDayTrades) {
+    if (wouldBeDayTrade && !alreadyDayTraded && returnPerc >= 11 && !disableDayTrades) {
       const account = await alpaca.getAccount();
       const { portfolio_value, daytrade_count } = account;
       if (Number(market_value) > Number(portfolio_value) * 0.2) {
