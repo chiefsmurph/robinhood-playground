@@ -52,6 +52,7 @@ module.exports = {
 
     breakdownRSIs: [
         25,
+        20,
         13,
         7, 
         3
