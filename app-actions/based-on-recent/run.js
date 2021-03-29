@@ -42,6 +42,8 @@ const setRecentBuyPerc = async () => {
         const before = newRecentBuyAmt;
         newRecentBuyAmt = newRecentBuyAmt * 0.7;
         await log(`toning down recent buy amt because before 300 minutes: ${curMin}min - before ${before} now ${newRecentBuyAmt}`);
+    } else {
+        await log(`curMin ${curMin}`);
     }
     let newRecentBuyPerc = newRecentBuyAmt / equity * 100;
     newRecentBuyPerc = Math.ceil(newRecentBuyPerc);
