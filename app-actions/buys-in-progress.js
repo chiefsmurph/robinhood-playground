@@ -15,7 +15,7 @@ module.exports = {
         timeouts[timeoutKey] = setTimeout(() => {
             buysInProgress[ticker] = buysInProgress[ticker]
                 .filter(s => s !== strategy)
-        }, 1000 * 60 * 30); // 10 min
+        }, 1000 * 60 * 30); // 30 min
     },
 
     getActiveStrategy: ticker => {

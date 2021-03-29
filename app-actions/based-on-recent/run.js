@@ -37,12 +37,12 @@ const setRecentBuyPerc = async () => {
     const runAfter = runArray.filter(min => min >= curMin - 3); // include this one
     const runAfterCount = runAfter.length;
 
-    const newRecentBuyAmt = buyingPower / runAfterCount;
-
-
-    // curMin < 370
-    //     ? 2.5
-    //     : 
+    let newRecentBuyAmt = buyingPower / runAfterCount;
+    if (curMin < 300) {
+        const before = newRecentBuyAmt;
+        newRecentBuyAmt = newRecentBuyAmt * 0.7;
+        await log(`toning down recent buy amt because before 300 minutes: ${curMin}min - before ${before} now ${newRecentBuyAmt}`);
+    }
     let newRecentBuyPerc = newRecentBuyAmt / equity * 100;
     newRecentBuyPerc = Math.ceil(newRecentBuyPerc);
 
