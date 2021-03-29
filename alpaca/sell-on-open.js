@@ -106,7 +106,7 @@ module.exports = async () => {
     spraySell({
       ticker,
       quantity: firstQ - marketQ,
-      numSeconds: 60 * 20
+      numSeconds: 60 * 30
     });
 
     // regCronIncAfterSixThirty({
@@ -136,12 +136,12 @@ module.exports = async () => {
 
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
-      run: [0],
+      run: [15],
       fn: () => {
         spraySell({
           ticker,
           quantity: secondQ,
-          numSeconds: 60 * 30
+          numSeconds: 60 * 25
         });
       }
     });
@@ -150,7 +150,7 @@ module.exports = async () => {
     if (actualPercToSell === 100) {
       regCronIncAfterSixThirty({
         name: `liquidating ${ticker}`,
-        run: [31],
+        run: [46],
         fn: async () => {
           await cancelAllOrders(ticker);
           await alpaca.closePosition(ticker);

@@ -122,9 +122,9 @@ const additionalCron = [
         name: 'alpacaPreMarketSells',
         run: [
             -30,
-            -26,
-            -19,
-            -8
+            // -26,
+            // -19,
+            // -8
         ],
         fn: () => alpacaPremarketSells()
     },
@@ -135,64 +135,64 @@ const additionalCron = [
 
     {
         name: 'alpacaSellOnOpen',
-        run: [-12],
+        run: [-22],
         fn: () => alpacaSellOnOpen()
     },
 
 
-    {
-        name: 'make funds available sell 5 percent of equity',
-        run: [10],
-        fn: async () => {
-            const { equity } = await alpaca.getAccount();
-            const PERCENT_TO_LIQUIDATE = 2;
-            const amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
-            await log(`going to make funds available: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
-            await makeFundsAvailable(amt);
-        }
-    },
+    // {
+    //     name: 'make funds available sell 5 percent of equity',
+    //     run: [10],
+    //     fn: async () => {
+    //         const { equity } = await alpaca.getAccount();
+    //         const PERCENT_TO_LIQUIDATE = 2;
+    //         const amt = Math.round(equity * (PERCENT_TO_LIQUIDATE / 100));
+    //         await log(`going to make funds available: $${amt} or about ${PERCENT_TO_LIQUIDATE}% of $${equity}`);
+    //         await makeFundsAvailable(amt);
+    //     }
+    // },
 
 
-    {
-        name: 'make funds available get buying power to 40% of equity',
-        run: [105],
-        fn: async () => {
-            const { equity, cash, buying_power } = await alpaca.getAccount();
-            const oneThirdOfEquity = equity * 40 / 100;
-            const amtLeft = Number(getPreferences().onlyUseCash ? cash : buying_power);
-            const amt = Math.round(oneThirdOfEquity - amtLeft);
-            await log(`going to make funds available: $${amt} because oneThirdOfEquity $${oneThirdOfEquity} and amtLeft $${amtLeft}`);
-            await makeFundsAvailable(amt);
-        }
-    },
+    // {
+    //     name: 'make funds available get buying power to 40% of equity',
+    //     run: [105],
+    //     fn: async () => {
+    //         const { equity, cash, buying_power } = await alpaca.getAccount();
+    //         const oneThirdOfEquity = equity * 40 / 100;
+    //         const amtLeft = Number(getPreferences().onlyUseCash ? cash : buying_power);
+    //         const amt = Math.round(oneThirdOfEquity - amtLeft);
+    //         await log(`going to make funds available: $${amt} because oneThirdOfEquity $${oneThirdOfEquity} and amtLeft $${amtLeft}`);
+    //         await makeFundsAvailable(amt);
+    //     }
+    // },
 
 
-    {
-        name: 'alpaca sell all stocks',
-        run: [4, 170],
-        fn: () => alpacaSellAllStocks()
-    },
+    // {
+    //     name: 'alpaca sell all stocks',
+    //     run: [4, 170],
+    //     fn: () => alpacaSellAllStocks()
+    // },
 
 
 
-    {
-        name: 'alpacaActOnPositions',
-        run: [22, 220, 365],
-        fn: () => alpacaActOnPositions()
-    },
+    // {
+    //     name: 'alpacaActOnPositions',
+    //     run: [22, 220, 365],
+    //     fn: () => alpacaActOnPositions()
+    // },
 
 
-    {
-        name: 'alpaca smart sells',
-        run: [30, 55, 145, 200, 263, 300, 340],
-        // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
-        fn: () => alpacaSmartSells()
-    },
+    // {
+    //     name: 'alpaca smart sells',
+    //     run: [30, 55, 145, 200, 263, 300, 340],
+    //     // run: [5, 24, 45, 60, 100, 140, 180, 220, 280, 300],
+    //     fn: () => alpacaSmartSells()
+    // },
 
     // this is good ! for nighttrading
     {
         name: 'alpacaHopefulSells',
-        run: [-25, -14, 5, 20, 30, 45, 60, 80, 95, 120, 140, 160, 240, 291],
+        run: [-25, -14, 5, 12, 20, 25, 30, 35, 45, 60, 80, 95, 120, 140, 160, 240, 291],
         fn: () => alpacaHopefulSells()
     },
 

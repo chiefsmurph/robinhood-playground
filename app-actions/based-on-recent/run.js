@@ -10,7 +10,6 @@ const { registerNewStrategy } = require('../buys-in-progress');
 
 const runArray = [
     // limit .98
-    32,
     49,
     80,
     120,
