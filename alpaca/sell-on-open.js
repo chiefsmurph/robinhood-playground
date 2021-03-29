@@ -153,8 +153,12 @@ module.exports = async () => {
         run: [46],
         fn: async () => {
           await cancelAllOrders(ticker);
-          await alpaca.closePosition(ticker);
-          await log(`liquidated ${ticker}`);
+          if (getRelatedPosition(ticker).ticker) {
+            await alpaca.closePosition(ticker);
+            await log(`liquidated ${ticker}`);
+          } else {
+            await log(`already closed ${ticker}`);
+          }
         }
       });
     }
