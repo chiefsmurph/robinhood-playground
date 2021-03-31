@@ -59,7 +59,7 @@ module.exports = async data => {
       filled_qty
     );
     
-    const deletedHold = closedPosition ? (await theHold.closePosition()).toObject() : null;
+    const deletedHold = theHold && closedPosition ? (await theHold.closePosition()).toObject() : null;
     const sellPrice = filled_avg_price;
     const returnDollars = (sellPrice - buyPrice) * qty;
     const returnPerc = getTrend(sellPrice, buyPrice);
