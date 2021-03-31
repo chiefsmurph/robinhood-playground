@@ -149,13 +149,23 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         //     isRecommended = false;
         // }
         
-        if (!interestingWords.includes('downer')) {     // MAX (ONLY FOR NON DOWNERS)
-            multiplier = Math.round(multiplier * overallMultiplierMultiplier);
-            multiplier = Math.min(multiplier, maxOrigMultiplier);
-        }
-
         if (data.forceMultiplier) {
             multiplier = data.forceMultiplier;
+        } else if (!interestingWords.includes('downer')) {     // MAX (ONLY FOR NON DOWNERS)
+            multiplier = Math.round(multiplier * overallMultiplierMultiplier);
+            multiplier = Math.min(multiplier, maxOrigMultiplier);
+        } else {
+            // for avg downers
+            const { avgMultipliersPerPick } = getRelatedPosition(stocksToBuy[0]);
+            if (avgMultipliersPerPick) {
+                multiplier = Math.round(avgMultipliersPerPick * 1.15);
+                await log('avg downing slightly larger multiplier', { avgMultipliersPerPick, ticker: stocksToBuy[0] })
+            }
+        }
+
+        if (interestingWords.includes('minorJump')) {
+            multiplier = Math.min(60, multiplier);
+            await log(`capping multiplier for minorJump at ${multiplier}`);
         }
         
         multiplier = Math.max(multiplier, minMultiplier);           // MIN
