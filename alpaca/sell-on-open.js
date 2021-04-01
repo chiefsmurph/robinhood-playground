@@ -86,14 +86,15 @@ module.exports = async () => {
     const dollarsToSell = qToSell * currentPrice;
 
     let firstQ = Math.ceil(qToSell / 2);
+    const secondQ = qToSell - firstQ;
     // if (returnPerc < 0) firstQ /= 2;
-    const secondQ = qToSell - firstQ + 2;
     // const quarterQ = Math.floor((qToSell - halfQ) / 2);
 
     await Hold.updateOne({ ticker }, { isSelling: true });
     await log(`isSelling true ${ticker} sellonopen`);
 
     const marketQ = Math.ceil(firstQ / 3);
+
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
       qty: marketQ,
@@ -105,7 +106,7 @@ module.exports = async () => {
 
     spraySell({
       ticker,
-      quantity: firstQ - marketQ,
+      quantity: firstQ - marketQ + secondQ,
       numSeconds: 60 * 20
     });
 
@@ -134,17 +135,17 @@ module.exports = async () => {
     //   }, 1000 * 60 * 6);
     // }
 
-    regCronIncAfterSixThirty({
-      name: `start spray selling ${ticker}`,
-      run: [-10],
-      fn: () => {
-        spraySell({
-          ticker,
-          quantity: secondQ,
-          numSeconds: 60 * 9
-        });
-      }
-    });
+    // regCronIncAfterSixThirty({
+    //   name: `start spray selling ${ticker}`,
+    //   run: [-10],
+    //   fn: () => {
+    //     spraySell({
+    //       ticker,
+    //       quantity: secondQ,
+    //       numSeconds: 60 * 9
+    //     });
+    //   }
+    // });
 
 
     if (actualPercToSell === 100) {
