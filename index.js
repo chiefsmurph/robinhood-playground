@@ -50,7 +50,7 @@ process.on('unhandledRejection', async (err, p) => {
         throw err;
     }
     if (err.toString().includes('depende')) return;
-    // application specific logging, throwing an error, or other logic here
+    // application specific logging, throwing a n error, or other logic here
     const logStr = `Unhandled Rejection at: ${p.toString()}, err: ${err}`;
     console.log('we hit an error oh shit');
     console.log({ p, err: err.toString(), p: p.toString() });
