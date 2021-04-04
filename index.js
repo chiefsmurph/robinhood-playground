@@ -44,6 +44,16 @@ const { emails } = require('./config');
 
 mongoose.connect(mongoConnectionString, { useNewUrlParser: true, autoIndex: false });
 
+global.logMemory = function() {
+    const used = process.memoryUsage();
+    const lines = [];
+    for (let key in used) {
+        lines.push(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+    }
+    log(lines.join(' - '));
+};
+
+
 process.on('unhandledRejection', async (err, p) => {
     if (!err || !err.toString) {
         console.log('oh shit wt heck', err);
@@ -130,6 +140,7 @@ process.on('unhandledRejection', async (err, p) => {
 
 
     await log(`playground init'd`);
+    logMemory();
 
 
     // const accounts = await Robinhood.accounts();

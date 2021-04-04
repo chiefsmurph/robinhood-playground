@@ -263,6 +263,8 @@ module.exports = new (class RealtimeRunner {
     });
 
     this.hasInit = true;
+    await log('done initing realtime runner');
+    logMemory();
   }
 
   async loadPriceCachesWithHistoricals() {
