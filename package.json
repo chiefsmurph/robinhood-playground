@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --name robinhood-playground --node-args='--max-old-space-size=8000 --trace-warnings'",
+    "start": "pm2 start index.js --name robinhood-playground --max-memory-restart 8000M --node-args='--max-old-space-size=8000 --trace-warnings'",
     "startnode": "node --trace-warnings index.js --max-old-space-size=8000",
     "52day": "pm2 start run.js --name rp-52 --no-autorestart --node-args='--max-old-space-size=8000' -- analysis/strategy-perf-multiple 52 0 next-day-330",
     "build-client": "cd client && npm run build",

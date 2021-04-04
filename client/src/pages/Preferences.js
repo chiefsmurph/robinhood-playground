@@ -148,6 +148,7 @@ class Preferences extends Component {
           <li><a onClick={this.act('sendReportBasedOnRecent')} href="#">sendReportBasedOnRecent</a></li>
           <li><a onClick={this.act('getBasedOnRecent')} href="#">getBasedOnRecent</a></li>
           <li><a onClick={this.act('refreshPositions')} href="#">REFRESH POSITIONS</a></li>
+          <li><a onClick={this.act('logMemory')} href="#">logMemory</a></li>
           <li><a onClick={this.getActiveStrategy} href="#">GET ACTIVE STRATEGY</a></li>
         </ul>
             
