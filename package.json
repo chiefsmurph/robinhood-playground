@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --name robinhood-playground --max-memory-restart 8000M --node-args='--max-old-space-size=8000 --trace-warnings'",
-    "startnode": "node --trace-warnings index.js --max-old-space-size=8000",
-    "52day": "pm2 start run.js --name rp-52 --no-autorestart --node-args='--max-old-space-size=8000' -- analysis/strategy-perf-multiple 52 0 next-day-330",
+    "start": "pm2 start index.js --name robinhood-playground --max-memory-restart 8192M --node-args='--max-old-space-size=8192 --trace-warnings'",
+    "startnode": "node --trace-warnings index.js --max-old-space-size=8192",
+    "52day": "pm2 start run.js --name rp-52 --no-autorestart --node-args='--max-old-space-size=8192' -- analysis/strategy-perf-multiple 52 0 next-day-330",
     "build-client": "cd client && npm run build",
     "postinstall": "cp keep/robinhood.js node_modules/robinhood/src/robinhood.js"
   },
