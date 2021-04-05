@@ -107,7 +107,7 @@ module.exports = async () => {
     spraySell({
       ticker,
       quantity: firstQ - marketQ + secondQ,
-      numSeconds: 60 * 20
+      numSeconds: 60 * 40
     });
 
     // regCronIncAfterSixThirty({
