@@ -151,7 +151,7 @@ module.exports = async () => {
     if (actualPercToSell === 100) {
       regCronIncAfterSixThirty({
         name: `liquidating ${ticker}`,
-        run: [4],
+        run: [45],
         fn: async () => {
           await cancelAllOrders(ticker);
           if (getRelatedPosition(ticker).ticker) {
