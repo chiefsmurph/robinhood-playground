@@ -106,7 +106,7 @@ module.exports = async () => {
 
     spraySell({
       ticker,
-      quantity: firstQ - marketQ + secondQ,
+      quantity: firstQ - marketQ,
       numSeconds: 60 * 40
     });
 
@@ -135,23 +135,23 @@ module.exports = async () => {
     //   }, 1000 * 60 * 6);
     // }
 
-    // regCronIncAfterSixThirty({
-    //   name: `start spray selling ${ticker}`,
-    //   run: [-10],
-    //   fn: () => {
-    //     spraySell({
-    //       ticker,
-    //       quantity: secondQ,
-    //       numSeconds: 60 * 9
-    //     });
-    //   }
-    // });
+    regCronIncAfterSixThirty({
+      name: `start spray selling ${ticker}`,
+      run: [30],
+      fn: () => {
+        spraySell({
+          ticker,
+          quantity: secondQ,
+          numSeconds: 60 * 30
+        });
+      }
+    });
 
 
     if (actualPercToSell === 100) {
       regCronIncAfterSixThirty({
         name: `liquidating ${ticker}`,
-        run: [45],
+        run: [65],
         fn: async () => {
           await cancelAllOrders(ticker);
           if (getRelatedPosition(ticker).ticker) {
