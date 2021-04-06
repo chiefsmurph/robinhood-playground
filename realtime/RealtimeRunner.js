@@ -195,7 +195,7 @@ module.exports = new (class RealtimeRunner {
 
     regCronIncAfterSixThirty({
         name: 'RealtimeRunner: collectionsAndHistoricals',
-        run: [-147, -137, -127, -117, -97, -67, -47, -25, -15, -8, 2, 8, 16, 27, 45, 60, 100, 200, 397, 415, 430, 445, 470, 500, 600, 700],
+        run: [-147, -137, -127, -117, -97, -67, -47, -25, -15, -8, 8, 16, 27, 45, 60, 100, 200, 397, 415, 430, 445, 470, 500, 600, 700],
         fn: () => this.collectionsAndHistoricals()
     });
 
@@ -227,7 +227,7 @@ module.exports = new (class RealtimeRunner {
 
     regCronIncAfterSixThirty({
       name: 'RealtimeRunner: first act on zscore final',
-      run: [67],
+      run: [135],
       fn: () => alpacaActOnZScoreFinal()
     });
 
@@ -252,7 +252,7 @@ module.exports = new (class RealtimeRunner {
     }
 
     // afternoon intervals
-    const AFTERNOON_START_MIN = 75; // 10:20am
+    const AFTERNOON_START_MIN = 135; // 10:20am
     if (dayInProgress(AFTERNOON_START_MIN)) {
       this.startAfternoonIntervals();
     }
@@ -264,7 +264,7 @@ module.exports = new (class RealtimeRunner {
 
     this.hasInit = true;
     await log('done initing realtime runner');
-    logMemory();
+    logMemory();e
   }
 
   async loadPriceCachesWithHistoricals() {
