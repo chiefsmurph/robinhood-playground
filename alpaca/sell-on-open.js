@@ -6,6 +6,7 @@ const getSpyTrend = require('../utils/get-spy-trend');
 const spraySell = require('./spray-sell');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 const Hold = require('../models/Holds');
+const Log = require('../models/Log');
 const cancelAllOrders = require('./cancel-all-orders');
 
 module.exports = async () => {
@@ -154,11 +155,14 @@ module.exports = async () => {
         run: [65],
         fn: async () => {
           await cancelAllOrders(ticker);
-          if (getRelatedPosition(ticker).ticker) {
+          const positionExists = !!getRelatedPosition(ticker).ticker;
+          const boughtToday = await Log.boughtToday(ticker);
+          await log(`ticker ${ticker} - positionExists ${positionExists} boughtToday ${boughtToday}`);
+          if (positionExists && !boughtToday) {
             await alpaca.closePosition(ticker);
             await log(`liquidated ${ticker}`);
           } else {
-            await log(`already closed ${ticker}`);
+            await log(`no liquidation necessary ${ticker}`);
           }
         }
       });
