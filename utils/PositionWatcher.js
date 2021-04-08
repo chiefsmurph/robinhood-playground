@@ -122,16 +122,16 @@ module.exports = class PositionWatcher {
       // only sell green positions
       if (!canSellUpperBreaks) return;
       const breakSellPercents = {
-        60: 15,
-        70: 30,
-        80: 40,
-        90: 60
+        60: 25,
+        70: 35,
+        80: 45,
+        90: 65
       };
       let perc = breakSellPercents[foundBreak]; // perc to sell
 
       const slowSellConditions = [
-        mostRecentPurchase <= 1,
-        bullBearScore > 200
+        // mostRecentPurchase <= 1,
+        // bullBearScore > 200
       ];
       const slowSellCount = slowSellConditions.filter(Boolean).length;
       for (let i = 0; i < slowSellCount; i++) { 
