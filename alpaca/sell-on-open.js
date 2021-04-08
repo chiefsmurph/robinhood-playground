@@ -9,6 +9,24 @@ const Hold = require('../models/Holds');
 const Log = require('../models/Log');
 const cancelAllOrders = require('./cancel-all-orders');
 
+
+
+const liquidateAll = async () => {
+  const positions = await alpaca.getPositions();
+  for (let position of positions) {
+    const { symbol: ticker } = position;
+    await cancelAllOrders(ticker);
+    const boughtToday = await Log.boughtToday(ticker);
+    await log(`ticker ${ticker} - boughtToday ${boughtToday}`);
+    if (!boughtToday) {
+      await alpaca.closePosition(ticker);
+      await log(`liquidated ${ticker}`);
+    } else {
+      await log(`no liquidation necessary ${ticker}`);
+    }
+  }
+}
+
 module.exports = async () => {
 
   const { onlyUseCash, maxPerPositionAfterOpenPerc = 40, bullishTickers = [], definedPercent = {} } = await getPreferences();
@@ -20,6 +38,16 @@ module.exports = async () => {
   strlog({ positions});
 
   await log(`sell on open... maxPerPositionAfterSell: ${maxPerPositionAfterSell}`, { maxPerPositionAfterOpenPerc });
+
+
+  if (maxPerPositionAfterOpenPerc === 0) {
+    regCronIncAfterSixThirty({
+      name: `liquidate all`,
+      run: [65],
+      fn: () => liquidateAll()
+    });
+  }
+
 
   const ofInterest = positions
     .filter(p => !p.wouldBeDayTrade)
@@ -147,26 +175,6 @@ module.exports = async () => {
         });
       }
     });
-
-
-    if (actualPercToSell === 100) {
-      regCronIncAfterSixThirty({
-        name: `liquidating ${ticker}`,
-        run: [65],
-        fn: async () => {
-          await cancelAllOrders(ticker);
-          const positionExists = !!getRelatedPosition(ticker).ticker;
-          const boughtToday = await Log.boughtToday(ticker);
-          await log(`ticker ${ticker} - positionExists ${positionExists} boughtToday ${boughtToday}`);
-          if (positionExists && !boughtToday) {
-            await alpaca.closePosition(ticker);
-            await log(`liquidated ${ticker}`);
-          } else {
-            await log(`no liquidation necessary ${ticker}`);
-          }
-        }
-      });
-    }
     
     await log(`selling ${qToSell} shares of ${ticker} $${market_value} -> $${Number(market_value) - dollarsToSell} (${Math.round(actualPercToSell)}%) out to sell ... good luck!`, {
       ticker,
