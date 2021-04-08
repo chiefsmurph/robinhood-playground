@@ -23,7 +23,7 @@ module.exports = async () => {
 
   if (onlyUseCash) {
     amtToSpend *= 0.6;
-    const maxDollarsToSpendAllowed = Number(account.cash) / 2;
+    const maxDollarsToSpendAllowed = Number(account.cash);
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
   }
   

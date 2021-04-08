@@ -23,11 +23,14 @@ module.exports = async () => {
   let amtToSpend = Number(account.equity * 1.5 * actOnPercent / 100);
 
   if (onlyUseCash) {
-    amtToSpend *= 0.6;
-    const maxDollarsToSpendAllowed = Number(account.cash) / 2;
-    amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
+    amtToSpend *= 0.8;
+    let amtLeft = Number(account.cash);
+    if (getMinutesFromOpen() > 386) {
+      amtLeft = (Number(account.equity) - Number(account.maintenance_margin)) * 0.7;
+    }
+    amtToSpend = Math.min(amtLeft, amtToSpend);
   }
-  
+
   if (amtToSpend <= 4) {
     return log('not enough money to act on zscore');
   }
