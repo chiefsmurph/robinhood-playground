@@ -136,6 +136,8 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
         const isMinor = strategy.includes('minorJump');
         if (isMinor) {
             multiplier = Math.max(3, multiplier);   // minFv
+            multiplier = Math.min(60, multiplier);  // max
+            await log(`capping multiplier for minorJump at ${multiplier}`);
             if (disableOnlyMinors) {
                 isRecommended = false;
             }
@@ -163,11 +165,6 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             }
         }
 
-        if (interestingWords.includes('minorJump')) {
-            multiplier = Math.min(60, multiplier);
-            await log(`capping multiplier for minorJump at ${multiplier}`);
-        }
-        
         multiplier = Math.max(multiplier, minMultiplier);           // MIN
         multiplier = Math.min(multiplier, maxMultiplier);           // MAX
         

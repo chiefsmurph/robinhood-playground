@@ -92,7 +92,7 @@ module.exports = async () => {
 
     // interesting....
     const quantity = Math.ceil(totalAmtToSpend / pickPrice);
-    await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${pickPrice}`, {
+    await log(`ACTONZSCOREFINAL buying ${ticker} about $${totalAmtToSpend} around ${pickPrice} multiplier ${multiplier}`, {
       ticker,
       quantity,
       multiplier,

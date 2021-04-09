@@ -14,16 +14,22 @@ const cancelAllOrders = require('./cancel-all-orders');
 const liquidateAll = async () => {
   const positions = await alpaca.getPositions();
   for (let position of positions) {
-    const { symbol: ticker } = position;
-    await cancelAllOrders(ticker);
-    const boughtToday = await Log.boughtToday(ticker);
-    await log(`ticker ${ticker} - boughtToday ${boughtToday}`);
-    if (!boughtToday) {
-      await alpaca.closePosition(ticker);
-      await log(`liquidated ${ticker}`);
-    } else {
-      await log(`no liquidation necessary ${ticker}`);
+    try {
+      const { symbol: ticker } = position;
+      await cancelAllOrders(ticker);
+      const boughtToday = await Log.boughtToday(ticker);
+      await log(`ticker ${ticker} - boughtToday ${boughtToday}`);
+      if (!boughtToday) {
+        await alpaca.closePosition(ticker);
+        await log(`liquidated ${ticker}`);
+      } else {
+        await log(`no liquidation necessary ${ticker}`);
+      }
+    } catch (e) {
+      console.error(e);
+      await log(`error: ${e.toString()}`);
     }
+    await new Promise(resolve => setTimeout(resolve, 1000));
   }
 }
 
