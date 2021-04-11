@@ -8,6 +8,7 @@ const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 const Hold = require('../models/Holds');
 const Log = require('../models/Log');
 const cancelAllOrders = require('./cancel-all-orders');
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 
 
@@ -34,8 +35,8 @@ const liquidateAll = async () => {
 }
 
 module.exports = async () => {
-
-  const { onlyUseCash, maxPerPositionAfterOpenPerc = 40, bullishTickers = [], definedPercent = {} } = await getPreferences();
+  
+  const { morningMinTarget = 60, maxPerPositionAfterOpenPerc = 40, bullishTickers = [], definedPercent = {} } = await getPreferences();
   const { equity } = await alpaca.getAccount();
 
   const maxPerPositionAfterSell = equity * (maxPerPositionAfterOpenPerc / 100);
@@ -49,7 +50,7 @@ module.exports = async () => {
   if (maxPerPositionAfterOpenPerc === 0) {
     regCronIncAfterSixThirty({
       name: `liquidate all`,
-      run: [65],
+      run: [morningMinTarget + 1],
       fn: () => liquidateAll()
     });
   }
@@ -142,7 +143,7 @@ module.exports = async () => {
     spraySell({
       ticker,
       quantity: firstQ - marketQ,
-      numSeconds: 60 * 40
+      numSeconds: 60 * (morningMinTarget - getMinutesFromOpen())
     });
 
     // regCronIncAfterSixThirty({
@@ -177,7 +178,7 @@ module.exports = async () => {
         spraySell({
           ticker,
           quantity: secondQ,
-          numSeconds: 60 * 30
+          numSeconds: 60 * (morningMinTarget - 30)
         });
       }
     });
