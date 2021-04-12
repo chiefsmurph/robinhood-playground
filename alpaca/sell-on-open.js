@@ -35,7 +35,7 @@ const liquidateAll = async () => {
 }
 
 module.exports = async () => {
-  
+
   const { morningMinTarget = 60, maxPerPositionAfterOpenPerc = 40, bullishTickers = [], definedPercent = {} } = await getPreferences();
   const { equity } = await alpaca.getAccount();
 
@@ -50,7 +50,7 @@ module.exports = async () => {
   if (maxPerPositionAfterOpenPerc === 0) {
     regCronIncAfterSixThirty({
       name: `liquidate all`,
-      run: [morningMinTarget + 1],
+      run: [morningMinTarget + 2],
       fn: () => liquidateAll()
     });
   }
