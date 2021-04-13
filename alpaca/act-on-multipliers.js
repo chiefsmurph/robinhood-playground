@@ -23,6 +23,8 @@ module.exports = async () => {
     const account = await alpaca.getAccount();
     const maxDollarsToSpendAllowed = Number(account.cash) / 2;
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
+  } else {
+    amtToSpend = Math.min(amtToSpend, Number(account.buying_power));
   }
   
   if (amtToSpend <= 20) {

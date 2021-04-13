@@ -13,6 +13,7 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 
 const liquidateAll = async () => {
+  await log('liquidating all');
   const positions = await alpaca.getPositions();
   for (let position of positions) {
     try {

@@ -29,6 +29,8 @@ module.exports = async () => {
       amtLeft = (Number(account.equity) - Number(account.maintenance_margin)) * 0.7;
     }
     amtToSpend = Math.min(amtLeft, amtToSpend);
+  } else {
+    amtToSpend = Math.min(amtToSpend, Number(account.buying_power));
   }
 
   if (amtToSpend <= 4) {

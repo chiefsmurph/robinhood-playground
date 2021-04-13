@@ -25,6 +25,8 @@ module.exports = async () => {
     amtToSpend *= 0.6;
     const maxDollarsToSpendAllowed = Number(account.cash);
     amtToSpend = Math.min(maxDollarsToSpendAllowed, amtToSpend);
+  } else {
+    amtToSpend = Math.min(amtToSpend, Number(account.buying_power));
   }
   
   if (amtToSpend <= 3) {
