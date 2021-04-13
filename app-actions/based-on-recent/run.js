@@ -17,10 +17,11 @@ const runArray = [
     // 183,
     // limit .99 yes fallbackmarket
     // 202, 
-    240,
+    // 240,
     271, 300, 
+    330,
     // attempt
-    330, 350, 370, 390,
+    350, 370, 390,
     // after hours
     401, 430, 446
 ];
@@ -151,7 +152,7 @@ const runBasedOnRecent = async skipSetPerc => {
                 fallbackToMarket: false,
                 timeoutSeconds: 60 * 30
             });
-        } else if (curMin < 320) {
+        } else if (curMin < 340) {
             limitBuy({
                 ticker,
                 limitPrice: nowPrice * .99,
