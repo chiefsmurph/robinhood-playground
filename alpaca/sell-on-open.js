@@ -141,10 +141,11 @@ module.exports = async () => {
     }).catch(console.error);
 
 
+    const firstNumMinutes = morningMinTarget - getMinutesFromOpen();
     spraySell({
       ticker,
       quantity: firstQ - marketQ,
-      numSeconds: 60 * (morningMinTarget - getMinutesFromOpen())
+      numSeconds: 60 * firstNumMinutes
     });
 
     // regCronIncAfterSixThirty({
@@ -172,6 +173,8 @@ module.exports = async () => {
     //   }, 1000 * 60 * 6);
     // }
 
+    
+    const secondNumMinutes = morningMinTarget - 30;
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
       run: [30],
@@ -179,7 +182,7 @@ module.exports = async () => {
         spraySell({
           ticker,
           quantity: secondQ,
-          numSeconds: 60 * (morningMinTarget - 30)
+          numSeconds: 60 * secondNumMinutes
         });
       }
     });
@@ -192,7 +195,8 @@ module.exports = async () => {
       targetAmt,
       dollarsToSell,
       currentPrice,
-      definedPercent: definedPercent[ticker]
+      definedPercent: definedPercent[ticker],
+      firstNumMinutes,
     });
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
