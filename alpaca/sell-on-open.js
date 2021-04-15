@@ -174,10 +174,10 @@ module.exports = async () => {
     // }
 
     
-    const secondNumMinutes = morningMinTarget - 30;
+    const secondNumMinutes = Math.floor(morningMinTarget / 2);
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
-      run: [30],
+      run: [secondNumMinutes],
       fn: () => {
         spraySell({
           ticker,

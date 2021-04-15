@@ -112,7 +112,8 @@ module.exports = class PositionWatcher {
       mostRecentPurchase, 
       stSent: { bullBearScore },
       numMultipliers,
-      avgMultipliersPerPick
+      avgMultipliersPerPick,
+      currentPrice
     } = this.getRelatedPosition();
     if (curRSI > 60) {
       const breaks = [60, 70, 80, 90];
@@ -138,7 +139,7 @@ module.exports = class PositionWatcher {
         perc = perc / 1.2;
       }
       const q = Math.ceil(quantity * perc / 100);
-      await log(`${ticker} hit an upper RSI break - ${foundBreak}${canSellUpperBreaks ? ` & selling ${q} shares (${perc}%)` : ''}`, {
+      await log(`${ticker} hit an upper RSI break - ${foundBreak}${canSellUpperBreaks ? ` & selling ${q} shares (${perc}%) or about $${Math.round(q * currentPrice)}` : ''}`, {
         returnPerc,
         wouldBeDayTrade,
         canSellUpperBreaks
