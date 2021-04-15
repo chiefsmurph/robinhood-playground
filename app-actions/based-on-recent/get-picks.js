@@ -39,9 +39,11 @@ const getBasedOnRecentPicks = async () => {
     const hundredInverseStTrend = recentHundredPicks.slice(0, 3);
     await log(`hundredInverseStTrend: ${hundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
+    const hundredReverseInverseStTrend = [...recentHundredPicks.reverse()].slice(0, 3);
+    await log(`hundredReverseInverseStTrend: ${hundredReverseInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
     const recentThreeHundredPicks = await getRecentPicks(300, true, false, 'sudden-drops');
-
+    
 
     // ANYTHING DROPPED 20%
     let trendDownBig = recentThreeHundredPicks
@@ -100,11 +102,15 @@ const getBasedOnRecentPicks = async () => {
     const fiveHundredInverseStTrend = recentFiveHundredPicks.slice(0, 3);
     await log(`fiveHundredInverseStTrend: ${fiveHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
+    const fiveHundredReverseInverseStTrend = [...recentFiveHundredPicks.reverse()].slice(0, 3);
+    await log(`fiveHundredReverseInverseStTrend: ${fiveHundredReverseInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
 
     return {
         hundredInverseStTrend,
+        hundredReverseInverseStTrend,
         fiveHundredInverseStTrend,
+        fiveHundredReverseInverseStTrend,
         trendDownBig,
         rsiOversold,
         readyToGoAndHighSt,

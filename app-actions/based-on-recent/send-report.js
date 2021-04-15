@@ -16,8 +16,16 @@ const formatters = {
         description: 'last 100 picks - trended down a lot and high social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
+    hundredReverseInverseStTrend: {
+        description: 'last 100 picks - trended up a lot and low social sentiment score',
+        formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
+    },
     fiveHundredInverseStTrend: {
         description: 'last 500 picks - trended down a lot and high social sentiment score',
+        formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
+    },
+    fiveHundredReverseInverseStTrend: {
+        description: 'last 500 picks - trended up a lot and low social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
     trendDownBig: {
