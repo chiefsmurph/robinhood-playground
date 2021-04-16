@@ -160,7 +160,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
             // for avg downers
             const { avgMultipliersPerPick } = getRelatedPosition(stocksToBuy[0]);
             if (avgMultipliersPerPick) {
-                multiplier = Math.round(avgMultipliersPerPick * 1.15);
+                multiplier = Math.round(avgMultipliersPerPick * 1.45);
                 await log('avg downing slightly larger multiplier', { avgMultipliersPerPick, ticker: stocksToBuy[0] })
             }
         }
