@@ -210,7 +210,7 @@ const additionalCron = [
         run: basedOnRecentRunArray,
         fn: async min => {
             if (min > 290) {
-                await alpacaCancelAllOrders();
+                await alpacaCancelAllOrders(undefined, 'buy');
             }
             runBasedOnRecent()
         },
