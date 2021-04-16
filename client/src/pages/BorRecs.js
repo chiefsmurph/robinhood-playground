@@ -60,7 +60,7 @@ const formatters = {
         description: 'last 500 picks - trended down a lot and high social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
-    fiveHundredInverseStTrend: {
+    fiveHundredReverseInverseStTrend: {
         description: 'last 500 picks - trended up a lot and low social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
@@ -98,6 +98,7 @@ class BorRecs extends Component {
                 {
                     Object.entries(picks)
                         .filter(([__, specificPicks]) => specificPicks.length)
+                        .filter(([collection]) => formatters[collection])
                         .map(([collection, specificPicks]) => (
                             <div>
                                 <b>{collection}</b><br/>
