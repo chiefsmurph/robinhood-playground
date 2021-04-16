@@ -26,7 +26,7 @@ const getReadyToGoWithStWithInverse = async recentPicks => {
             ...recentPick,
             inverseStTrend: Math.round(getSt(recentPick) - (recentPick.trend * 14))
         }))
-        .filter(p => p.inverseStTrend)
+        .filter(p => p.inverseStTrend && getSt(p))
         .sort((a, b) => b.inverseStTrend - a.inverseStTrend);
 };
 
