@@ -25,9 +25,10 @@ const getReadyToGoWithStWithInverse = async recentPicks => {
         .map(recentPick => ({
             ...recentPick,
             // high = high ST + low trend
+            // low = low ST + high trend
             inverseStTrend: Math.round(getSt(recentPick) - (recentPick.trend * 14)),
             // high = low ST + low trend
-            backwardsStTrend: Math.round((recentPick.trend * 14) - getSt(recentPick)),
+            backwardsStTrend: Math.round((recentPick.trend * -14) - getSt(recentPick)),
         }))
         .filter(p => p.inverseStTrend && getSt(p))
         .sort((a, b) => b.inverseStTrend - a.inverseStTrend);
@@ -119,7 +120,7 @@ const getBasedOnRecentPicks = async () => {
     return {
         hundredInverseStTrend,
         hundredReverseInverseStTrend,
-        hundredBackwardsInverseStTrend,
+        hundredBackwardsStTrend,
         fiveHundredInverseStTrend,
         fiveHundredReverseInverseStTrend,
         fiveHundredBackwardsStTrend,
