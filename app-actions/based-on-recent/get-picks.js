@@ -43,7 +43,7 @@ const getBasedOnRecentPicks = async () => {
     const hundredInverseStTrend = recentHundredPicks.slice(0, 2);
     await log(`hundredInverseStTrend: ${hundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
-    const hundredReverseInverseStTrend = [...recentHundredPicks.reverse()].slice(0, 2);
+    const hundredReverseInverseStTrend = [...recentHundredPicks.reverse()].filter(p => p.trend > 0).slice(0, 2);
     await log(`hundredReverseInverseStTrend: ${hundredReverseInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
     const hundredBackwardsStTrend = recentHundredPicks.sort((a, b) => b.backwardsStTrend - a.backwardsStTrend).slice(0, 2);
@@ -110,7 +110,7 @@ const getBasedOnRecentPicks = async () => {
     const fiveHundredInverseStTrend = recentFiveHundredPicks.slice(0, 2);
     await log(`fiveHundredInverseStTrend: ${fiveHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
-    const fiveHundredReverseInverseStTrend = [...recentFiveHundredPicks.reverse()].slice(0, 2);
+    const fiveHundredReverseInverseStTrend = [...recentFiveHundredPicks.reverse()].filter(p => p.trend > 0).slice(0, 2);
     await log(`fiveHundredReverseInverseStTrend: ${fiveHundredReverseInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.inverseStTrend].join(' - ')).join(' and ')}`);
     
     const fiveHundredBackwardsStTrend = recentFiveHundredPicks.sort((a, b) => b.backwardsStTrend - a.backwardsStTrend).slice(0, 2);
