@@ -95,6 +95,15 @@ module.exports = {
     dontRecommendAtHigherPrices: false,
 
     forPurchase: [
+        '[overnight-drops-mediumJump-straightDown120]',
+        '[overnight-drops-down10-straightDown90]',
+        '[overnight-drops-majorJump-straightDown90]',
+        '[overnight-drops-watchout-straightDown120]',
+        '[overnight-drops-mediumJump-straightDown90]',
+        '[overnight-drops-!watchout-down20]',
+
+
+
         '[avg-downer]',
         '[sudden-drops]',
         '[sudden-drops-watchout-brunch]',
