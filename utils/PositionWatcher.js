@@ -160,7 +160,7 @@ module.exports = class PositionWatcher {
 
         const lastObserved = Number(this.observedPrices[this.observedPrices.length - 1]);
         const MIN_DOLLARS = equity * 0.0064;
-        const MAX_DOLLARS = equity * 0.09;
+        const MAX_DOLLARS = equity * 0.03;
         const [minQuantity, maxQuantity] = [MIN_DOLLARS, MAX_DOLLARS].map(amt => Math.ceil(amt / lastObserved));
         const thirdQuantity = Math.max(1, Math.round(quantity / 9));
         const totalPoints = bullBearScore + numMultipliers + avgMultipliersPerPick;
