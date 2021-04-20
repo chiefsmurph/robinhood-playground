@@ -87,7 +87,7 @@ module.exports = async (position, numSeconds) => {
 
     setTimeout(async () => {
         await Hold.updateOne({ ticker }, { isSelling: false });
-        await log(`isSelling false ${ticker}`);
+        await log(`sellPosition done - isSelling false ${ticker}`);
     }, 1000 * 60 * 5);
   
 };

@@ -15,6 +15,7 @@ const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
 const { alpaca } = require('../alpaca');
 const getBalance = require('../alpaca/get-balance');
+const getIsSelling = require('./get-is-selling');
 
 const getFillPriceFromResponse = response => {
     const order = response && response.alpacaOrder ? response.alpacaOrder : response;
@@ -363,7 +364,7 @@ module.exports = async ({
 
         /// dont buy positions being sold
         if (dontBuyPositionsBeingSold) {
-            if (position.isSelling) {
+            if (await getIsSelling(ticker)) {
                 return log(`BLOCKING PURCHASE OF ${ticker} because its currently being sold`);
             }
         }

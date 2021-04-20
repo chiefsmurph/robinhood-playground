@@ -6,6 +6,8 @@ const Hold = require('../models/Holds');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
+global.timeouts = {};
+
 const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1, runCount = 0) => {
   const qAmts = [];
   let qLeft = quantity;
@@ -67,6 +69,13 @@ module.exports = async ({
   await log(`isSelling true ${ticker}`);
   
   await log(`starting to spray ${quantity} shares of ${ticker} (about $${Math.round(amt)})... shares at a time ${sharesAtATime} numShots ${numShots} spaceApart ${spaceApart / 1000} sec`);
+  
+  clearTimeout(global.timeouts[`${ticker}-spraySelling`]);
+  global.timeouts[`${ticker}-spraySelling`] = setTimeout(async () => {
+    await Hold.updateOne({ ticker }, { isSelling: false });
+    await log(`done spraying ${ticker} isSelling false ${ticker}`);
+  }, 1000 * numSeconds * numShots * 1.01);
+  
   const responses = [];
   for (let i of range(numShots)) {
     if (await Log.boughtToday(ticker)) {
@@ -86,11 +95,6 @@ module.exports = async ({
   }
   
   await log(`done spray selling ${ticker}`);
-  setTimeout(async () => {
-    await Hold.updateOne({ ticker }, { isSelling: false });
-    await log(`isSelling false ${ticker}`);
-  }, 1000 * numSeconds * 1.05);
-  
 
   return responses;
 
