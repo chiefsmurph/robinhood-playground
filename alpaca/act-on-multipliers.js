@@ -28,7 +28,7 @@ module.exports = async () => {
   }
   
   if (amtToSpend <= 20) {
-    return log('not enough money to act on st');
+    return log('not enough money to act on multipliers');
   }
 
   strlog({ account})

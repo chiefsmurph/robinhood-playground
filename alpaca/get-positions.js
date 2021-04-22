@@ -408,7 +408,16 @@ module.exports = async (
 
 
   const withSingleZScores = addSingleZScores(withScan);
+  const sorted = withSingleZScores.sort((a, b) => b.market_value - a.market_value);
 
-  return withSingleZScores.sort((a, b) => b.market_value - a.market_value);
+  const realtimeRunner = require('../realtime/RealtimeRunner');
+  if (realtimeRunner) {
+    return sorted.map(position => ({
+      ...position,
+      fiveMinuteRSI: realtimeRunner.get5MinuteRSI(position.ticker)
+    }));
+  }
+
+  return sorted;
 
 };

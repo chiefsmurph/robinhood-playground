@@ -43,6 +43,17 @@ const polygonEveryFiveMinutes = require('../polygon/every-five-minutes');
 const polygonGetBars = require('../polygon/get-bars');
 
 const riskCache = {};
+const { RSI } = require('technicalindicators');
+
+
+
+const getRSI = values => {
+  return RSI.calculate({
+      values,
+      period: 14
+  }) || [];
+};
+
 
 module.exports = new (class RealtimeRunner {
   
@@ -60,6 +71,13 @@ module.exports = new (class RealtimeRunner {
       interval: null,
       disabled,
     });
+  }
+
+  get5MinuteRSI(ticker) {
+    const priceCache = this.priceCaches['5'] || {};
+    const allPrices = priceCache[ticker];
+    strlog({ fiveminutersi: ticker, allPrices  });
+    return allPrices ? getRSI(allPrices) : undefined;
   }
 
   getWelcomeData() {
