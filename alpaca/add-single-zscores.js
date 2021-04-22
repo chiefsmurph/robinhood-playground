@@ -9,7 +9,7 @@ module.exports = positions => positions
   .map(position => {
 
     const { scan = {} } = position;
-    const { zScores: { projectedVolume, projectedVolumeTo2WeekAvg, fiveMinuteRSI } = {} } = scan;
+    const { zScores: { projectedVolume, projectedVolumeTo2WeekAvg } = {}, fiveMinuteRSI } = scan;
     const zScoreKeys = Object.keys(scan).filter(key => key.includes('zScore') && key !== 'zScores');
     const ofInterest = {
       projectedVolume,
