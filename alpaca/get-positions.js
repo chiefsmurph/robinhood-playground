@@ -133,7 +133,7 @@ module.exports = async (
   }));
 
 
-  const { dontSell = [] } = await getPreferences();
+  const { dontSell = [], maxPercentOfBalance = 40 } = await getPreferences();
 
   positions = await mapLimit(positions, 3, async position => {
     const { ticker } = position;
@@ -407,7 +407,18 @@ module.exports = async (
   }));
 
 
-  const withSingleZScores = addSingleZScores(withScan);
+  const withPercentOfBalance = withScan
+    .map(position => ({
+      ...position,
+      percentOfBalance: position.market_value / balance * 100
+    }))
+    .map(position => ({
+      ...position,
+      aboveMaxBuy: position.percentOfBalance > maxPercentOfBalance
+    }));
+
+
+  const withSingleZScores = addSingleZScores(withPercentOfBalance);
   const sorted = withSingleZScores.sort((a, b) => b.market_value - a.market_value);
 
   return sorted;

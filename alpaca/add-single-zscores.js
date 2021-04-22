@@ -31,15 +31,15 @@ module.exports = positions => positions
   .map((position, index, positions) => ({
     ...position,
     zScoreRelative: zScore(
-      positions.map(p => p.zScoreSum),
+      positions.filter(p => !p.aboveMaxBuy).map(p => p.zScoreSum),
       position.zScoreSum
     ),
     zScoreReturnPerc: zScore(
-      positions.map(p => p.returnPerc * -1),
+      positions.filter(p => !p.aboveMaxBuy).map(p => p.returnPerc * -1),
       position.returnPerc * -1
     )
   }))
   .map(position => ({
     ...position,
-    zScoreFinal: twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 2))
+    zScoreFinal: position.aboveMaxBuy ? 0 : twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 2))
   }));;

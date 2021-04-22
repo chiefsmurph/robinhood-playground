@@ -355,7 +355,7 @@ module.exports = async ({
         await log(`LBM for ${stocksToBuy}... ${totalAmtToSpend} x ${multiplier} = ${perStock}`);
     }
 
-    const { bullishTickers = [], dontBuyPositionsBeingSold } = await getPreferences();
+    const { bullishTickers = [], dontBuyPositionsBeingSold, maxPercentOfBalance = 40 } = await getPreferences();
 
     await mapLimit(stocksToBuy, 3, async ticker => {       // 3 buys at a time
 
@@ -408,8 +408,8 @@ module.exports = async ({
             const balance = await getBalance();
             percOfBalance = currentValue / balance * 100;
         } catch (e) {}
-        if (percOfBalance > 40 && !strategy.includes('web-client')) {
-            return log(`NOT PURCHASING ${ticker} because ${percOfBalance}% of balance`);
+        if (percOfBalance > maxPercentOfBalance && !strategy.includes('web-client')) {
+            return log(`NOT PURCHASING ${ticker} because ${percOfBalance}% of balance and max ${maxPercentOfBalance}`);
         }
 
         console.log({ percOfBalance, ticker })

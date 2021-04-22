@@ -95,6 +95,10 @@ module.exports = {
     dontRecommendAtHigherPrices: false,
 
     forPurchase: [
+
+        '[rsi-10min-rsilt10-initial]',
+        '[overnight-drops-down10-straightDown120]',
+
         '[overnight-drops-mediumJump-straightDown120]',
         '[overnight-drops-down10-straightDown90]',
         '[overnight-drops-majorJump-straightDown90]',
