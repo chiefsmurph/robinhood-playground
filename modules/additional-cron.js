@@ -221,7 +221,7 @@ const additionalCron = [
     {
         name: 'afterhours buys',
         run: [
-            // 389,
+            397,
             // 420, 
             455, 480
         ],
