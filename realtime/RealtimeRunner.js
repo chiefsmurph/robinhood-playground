@@ -357,7 +357,7 @@ module.exports = new (class RealtimeRunner {
           'every 15 minutes - alpaca act on st',
           () => alpacaActOnSt(),
         ),
-        60 * 1000 * 15 // 20 min
+        60 * 1000 * 28 // 20 min
       ),
 
       setInterval(
@@ -365,7 +365,7 @@ module.exports = new (class RealtimeRunner {
           'every 12 minutes - alpaca act on multipliers',
           () => alpacaActOnMultipliers(),
         ),
-        60 * 1000 * 12 // 16 minutes
+        60 * 1000 * 20 // 16 minutes
       ),
 
       // setTimeout(() => 
@@ -374,7 +374,7 @@ module.exports = new (class RealtimeRunner {
           'every 9 minutes - alpaca act on zscore final',
           () => alpacaActOnZScoreFinal(),
         ),
-        60 * 1000 * 9 // 26 min
+        60 * 1000 * 26 // 26 min
       ),
         // 1000 * 60 * 5
       // ),

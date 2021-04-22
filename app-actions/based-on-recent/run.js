@@ -26,7 +26,7 @@ const runArray = [
     // attempt
     350, 370, 390,
     // after hours (390 - 510)
-    401, 415, 430, 437, 446, 458, 468, 479, 491, 500, 505
+    401, 430, 458, 479, 495
 ];
 
 const setRecentBuyPerc = async () => {
