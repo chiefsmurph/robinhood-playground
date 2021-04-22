@@ -81,7 +81,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                 {[Math.round(dailyRSI), zScore && `(${zScore})`].filter(Boolean).join(' ')}
             </span>
         ),
-        fiveMinuteRSI: ({ fiveMinuteRSI }) => (
+        fiveMinuteRSI: ({ scan: { fiveMinuteRSI } = {} } = {}) => (
             <span className={fiveMinuteRSI < 40 && 'green'}>
                 {Math.round(fiveMinuteRSI)}
             </span>
