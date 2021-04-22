@@ -291,9 +291,17 @@ const runScan = async ({
       }
     };
   });
+
+  const realtimeRunner = require('../../realtime/RealtimeRunner');
+  const withFiveMinuteRSI = withStSent.map(position => ({
+    ...position,
+    ...realtimeRunner && {
+      fiveMinuteRSI: realtimeRunner.get5MinuteRSI(position.ticker)
+    }
+  }));
   
 
-  return finalize(addZScores(withStSent), detailed);
+  return finalize(addZScores(withFiveMinuteRSI), detailed);
 
 };
 
@@ -311,6 +319,7 @@ const addZScores = array => {
       'stSent',
       'highestTrend',
       'dailyRSI',
+      'fiveMinuteRSI',
 
       'tso',
       'tsc',

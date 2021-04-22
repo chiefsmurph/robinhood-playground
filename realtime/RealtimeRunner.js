@@ -297,7 +297,7 @@ module.exports = new (class RealtimeRunner {
       console.log(`starting refreshing ${period} period cache...`);
       this.priceCaches = {
         ...this.priceCaches,
-        [period]: await getHistoricals(allTickers, period, 14)
+        [period]: await getHistoricals(allTickers, period, 14, true)
       }
       console.log(`done refreshing ${period} period cache...`);
     }
