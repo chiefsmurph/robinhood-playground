@@ -40,7 +40,7 @@ module.exports = async () => {
   strlog({ account})
 
 
-  const positions = await getPositions();
+  const positions = (await getPositions()).filter(p => !p.aboveMaxBuy);
 
 
   await log('ACTONZSCOREFINAL', {
