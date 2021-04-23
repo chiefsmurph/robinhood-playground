@@ -72,6 +72,10 @@ const formatters = {
         description: 'last 500 picks - trended down a lot and low social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = backwardsStTrend ${pick.backwardsStTrend}`
     },
+    lowestFiveMinuteRSI: {
+        description: 'last 500 picks - lowest RSI on the 5 minute',
+        formatter: pick => `${pick.ticker} - ${pick.scan.fiveMinuteRSI} RSI`
+    },
     trendDownBig: {
         description: 'trended down 20% or more from where it was recommended',
         formatter: pick => `trend ${pick.trend}%`

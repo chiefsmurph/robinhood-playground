@@ -117,6 +117,9 @@ const getBasedOnRecentPicks = async () => {
     await log(`fiveHundredBackwardsStTrend: ${fiveHundredBackwardsStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.backwardsStTrend].join(' - ')).join(' and ')}`);
 
 
+    const lowestFiveMinuteRSI = recentFiveHundredPicks.sort((a, b) => a.scan.fiveMinuteRSI - b.scan.fiveMinuteRSI).slice(0, 3);
+    await log(`lowestFiveMinuteRSI: ${lowestFiveMinuteRSI.map(pick => [pick.ticker, p.scan.fiveMinuteRSI].join(' - ')).join(' and ')}`);
+
     return {
         hundredInverseStTrend,
         hundredReverseInverseStTrend,
@@ -124,6 +127,7 @@ const getBasedOnRecentPicks = async () => {
         fiveHundredInverseStTrend,
         fiveHundredReverseInverseStTrend,
         fiveHundredBackwardsStTrend,
+        lowestFiveMinuteRSI,
         trendDownBig,
         rsiOversold,
         readyToGoAndHighSt,
