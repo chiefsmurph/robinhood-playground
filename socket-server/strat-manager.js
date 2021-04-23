@@ -108,7 +108,7 @@ const stratManager = {
         setInterval(() => this.refreshPositions(), 1000 * 60 * 15);
         await this.refreshPositions(true);
 
-        setInterval(() => this.refreshBorRecs(), 1000 * 60 * 45);
+        setInterval(() => this.refreshBorRecs(), 1000 * 60 * 60);
         await this.refreshBorRecs();
 
         new CronJob(`50 8 * * 1-5`, () => setTimeout(() => this.resetPositionWatchers(), 15000), null, true);

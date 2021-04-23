@@ -118,7 +118,7 @@ const getBasedOnRecentPicks = async () => {
 
 
     const lowestFiveMinuteRSI = recentFiveHundredPicks.sort((a, b) => a.scan.fiveMinuteRSI - b.scan.fiveMinuteRSI).slice(0, 3);
-    await log(`lowestFiveMinuteRSI: ${lowestFiveMinuteRSI.map(pick => [pick.ticker, p.scan.fiveMinuteRSI].join(' - ')).join(' and ')}`);
+    await log(`lowestFiveMinuteRSI: ${lowestFiveMinuteRSI.map(pick => [pick.ticker, pick.scan.fiveMinuteRSI].join(' - ')).join(' and ')}`);
 
     return {
         hundredInverseStTrend,
