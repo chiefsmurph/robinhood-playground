@@ -107,6 +107,7 @@ const getBasedOnRecentPicks = async () => {
     const recentFiveHundredPicks = await getReadyToGoWithStWithInverse(
         await getRecentPicks(500, true, false, 'sudden-drops')
     );
+    strlog({ recentFiveHundredPicks})
     const fiveHundredInverseStTrend = recentFiveHundredPicks.slice(0, 2);
     await log(`fiveHundredInverseStTrend: ${fiveHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.inverseStTrend].join(' - ')).join(' and ')}`);
 

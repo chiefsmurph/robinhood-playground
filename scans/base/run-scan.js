@@ -276,6 +276,16 @@ const runScan = async ({
     });
   }
 
+
+  const realtimeRunner = require('../../realtime/RealtimeRunner');
+  theGoodStuff= theGoodStuff.map(position => ({
+    ...position,
+    ...realtimeRunner && {
+      fiveMinuteRSI: realtimeRunner.get5MinuteRSI(position.ticker)
+    }
+  }));
+  
+
   if (!includeStSent) {
     return theGoodStuff;
   }
@@ -292,16 +302,8 @@ const runScan = async ({
     };
   });
 
-  const realtimeRunner = require('../../realtime/RealtimeRunner');
-  const withFiveMinuteRSI = withStSent.map(position => ({
-    ...position,
-    ...realtimeRunner && {
-      fiveMinuteRSI: realtimeRunner.get5MinuteRSI(position.ticker)
-    }
-  }));
-  
 
-  return finalize(addZScores(withFiveMinuteRSI), detailed);
+  return finalize(addZScores(withStSent), detailed);
 
 };
 
