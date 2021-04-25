@@ -77,7 +77,7 @@ module.exports = new (class RealtimeRunner {
     const priceCache = this.priceCaches['5'] || {};
     const allPrices = priceCache[ticker];
     if (!allPrices) return null;
-    const rsiSeries = getRSI(allPrices.map(quote => quote.close_price));
+    const rsiSeries = getRSI(allPrices.map(quote => quote.currentPrice));
     const rsi = rsiSeries[rsiSeries.length - 1];
     strlog({ fiveminutersi: ticker, allPrices  });
     return rsi;
