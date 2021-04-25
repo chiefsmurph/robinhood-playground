@@ -41,6 +41,7 @@ const RealtimeRunner = require('./realtime/RealtimeRunner');
 const sendEmail = require('./utils/send-email');
 const getMinutesFromOpen = require('./utils/get-minutes-from-open');
 const { emails } = require('./config');
+const sellOnOpen = require('./alpaca/sell-on-open');
 
 mongoose.connect(mongoConnectionString, { useNewUrlParser: true, autoIndex: false });
 
@@ -98,10 +99,13 @@ process.on('unhandledRejection', async (err, p) => {
     Robinhood = await login();
     global.Robinhood = Robinhood;
 
-
+    const min = getMinutesFromOpen();
+    const { onlyUseCash, morningMinTarget } = await getPreferences();
 
     // await cancelAllOrders();         // no dont cancel robinhood
-    (await getPreferences()).onlyUseCash && getMinutesFromOpen() < 220 && await alpacaCancelAllOrders();
+    if (onlyUseCash && min < 220) {
+        await alpacaCancelAllOrders();
+    }
 
     await Hold.updateMany({}, { isSelling: false });
 
@@ -141,6 +145,13 @@ process.on('unhandledRejection', async (err, p) => {
 
     await log(`playground init'd`);
     logMemory();
+
+
+
+    if (getMinutesFromOpen() < morningMinTarget - 7) {
+        await log('OH NO LOOKS LIKE WE HAD A RESTART BEFORE MORNINGMINTARGET LETS CUE MORNING SELLS');
+        setTimeout(() => sellOnOpen(), 1000 * 60 * 2);
+    }
 
 
     // const accounts = await Robinhood.accounts();

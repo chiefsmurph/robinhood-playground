@@ -140,8 +140,8 @@ module.exports = async () => {
       time_in_force: 'opg',
     }).catch(console.error);
 
-
-    const firstNumMinutes = morningMinTarget - getMinutesFromOpen();
+    const min = getMinutesFromOpen();
+    const firstNumMinutes = morningMinTarget - min;
     spraySell({
       ticker,
       quantity: firstQ - marketQ,
@@ -173,8 +173,7 @@ module.exports = async () => {
     //   }, 1000 * 60 * 6);
     // }
 
-    
-    const secondNumMinutes = Math.floor(morningMinTarget / 2);
+    const secondNumMinutes = Math.floor(firstNumMinutes / 2);
     regCronIncAfterSixThirty({
       name: `start spray selling ${ticker}`,
       run: [secondNumMinutes],
