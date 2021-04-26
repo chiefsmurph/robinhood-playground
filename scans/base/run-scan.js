@@ -376,7 +376,7 @@ const finalize = (array, detailed) => {
       const zScoreInverseTrend = stSent - highestTrend;
 
       // high stSent, low dailyRSI
-      const zScoreHighSentLowRSI = stSent - dailyRSI;
+      const zScoreHighSentLowRSI = stSent - dailyRSI - fiveMinuteRSI;
       
 
       // high stSent, low movement, low dailyRSI

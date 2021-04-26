@@ -81,9 +81,9 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                 {[Math.round(dailyRSI), zScore && `(${zScore})`].filter(Boolean).join(' ')}
             </span>
         ),
-        fiveMinuteRSI: ({ scan: { fiveMinuteRSI } = {} } = {}) => (
+        fiveMinuteRSI: ({ scan: { fiveMinuteRSI, zScores: { fiveMinuteRSI: zScore } = {}  } = {} } = {}) => (
             <span className={fiveMinuteRSI < 40 && 'green'}>
-                {Math.round(fiveMinuteRSI)}
+                {Math.round(fiveMinuteRSI)} ({zScore})
             </span>
         ),
         // volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
