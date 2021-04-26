@@ -297,7 +297,8 @@ const runScan = async ({
       fullStSent,
       computed: {
         ...buy.computed,
-        stSent: fullStSent.bullBearScore || 0
+        stSent: fullStSent.bullBearScore || 0,
+        fiveMinuteRSI: buy.fiveMinuteRSI
       }
     };
   });
@@ -356,6 +357,7 @@ const finalize = (array, detailed) => {
         stSent,
         highestTrend,
         dailyRSI,
+        fiveMinuteRSI,
 
         tso,
         tsc,
@@ -384,11 +386,11 @@ const finalize = (array, detailed) => {
       // high stSent, low movement, high volume
       const zScoreInverseTrendPlusVol = zScoreInverseTrend + zScoreVolume;
 
-      // high stSent, high volume, low movement, low dailyRSI
+      // high stSent, high volume, low movement low fiveMinuteRSI, low dailyRSI
       const zScoreMagic = (() => {
 
         const howHot = dailyRSI + highestTrend;
-        const wantLow = howHot;
+        const wantLow = howHot + fiveMinuteRSI;
         const wantHigh = stSent + zScoreVolume;
         return wantHigh - wantLow;
 
@@ -397,7 +399,7 @@ const finalize = (array, detailed) => {
       // high stSent * 2, high volume * 1, low dailyRSI * 3
       const zScoreHotAndCool = (() => {
 
-        const wantLow = (dailyRSI * 3);
+        const wantLow = (dailyRSI * 3) + (fiveMinuteRSI * 2);
         const wantHigh = (stSent * 2) + zScoreVolume;
         return wantHigh - wantLow;
 
