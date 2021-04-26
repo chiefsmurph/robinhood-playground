@@ -22,6 +22,7 @@ const standardDeviation = function (data) {
 };
 
 const zScore = (arr, val) => {
+    arr = arr.filter(Boolean);
     const numerator = val - avgArray(arr);
     const denominator = standardDeviation(arr);
     return numerator / denominator;
