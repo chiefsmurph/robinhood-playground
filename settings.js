@@ -51,11 +51,14 @@ module.exports = {
     ],
 
     breakdownRSIs: [
-        // 25,
-        16,
-        11,
-        7, 
-        3
+        40,
+        35,
+        30,
+        25,
+        22,
+        19,
+        14,
+        10
     ],
 
     // sellAllStocksOnNthDay: 8,
