@@ -192,7 +192,7 @@ const additionalCron = [
     // this is good ! for nighttrading
     {
         name: 'alpacaHopefulSells',
-        run: [-25, -14, 5, 12, 20, 25, 30, 35, 45, 60, 80, 95, 120, 140, 160, 240, 291],
+        run: [-25, -20, -14, -9, -4, 5, 12, 20, 25, 30, 35, 45, 60, 80, 95, 120, 140, 160, 240, 291],
         fn: () => alpacaHopefulSells()
     },
 

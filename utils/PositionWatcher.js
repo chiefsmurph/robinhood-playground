@@ -42,7 +42,8 @@ module.exports = class PositionWatcher {
       lastAvgDown: null,
       id: randomString(),
       historicalPrices: [],
-      observedPrices: []
+      observedPrices: [],
+      lastRSI: null
     });
     console.log('hey whats up from here')
     this.start();
@@ -90,22 +91,10 @@ module.exports = class PositionWatcher {
     return getRelatedPosition(this.ticker);
   }
   async checkRSI() {
-    const getRSI = values => {
-        const rsiSeries = RSI.calculate({
-            values: [
-              ...this.historicalPrices,
-              ...values
-            ],
-            period: 20
-        }) || [];
-        return rsiSeries.pop();
-    };
-    const { ticker, observedPrices } = this;
-    const [prevRSI, curRSI] = [
-      observedPrices.slice(0, observedPrices.length - 1),
-      observedPrices
-    ].map(getRSI);
-    const { 
+    const { ticker } = this;
+    const prevRSI = this.lastRSI;
+    const curRSI = (this.getRelatedPosition(ticker).scan || {}).fiveMinuteRSI;
+    const {
       returnPerc, 
       quantity, 
       wouldBeDayTrade, 
@@ -202,7 +191,7 @@ module.exports = class PositionWatcher {
         }
       }
     }
-    
+    this.lastRSI = curRSI;
   }
   async observe(isBeforeClose, buyPrice) {
 
