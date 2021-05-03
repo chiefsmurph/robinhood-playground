@@ -25,8 +25,8 @@ export default class extends Component {
                             dropType: ['major', 'medium', 'minor'].find(w => JSON.stringify(interestingWords).includes(w)),
                             lastPick: (new Date(mostRecentTimestamp)).toLocaleString(),
                             // pickPrices: pickPrices.join(', '),
-                            ...pick(scan.computed, ['projectedVolumeTo2WeekAvg', 'dailyRSI']),
-                            ...includeStSent && pick(scan, ['stSent']),
+                            ...pick(scan.computed, ['projectedVolumeTo2WeekAvg', 'dailyRSI', 'zScoreMagic']),
+                            ...includeStSent && pick(scan, ['stSent', 'zScoreMagic']),
                         }))
                         .map(recentPick => ({
                             ...recentPick,
@@ -44,7 +44,7 @@ export default class extends Component {
                         }))
                         .map(recentPick => ({
                             ...recentPick,
-                            inverseStTrend: Math.round(recentPick.stSent - (recentPick.trend * 14))
+                            inverseStTrend: Math.round(recentPick.stSent - (recentPick.trend * 14)),
                         }))
 
                 });

@@ -122,6 +122,11 @@ const getBasedOnRecentPicks = async () => {
         .sort((a, b) => a.scan.fiveMinuteRSI - b.scan.fiveMinuteRSI).slice(0, 3);
     await log(`lowestFiveMinuteRSI: ${lowestFiveMinuteRSI.map(pick => [pick.ticker, pick.scan.fiveMinuteRSI].join(' - ')).join(' and ')}`);
 
+    const highestZScoreMagic = recentFiveHundredPicks
+        .filter(p => (p.scan || {}).zScoreMagic)
+        .sort((a, b) => b.scan.zScoreMagic - a.scan.zScoreMagic).slice(0, 3);
+    await log(`highestZScoreMagic: ${highestZScoreMagic.map(pick => [pick.ticker, pick.scan.zScoreMagic].join(' - ')).join(' and ')}`);
+
     return {
         hundredInverseStTrend,
         hundredReverseInverseStTrend,
@@ -130,6 +135,7 @@ const getBasedOnRecentPicks = async () => {
         fiveHundredReverseInverseStTrend,
         fiveHundredBackwardsStTrend,
         lowestFiveMinuteRSI,
+        highestZScoreMagic,
         trendDownBig,
         rsiOversold,
         readyToGoAndHighSt,
