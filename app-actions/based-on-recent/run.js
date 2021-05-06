@@ -94,7 +94,11 @@ const runBasedOnRecent = async skipSetPerc => {
     });
 
 
-    const allToBuy = Object.values(picks).flat();
+    const allToBuy = Object.values(picks).flat().filter(({ ticker }) => {
+        const { percentOfBalance } = getRelatedPosition(ticker);
+        const dontBuy = percentOfBalance > 7;
+        return !dontBuy;
+    });
     await log(`all to buy: ${allToBuy.map(getTicker)}`);
 
 
@@ -107,7 +111,6 @@ const runBasedOnRecent = async skipSetPerc => {
     const allToBuyCount = allToBuy.length;
     let perBuy = Math.round(recentBuyAmt / allToBuyCount);
     await log(`runBasedOnRecent - recentBuyAmt: $${recentBuyAmt} bc equity $${equity} & recentBuyPerc ${recentBuyPerc}%.... perBuy $${perBuy}`);
-
 
     const amtLeft = Number(onlyUseCash ? cash : buying_power);
     console.log({ amtLeft, onlyUseCash, amtNeeded, allToBuyCount: allToBuy.length, recentBuyAmt });
@@ -138,6 +141,7 @@ const runBasedOnRecent = async skipSetPerc => {
 
     const curMin = getMinutesFromOpen();
     for (let { ticker, nowPrice } of allToBuy) {
+
         // prevent day trades!!
         const quantity = Math.round(perBuy / nowPrice) || 1;
         await log(`buying ${ticker} about $${Math.round(quantity * nowPrice)}`);
