@@ -14,9 +14,9 @@ const runArray = [
     // 80,
     // 120,
     // 152,
-    // 183,
+    183,
     // limit .99 yes fallbackmarket
-    // 202, 
+    202, 
     // 240,
     // 271, 
     // 300,
@@ -27,7 +27,8 @@ const runArray = [
     360,
     // 390,
     // after hours (390 - 510)
-    401, 430, 458, 495
+    // 401, 
+    430, 458, 495
 ];
 
 const setRecentBuyPerc = async () => {

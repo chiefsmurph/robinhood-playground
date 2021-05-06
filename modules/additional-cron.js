@@ -122,8 +122,8 @@ const additionalCron = [
         name: 'alpacaPreMarketSells',
         run: [
             -30,
-            // -26,
-            // -19,
+            // -22,
+            // -16,
             // -8
         ],
         fn: () => alpacaPremarketSells()
@@ -135,7 +135,7 @@ const additionalCron = [
 
     {
         name: 'alpacaSellOnOpen',
-        run: [-22],
+        run: [-10],
         fn: () => alpacaSellOnOpen()
     },
 
@@ -221,7 +221,7 @@ const additionalCron = [
     {
         name: 'afterhours buys',
         run: [
-            397,
+            386,
             // 420, 
             455, 480
         ],
