@@ -143,14 +143,18 @@ module.exports = async () => {
     const min = getMinutesFromOpen();
     const firstNumMinutes = morningMinTarget - min;
 
+    const feelingGood = zScoreFinal > 1;
+    const waitTillOpen = (unrealized_intraday_plpc < 0 || unrealizedPlPc < 0) && feelingGood;
+    
+    
     const fireFirstQ = () =>
       spraySell({
         ticker,
         quantity: firstQ - marketQ,
-        numSeconds: 60 * firstNumMinutes
+        numSeconds: 60 * firstNumMinutes * (feelingGood ? 1.2 : 1)
       });
 
-    const waitTillOpen = (unrealized_intraday_plpc < 0 || unrealizedPlPc < 0) && zScoreFinal > 1;
+    
     if (waitTillOpen) {
       await log(`waiting till open ${ticker} bc unrealized_intraday_plpc ${unrealized_intraday_plpc} & unrealizedPlPc ${unrealizedPlPc} & zScoreFinal ${zScoreFinal}`)
       regCronIncAfterSixThirty({
