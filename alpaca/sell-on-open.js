@@ -74,7 +74,7 @@ module.exports = async () => {
 
 
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice } = p;
+    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice, zScoreFinal, unrealized_intraday_plpc } = p;
 
     // const multiplierMult = Math.floor(numMultipliers / 300) + Number(avgMultipliersPerPick > 150);
     // const downPercMult = returnPerc > 0 ? 0 : Math.abs(Math.floor(returnPerc / 3));
@@ -130,7 +130,7 @@ module.exports = async () => {
     await Hold.updateOne({ ticker }, { isSelling: true });
     await log(`isSelling true ${ticker} sellonopen`);
 
-    const marketQ = Math.ceil(firstQ / 3);
+    const marketQ = Math.ceil(firstQ / 5);
 
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol
@@ -142,11 +142,26 @@ module.exports = async () => {
 
     const min = getMinutesFromOpen();
     const firstNumMinutes = morningMinTarget - min;
-    spraySell({
-      ticker,
-      quantity: firstQ - marketQ,
-      numSeconds: 60 * firstNumMinutes
-    });
+
+    const fireFirstQ = () =>
+      spraySell({
+        ticker,
+        quantity: firstQ - marketQ,
+        numSeconds: 60 * firstNumMinutes
+      });
+
+    const waitTillOpen = (unrealized_intraday_plpc < 0 || unrealizedPlPc < 0) && zScoreFinal > 1;
+    if (waitTillOpen) {
+      await log(`waiting till open ${ticker} bc unrealized_intraday_plpc ${unrealized_intraday_plpc} & unrealizedPlPc ${unrealizedPlPc} & zScoreFinal ${zScoreFinal}`)
+      regCronIncAfterSixThirty({
+        name: `first quantity sellonopen for ${ticker}`,
+        run: [-1],
+        fn: () => fireFirstQ()
+      });
+    } else {
+      fireFirstQ();
+    }
+
 
     // regCronIncAfterSixThirty({
     //   name: `start spray selling ${ticker}`,

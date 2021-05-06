@@ -90,7 +90,7 @@ module.exports = async ({
         quantity,
         fallbackToMarket: true 
       })
-    ); 
+    );
     await new Promise(resolve => setTimeout(resolve, spaceApart));
   }
   
