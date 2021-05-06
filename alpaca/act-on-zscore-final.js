@@ -57,9 +57,10 @@ module.exports = async () => {
   const toBuy = positions
     .filter(p => p.scan)
     .filter(p => (
-      p.zScoreFinal > 2.4 ||
+      p.zScoreFinal > 2 ||
       p.zScoreSum > 16
     ))
+    .filter(p => p.percentOfBalance < 30);
   const label = ps => ps.map(p => p.ticker).join(', ');
 
   const totalValue = sumArray(

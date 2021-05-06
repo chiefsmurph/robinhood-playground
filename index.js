@@ -148,7 +148,7 @@ process.on('unhandledRejection', async (err, p) => {
 
 
 
-    if (min < morningMinTarget - 7) {
+    if (min < morningMinTarget - 7 && min > -20) {
         await log('OH NO LOOKS LIKE WE HAD A RESTART BEFORE MORNINGMINTARGET LETS CUE MORNING SELLS');
         setTimeout(() => sellOnOpen(), 1000 * 60 * 2);
     }

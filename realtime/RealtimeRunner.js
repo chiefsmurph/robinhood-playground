@@ -273,7 +273,7 @@ module.exports = new (class RealtimeRunner {
     }
 
     // afternoon intervals
-    const AFTERNOON_START_MIN = 135; // 10:20am
+    const AFTERNOON_START_MIN = 100; // 10:20am
     if (dayInProgress(AFTERNOON_START_MIN)) {
       this.startAfternoonIntervals();
     }
@@ -281,6 +281,19 @@ module.exports = new (class RealtimeRunner {
       name: 'RealtimeRunner: start afternoon intervals',
       run: [AFTERNOON_START_MIN],
       fn: () => this.startAfternoonIntervals()
+    });
+
+    regCronIncAfterSixThirty({
+      name: 'RealtimeRunner: hurry up actOnZScore',
+      run: [370],
+      fn: () => {
+        clearInterval(this.afternoonIntervals[2]);
+        this.afternoonIntervals[2] = null;
+        this.afternoonIntervals[2] = setInterval(
+          () => this.runZScoreFinal(),
+          60 * 1000 * 15
+        );
+      }
     });
 
     this.hasInit = true;
@@ -349,6 +362,13 @@ module.exports = new (class RealtimeRunner {
     this.everyFiveMinutes();
   }
 
+  async runZScoreFinal() {
+    this.timedAsync(
+      'every 9 minutes - alpaca act on zscore final',
+      () => alpacaActOnZScoreFinal(),
+    );
+  }
+
   async startAfternoonIntervals() {
     await log('starting afternoon intervals');
     this.afternoonIntervals = [
@@ -370,11 +390,8 @@ module.exports = new (class RealtimeRunner {
 
       // setTimeout(() => 
       setInterval(
-        () => this.timedAsync(
-          'every 9 minutes - alpaca act on zscore final',
-          () => alpacaActOnZScoreFinal(),
-        ),
-        60 * 1000 * 26 // 26 min
+        () => this.runZScoreFinal(),
+        60 * 1000 * 27
       ),
         // 1000 * 60 * 5
       // ),

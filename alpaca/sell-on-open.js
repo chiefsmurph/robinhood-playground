@@ -74,7 +74,7 @@ module.exports = async () => {
 
 
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice, zScoreFinal, unrealized_intraday_plpc, unrealizedPlPc } = p;
+    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice, zScoreFinal, unrealized_intraday_plpc, returnPerc } = p;
 
     // const multiplierMult = Math.floor(numMultipliers / 300) + Number(avgMultipliersPerPick > 150);
     // const downPercMult = returnPerc > 0 ? 0 : Math.abs(Math.floor(returnPerc / 3));
@@ -144,7 +144,7 @@ module.exports = async () => {
     const firstNumMinutes = morningMinTarget - min;
 
     const feelingGood = zScoreFinal > 1;
-    const waitTillOpen = (unrealized_intraday_plpc < 0 || unrealizedPlPc < 0) && feelingGood;
+    const waitTillOpen = (unrealized_intraday_plpc < 0 || returnPerc < 0) && feelingGood;
     
     
     const fireFirstQ = () =>
@@ -156,7 +156,7 @@ module.exports = async () => {
 
     
     if (waitTillOpen) {
-      await log(`waiting till open ${ticker} bc unrealized_intraday_plpc ${unrealized_intraday_plpc} & unrealizedPlPc ${unrealizedPlPc} & zScoreFinal ${zScoreFinal}`)
+      await log(`waiting till open ${ticker} bc unrealized_intraday_plpc ${unrealized_intraday_plpc} & returnPerc ${returnPerc} & zScoreFinal ${zScoreFinal}`)
       regCronIncAfterSixThirty({
         name: `first quantity sellonopen for ${ticker}`,
         run: [-1],

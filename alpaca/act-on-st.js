@@ -98,7 +98,7 @@ module.exports = async () => {
   const toBuy = [
     ...bullishDayTrades,
     ...specialExceptions,
-  ];
+  ].filter(p => p.percentOfBalance < 30);
   const totalValue = sumArray(
     toBuy.map(p => Number(p.market_value)).filter(Boolean)
   );
