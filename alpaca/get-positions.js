@@ -16,6 +16,7 @@ const cacheThis = require('../utils/cache-this');
 
 const addSingleZScores = require('./add-single-zscores');
 const shouldSellOff = require('./should-sell-off');
+const { pick } = require('underscore');
 
 const cachedScan = cacheThis(async tickers => {
   const scan = await runScan({
@@ -401,10 +402,15 @@ module.exports = async (
     percToSell: getPercToSell(position)
   }));
 
-  const withScan = withRecommendations.map(position => ({
-    ...position,
-    scan: scan[position.ticker]
-  }));
+  const withScan = withRecommendations
+    .map(position => ({
+      ...position,
+      scan: scan[position.ticker]
+    }))
+    .map(position => ({
+      ...position,
+      ...pick(position.scan || {}, ['zScoreSum'])
+    }));
 
 
   const withPercentOfBalance = withScan

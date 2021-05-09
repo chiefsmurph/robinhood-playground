@@ -25,8 +25,8 @@ export default class extends Component {
                             dropType: ['major', 'medium', 'minor'].find(w => JSON.stringify(interestingWords).includes(w)),
                             lastPick: (new Date(mostRecentTimestamp)).toLocaleString(),
                             // pickPrices: pickPrices.join(', '),
-                            ...pick(scan.computed, ['projectedVolumeTo2WeekAvg', 'dailyRSI', 'zScoreMagic']),
-                            ...includeStSent && pick(scan, ['stSent', 'zScoreMagic']),
+                            ...pick(scan.computed, ['projectedVolumeTo2WeekAvg', 'dailyRSI']),
+                            ...pick(scan, ['stSent', 'zScoreSum']),
                         }))
                         .map(recentPick => ({
                             ...recentPick,

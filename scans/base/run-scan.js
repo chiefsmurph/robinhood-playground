@@ -433,9 +433,9 @@ const finalize = (array, detailed) => {
       const zScoreCalcSum = sumArray(Object.values(zScoreCalcs));
       let zScoreSum = zScoreRawSum + zScoreCalcSum;
 
-      const rsiKeys = Object.keys(buy.computed)
+      const rsiKeys = Object.keys(buy)
         .filter(key => key.toLowerCase().includes('rsi'));
-      const rsiVals = rsiKeys.map(key => buy.computed[key]).filter(Boolean);
+      const rsiVals = rsiKeys.map(key => buy[key]).filter(Boolean);
       const rsiInflation = rsiVals.filter(rsi => rsi < 30).length * 13;
       zScoreSum += rsiInflation;
       
