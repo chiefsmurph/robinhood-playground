@@ -276,15 +276,16 @@ const runScan = async ({
     });
   }
 
+  const rsiVals = realtimeRunner && {
+    fiveMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker),
+    tenMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '10'),
+    thirtyMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '30'),
+  };
 
   const realtimeRunner = require('../../realtime/RealtimeRunner');
   theGoodStuff= theGoodStuff.map(position => ({
     ...position,
-    ...realtimeRunner && {
-      fiveMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker),
-      tenMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '10'),
-      thirtyMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '30'),
-    }
+    ...rsiVals,
   }));
   
 
@@ -293,13 +294,6 @@ const runScan = async ({
     return {
       ...buy,
       fullStSent,
-      computed: {
-        ...buy.computed,
-        stSent: fullStSent.bullBearScore || 0,
-        fiveMinuteRSI: buy.fiveMinuteRSI,
-        tenMinuteRSI: buy.tenMinuteRSI,
-        thirtyMinuteRSI: buy.thirtyMinuteRSI,
-      }
     };
   }) : theGoodStuff;
 
