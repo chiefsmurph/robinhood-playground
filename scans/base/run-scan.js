@@ -281,7 +281,9 @@ const runScan = async ({
   theGoodStuff= theGoodStuff.map(position => ({
     ...position,
     ...realtimeRunner && {
-      fiveMinuteRSI: realtimeRunner.get5MinuteRSI(position.ticker)
+      fiveMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker),
+      tenMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '10'),
+      thirtyMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '30'),
     }
   }));
   
@@ -298,7 +300,9 @@ const runScan = async ({
       computed: {
         ...buy.computed,
         stSent: fullStSent.bullBearScore || 0,
-        fiveMinuteRSI: buy.fiveMinuteRSI
+        fiveMinuteRSI: buy.fiveMinuteRSI,
+        tenMinuteRSI: buy.tenMinuteRSI,
+        thirtyMinuteRSI: buy.thirtyMinuteRSI,
       }
     };
   });
@@ -323,6 +327,8 @@ const addZScores = array => {
       'highestTrend',
       'dailyRSI',
       'fiveMinuteRSI',
+      'tenMinuteRSI',
+      'thirtyMinuteRSI',
 
       'tso',
       'tsc',
@@ -358,6 +364,8 @@ const finalize = (array, detailed) => {
         highestTrend,
         dailyRSI,
         fiveMinuteRSI,
+        tenMinuteRSI,
+        thirtyMinuteRSI,
 
         tso,
         tsc,
@@ -376,7 +384,7 @@ const finalize = (array, detailed) => {
       const zScoreInverseTrend = stSent - highestTrend;
 
       // high stSent, low dailyRSI
-      const zScoreHighSentLowRSI = stSent - dailyRSI - fiveMinuteRSI;
+      const zScoreHighSentLowRSI = stSent - dailyRSI - fiveMinuteRSI - thirtyMinuteRSI;
       
 
       // high stSent, low movement, low dailyRSI
@@ -390,7 +398,7 @@ const finalize = (array, detailed) => {
       const zScoreMagic = (() => {
 
         const howHot = dailyRSI + highestTrend;
-        const wantLow = howHot + fiveMinuteRSI;
+        const wantLow = howHot + fiveMinuteRSI + tenMinuteRSI + thirtyMinuteRSI;
         const wantHigh = stSent + zScoreVolume;
         return wantHigh - wantLow;
 
@@ -399,7 +407,7 @@ const finalize = (array, detailed) => {
       // high stSent * 2, high volume * 1, low dailyRSI * 3
       const zScoreHotAndCool = (() => {
 
-        const wantLow = (dailyRSI * 3) + (fiveMinuteRSI * 2);
+        const wantLow = (dailyRSI * 3) + (fiveMinuteRSI * 2) + thirtyMinuteRSI + tenMinuteRSI;
         const wantHigh = (stSent * 2) + zScoreVolume;
         return wantHigh - wantLow;
 

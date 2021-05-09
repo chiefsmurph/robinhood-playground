@@ -20,7 +20,7 @@ module.exports = positions => positions
       ofInterest
     });
 
-    const fiveMinuteOffset = Number(fiveMinuteRSI && Math.max(0, 40 - fiveMinuteRSI));
+    const fiveMinuteOffset = Number(fiveMinuteRSI && Math.max(0, 30 - fiveMinuteRSI));
     const zScoreSum = sumArray(Object.values(ofInterest)) + fiveMinuteOffset;
     return {
       ...position,
