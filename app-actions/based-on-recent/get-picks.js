@@ -40,6 +40,13 @@ const getBasedOnRecentPicks = async () => {
     const recentHundredPicks = await getReadyToGoWithStWithInverse(
         await getRecentPicks(100, true, false, 'sudden-drops')
     );
+    strlog({ recentHundredPicks})
+
+
+    const hundredZScoreSum = recentHundredPicks.filter(p => p.zScoreSum).sort((a, b) => b.zScoreSum - a.zScoreSum).slice(0, 3);
+    await log(`hundredZScoreSum: ${hundredZScoreSum.map(pick => [pick.ticker, pick.zScoreSum].join(' - ')).join(' and ')}`);
+
+
     const hundredInverseStTrend = recentHundredPicks.slice(0, 2);
     await log(`hundredInverseStTrend: ${hundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
@@ -51,7 +58,11 @@ const getBasedOnRecentPicks = async () => {
 
 
     const recentThreeHundredPicks = await getRecentPicks(300, true, false, 'sudden-drops');
-    
+    strlog({ recentThreeHundredPicks })
+
+    const threeHundredZScoreSum = recentThreeHundredPicks.filter(p => p.zScoreSum).sort((a, b) => b.zScoreSum - a.zScoreSum).slice(0, 3);
+    await log(`threeHundredZScoreSum: ${threeHundredZScoreSum.map(pick => [pick.ticker, pick.zScoreSum].join(' - ')).join(' and ')}`);
+
 
     // ANYTHING DROPPED 20%
     let trendDownBig = recentThreeHundredPicks
@@ -107,7 +118,12 @@ const getBasedOnRecentPicks = async () => {
     const recentFiveHundredPicks = await getReadyToGoWithStWithInverse(
         await getRecentPicks(500, true, false, 'sudden-drops')
     );
-    strlog({ recentFiveHundredPicks})
+    strlog({ recentFiveHundredPicks});
+
+    const fiveHundredZScoreSum = recentFiveHundredPicks.filter(p => p.zScoreSum).sort((a, b) => b.zScoreSum - a.zScoreSum).slice(0, 3);
+    await log(`fiveHundredZScoreSum: ${fiveHundredZScoreSum.map(pick => [pick.ticker, pick.zScoreSum].join(' - ')).join(' and ')}`);
+
+
     const fiveHundredInverseStTrend = recentFiveHundredPicks.slice(0, 2);
     await log(`fiveHundredInverseStTrend: ${fiveHundredInverseStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.inverseStTrend].join(' - ')).join(' and ')}`);
 
@@ -128,17 +144,20 @@ const getBasedOnRecentPicks = async () => {
     await log(`highestZScoreMagic: ${highestZScoreMagic.map(pick => [pick.ticker, pick.scan.zScoreMagic].join(' - ')).join(' and ')}`);
 
     return {
-        hundredInverseStTrend,
-        hundredReverseInverseStTrend,
-        hundredBackwardsStTrend,
-        fiveHundredInverseStTrend,
-        fiveHundredReverseInverseStTrend,
-        fiveHundredBackwardsStTrend,
+        hundredZScoreSum,
+        // hundredInverseStTrend,
+        // hundredReverseInverseStTrend,
+        // hundredBackwardsStTrend,
+        threeHundredZScoreSum,
+        fiveHundredZScoreSum,
+        // fiveHundredInverseStTrend,
+        // fiveHundredReverseInverseStTrend,
+        // fiveHundredBackwardsStTrend,
         lowestFiveMinuteRSI,
         highestZScoreMagic,
-        trendDownBig,
+        // trendDownBig,
         rsiOversold,
-        readyToGoAndHighSt,
+        // readyToGoAndHighSt,
         topSt,
     };
 };

@@ -12,17 +12,31 @@ const getSt = pick => (
 const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
 const trendAndSt = pick => `trend ${pick.trend}% stSent ${getSt(pick)}`;
 const formatters = {
+    hundredZScoreSum: {
+        description: 'last 100 picks - my own top secret formula',
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+    },
     hundredInverseStTrend: {
-        description: 'last 100 picks - trended down a lot and high social sentiment score',
+        description: 'trended down a lot and high social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
     hundredReverseInverseStTrend: {
-        description: 'last 100 picks - trended up a lot and low social sentiment score',
+        description: 'trended up a lot and low social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
     },
     hundredBackwardsStTrend: {
         description: 'last 100 picks - down a lot and low social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = backwardsStTrend ${pick.backwardsStTrend}`
+    },
+
+    threeHundredZScoreSum: {
+        description: 'last 300 - picks my own top secret formula',
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+    },
+
+    fiveHundredZScoreSum: {
+        description: 'last 500 picks - my own top secret formula',
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
     },
     fiveHundredInverseStTrend: {
         description: 'last 500 picks - trended down a lot and high social sentiment score',
@@ -55,10 +69,6 @@ const formatters = {
     topSt: {
         description: 'the highest social sentiment score under 15% trend',
         formatter: trendAndSt
-    },
-    myLargestPositions: {
-        description: 'pretty self explanatory',
-        formatter: pick => `my current unrealizedPl: ${pick.returnPerc}%`
     }
 };
 

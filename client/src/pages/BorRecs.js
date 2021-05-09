@@ -48,6 +48,10 @@ const getSt = pick => (
     get(pick.stSent, 'bullBearScore', 0)
 );
 const formatters = {
+    hundredZScoreSum: {
+        description: 'last 100 picks - my own top secret formula',
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+    },
     hundredInverseStTrend: {
         description: 'trended down a lot and high social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
@@ -59,6 +63,16 @@ const formatters = {
     hundredBackwardsStTrend: {
         description: 'last 100 picks - down a lot and low social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = backwardsStTrend ${pick.backwardsStTrend}`
+    },
+
+    threeHundredZScoreSum: {
+        description: 'last 300 - picks my own top secret formula',
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+    },
+
+    fiveHundredZScoreSum: {
+        description: 'last 500 picks - my own top secret formula',
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
     },
     fiveHundredInverseStTrend: {
         description: 'last 500 picks - trended down a lot and high social sentiment score',
