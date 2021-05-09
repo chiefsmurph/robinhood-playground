@@ -13,7 +13,7 @@ const Pick = require('../../models/Pick');
 const getRecentPicksForTicker = require('../../utils/get-recent-picks-for-ticker');
 
 const { uniq, get, mapObject } = require('underscore');
-const { avgArray, zScore } = require('../../utils/array-math');
+const { sumArray, avgArray, zScore } = require('../../utils/array-math');
 const dayInProgress = require('../../realtime/day-in-progress');
 const {
   getDailyHistoricals,
