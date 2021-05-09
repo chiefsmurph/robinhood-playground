@@ -105,6 +105,20 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             </span>
         ),
             
+        zScoreRawSum: ({ scan: { zScoreRawSum } = {} } = {} ) => 
+            zScoreRawSum ? (
+                <span className={zScoreRawSum > 0.5 && 'green'}>
+                    {(zScoreRawSum || 0).toFixed(2)}
+                </span>
+            ) : null,
+            
+        zScoreCalcSum: ({ scan: { zScoreCalcSum } = {} } = {} ) => 
+            zScoreCalcSum ? (
+                <span className={zScoreCalcSum > 0.5 && 'green'}>
+                    {(zScoreCalcSum || 0).toFixed(2)}
+                </span>
+            ) : null,
+            
         zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
             scan ? (
                 <span className={zScoreRelative > 0.5 && 'green'}>

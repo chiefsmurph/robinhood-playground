@@ -288,11 +288,7 @@ const runScan = async ({
   }));
   
 
-  if (!includeStSent) {
-    return theGoodStuff;
-  }
-
-  const withStSent = await mapLimit(theGoodStuff, 3, async buy => {
+  const withStSent = includeStSent ? await mapLimit(theGoodStuff, 3, async buy => {
     const fullStSent = await getStSent(buy.ticker) || {};
     return {
       ...buy,
@@ -305,7 +301,7 @@ const runScan = async ({
         thirtyMinuteRSI: buy.thirtyMinuteRSI,
       }
     };
-  });
+  }) : theGoodStuff;
 
 
   return finalize(addZScores(withStSent), detailed);
