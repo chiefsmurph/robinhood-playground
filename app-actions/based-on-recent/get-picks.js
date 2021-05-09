@@ -35,6 +35,11 @@ const getReadyToGoWithStWithInverse = async recentPicks => {
 };
 
 
+const getZScorePicks = picks => picks
+    .filter(p => p.scan && p.scan.zScoreSum)
+    .sort((a, b) => b.scan.zScoreSum - a.scan.zScoreSum)
+    .slice(0, 3);
+
 const getBasedOnRecentPicks = async () => {
 
     const recentHundredPicks = await getReadyToGoWithStWithInverse(
@@ -43,8 +48,8 @@ const getBasedOnRecentPicks = async () => {
     strlog({ recentHundredPicks})
 
 
-    const hundredZScoreSum = recentHundredPicks.filter(p => p.zScoreSum).sort((a, b) => b.zScoreSum - a.zScoreSum).slice(0, 3);
-    await log(`hundredZScoreSum: ${hundredZScoreSum.map(pick => [pick.ticker, pick.zScoreSum].join(' - ')).join(' and ')}`);
+    const hundredZScoreSum = getZScorePicks(recentHundredPicks);
+    await log(`hundredZScoreSum: ${hundredZScoreSum.map(pick => [pick.ticker, pick.scan.zScoreSum].join(' - ')).join(' and ')}`);
 
 
     const hundredInverseStTrend = recentHundredPicks.slice(0, 2);
@@ -60,8 +65,8 @@ const getBasedOnRecentPicks = async () => {
     const recentThreeHundredPicks = await getRecentPicks(300, true, false, 'sudden-drops');
     strlog({ recentThreeHundredPicks })
 
-    const threeHundredZScoreSum = recentThreeHundredPicks.filter(p => p.zScoreSum).sort((a, b) => b.zScoreSum - a.zScoreSum).slice(0, 3);
-    await log(`threeHundredZScoreSum: ${threeHundredZScoreSum.map(pick => [pick.ticker, pick.zScoreSum].join(' - ')).join(' and ')}`);
+    const threeHundredZScoreSum = getZScorePicks(recentThreeHundredPicks);
+    await log(`threeHundredZScoreSum: ${threeHundredZScoreSum.map(pick => [pick.ticker, pick.scan.zScoreSum].join(' - ')).join(' and ')}`);
 
 
     // ANYTHING DROPPED 20%
@@ -120,8 +125,8 @@ const getBasedOnRecentPicks = async () => {
     );
     strlog({ recentFiveHundredPicks});
 
-    const fiveHundredZScoreSum = recentFiveHundredPicks.filter(p => p.zScoreSum).sort((a, b) => b.zScoreSum - a.zScoreSum).slice(0, 3);
-    await log(`fiveHundredZScoreSum: ${fiveHundredZScoreSum.map(pick => [pick.ticker, pick.zScoreSum].join(' - ')).join(' and ')}`);
+    const fiveHundredZScoreSum = getZScorePicks(recentFiveHundredPicks);
+    await log(`fiveHundredZScoreSum: ${fiveHundredZScoreSum.map(pick => [pick.ticker, pick.scan.zScoreSum].join(' - ')).join(' and ')}`);
 
 
     const fiveHundredInverseStTrend = recentFiveHundredPicks.slice(0, 2);
