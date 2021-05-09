@@ -276,13 +276,13 @@ const runScan = async ({
     });
   }
 
+  const realtimeRunner = require('../../realtime/RealtimeRunner');
   const rsiVals = realtimeRunner && {
     fiveMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker),
     tenMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '10'),
     thirtyMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '30'),
   };
 
-  const realtimeRunner = require('../../realtime/RealtimeRunner');
   theGoodStuff= theGoodStuff.map(position => ({
     ...position,
     ...rsiVals,
