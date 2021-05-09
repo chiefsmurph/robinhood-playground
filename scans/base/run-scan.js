@@ -431,7 +431,13 @@ const finalize = (array, detailed) => {
 
       const zScoreRawSum = sumArray(Object.values(buy.zScores));
       const zScoreCalcSum = sumArray(Object.values(zScoreCalcs));
-      const zScoreSum = zScoreRawSum + zScoreCalcSum;
+      let zScoreSum = zScoreRawSum + zScoreCalcSum;
+
+      const rsiKeys = Object.keys(buy.computed)
+        .filter(key => key.toLowerCase().includes('rsi'));
+      const rsiVals = rsiKeys.map(key => buy.computed[key]).filter(Boolean);
+      const rsiInflation = rsiVals.filter(rsi => rsi < 30).length * 13;
+      zScoreSum += rsiInflation;
       
       delete buy.historicals;
       return {
@@ -447,6 +453,9 @@ const finalize = (array, detailed) => {
         zScoreRawSum,
         zScoreCalcSum,
         zScoreSum,
+        rsiKeys,
+        rsiVals,
+        rsiInflation,
 
         
       };
