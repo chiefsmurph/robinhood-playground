@@ -421,6 +421,22 @@ const finalize = (array, detailed) => {
 
       })();
 
+
+      const zScoreCalcs = mapObject({
+        zScoreVolume,
+        zScoreInverseTrend,
+        zScoreInverseTrendMinusRSI,
+        zScoreInverseTrendPlusVol,
+        zScoreHighSentLowRSI,
+        zScoreMagic,
+        zScoreHotAndCool,
+        zScoreGoingBadLookingGood
+      }, n => n.twoDec());
+
+      const zScoreRawSum = sumArray(Object.values(buy.zScores));
+      const zScoreCalcSum = sumArray(Object.values(zScoreCalcs));
+      const zScoreSum = zScoreRawSum + zScoreCalcSum;
+      
       delete buy.historicals;
       return {
 
@@ -430,19 +446,12 @@ const finalize = (array, detailed) => {
         ticker: buy.ticker,
         ...buy.computed,
 
-        ...mapObject({
-          zScoreVolume,
-          zScoreInverseTrend,
-          zScoreInverseTrendMinusRSI,
-          zScoreInverseTrendPlusVol,
-          zScoreHighSentLowRSI,
-          zScoreMagic,
-          zScoreHotAndCool,
-          zScoreGoingBadLookingGood
-        }, n => n.twoDec()),
+        zScores: buy.zScores,
+        ...zScoreCalcs,
+        zScoreRawSum,
+        zScoreCalcSum,
+        zScoreSum,
 
-
-        zScores: buy.zScores
         
       };
     })
