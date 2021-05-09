@@ -276,18 +276,21 @@ const runScan = async ({
     });
   }
 
-  const realtimeRunner = require('../../realtime/RealtimeRunner');
-  const rsiVals = realtimeRunner && {
-    fiveMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker),
-    tenMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '10'),
-    thirtyMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '30'),
-  };
 
-  theGoodStuff= theGoodStuff.map(position => ({
-    ...position,
-    ...rsiVals,
-  }));
-  
+  const realtimeRunner = require('../../realtime/RealtimeRunner');
+  if (realtimeRunner) {
+    theGoodStuff = theGoodStuff.map(position => {
+      const rsiVals = {
+        fiveMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker),
+        tenMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '10'),
+        thirtyMinuteRSI: realtimeRunner.getCurrentRSI(position.ticker, '30'),
+      };
+      return {
+        ...position,
+        ...rsiVals,
+      };
+    });
+  }
 
   const withStSent = includeStSent ? await mapLimit(theGoodStuff, 3, async buy => {
     const fullStSent = await getStSent(buy.ticker) || {};
