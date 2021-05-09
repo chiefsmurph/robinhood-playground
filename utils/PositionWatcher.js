@@ -216,6 +216,7 @@ module.exports = class PositionWatcher {
       market_value,
       quantity,
       wouldBeDayTrade,
+      zScoreSum
       // stSent: { stBracket } = {}
     } = this.getRelatedPosition();
     
@@ -278,12 +279,31 @@ module.exports = class PositionWatcher {
   
       if (shouldAvgDown) {
         const realtimeRunner = require('../realtime/RealtimeRunner');
+        const zScoreSumKeys = {
+          gt40: 40,
+          gt30: 30,
+          gt20: 20,
+          gt10: 10,
+          gtZero: 0,
+          ltZero: 0,
+          ltNeg10: -10,
+          ltNeg20: -20,
+          ltNeg30: -30,
+          ltNeg40: -40,
+        };
+        const zScoreKey = Object.keys(zScoreSumKeys).find(key => {
+          const gt = key.includes('gt');
+          const passesGt = gt && zScoreSum > zScoreSumKeys[key];
+          const passesLt = !gt && zScoreSum < zScoreSumKeys[key];
+          return passesGt || passesLt;
+        });
         await realtimeRunner.handlePick({
           strategyName: 'avg-downer',
           ticker,
           keys: {
             [lessThanTime]: lessThanTime,
             isBeforeClose,
+            [zScoreKey]: true
           },
         }, true);
         this.pickTimestamp = Date.now();
@@ -304,14 +324,14 @@ module.exports = class PositionWatcher {
       const { portfolio_value, daytrade_count } = account;
       if (Number(market_value) > Number(portfolio_value) * 0.2) {
         if (daytrade_count <= 2) {
-          await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 14% & 17% up?`);
+          await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 14% & 26% up?`);
           await alpacaCancelAllOrders(ticker, 'buy');
           const firstChunk = Math.round(Number(quantity) / 2.2);
           const secondChunk = firstChunk;//Number(quantity) - firstChunk;
           alpacaLimitSell({
             ticker,
             quantity: firstChunk,
-            limitPrice: avgEntry * 1.14,
+            limitPrice: avgEntry * 1.138,
             timeoutSeconds: 60 * 30,
             fallbackToMarket: false
           });
