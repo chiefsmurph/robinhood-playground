@@ -285,11 +285,11 @@ module.exports = class PositionWatcher {
           gt20: 20,
           gt10: 10,
           gtZero: 0,
-          ltZero: 0,
-          ltNeg10: -10,
-          ltNeg20: -20,
-          ltNeg30: -30,
           ltNeg40: -40,
+          ltNeg30: -30,
+          ltNeg20: -20,
+          ltNeg10: -10,
+          ltZero: 0,
         };
         const zScoreKey = Object.keys(zScoreSumKeys).find(key => {
           const gt = key.includes('gt');
