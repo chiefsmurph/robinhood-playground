@@ -51,6 +51,8 @@ module.exports = async ({
   quantity: 100
 }) => {
 
+  numSeconds = numSeconds || 24;
+
   const { bidPrice, askPrice, lastTrade } = await lookup(ticker);
   const amt = quantity * lastTrade;
 

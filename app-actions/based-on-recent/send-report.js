@@ -76,7 +76,6 @@ const formatters = {
         formatter: trendAndSt
     }
 };
-
 const getMyLargestPositions = async () => {
     const positions = await alpaca.getPositions();
     const sorted = positions.sort((a, b) => Number(b.market_value) - Number(a.market_value));
@@ -101,14 +100,20 @@ module.exports = async (onlyMe = true) => {
     ];
     const lines = Object.entries(picks)
         .filter(([_, specificPicks]) => specificPicks.length)
-        .reduce((acc, [collection, specificPicks]) => [
-            ...acc,
-            `<b>${collection}</b>`,
-            `<i>${formatters[collection].description}</i>`,
-            '----------------',
-            ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatters[collection].formatter(pick)}`),
-            '<br>',
-        ], intro);
+        .reduce((acc, [collection, specificPicks]) => {
+            const formatter = formatters[collection];
+            if (!formatter) {
+                log(`what no formatter for ${collection} what is going on here`);
+            }
+            return [
+                ...acc,
+                `<b>${collection}</b>`,
+                ...formatter ? [`<i>${formatter.description}</i>`] : [],
+                '----------------',
+                ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatter ? formatter[collection].formatter(pick): ''}`),
+                '<br>',
+            ];
+        }, intro);
     lines.push(`<hr><i>And don't forget you can always get the up to the minute action at ${username.split('@').shift()}.com/stocks and then click the word "Picks" in the top blue header and then type "${authStrings[1]}" no quotes all lowercase.</i><br>`);
     lines.push(`<i>Also if you would like to stop receiving these emails just reply with the phrase "I eat water" and you will be promptly removed.</i><br>`);
     const toEmails = onlyMe ? [username] : Object.keys(emails).filter(email => emails[email].includes('recentReport'));

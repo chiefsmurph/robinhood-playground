@@ -282,7 +282,7 @@ module.exports = new (class RealtimeRunner {
       run: [AFTERNOON_START_MIN],
       fn: () => this.startAfternoonIntervals()
     });
-
+    
     regCronIncAfterSixThirty({
       name: 'RealtimeRunner: hurry up actOnZScore',
       run: [370],
@@ -291,7 +291,7 @@ module.exports = new (class RealtimeRunner {
         this.afternoonIntervals[2] = null;
         this.afternoonIntervals[2] = setInterval(
           () => this.runZScoreFinal(),
-          60 * 1000 * 15
+          getZScoreInteral()
         );
       }
     });
@@ -299,6 +299,15 @@ module.exports = new (class RealtimeRunner {
     this.hasInit = true;
     await log('done initing realtime runner');
     logMemory();
+  }
+
+  getZScoreInteral() {
+    const minMs = 1000 * 60;
+    return minMs * (
+      getMinutesFromOpen() >= 369 
+        ? 15 // after hours means more frequent
+        : 27
+    );
   }
 
   async loadPriceCachesWithHistoricals() {
@@ -391,7 +400,7 @@ module.exports = new (class RealtimeRunner {
       // setTimeout(() => 
       setInterval(
         () => this.runZScoreFinal(),
-        60 * 1000 * 27
+        this.getZScoreInteral()
       ),
         // 1000 * 60 * 5
       // ),

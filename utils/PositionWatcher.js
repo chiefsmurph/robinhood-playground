@@ -303,7 +303,7 @@ module.exports = class PositionWatcher {
           keys: {
             [lessThanTime]: lessThanTime,
             isBeforeClose,
-            [zScoreKey]: true
+            [`zScore${zScoreKey}`]: true
           },
         }, true);
         this.pickTimestamp = Date.now();
