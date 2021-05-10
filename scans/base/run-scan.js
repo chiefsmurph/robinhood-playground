@@ -300,6 +300,10 @@ const runScan = async ({
     return {
       ...buy,
       fullStSent,
+      computed: {
+        ...buy.computed,
+        stSent: fullStSent.bullBearScore
+      }
     };
   }) : theGoodStuff;
 
