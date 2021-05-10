@@ -429,16 +429,17 @@ const finalize = (array, detailed) => {
         zScoreGoingBadLookingGood
       }, n => n.twoDec());
 
-      const zScoreRawSum = sumArray(Object.values(buy.zScores));
       const zScoreCalcSum = sumArray(Object.values(zScoreCalcs));
-      let zScoreSum = zScoreRawSum + zScoreCalcSum;
+      let zScoreSum = zScoreCalcSum + buy.computed.projectedVolumeTo2WeekAvg;
 
       const rsiKeys = Object.keys(buy.computed)
         .filter(key => key.toLowerCase().includes('rsi'));
       const rsiVals = rsiKeys.map(key => buy.computed[key]).filter(Boolean);
-      const rsiInflation = rsiVals.filter(rsi => rsi < 30).length * 13;
-      zScoreSum += rsiInflation;
-      
+      const rsiMult = rsiVals.filter(rsi => rsi < 30).length * 1.5;
+      if (rsiMult) {
+        zScoreSum *= rsiMult;
+      }
+
       delete buy.historicals;
       return {
 
@@ -450,12 +451,11 @@ const finalize = (array, detailed) => {
 
         zScores: buy.zScores,
         ...zScoreCalcs,
-        zScoreRawSum,
         zScoreCalcSum,
         zScoreSum,
         rsiKeys,
         rsiVals,
-        rsiInflation,
+        rsiMult,
 
         
       };
