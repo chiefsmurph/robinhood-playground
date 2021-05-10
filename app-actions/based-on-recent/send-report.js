@@ -38,6 +38,11 @@ const formatters = {
         description: 'last 500 picks - my own top secret formula',
         formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
     },
+
+    highestZScoreMagic: {
+        description: 'last 500 picks - zscore magic',
+        formatter: pick => [pick.ticker, pick.scan.zScoreMagic].join(' ')
+    },
     fiveHundredInverseStTrend: {
         description: 'last 500 picks - trended down a lot and high social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
@@ -92,7 +97,7 @@ module.exports = async (onlyMe = true) => {
     };
 
     const intro = [
-        `Hope you're having a great day.  Here's the current stocks that have dropped a whole lot and might be good to buy and hold.<br>`,
+        `Hey everybody!!  It's a new week and you know what that means.  FRESH, NEW, PICKS!  Straight to your inbox.  Changing things up this week with some new strategies and removed some old ones.<br>`,
     ];
     const lines = Object.entries(picks)
         .filter(([_, specificPicks]) => specificPicks.length)

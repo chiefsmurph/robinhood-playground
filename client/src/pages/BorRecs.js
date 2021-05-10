@@ -74,6 +74,11 @@ const formatters = {
         description: 'last 500 picks - my own top secret formula',
         formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
     },
+
+    highestZScoreMagic: {
+        description: 'last 500 picks - zscore magic',
+        formatter: pick => [pick.ticker, pick.scan.zScoreMagic].join(' ')
+    },
     fiveHundredInverseStTrend: {
         description: 'last 500 picks - trended down a lot and high social sentiment score',
         formatter: pick => `${trendAndSt(pick)} = inverseStTrend ${pick.inverseStTrend}`
