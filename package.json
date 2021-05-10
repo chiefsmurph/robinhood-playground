@@ -32,7 +32,7 @@
     "json2xls": "^0.1.2",
     "mongoose": "5.3.1",
     "mz": "^2.7.0",
-    "nodemailer": "^4.6.4",
+    "nodemailer": "^6.4.16",
     "pm2": "^3.5.0",
     "polygon.io": "^1.0.0",
     "promise-map-limit": "^1.0.0",
