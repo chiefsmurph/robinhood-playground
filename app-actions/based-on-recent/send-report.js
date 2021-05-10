@@ -12,9 +12,13 @@ const getSt = pick => (
 const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
 const trendAndSt = pick => `trend ${pick.trend}% stSent ${getSt(pick)}`;
 const formatters = {
+    myLargestPositions: {
+        description: 'self explanatory',
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' zScoreSum '),
+    },
     hundredZScoreSum: {
         description: 'last 100 picks - my own top secret formula',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+        formatter: pick => [pick.ticker, pick.zScoreSum].join(' zScoreSum ')
     },
     hundredInverseStTrend: {
         description: 'trended down a lot and high social sentiment score',
