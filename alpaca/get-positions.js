@@ -16,7 +16,7 @@ const cacheThis = require('../utils/cache-this');
 
 const addSingleZScores = require('./add-single-zscores');
 const shouldSellOff = require('./should-sell-off');
-const { pick } = require('underscore');
+const { pick, throttle } = require('underscore');
 
 const cachedScan = cacheThis(async tickers => {
   const scan = await runScan({
@@ -80,6 +80,12 @@ const handleRS = ({ ticker, avgEntry, quantity, unrealizedPl, currentPrice }) =>
     };
   }
 };
+
+
+
+
+
+
 
 
 module.exports = async (

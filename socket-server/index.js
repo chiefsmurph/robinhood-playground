@@ -320,7 +320,8 @@ module.exports = new Promise(resolve => {
                 log: str => log(`${nPrefix}${actualLocation} says ${str}`, { ip, location, userAgent }),
                 getActiveStrategy: ticker => getActiveStrategy(ticker),
                 restartProcess,
-                logMemory: global.logMemory
+                logMemory: global.logMemory,
+                notifyBig: require('../app-actions/notify-big')
             };
             const actFn = methods[method];
             console.log({ actFn });

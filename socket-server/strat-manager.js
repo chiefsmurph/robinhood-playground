@@ -42,6 +42,7 @@ const getAnalyzedClosed = require('../analysis/positions/get-closed');
 const dayInProgress = require('../realtime/day-in-progress');
 
 const getBorRecs = require('../app-actions/based-on-recent/get-picks');
+const notifyBig = require('../app-actions/notify-big');
 
 // const RealtimeRunner = ;
 
@@ -198,6 +199,11 @@ const stratManager = {
             analyzedClosed: this.analyzedClosed 
         });
 
+        const hugeDown = positions.alpaca.filter(position => position.zScoreFinal > 4);
+        for (let position of hugeDown) {
+            await log(`huge down ${position.ticker}`);
+            await notifyBig(position);
+        }
         return positions.alpaca;
     },
     getReverseSplitOffset() {
