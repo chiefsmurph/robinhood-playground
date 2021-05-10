@@ -99,7 +99,7 @@ module.exports = class PositionWatcher {
       quantity, 
       wouldBeDayTrade, 
       mostRecentPurchase, 
-      stSent: { bullBearScore },
+      stSent: { bullBearScore = 0 },
       numMultipliers,
       avgMultipliersPerPick,
       currentPrice
