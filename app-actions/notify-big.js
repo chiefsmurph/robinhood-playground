@@ -1,6 +1,7 @@
 
 const sendEmail = require('../utils/send-email');
 const { emails } = require('../config');
+const { throttle } = require('underscore');
 
 const lastNotifications = {};
 const WAIT_MIN_BETWEEN = 45;

@@ -118,6 +118,12 @@ class Preferences extends Component {
             console.log({ ticker });
             this.act('getRelatedPosition', ticker || undefined)(evt);
           })} href="#">Get Position</a></li>
+
+          <li><a onClick={pd((evt) => {
+            const ticker = window.prompt('Enter a ticker or leave blank');
+            console.log({ ticker });
+            this.act('notifyBig', { ticker })(evt);
+          })} href="#">Notify Big</a></li>
         </ul>
 
         <h3>Manual Buys</h3>
