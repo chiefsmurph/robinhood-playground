@@ -14,11 +14,11 @@ const trendAndSt = pick => `trend ${pick.trend}% stSent ${getSt(pick)}`;
 const formatters = {
     myLargestPositions: {
         description: 'self explanatory',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' zScoreSum '),
+        formatter: pick => `zScoreSum ${pick.scan.zScoreSum}`
     },
     hundredZScoreSum: {
         description: 'last 100 picks - my own top secret formula',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' zScoreSum ')
+        formatter: pick => `zScoreSum ${pick.scan.zScoreSum}`
     },
     hundredInverseStTrend: {
         description: 'trended down a lot and high social sentiment score',
@@ -35,12 +35,12 @@ const formatters = {
 
     threeHundredZScoreSum: {
         description: 'last 300 - picks my own top secret formula',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+        formatter: pick => `zScoreSum ${pick.scan.zScoreSum}`
     },
 
     fiveHundredZScoreSum: {
         description: 'last 500 picks - my own top secret formula',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+        formatter: pick => `zScoreSum ${pick.scan.zScoreSum}`
     },
 
     highestZScoreMagic: {
