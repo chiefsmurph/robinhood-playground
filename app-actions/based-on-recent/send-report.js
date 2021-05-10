@@ -114,7 +114,7 @@ module.exports = async (onlyMe = true) => {
                 `<b>${collection}</b>`,
                 ...formatter ? [`<i>${formatter.description}</i>`] : [],
                 '----------------',
-                ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatter ? formatter[collection].formatter(pick): ''}`),
+                ...specificPicks.map(pick => `${pick.ticker } @ ${pick.nowPrice} - ${formatter ? formatter.formatter(pick): ''}`),
                 '<br>',
             ];
         }, intro);
