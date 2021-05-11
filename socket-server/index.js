@@ -321,7 +321,8 @@ module.exports = new Promise(resolve => {
                 getActiveStrategy: ticker => getActiveStrategy(ticker),
                 restartProcess,
                 logMemory: global.logMemory,
-                notifyBig: require('../app-actions/notify-big')
+                notifyBig: require('../app-actions/notify-big'),
+                makeFundsAvailable: require('../alpaca/make-funds-available'),
             };
             const actFn = methods[method];
             console.log({ actFn });

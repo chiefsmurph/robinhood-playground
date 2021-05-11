@@ -50,7 +50,7 @@ const getSt = pick => (
 const formatters = {
     hundredZScoreSum: {
         description: 'last 100 picks - my own top secret formula',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+        formatter: pick => [pick.ticker, pick.scan.zScoreSum].join(' ')
     },
     hundredInverseStTrend: {
         description: 'trended down a lot and high social sentiment score',
@@ -67,12 +67,12 @@ const formatters = {
 
     threeHundredZScoreSum: {
         description: 'last 300 - picks my own top secret formula',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+        formatter: pick => [pick.ticker, pick.scan.zScoreSum].join(' ')
     },
 
     fiveHundredZScoreSum: {
         description: 'last 500 picks - my own top secret formula',
-        formatter: pick => [pick.ticker, pick.zScoreSum].join(' ')
+        formatter: pick => [pick.ticker, pick.scan.zScoreSum].join(' ')
     },
 
     highestZScoreMagic: {
