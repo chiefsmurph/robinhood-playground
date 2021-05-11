@@ -144,7 +144,7 @@ module.exports = async () => {
     const firstNumMinutes = morningMinTarget - min;
 
     const feelingGood = zScoreFinal > 1;
-    const waitTillOpen = (unrealized_intraday_plpc < 0 || returnPerc < 0) && feelingGood;
+    const waitTillOpen = min < 0 && (unrealized_intraday_plpc < 0 || returnPerc < 0) && feelingGood;
     
     
     const fireFirstQ = () =>
