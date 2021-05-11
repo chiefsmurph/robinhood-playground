@@ -7,10 +7,13 @@ const makeFundsAvailable = require('../../alpaca/make-funds-available');
 const getMinutesFromOpen = require('../../utils/get-minutes-from-open');
 
 const { registerNewStrategy } = require('../buys-in-progress');
+const { uniq } = require('underscore');
 
 const runArray = [
+    27,
     // limit .98
     // 49,
+    70,
     // 80,
     // 120,
     // 152,
@@ -94,11 +97,15 @@ const runBasedOnRecent = async skipSetPerc => {
     });
 
 
-    const allToBuy = Object.values(picks).flat().filter(({ ticker }) => {
-        const { percentOfBalance } = getRelatedPosition(ticker);
-        const dontBuy = percentOfBalance > 7;
-        return !dontBuy;
-    });
+    const allToBuy = uniq(
+        Object.values(picks).flat().filter(({ ticker }) => {
+            const { percentOfBalance } = getRelatedPosition(ticker);
+            const dontBuy = percentOfBalance > 7;
+            return !dontBuy;
+        }),
+        false,
+        p => p.ticker
+    );
     await log(`all to buy: ${allToBuy.map(getTicker)}`);
 
 
@@ -156,7 +163,7 @@ const runBasedOnRecent = async skipSetPerc => {
         if (curMin < 185) {
             limitBuy({
                 ticker,
-                limitPrice: nowPrice * .98,
+                limitPrice: nowPrice * .99,
                 quantity,
                 fallbackToMarket: false,
                 timeoutSeconds: 60 * 30
@@ -164,7 +171,7 @@ const runBasedOnRecent = async skipSetPerc => {
         } else if (curMin < 340) {
             limitBuy({
                 ticker,
-                limitPrice: nowPrice * .99,
+                limitPrice: nowPrice * 1,
                 quantity,
                 fallbackToMarket: true,
                 timeoutSeconds: 60 * 30
