@@ -1,0 +1,1472 @@
+[
+  {
+    "pmName": "overnight-drops-minorJump",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!watchout-minorJump",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!down",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!watchout-!down",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-minorJump-!down",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!straightDown",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!watchout-!straightDown",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-minorJump-!straightDown",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!down-!straightDown",
+    "weightedTrend": 18.29,
+    "avgTrend": 18.29,
+    "count": 2,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!watchout",
+    "weightedTrend": 14.53,
+    "avgTrend": 14.53,
+    "count": 3,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-rsilt15",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-10min-rsilt15",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-notWatchout-rsilt15",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-10min-notWatchout-rsilt15",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-firstAlert-rsilt15",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-10min-firstAlert-rsilt15",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-notWatchout-firstAlert-rsilt15",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-rsilt15-initial",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-10min-rsilt15-initial",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-notWatchout-rsilt15-initial",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-firstAlert-rsilt15-initial",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-lt15-notWatchout-10min",
+    "weightedTrend": 11.93,
+    "avgTrend": 11.93,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-majorJump",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!watchout-majorJump",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-down10",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!watchout-down10",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-majorJump-down10",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-straightDown90",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-!watchout-straightDown90",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-majorJump-straightDown90",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "overnight-drops-down10-straightDown90",
+    "weightedTrend": 7.01,
+    "avgTrend": 7.01,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "sudden-drops-minorJump-down10",
+    "weightedTrend": 6.8,
+    "avgTrend": 6.8,
+    "count": 6,
+    "percUp": 10000
+  },
+  {
+    "pmName": "sudden-drops-straightDown60",
+    "weightedTrend": 6.8,
+    "avgTrend": 6.8,
+    "count": 6,
+    "percUp": 10000
+  },
+  {
+    "pmName": "sudden-drops-!watchout-straightDown60",
+    "weightedTrend": 6.8,
+    "avgTrend": 6.8,
+    "count": 6,
+    "percUp": 10000
+  },
+  {
+    "pmName": "sudden-drops-down10-straightDown60",
+    "weightedTrend": 6.8,
+    "avgTrend": 6.8,
+    "count": 6,
+    "percUp": 10000
+  },
+  {
+    "pmName": "sudden-drops-straightDown60-neutral",
+    "weightedTrend": 6.8,
+    "avgTrend": 6.8,
+    "count": 6,
+    "percUp": 10000
+  },
+  {
+    "pmName": "sudden-drops-minorJump-straightDown60",
+    "weightedTrend": 6.8,
+    "avgTrend": 6.8,
+    "count": 6,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-10min-notWatchout-initial",
+    "weightedTrend": 6.497619047619047,
+    "avgTrend": 6.497619047619047,
+    "count": 42,
+    "percUp": 6190.476190476191
+  },
+  {
+    "pmName": "rsi-notWatchout-initial",
+    "weightedTrend": 6.137391304347826,
+    "avgTrend": 6.137391304347826,
+    "count": 46,
+    "percUp": 6304.347826086957
+  },
+  {
+    "pmName": "rsi-10min-initial",
+    "weightedTrend": 5.5358,
+    "avgTrend": 5.5358,
+    "count": 50,
+    "percUp": 6000
+  },
+  {
+    "pmName": "rsi-initial",
+    "weightedTrend": 5.220545454545454,
+    "avgTrend": 5.220545454545454,
+    "count": 55,
+    "percUp": 6181.818181818181
+  },
+  {
+    "pmName": "sudden-drops-!watchout-minorJump",
+    "weightedTrend": 5.015714285714286,
+    "avgTrend": 5.015714285714286,
+    "count": 7,
+    "percUp": 8571.42857142857
+  },
+  {
+    "pmName": "sudden-drops-minorJump-neutral",
+    "weightedTrend": 5.015714285714286,
+    "avgTrend": 5.015714285714286,
+    "count": 7,
+    "percUp": 8571.42857142857
+  },
+  {
+    "pmName": "rsi-10min-firstAlert-initial",
+    "weightedTrend": 4.640555555555555,
+    "avgTrend": 4.640555555555555,
+    "count": 18,
+    "percUp": 6666.666666666666
+  },
+  {
+    "pmName": "rsi-notWatchout-firstAlert-initial",
+    "weightedTrend": 4.5920000000000005,
+    "avgTrend": 4.5920000000000005,
+    "count": 20,
+    "percUp": 7000
+  },
+  {
+    "pmName": "rsi-firstAlert-initial",
+    "weightedTrend": 4.081304347826086,
+    "avgTrend": 4.081304347826086,
+    "count": 23,
+    "percUp": 6956.521739130434
+  },
+  {
+    "pmName": "rsi-10min-notWatchout-brunch",
+    "weightedTrend": 3.667878787878787,
+    "avgTrend": 3.667878787878787,
+    "count": 33,
+    "percUp": 6666.666666666666
+  },
+  {
+    "pmName": "initial",
+    "weightedTrend": 3.3032876712328774,
+    "avgTrend": 3.3032876712328774,
+    "count": 73,
+    "percUp": 5342.465753424658
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-lunch",
+    "weightedTrend": 3.12,
+    "avgTrend": 3.12,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-firstAlert-lunch",
+    "weightedTrend": 3.12,
+    "avgTrend": 3.12,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-10min-notWatchout-firstAlert",
+    "weightedTrend": 2.8584444444444443,
+    "avgTrend": 2.8584444444444443,
+    "count": 45,
+    "percUp": 6222.222222222222
+  },
+  {
+    "pmName": "rsi-notWatchout-brunch",
+    "weightedTrend": 2.8193023255813943,
+    "avgTrend": 2.8193023255813943,
+    "count": 43,
+    "percUp": 6279.069767441861
+  },
+  {
+    "pmName": "rsi-10min-firstAlert-brunch",
+    "weightedTrend": 2.753636363636364,
+    "avgTrend": 2.753636363636364,
+    "count": 11,
+    "percUp": 6363.636363636363
+  },
+  {
+    "pmName": "rsi-10min-brunch",
+    "weightedTrend": 2.7270731707317073,
+    "avgTrend": 2.7270731707317073,
+    "count": 41,
+    "percUp": 6097.5609756097565
+  },
+  {
+    "pmName": "rsi-10min-firstAlert",
+    "weightedTrend": 2.4609615384615386,
+    "avgTrend": 2.4609615384615386,
+    "count": 52,
+    "percUp": 5961.538461538461
+  },
+  {
+    "pmName": "rsi-notWatchout-firstAlert",
+    "weightedTrend": 2.42155172413793,
+    "avgTrend": 2.42155172413793,
+    "count": 58,
+    "percUp": 6379.310344827586
+  },
+  {
+    "pmName": "sudden-drops-down10",
+    "weightedTrend": 2.407692307692308,
+    "avgTrend": 2.407692307692308,
+    "count": 13,
+    "percUp": 4615.384615384615
+  },
+  {
+    "pmName": "sudden-drops-!watchout-down10",
+    "weightedTrend": 2.407692307692308,
+    "avgTrend": 2.407692307692308,
+    "count": 13,
+    "percUp": 4615.384615384615
+  },
+  {
+    "pmName": "sudden-drops-down10-neutral",
+    "weightedTrend": 2.407692307692308,
+    "avgTrend": 2.407692307692308,
+    "count": 13,
+    "percUp": 4615.384615384615
+  },
+  {
+    "pmName": "sudden-drops-minorJump",
+    "weightedTrend": 2.394444444444444,
+    "avgTrend": 2.394444444444444,
+    "count": 9,
+    "percUp": 6666.666666666666
+  },
+  {
+    "pmName": "rsi-30min-notWatchout-initial",
+    "weightedTrend": 2.3550000000000004,
+    "avgTrend": 2.3550000000000004,
+    "count": 4,
+    "percUp": 7500
+  },
+  {
+    "pmName": "rsi-brunch",
+    "weightedTrend": 2.196078431372549,
+    "avgTrend": 2.196078431372549,
+    "count": 51,
+    "percUp": 5882.352941176471
+  },
+  {
+    "pmName": "rsi-notWatchout-firstAlert-brunch",
+    "weightedTrend": 2.1853333333333333,
+    "avgTrend": 2.1853333333333333,
+    "count": 15,
+    "percUp": 6666.666666666666
+  },
+  {
+    "pmName": "rsi-firstAlert",
+    "weightedTrend": 2.131969696969696,
+    "avgTrend": 2.131969696969696,
+    "count": 66,
+    "percUp": 6212.121212121212
+  },
+  {
+    "pmName": "rsi-30min-initial",
+    "weightedTrend": 2.0680000000000005,
+    "avgTrend": 2.0680000000000005,
+    "count": 5,
+    "percUp": 8000
+  },
+  {
+    "pmName": "rsi-30min-firstAlert-initial",
+    "weightedTrend": 2.0680000000000005,
+    "avgTrend": 2.0680000000000005,
+    "count": 5,
+    "percUp": 8000
+  },
+  {
+    "pmName": "10",
+    "weightedTrend": 1.9937142857142849,
+    "avgTrend": 1.9937142857142849,
+    "count": 105,
+    "percUp": 5047.619047619048
+  },
+  {
+    "pmName": "twoToFive",
+    "weightedTrend": 1.9108196721311463,
+    "avgTrend": 1.9108196721311463,
+    "count": 122,
+    "percUp": 5573.770491803279
+  },
+  {
+    "pmName": "rsi-firstAlert-brunch",
+    "weightedTrend": 1.906470588235294,
+    "avgTrend": 1.906470588235294,
+    "count": 17,
+    "percUp": 6470.588235294117
+  },
+  {
+    "pmName": "sudden-drops-!watchout",
+    "weightedTrend": 1.8292857142857142,
+    "avgTrend": 1.8292857142857142,
+    "count": 14,
+    "percUp": 4285.714285714285
+  },
+  {
+    "pmName": "sudden-drops-neutral",
+    "weightedTrend": 1.8292857142857142,
+    "avgTrend": 1.8292857142857142,
+    "count": 14,
+    "percUp": 4285.714285714285
+  },
+  {
+    "pmName": "sudden-drops-!watchout-neutral",
+    "weightedTrend": 1.8292857142857142,
+    "avgTrend": 1.8292857142857142,
+    "count": 14,
+    "percUp": 4285.714285714285
+  },
+  {
+    "pmName": "rsi-10min-notWatchout",
+    "weightedTrend": 1.7392146596858624,
+    "avgTrend": 1.7392146596858624,
+    "count": 191,
+    "percUp": 4973.821989528797
+  },
+  {
+    "pmName": "rsi-twoToFive",
+    "weightedTrend": 1.72153153153153,
+    "avgTrend": 1.72153153153153,
+    "count": 111,
+    "percUp": 5405.405405405406
+  },
+  {
+    "pmName": "rsi-30min-firstAlert-lunch",
+    "weightedTrend": 1.64,
+    "avgTrend": 1.64,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-notWatchout",
+    "weightedTrend": 1.574008810572686,
+    "avgTrend": 1.574008810572686,
+    "count": 227,
+    "percUp": 5242.290748898678
+  },
+  {
+    "pmName": "stocktwits-twoToFive",
+    "weightedTrend": 1.492,
+    "avgTrend": 1.492,
+    "count": 10,
+    "percUp": 7000
+  },
+  {
+    "pmName": "5",
+    "weightedTrend": 1.3207692307692296,
+    "avgTrend": 1.3207692307692296,
+    "count": 117,
+    "percUp": 6153.846153846154
+  },
+  {
+    "pmName": "rsi-10min",
+    "weightedTrend": 1.166901960784313,
+    "avgTrend": 1.166901960784313,
+    "count": 255,
+    "percUp": 4549.019607843137
+  },
+  {
+    "pmName": "rsi-30min-dinner",
+    "weightedTrend": 1.166,
+    "avgTrend": 1.166,
+    "count": 5,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi-30min-notWatchout-dinner",
+    "weightedTrend": 1.166,
+    "avgTrend": 1.166,
+    "count": 5,
+    "percUp": 10000
+  },
+  {
+    "pmName": "rsi",
+    "weightedTrend": 1.1081849315068486,
+    "avgTrend": 1.1081849315068486,
+    "count": 292,
+    "percUp": 4828.767123287671
+  },
+  {
+    "pmName": "brunch",
+    "weightedTrend": 1.0397435897435894,
+    "avgTrend": 1.0397435897435894,
+    "count": 78,
+    "percUp": 5128.205128205128
+  },
+  {
+    "pmName": "rsi-notWatchout-firstAlert-lunch",
+    "weightedTrend": 1.0314285714285714,
+    "avgTrend": 1.0314285714285714,
+    "count": 7,
+    "percUp": 5714.285714285714
+  },
+  {
+    "pmName": "rsi-30min-lunch",
+    "weightedTrend": 1.0210000000000001,
+    "avgTrend": 1.0210000000000001,
+    "count": 10,
+    "percUp": 7000
+  },
+  {
+    "pmName": "rsi-30min-notWatchout-lunch",
+    "weightedTrend": 1.0210000000000001,
+    "avgTrend": 1.0210000000000001,
+    "count": 10,
+    "percUp": 7000
+  },
+  {
+    "pmName": "rsi-30min-firstAlert",
+    "weightedTrend": 0.9100000000000003,
+    "avgTrend": 0.9100000000000003,
+    "count": 14,
+    "percUp": 7142.857142857143
+  },
+  {
+    "pmName": "rsi-30min-notWatchout-firstAlert",
+    "weightedTrend": 0.9092307692307695,
+    "avgTrend": 0.9092307692307695,
+    "count": 13,
+    "percUp": 6923.076923076923
+  },
+  {
+    "pmName": "sudden-drops-fiveToTen",
+    "weightedTrend": 0.8033333333333331,
+    "avgTrend": 0.8033333333333331,
+    "count": 15,
+    "percUp": 4000
+  },
+  {
+    "pmName": "rsi-holds",
+    "weightedTrend": 0.7682840236686387,
+    "avgTrend": 0.7682840236686387,
+    "count": 169,
+    "percUp": 4260.3550295857995
+  },
+  {
+    "pmName": "sudden-drops",
+    "weightedTrend": 0.7531249999999998,
+    "avgTrend": 0.7531249999999998,
+    "count": 16,
+    "percUp": 3750
+  },
+  {
+    "pmName": "sudden-drops-notLunch",
+    "weightedTrend": 0.7531249999999998,
+    "avgTrend": 0.7531249999999998,
+    "count": 16,
+    "percUp": 3750
+  },
+  {
+    "pmName": "sudden-drops-notLunchOrNotDown10",
+    "weightedTrend": 0.7531249999999998,
+    "avgTrend": 0.7531249999999998,
+    "count": 16,
+    "percUp": 3750
+  },
+  {
+    "pmName": "holds",
+    "weightedTrend": 0.7386387434554963,
+    "avgTrend": 0.7386387434554963,
+    "count": 191,
+    "percUp": 4345.5497382198955
+  },
+  {
+    "pmName": "smoothkst-notWatchout-firstAlert-dinner",
+    "weightedTrend": 0.7281818181818182,
+    "avgTrend": 0.7281818181818182,
+    "count": 11,
+    "percUp": 4545.454545454545
+  },
+  {
+    "pmName": "rsi-30min",
+    "weightedTrend": 0.7035135135135139,
+    "avgTrend": 0.7035135135135139,
+    "count": 37,
+    "percUp": 6756.756756756757
+  },
+  {
+    "pmName": "rsi-30min-notWatchout",
+    "weightedTrend": 0.6975000000000002,
+    "avgTrend": 0.6975000000000002,
+    "count": 36,
+    "percUp": 6666.666666666666
+  },
+  {
+    "pmName": "rsi-notWatchout-lunch",
+    "weightedTrend": 0.6957692307692308,
+    "avgTrend": 0.6957692307692308,
+    "count": 52,
+    "percUp": 5769.230769230769
+  },
+  {
+    "pmName": "rsi-10min-notWatchout-lunch",
+    "weightedTrend": 0.6183333333333333,
+    "avgTrend": 0.6183333333333333,
+    "count": 42,
+    "percUp": 5476.190476190477
+  },
+  {
+    "pmName": "rsi-firstAlert-dinner",
+    "weightedTrend": 0.6133333333333334,
+    "avgTrend": 0.6133333333333334,
+    "count": 12,
+    "percUp": 5833.333333333334
+  },
+  {
+    "pmName": "rsi-10min-firstAlert-dinner",
+    "weightedTrend": 0.6133333333333334,
+    "avgTrend": 0.6133333333333334,
+    "count": 12,
+    "percUp": 5833.333333333334
+  },
+  {
+    "pmName": "fiveToTen",
+    "weightedTrend": 0.535238095238095,
+    "avgTrend": 0.535238095238095,
+    "count": 21,
+    "percUp": 3333.333333333333
+  },
+  {
+    "pmName": "30",
+    "weightedTrend": 0.5016434540389999,
+    "avgTrend": 0.5016434540389999,
+    "count": 359,
+    "percUp": 4317.548746518106
+  },
+  {
+    "pmName": "rsi-firstAlert-lunch",
+    "weightedTrend": 0.44625,
+    "avgTrend": 0.44625,
+    "count": 8,
+    "percUp": 5000
+  },
+  {
+    "pmName": "stocktwits-holds",
+    "weightedTrend": 0.406875,
+    "avgTrend": 0.406875,
+    "count": 16,
+    "percUp": 5000
+  },
+  {
+    "pmName": "smoothkst-notWatchout-dinner",
+    "weightedTrend": 0.36769230769230765,
+    "avgTrend": 0.36769230769230765,
+    "count": 13,
+    "percUp": 3846.1538461538466
+  },
+  {
+    "pmName": "stocktwits-mostBearish",
+    "weightedTrend": 0.35761904761904767,
+    "avgTrend": 0.35761904761904767,
+    "count": 21,
+    "percUp": 5238.0952380952385
+  },
+  {
+    "pmName": "fitty",
+    "weightedTrend": 0.35714285714285715,
+    "avgTrend": 0.35714285714285715,
+    "count": 7,
+    "percUp": 7142.857142857143
+  },
+  {
+    "pmName": "rsi-fitty",
+    "weightedTrend": 0.35714285714285715,
+    "avgTrend": 0.35714285714285715,
+    "count": 7,
+    "percUp": 7142.857142857143
+  },
+  {
+    "pmName": "rsi-30min-firstAlert-brunch",
+    "weightedTrend": 0.3533333333333333,
+    "avgTrend": 0.3533333333333333,
+    "count": 6,
+    "percUp": 6666.666666666666
+  },
+  {
+    "pmName": "stocktwits",
+    "weightedTrend": 0.33833333333333304,
+    "avgTrend": 0.33833333333333304,
+    "count": 42,
+    "percUp": 4761.9047619047615
+  },
+  {
+    "pmName": "stocktwits-mostBullish",
+    "weightedTrend": 0.31904761904761897,
+    "avgTrend": 0.31904761904761897,
+    "count": 21,
+    "percUp": 4285.714285714285
+  },
+  {
+    "pmName": "rsi-notWatchout-firstAlert-dinner",
+    "weightedTrend": 0.3109090909090909,
+    "avgTrend": 0.3109090909090909,
+    "count": 11,
+    "percUp": 5454.545454545454
+  },
+  {
+    "pmName": "rsi-lunch",
+    "weightedTrend": 0.3108771929824561,
+    "avgTrend": 0.3108771929824561,
+    "count": 57,
+    "percUp": 5263.157894736842
+  },
+  {
+    "pmName": "smoothkst-firstAlert-dinner",
+    "weightedTrend": 0.2830769230769231,
+    "avgTrend": 0.2830769230769231,
+    "count": 13,
+    "percUp": 3846.1538461538466
+  },
+  {
+    "pmName": "rsi-10min-firstAlert-lunch",
+    "weightedTrend": 0.2757142857142857,
+    "avgTrend": 0.2757142857142857,
+    "count": 7,
+    "percUp": 4285.714285714285
+  },
+  {
+    "pmName": "smoothkst-dinner",
+    "weightedTrend": 0.27,
+    "avgTrend": 0.27,
+    "count": 16,
+    "percUp": 3750
+  },
+  {
+    "pmName": "lunch",
+    "weightedTrend": 0.17876543209876541,
+    "avgTrend": 0.17876543209876541,
+    "count": 81,
+    "percUp": 5432.098765432099
+  },
+  {
+    "pmName": "rsi-10min-lunch",
+    "weightedTrend": 0.15978723404255327,
+    "avgTrend": 0.15978723404255327,
+    "count": 47,
+    "percUp": 4893.617021276596
+  },
+  {
+    "pmName": "rsi-spy",
+    "weightedTrend": 0.1,
+    "avgTrend": 0.1,
+    "count": 4,
+    "percUp": 10000
+  },
+  {
+    "pmName": "spy",
+    "weightedTrend": 0.096,
+    "avgTrend": 0.096,
+    "count": 5,
+    "percUp": 10000
+  },
+  {
+    "pmName": "stocktwits-spy",
+    "weightedTrend": 0.08,
+    "avgTrend": 0.08,
+    "count": 1,
+    "percUp": 10000
+  },
+  {
+    "pmName": "stocktwits-hotSt",
+    "weightedTrend": 0.051999999999999866,
+    "avgTrend": 0.051999999999999866,
+    "count": 10,
+    "percUp": 4000
+  },
+  {
+    "pmName": "rsi-30min-brunch",
+    "weightedTrend": 0.019000000000000006,
+    "avgTrend": 0.019000000000000006,
+    "count": 10,
+    "percUp": 5000
+  },
+  {
+    "pmName": "rsi-30min-notWatchout-brunch",
+    "weightedTrend": 0.019000000000000006,
+    "avgTrend": 0.019000000000000006,
+    "count": 10,
+    "percUp": 5000
+  },
+  {
+    "pmName": "dinner",
+    "weightedTrend": -0.07583333333333331,
+    "avgTrend": -0.07583333333333331,
+    "count": 96,
+    "percUp": 4479.166666666667
+  },
+  {
+    "pmName": "rsi-dinner",
+    "weightedTrend": -0.1355714285714286,
+    "avgTrend": -0.1355714285714286,
+    "count": 70,
+    "percUp": 4571.428571428572
+  },
+  {
+    "pmName": "rsi-10min-dinner",
+    "weightedTrend": -0.23569230769230762,
+    "avgTrend": -0.23569230769230762,
+    "count": 65,
+    "percUp": 4153.846153846154
+  },
+  {
+    "pmName": "smoothkst-30minute",
+    "weightedTrend": -0.23694915254237295,
+    "avgTrend": -0.23694915254237295,
+    "count": 59,
+    "percUp": 3898.3050847457625
+  },
+  {
+    "pmName": "rsi-hotSt",
+    "weightedTrend": -0.24,
+    "avgTrend": -0.24,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-notWatchout-brunch",
+    "weightedTrend": -0.3442857142857142,
+    "avgTrend": -0.3442857142857142,
+    "count": 7,
+    "percUp": 4285.714285714285
+  },
+  {
+    "pmName": "smoothkst-notWatchout-firstAlert-brunch",
+    "weightedTrend": -0.3442857142857142,
+    "avgTrend": -0.3442857142857142,
+    "count": 7,
+    "percUp": 4285.714285714285
+  },
+  {
+    "pmName": "rsi-notWatchout-dinner",
+    "weightedTrend": -0.35413793103448293,
+    "avgTrend": -0.35413793103448293,
+    "count": 58,
+    "percUp": 4137.931034482759
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-brunch",
+    "weightedTrend": -0.485,
+    "avgTrend": -0.485,
+    "count": 2,
+    "percUp": 5000
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-notWatchout-brunch",
+    "weightedTrend": -0.485,
+    "avgTrend": -0.485,
+    "count": 2,
+    "percUp": 5000
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-firstAlert-brunch",
+    "weightedTrend": -0.485,
+    "avgTrend": -0.485,
+    "count": 2,
+    "percUp": 5000
+  },
+  {
+    "pmName": "rsi-10min-notWatchout-dinner",
+    "weightedTrend": -0.49754716981132086,
+    "avgTrend": -0.49754716981132086,
+    "count": 53,
+    "percUp": 3584.9056603773583
+  },
+  {
+    "pmName": "smoothkst-lunch",
+    "weightedTrend": -0.92375,
+    "avgTrend": -0.92375,
+    "count": 16,
+    "percUp": 4375
+  },
+  {
+    "pmName": "smoothkst-firstAlert-lunch",
+    "weightedTrend": -0.92375,
+    "avgTrend": -0.92375,
+    "count": 16,
+    "percUp": 4375
+  },
+  {
+    "pmName": "smoothkst-notWatchout-lunch",
+    "weightedTrend": -1.1624999999999999,
+    "avgTrend": -1.1624999999999999,
+    "count": 12,
+    "percUp": 4166.666666666667
+  },
+  {
+    "pmName": "smoothkst-notWatchout-firstAlert-lunch",
+    "weightedTrend": -1.1624999999999999,
+    "avgTrend": -1.1624999999999999,
+    "count": 12,
+    "percUp": 4166.666666666667
+  },
+  {
+    "pmName": "avg-downer",
+    "weightedTrend": -1.185,
+    "avgTrend": -1.185,
+    "count": 4,
+    "percUp": 5000
+  },
+  {
+    "pmName": "smoothkst-firstAlert-brunch",
+    "weightedTrend": -1.2221428571428572,
+    "avgTrend": -1.2221428571428572,
+    "count": 14,
+    "percUp": 3571.4285714285716
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-notWatchout",
+    "weightedTrend": -1.3116666666666668,
+    "avgTrend": -1.3116666666666668,
+    "count": 6,
+    "percUp": 5000
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-notWatchout-firstAlert",
+    "weightedTrend": -1.3116666666666668,
+    "avgTrend": -1.3116666666666668,
+    "count": 6,
+    "percUp": 5000
+  },
+  {
+    "pmName": "smoothkst-notWatchout-firstAlert",
+    "weightedTrend": -1.3299999999999998,
+    "avgTrend": -1.3299999999999998,
+    "count": 55,
+    "percUp": 3636.3636363636365
+  },
+  {
+    "pmName": "sudden-drops-mediumJump",
+    "weightedTrend": -1.3571428571428572,
+    "avgTrend": -1.3571428571428572,
+    "count": 7,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-!watchout-mediumJump",
+    "weightedTrend": -1.3571428571428572,
+    "avgTrend": -1.3571428571428572,
+    "count": 7,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-mediumJump-down10",
+    "weightedTrend": -1.3571428571428572,
+    "avgTrend": -1.3571428571428572,
+    "count": 7,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-mediumJump-neutral",
+    "weightedTrend": -1.3571428571428572,
+    "avgTrend": -1.3571428571428572,
+    "count": 7,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-down10-straightDown30",
+    "weightedTrend": -1.3571428571428572,
+    "avgTrend": -1.3571428571428572,
+    "count": 7,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-mediumJump-straightDown30",
+    "weightedTrend": -1.3571428571428572,
+    "avgTrend": -1.3571428571428572,
+    "count": 7,
+    "percUp": 0
+  },
+  {
+    "pmName": "stocktwits-fiveToTen",
+    "weightedTrend": -1.564,
+    "avgTrend": -1.564,
+    "count": 5,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-notWatchout",
+    "weightedTrend": -1.5958333333333334,
+    "avgTrend": -1.5958333333333334,
+    "count": 108,
+    "percUp": 2129.6296296296296
+  },
+  {
+    "pmName": "hotSt",
+    "weightedTrend": -1.6810596026490066,
+    "avgTrend": -1.6810596026490066,
+    "count": 151,
+    "percUp": 2582.781456953642
+  },
+  {
+    "pmName": "sudden-drops-straightDown30",
+    "weightedTrend": -1.6877777777777778,
+    "avgTrend": -1.6877777777777778,
+    "count": 9,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst",
+    "weightedTrend": -1.815142857142857,
+    "avgTrend": -1.815142857142857,
+    "count": 140,
+    "percUp": 2500
+  },
+  {
+    "pmName": "smoothkst-hotSt",
+    "weightedTrend": -1.815142857142857,
+    "avgTrend": -1.815142857142857,
+    "count": 140,
+    "percUp": 2500
+  },
+  {
+    "pmName": "smoothkst-firstAlert",
+    "weightedTrend": -1.8766666666666667,
+    "avgTrend": -1.8766666666666667,
+    "count": 75,
+    "percUp": 3333.333333333333
+  },
+  {
+    "pmName": "smoothkst-firstAlerts",
+    "weightedTrend": -1.8766666666666667,
+    "avgTrend": -1.8766666666666667,
+    "count": 75,
+    "percUp": 3333.333333333333
+  },
+  {
+    "pmName": "sudden-drops-!watchout-straightDown30",
+    "weightedTrend": -1.8987500000000002,
+    "avgTrend": -1.8987500000000002,
+    "count": 8,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-straightDown30-neutral",
+    "weightedTrend": -1.8987500000000002,
+    "avgTrend": -1.8987500000000002,
+    "count": 8,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-brunch",
+    "weightedTrend": -1.9718749999999998,
+    "avgTrend": -1.9718749999999998,
+    "count": 16,
+    "percUp": 3125
+  },
+  {
+    "pmName": "smoothkst-isSignalCross-initial",
+    "weightedTrend": -2.24,
+    "avgTrend": -2.24,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isSignalCross-firstAlert-initial",
+    "weightedTrend": -2.24,
+    "avgTrend": -2.24,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isSignalCross-brunch",
+    "weightedTrend": -2.59,
+    "avgTrend": -2.59,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isSignalCross-firstAlert-brunch",
+    "weightedTrend": -2.59,
+    "avgTrend": -2.59,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isSignalCross",
+    "weightedTrend": -2.593125,
+    "avgTrend": -2.593125,
+    "count": 16,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-signalCrosses",
+    "weightedTrend": -2.593125,
+    "avgTrend": -2.593125,
+    "count": 16,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isSignalCross-notWatchout",
+    "weightedTrend": -2.6185714285714288,
+    "avgTrend": -2.6185714285714288,
+    "count": 14,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-minorJump-straightDown30",
+    "weightedTrend": -2.845,
+    "avgTrend": -2.845,
+    "count": 2,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isSignalCross-firstAlert",
+    "weightedTrend": -2.8475,
+    "avgTrend": -2.8475,
+    "count": 4,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-10minute",
+    "weightedTrend": -2.9646913580246923,
+    "avgTrend": -2.9646913580246923,
+    "count": 81,
+    "percUp": 1481.4814814814813
+  },
+  {
+    "pmName": "smoothkst-isZeroCross",
+    "weightedTrend": -3.0850000000000013,
+    "avgTrend": -3.0850000000000013,
+    "count": 10,
+    "percUp": 4000
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-firstAlert",
+    "weightedTrend": -3.0850000000000013,
+    "avgTrend": -3.0850000000000013,
+    "count": 10,
+    "percUp": 4000
+  },
+  {
+    "pmName": "smoothkst-zeroCrosses",
+    "weightedTrend": -3.0850000000000013,
+    "avgTrend": -3.0850000000000013,
+    "count": 10,
+    "percUp": 4000
+  },
+  {
+    "pmName": "smoothkst-isSignalCross-notWatchout-firstAlert",
+    "weightedTrend": -3.2800000000000002,
+    "avgTrend": -3.2800000000000002,
+    "count": 2,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-notWatchout-firstAlert-initial",
+    "weightedTrend": -4.696,
+    "avgTrend": -4.696,
+    "count": 5,
+    "percUp": 2000
+  },
+  {
+    "pmName": "smoothkst-notWatchout-initial",
+    "weightedTrend": -4.888333333333334,
+    "avgTrend": -4.888333333333334,
+    "count": 6,
+    "percUp": 1666.6666666666665
+  },
+  {
+    "pmName": "sudden-drops-!down",
+    "weightedTrend": -5.69,
+    "avgTrend": -5.69,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-!watchout-!down",
+    "weightedTrend": -5.69,
+    "avgTrend": -5.69,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-!down-neutral",
+    "weightedTrend": -5.69,
+    "avgTrend": -5.69,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-minorJump-!down",
+    "weightedTrend": -5.69,
+    "avgTrend": -5.69,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-!down-straightDown30",
+    "weightedTrend": -5.69,
+    "avgTrend": -5.69,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-notLunchAndNotDown10",
+    "weightedTrend": -6.416666666666667,
+    "avgTrend": -6.416666666666667,
+    "count": 3,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-initial",
+    "weightedTrend": -6.5575,
+    "avgTrend": -6.5575,
+    "count": 12,
+    "percUp": 833.3333333333333
+  },
+  {
+    "pmName": "sudden-drops-watchout",
+    "weightedTrend": -6.78,
+    "avgTrend": -6.78,
+    "count": 2,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-watchout-minorJump",
+    "weightedTrend": -6.78,
+    "avgTrend": -6.78,
+    "count": 2,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-bullish",
+    "weightedTrend": -6.78,
+    "avgTrend": -6.78,
+    "count": 2,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-watchout-bullish",
+    "weightedTrend": -6.78,
+    "avgTrend": -6.78,
+    "count": 2,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-minorJump-bullish",
+    "weightedTrend": -6.78,
+    "avgTrend": -6.78,
+    "count": 2,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-firstAlert-initial",
+    "weightedTrend": -6.819,
+    "avgTrend": -6.819,
+    "count": 10,
+    "percUp": 1000
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-notWatchout-initial",
+    "weightedTrend": -7.94,
+    "avgTrend": -7.94,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-initial",
+    "weightedTrend": -8.510000000000002,
+    "avgTrend": -8.510000000000002,
+    "count": 4,
+    "percUp": 0
+  },
+  {
+    "pmName": "smoothkst-isZeroCross-firstAlert-initial",
+    "weightedTrend": -8.510000000000002,
+    "avgTrend": -8.510000000000002,
+    "count": 4,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-initial",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-watchout-initial",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-minorJump-initial",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-down15",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-watchout-down15",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-minorJump-down15",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-initial-down15",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-!straightDown",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-watchout-!straightDown",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-minorJump-!straightDown",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-initial-!straightDown",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-down15-!straightDown",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-initial-bullish",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-down15-bullish",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  },
+  {
+    "pmName": "sudden-drops-!straightDown-bullish",
+    "weightedTrend": -13.56,
+    "avgTrend": -13.56,
+    "count": 1,
+    "percUp": 0
+  }
+]

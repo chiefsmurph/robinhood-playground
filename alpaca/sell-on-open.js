@@ -74,7 +74,7 @@ module.exports = async () => {
 
 
   for (let p of ofInterest) {
-    let { ticker, quantity, percToSell, returnPerc, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice, zScoreFinal, unrealized_intraday_plpc, returnPerc } = p;
+    let { ticker, quantity, percToSell, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice, zScoreFinal, unrealized_intraday_plpc, returnPerc } = p;
 
     // const multiplierMult = Math.floor(numMultipliers / 300) + Number(avgMultipliersPerPick > 150);
     // const downPercMult = returnPerc > 0 ? 0 : Math.abs(Math.floor(returnPerc / 3));
