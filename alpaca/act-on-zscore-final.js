@@ -59,7 +59,7 @@ module.exports = async () => {
     .filter(p => p.scan)
     .filter(p => (
       p.zScoreFinal > 2 ||
-      p.zScoreSum > 16
+      p.zScoreSum > 70
     ))
     .filter(p => p.percentOfBalance < maxPercOfBalance);
   const label = ps => ps.map(p => p.ticker).join(', ');
