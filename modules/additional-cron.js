@@ -107,7 +107,7 @@ const additionalCron = [
 
     {
         name: 'restart pm2 process',
-        run: [700],
+        run: [300, 700],
         fn: restartProcess
     },
 
