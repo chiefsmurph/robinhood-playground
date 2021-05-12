@@ -11,6 +11,7 @@ const dayInProgress = require('../realtime/day-in-progress');
 const notifyBig = ({ ticker, zScoreFinal }) => {
   if (!dayInProgress(-30, 430)) {
     console.log('no need');
+    return;
   }
   const handler = lastNotifications[ticker] || throttle(async () => {
     await sendEmail('force', `notify-big ${ticker}`, `important notification ${zScoreFinal}`, Object.keys(emails)[1]); // cell phone
