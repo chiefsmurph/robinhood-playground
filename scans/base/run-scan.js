@@ -20,6 +20,7 @@ const {
   addDailyHistoricals,
   addDailyRSI
 } = require('../../realtime/historicals/add-daily-historicals');
+const getRecentPicks = require('../../app-actions/get-recent-picks');
 
 const getTickersBetween = async (min, max) => {
   const tickQuotes = await lookupMultiple(allStocks.filter(isTradeable).map(o => o.symbol), true);
@@ -307,9 +308,22 @@ const runScan = async ({
     };
   }) : theGoodStuff;
 
+  const withRecentPickTrend = await addRecentPickTrend(withStSent);
 
-  return finalize(addZScores(withStSent), detailed);
+  return finalize(addZScores(withRecentPickTrend), detailed);
 
+};
+
+const addRecentPickTrend = async trend => {
+  const recentPicks = await getRecentPicks(500, true, false, undefined, true);
+  strlog({ recentPicks });
+  return trend.map(buy => ({
+    ...buy,
+    computed: {
+      ...buy.computed,
+      recent500PickTrend: (recentPicks.find(p => p.ticker === buy.ticker) || {}).trend
+    }
+  }));
 };
 
 
@@ -329,6 +343,7 @@ const addZScores = array => {
       'fiveMinuteRSI',
       'tenMinuteRSI',
       'thirtyMinuteRSI',
+      'recent500PickTrend',
 
       'tso',
       'tsc',
@@ -366,6 +381,7 @@ const finalize = (array, detailed) => {
         fiveMinuteRSI,
         tenMinuteRSI,
         thirtyMinuteRSI,
+        recent500PickTrend,
 
         tso,
         tsc,
@@ -384,7 +400,7 @@ const finalize = (array, detailed) => {
       const zScoreInverseTrend = stSent - highestTrend;
 
       // high stSent, low dailyRSI
-      const zScoreHighSentLowRSI = stSent - dailyRSI - fiveMinuteRSI - thirtyMinuteRSI;
+      const zScoreHighSentLowRSI = stSent - dailyRSI - fiveMinuteRSI - thirtyMinuteRSI + recent500PickTrend;
       
 
       // high stSent, low movement, low dailyRSI
@@ -398,7 +414,7 @@ const finalize = (array, detailed) => {
       const zScoreMagic = (() => {
 
         const howHot = dailyRSI + highestTrend;
-        const wantLow = howHot + fiveMinuteRSI + tenMinuteRSI + thirtyMinuteRSI;
+        const wantLow = howHot + fiveMinuteRSI + tenMinuteRSI + thirtyMinuteRSI + recent500PickTrend;
         const wantHigh = stSent + zScoreVolume;
         return wantHigh - wantLow;
 
@@ -407,7 +423,7 @@ const finalize = (array, detailed) => {
       // high stSent * 2, high volume * 1, low dailyRSI * 3
       const zScoreHotAndCool = (() => {
 
-        const wantLow = (dailyRSI * 3) + (fiveMinuteRSI * 2) + thirtyMinuteRSI + tenMinuteRSI;
+        const wantLow = (dailyRSI * 3) + (fiveMinuteRSI * 2) + thirtyMinuteRSI + tenMinuteRSI + recent500PickTrend;
         const wantHigh = (stSent * 2) + zScoreVolume;
         return wantHigh - wantLow;
 
