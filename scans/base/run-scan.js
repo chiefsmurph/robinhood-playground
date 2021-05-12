@@ -370,7 +370,6 @@ const calcZscoreOffset = buy => {
     projectedVolumeTo2WeekAvg
   } = buy.zScores;
   const {
-    projectedVolumeTo2WeekAvg,
     recent500PickTrend,
     stSent,
     tsh,
