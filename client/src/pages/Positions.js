@@ -100,8 +100,9 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         ),
 
         recent500PickTrend: ({ scan: { computed: { recent500PickTrend } = {}, zScores: { recent500PickTrend: zScore } = {} } = {}}) => (
-            <span className={zScore > 0.5 && 'green'}>
-                {[recent500PickTrend, zScore && `(${zScore})`].filter(Boolean).join(' ')}
+            <span>
+                <TrendPerc value={recent500PickTrend} />&nbsp;
+                ({zScore})
             </span>
         ),
 
@@ -115,7 +116,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         zScoreCalcSum: ({ scan: { zScoreCalcSum } = {} } = {} ) => 
             zScoreCalcSum ? (
                 <span className={zScoreCalcSum > 0.5 && 'green'}>
-                    {(zScoreCalcSum || 0).toFixed(2)}
+                    {(zScoreCalcSum || 0).toFixed(0)}
                 </span>
             ) : null,
 
@@ -127,9 +128,9 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             return (
                 <span 
                     {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join(' ') }}
-                    className={zScoreOffset > 0.5 && 'green'}
+                    className={zScoreOffset > 25 && 'green'}
                 >
-                    {(zScoreOffset || 0).toFixed(2)}
+                    {(zScoreOffset || 0).toFixed(0)}
                 </span>
             )
         },
@@ -137,7 +138,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
             scan ? (
                 <span className={zScoreRelative > 0.5 && 'green'}>
-                    {`${(zScoreSum || 0).toFixed(2)} (${(zScoreRelative || 0).toFixed(2)})`}
+                    {`${(zScoreSum || 0).toFixed(0)} (${(zScoreRelative || 0).toFixed(2)})`}
                 </span>
             ) : null,
     
