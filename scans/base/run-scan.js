@@ -365,6 +365,36 @@ const addZScores = array => {
 };
 
 
+const calcZscoreOffset = buy => {
+  const {
+    projectedVolumeTo2WeekAvg,
+    recent500PickTrend,
+    stSent,
+    tsh,
+  } = buy.computed;
+
+
+  const rsiKeys = Object.keys(buy.computed)
+    .filter(key => key.toLowerCase().includes('rsi'));
+  const rsiVals = rsiKeys.map(key => buy.computed[key]).filter(Boolean);
+  const rsiOffset = rsiVals.filter(rsi => rsi < 30).length * 10; // 0-40
+  const recentPickTrendOffset = recent500PickTrend < -15 && Math.abs(-15 - recent500PickTrend); //if trend is -50 then 0-35
+  const stSentOffset = Math.round(stSent > 280 && (stSent - 280) / 8); // if max is 600 then 0-40
+  return {
+    offsets: {
+      rsiOffset,
+      recentPickTrendOffset,
+      stSentOffset
+    },
+    zScoreOffset: sumArray([
+      rsiOffset,
+      recentPickTrendOffset,
+      stSentOffset
+    ])
+  }
+};
+
+
 const finalize = (array, detailed) => {
   
 
@@ -450,28 +480,11 @@ const finalize = (array, detailed) => {
       }, n => n.twoDec());
 
 
-      const {
-        projectedVolumeTo2WeekAvg,
-        recent500PickTrend,
-        stSent,
-        tsh,
-      } = buy.computed;
-
-
       const zScoreCalcSum = sumArray(Object.values(zScoreCalcs)) + projectedVolumeTo2WeekAvg;
 
-      const rsiKeys = Object.keys(buy.computed)
-        .filter(key => key.toLowerCase().includes('rsi'));
-      const rsiVals = rsiKeys.map(key => buy.computed[key]).filter(Boolean);
-      const rsiOffset = rsiVals.filter(rsi => rsi < 30).length * 10; // 0-40
-      const recentPickTrendOffset = recent500PickTrend < -15 && Math.abs(-15 - recent500PickTrend); //if trend is -50 then 0-35
-      const stSentOffset = Math.round(stSent > 280 && (stSent - 280) / 8); // if max is 600 then 0-40
-      const zScoreOffset = sumArray([
-        rsiOffset,
-        recentPickTrendOffset,
-        stSentOffset
-      ]);
-      const zScoreSum = zScoreCalcSum + zScoreOffset;
+
+      const offsetData = calcZscoreOffset(buy);
+      const zScoreSum = zScoreCalcSum + offsetData.zScoreOffset;
 
       delete buy.historicals;
       return {
@@ -487,15 +500,7 @@ const finalize = (array, detailed) => {
 
 
         zScoreCalcSum,
-
-        rsiKeys,
-        rsiVals,
-
-        rsiOffset,
-        recentPickTrendOffset,
-        stSentOffset,
-        zScoreOffset,
-
+        ...offsetData,
         zScoreSum,
         
       };
