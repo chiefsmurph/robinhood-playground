@@ -54,13 +54,14 @@ module.exports = async () => {
   })
 
 
+  const maxPercOfBalance = getMinutesFromOpen() < 200 ? 15 : 29;
   const toBuy = positions
     .filter(p => p.scan)
     .filter(p => (
       p.zScoreFinal > 2 ||
       p.zScoreSum > 16
     ))
-    .filter(p => p.percentOfBalance < 30);
+    .filter(p => p.percentOfBalance < maxPercOfBalance);
   const label = ps => ps.map(p => p.ticker).join(', ');
 
   const totalValue = sumArray(

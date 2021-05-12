@@ -45,13 +45,15 @@ module.exports = async () => {
   const positions = await getPositions();
   strlog({ positions});
 
-  await log(`sell on open... maxPerPositionAfterSell: ${maxPerPositionAfterSell}`, { maxPerPositionAfterOpenPerc });
+  const spyTrend = await getSpyTrend();
+  const actualMinTarget = spyTrend < 0 ? morningMinTarget * 0.7 : morningMinTarget;
+  await log(`sell on open... spyTrend ${spyTrend} morningMinTarget ${morningMinTarget} maxPerPositionAfterSell: ${maxPerPositionAfterSell}`, { maxPerPositionAfterOpenPerc });
 
 
   if (maxPerPositionAfterOpenPerc === 0) {
     regCronIncAfterSixThirty({
       name: `liquidate all`,
-      run: [morningMinTarget + 2],
+      run: [actualMinTarget + 2],
       fn: () => liquidateAll()
     });
   }
@@ -141,7 +143,7 @@ module.exports = async () => {
     }).catch(console.error);
 
     const min = getMinutesFromOpen();
-    const firstNumMinutes = morningMinTarget - min;
+    const firstNumMinutes = actualMinTarget - min;
 
     const feelingGood = zScoreFinal > 1;
     const waitTillOpen = min < 0 && (unrealized_intraday_plpc < 0 || returnPerc < 0) && feelingGood;

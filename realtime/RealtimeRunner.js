@@ -247,8 +247,8 @@ module.exports = new (class RealtimeRunner {
     // });
 
     regCronIncAfterSixThirty({
-      name: 'RealtimeRunner: first act on zscore final',
-      run: [135],
+      name: 'RealtimeRunner: some extra act on zscore final',
+      run: [16, 60, 135],
       fn: () => alpacaActOnZScoreFinal()
     });
 
