@@ -118,6 +118,13 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                     {(zScoreCalcSum || 0).toFixed(2)}
                 </span>
             ) : null,
+
+        zScoreOffset: ({ scan: { zScoreOffset } = {} } = {} ) => 
+            zScoreOffset ? (
+                <span className={zScoreOffset > 0.5 && 'green'}>
+                    {(zScoreOffset || 0).toFixed(2)}
+                </span>
+            ) : null,
             
         zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
             scan ? (

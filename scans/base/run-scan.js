@@ -367,10 +367,14 @@ const addZScores = array => {
 
 const calcZscoreOffset = buy => {
   const {
+    projectedVolumeTo2WeekAvg
+  } = buy.zScores;
+  const {
     projectedVolumeTo2WeekAvg,
     recent500PickTrend,
     stSent,
     tsh,
+    tsc,
   } = buy.computed;
 
 
@@ -380,16 +384,25 @@ const calcZscoreOffset = buy => {
   const rsiOffset = rsiVals.filter(rsi => rsi < 30).length * 10; // 0-40
   const recentPickTrendOffset = recent500PickTrend < -15 && Math.abs(-15 - recent500PickTrend); //if trend is -50 then 0-35
   const stSentOffset = Math.round(stSent > 280 && (stSent - 280) / 8); // if max is 600 then 0-40
+  const volumeOffset = projectedVolumeTo2WeekAvg > 2 && projectedVolumeTo2WeekAvg * 4;  // if max is 5 then 0-20
+  const tshOffset = tsh < -10 && Math.abs(tsh);
+  const tscOffset = tsc < -40 && Math.abs(tsc) - 40;
   return {
     offsets: {
       rsiOffset,
       recentPickTrendOffset,
-      stSentOffset
+      stSentOffset,
+      volumeOffset,
+      tshOffset,
+      tscOffset,
     },
     zScoreOffset: sumArray([
       rsiOffset,
       recentPickTrendOffset,
-      stSentOffset
+      stSentOffset,
+      volumeOffset,
+      tshOffset,
+      tscOffset,
     ])
   }
 };
