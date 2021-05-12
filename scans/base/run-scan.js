@@ -396,7 +396,7 @@ const calcZscoreOffset = buy => {
   let zScoreOffset = sumArray(Object.values(offsets));
   const numOffsets = Object.values(offsets).filter(Boolean).length;
   offsets.bonusOffset = numOffsets > 1 && numOffsets * 5;
-  zScoreOffset += bonusOffset;
+  zScoreOffset += offsets.bonusOffset;
   return {
     offsets,
     zScoreOffset,
