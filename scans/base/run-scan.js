@@ -497,7 +497,7 @@ const finalize = (array, detailed) => {
 
 
       const offsetData = calcZscoreOffset(buy);
-      const zScoreSum = zScoreCalcSum + offsetData.zScoreOffset;
+      const zScoreSum = Math.round(zScoreCalcSum + offsetData.zScoreOffset);
 
       delete buy.historicals;
       return {
