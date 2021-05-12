@@ -492,7 +492,7 @@ const finalize = (array, detailed) => {
 
 
       let zScoreCalcSum = sumArray(Object.values(zScoreCalcs)) + projectedVolumeTo2WeekAvg;
-      zScoreCalcSum = zScoreCalcSum > 0 ? Math.round(zScoreCalcSum * 1.5) : zScoreCalcSum;
+      zScoreCalcSum = zScoreCalcSum > 0 ? Math.round(zScoreCalcSum * 1.4) : zScoreCalcSum;
 
       const offsetData = calcZscoreOffset(buy);
       const zScoreSum = Math.round(zScoreCalcSum + offsetData.zScoreOffset);
