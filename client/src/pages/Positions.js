@@ -98,6 +98,13 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                 {Math.round(thirtyMinuteRSI)} ({zScore})
             </span>
         ),
+
+        recent500PickTrend: ({ scan: { computed: { recent500PickTrend } = {}, zScores: { recent500PickTrend: zScore } = {} } = {}}) => (
+            <span className={zScore > 0.5 && 'green'}>
+                {[recent500PickTrend, zScore && `(${zScore})`].filter(Boolean).join(' ')}
+            </span>
+        ),
+
         // volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
         volumeTo2WeekAvg: ({ scan: { projectedVolumeTo2WeekAvg, zScores: { projectedVolumeTo2WeekAvg: zScore } = {} } = {}}) => (
             <span className={zScore > 0.5 && 'green'}>

@@ -467,7 +467,7 @@ const finalize = (array, detailed) => {
 
 
         ticker: buy.ticker,
-        // ...buy.computed,
+        ...buy.computed,
 
         zScores: buy.zScores,
         ...zScoreCalcs,
