@@ -79,13 +79,13 @@ module.exports = async () => {
     strlog({ notDaytrades })
   const exceptionAmts = {
     // stSent min: down at least this %
-    400: 10,
-    350: 8,
-    300: 6,
-    250: 4,
+    400: 4,
+    350: 6,
+    300: 8,
+    250: 10,
   };
   const specialExceptions = notDaytrades
-    .filter(p => Number(p.market_value) < Number(account.equity) * 0.8)
+    .filter(p => Number(p.market_value) < Number(account.equity) * 0.35)
     .filter(p => {
       const foundExc = Object.entries(exceptionAmts).find(([bbScore]) => (p.stSent || {}).bullBearScore >= Number(bbScore));
       const passesExc = foundExc && p.returnPerc < foundExc[1];
