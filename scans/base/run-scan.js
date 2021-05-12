@@ -20,7 +20,6 @@ const {
   addDailyHistoricals,
   addDailyRSI
 } = require('../../realtime/historicals/add-daily-historicals');
-const getRecentPicks = require('../../app-actions/get-recent-picks');
 
 const getTickersBetween = async (min, max) => {
   const tickQuotes = await lookupMultiple(allStocks.filter(isTradeable).map(o => o.symbol), true);
@@ -315,6 +314,7 @@ const runScan = async ({
 };
 
 const addRecentPickTrend = async trend => {
+  const getRecentPicks = require('../../app-actions/get-recent-picks');
   const recentPicks = await getRecentPicks(500, true, false, undefined, true);
   strlog({ recentPicks });
   return trend.map(buy => ({
@@ -467,7 +467,7 @@ const finalize = (array, detailed) => {
 
 
         ticker: buy.ticker,
-        ...buy.computed,
+        // ...buy.computed,
 
         zScores: buy.zScores,
         ...zScoreCalcs,
