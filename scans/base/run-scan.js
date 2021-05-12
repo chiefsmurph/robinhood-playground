@@ -385,23 +385,21 @@ const calcZscoreOffset = buy => {
   const volumeOffset = projectedVolumeTo2WeekAvg > 2 && Math.min(40, projectedVolumeTo2WeekAvg * 1.5);  // if max is 5 then 0-20
   const tshOffset = tsh < -25 && Math.abs(tsh) / 1.6;
   const tscOffset = tsc < -40 && (Math.abs(tsc) - 40) * 1.6;
+  const offsets = mapObject({
+    rsiOffset,
+    recentPickTrendOffset,
+    stSentOffset,
+    volumeOffset,
+    tshOffset,
+    tscOffset,
+  }, Math.round);
+  let zScoreOffset = sumArray(Object.values(offsets));
+  const numOffsets = Object.values(offsets).filter(Boolean).length;
+  offsets.bonusOffset = numOffsets > 1 && numOffsets * 5;
+  zScoreOffset += bonusOffset;
   return {
-    offsets: mapObject({
-      rsiOffset,
-      recentPickTrendOffset,
-      stSentOffset,
-      volumeOffset,
-      tshOffset,
-      tscOffset,
-    }, Math.round),
-    zScoreOffset: sumArray([
-      rsiOffset,
-      recentPickTrendOffset,
-      stSentOffset,
-      volumeOffset,
-      tshOffset,
-      tscOffset,
-    ])
+    offsets,
+    zScoreOffset,
   }
 };
 
