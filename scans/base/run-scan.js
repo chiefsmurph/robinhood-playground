@@ -366,10 +366,11 @@ const addZScores = array => {
 
 
 const calcZscoreOffset = buy => {
+  // const {
+    
+  // } = buy.zScores;
   const {
-    projectedVolumeTo2WeekAvg
-  } = buy.zScores;
-  const {
+    projectedVolumeTo2WeekAvg,
     recent500PickTrend,
     stSent,
     tsh,
@@ -380,12 +381,13 @@ const calcZscoreOffset = buy => {
   const rsiKeys = Object.keys(buy.computed)
     .filter(key => key.toLowerCase().includes('rsi'));
   const rsiVals = rsiKeys.map(key => buy.computed[key]).filter(Boolean);
-  const rsiOffset = rsiVals.filter(rsi => rsi < 30).length * 10; // 0-40
+  const oversoldRsi = rsiVals.filter(rsi => rsi < 30);
+  const rsiOffset = sumArray(oversoldRsi.map(rsi => 30 - rsi)) / 3 + oversoldRsi.length * 5; // 0-40
   const recentPickTrendOffset = recent500PickTrend < -15 && Math.abs(-15 - recent500PickTrend); //if trend is -50 then 0-35
   const stSentOffset = Math.round(stSent > 280 && (stSent - 280) / 8); // if max is 600 then 0-40
-  const volumeOffset = projectedVolumeTo2WeekAvg > 2 && projectedVolumeTo2WeekAvg * 4;  // if max is 5 then 0-20
-  const tshOffset = tsh < -10 && Math.abs(tsh);
-  const tscOffset = tsc < -40 && Math.abs(tsc) - 40;
+  const volumeOffset = projectedVolumeTo2WeekAvg > 2 && Math.min(40, projectedVolumeTo2WeekAvg * 2);  // if max is 5 then 0-20
+  const tshOffset = tsh < -20 && Math.abs(tsh);
+  const tscOffset = tsc < -40 && (Math.abs(tsc) - 40) * 1.6;
   return {
     offsets: {
       rsiOffset,

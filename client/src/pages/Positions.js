@@ -119,13 +119,21 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                 </span>
             ) : null,
 
-        zScoreOffset: ({ scan: { zScoreOffset } = {} } = {} ) => 
-            zScoreOffset ? (
-                <span className={zScoreOffset > 0.5 && 'green'}>
+        zScoreOffset: ({ scan: { zScoreOffset, offsets } = {}, } = {} ) => {
+            if (!zScoreOffset) return null;
+            const offsetStrings = Object.keys(offsets)
+                .filter(key => offsets[key])
+                .map(key => [key, offsets[key]].join(' '));
+            return (
+                <span 
+                    {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join(' ') }}
+                    className={zScoreOffset > 0.5 && 'green'}
+                >
                     {(zScoreOffset || 0).toFixed(2)}
                 </span>
-            ) : null,
-            
+            )
+        },
+
         zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
             scan ? (
                 <span className={zScoreRelative > 0.5 && 'green'}>
