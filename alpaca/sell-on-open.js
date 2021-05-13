@@ -11,22 +11,24 @@ const cancelAllOrders = require('./cancel-all-orders');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
 
-
+const liquidateTicker = async ticker => {
+  await cancelAllOrders(ticker);
+  const boughtToday = await Log.boughtToday(ticker);
+  await log(`ticker ${ticker} - boughtToday ${boughtToday}`);
+  if (!boughtToday) {
+    await alpaca.closePosition(ticker);
+    await log(`liquidated ${ticker}`);
+  } else {
+    await log(`no liquidation necessary ${ticker}`);
+  }
+};
 const liquidateAll = async () => {
   await log('liquidating all');
   const positions = await alpaca.getPositions();
   for (let position of positions) {
     try {
       const { symbol: ticker } = position;
-      await cancelAllOrders(ticker);
-      const boughtToday = await Log.boughtToday(ticker);
-      await log(`ticker ${ticker} - boughtToday ${boughtToday}`);
-      if (!boughtToday) {
-        await alpaca.closePosition(ticker);
-        await log(`liquidated ${ticker}`);
-      } else {
-        await log(`no liquidation necessary ${ticker}`);
-      }
+      await liquidateTicker(ticker);
     } catch (e) {
       console.error(e);
       await log(`error: ${e.toString()}`);
@@ -113,6 +115,14 @@ module.exports = async () => {
 
       return perc;
     })();
+
+    if (maxPerPositionAfterOpenPerc !== 0 && actualPercToSell === 100) {
+      regCronIncAfterSixThirty({
+        name: `special liquidate ${ticker}`,
+        run: [actualMinTarget + 2],
+        fn: () => liquidate(ticker)
+      });
+    }
 
     const sellOffStr = actualPercToSell === 100 ? 'SELLING OFF ' : '';
     await log(`${sellOffStr}${ticker} IS SELLING ${actualPercToSell}%`)
