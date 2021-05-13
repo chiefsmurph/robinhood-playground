@@ -59,8 +59,7 @@ const runBasedOnRecent = async skipSetPerc => {
     const allToBuy = uniq(
         Object.values(picks).flat().filter(({ ticker }) => {
             const { percentOfBalance } = getRelatedPosition(ticker);
-            const dontBuy = percentOfBalance > 7;
-            return !dontBuy;
+            return percentOfBalance < 7;
         }),
         false,
         p => p.ticker
