@@ -56,10 +56,12 @@ const runBasedOnRecent = async skipSetPerc => {
     });
 
 
+    const curMin = getMinutesFromOpen();
     const allToBuy = uniq(
         Object.values(picks).flat().filter(({ ticker }) => {
             const { percentOfBalance } = getRelatedPosition(ticker);
-            const dontBuy = percentOfBalance > 7;
+            const percLimit = curMin < 200 ? 3 : 7;
+            const dontBuy = percentOfBalance > percLimit;
             return !dontBuy;
         }),
         false,
@@ -103,7 +105,6 @@ const runBasedOnRecent = async skipSetPerc => {
         }
     }
 
-    const curMin = getMinutesFromOpen();
     for (let { ticker, nowPrice } of allToBuy) {
 
         // prevent day trades!!
