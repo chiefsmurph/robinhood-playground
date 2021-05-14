@@ -155,7 +155,7 @@ module.exports = async () => {
     const min = getMinutesFromOpen();
     const firstNumMinutes = actualMinTarget - min;
 
-    const feelingGood = zScoreFinal > 1;
+    const feelingGood = zScoreFinal > 1.5;
     const waitTillOpen = min < 0 && (unrealized_intraday_plpc < 0 || returnPerc < 0) && feelingGood;
     
     
