@@ -124,6 +124,12 @@ class Preferences extends Component {
             console.log({ ticker });
             this.act('notifyBig', { ticker })(evt);
           })} href="#">Notify Big</a></li>
+
+          <li><a onClick={pd((evt) => {
+            const amt = window.prompt('Enter a $ amount');
+            console.log({ amt });
+            this.act('makeFundsAvailable', amt || undefined)(evt);
+          })} href="#">Make Funds Available</a></li>
         </ul>
 
         <h3>Manual Buys</h3>
