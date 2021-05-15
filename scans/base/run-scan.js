@@ -316,15 +316,17 @@ const runScan = async ({
 const addRecentPickTrend = async trend => {
   const getRecentPicks = require('../../app-actions/get-recent-picks');
   const recentPicks = await getRecentPicks(500, true, false, undefined, true);
-  const matchingPick = recentPicks.find(p => p.ticker === buy.ticker) || {};
-  return trend.map(buy => ({
-    ...buy,
-    computed: {
-      ...buy.computed,
-      recent500PickTrend: matchingPick.trend,
-      recent500TrendPerDay: matchingPick.trendPerDay,
+  return trend.map(buy => {
+    const matchingPick = recentPicks.find(p => p.ticker === buy.ticker) || {};
+    return {
+      ...buy,
+      computed: {
+        ...buy.computed,
+        recent500PickTrend: matchingPick.trend,
+        recent500TrendPerDay: matchingPick.trendPerDay,
+      }
     }
-  }));
+  });
 };
 
 
