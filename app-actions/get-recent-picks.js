@@ -18,22 +18,36 @@ module.exports = async (limit = 30, isRecommended = true, includeStSent = false,
         tickers: validTickers,
         includeStSent
     });
-    return validTickers.map(ticker => {
-        const picks = byTicker[ticker];
-        const pickPrices = picks.map(pick =>
-            pick.picks.find(p => p.ticker === ticker).price
-        );
-        const avgPrice = twoDec(avgArray(pickPrices));
-        const nowPrice = prices[ticker];
-        return {
-            ticker,
-            pickPrices,
-            avgPrice,
-            nowPrice,
-            trend: getTrend(nowPrice, avgPrice),
-            interestingWords: [...new Set(...picks.map(pick => pick.interestingWords))],
-            mostRecentTimestamp: picks[0].timestamp,
-            scan: scan.find(s => s.ticker === ticker)
-        };
-    });
+    return validTickers
+        .map(ticker => {
+            const picks = byTicker[ticker];
+            const pickPrices = picks.map(pick =>
+                pick.picks.find(p => p.ticker === ticker).price
+            );
+            const avgPrice = twoDec(avgArray(pickPrices));
+            const nowPrice = prices[ticker];
+            return {
+                ticker,
+                pickPrices,
+                avgPrice,
+                nowPrice,
+                trend: getTrend(nowPrice, avgPrice),
+                interestingWords: [...new Set(...picks.map(pick => pick.interestingWords))],
+                mostRecentTimestamp: picks[0].timestamp,
+                scan: scan.find(s => s.ticker === ticker)
+            };
+        })
+        .map(recentPick => ({
+            ...recentPick,
+            dropType: ['major', 'medium', 'minor'].find(w => JSON.stringify(recentPick.interestingWords).includes(w)),
+            lastPick: (new Date(recentPick.mostRecentTimestamp)).toLocaleString(),
+        }))
+        .map(recentPick => ({
+            ...recentPick,
+            daysSinceLastPick: (Date.now() - (new Date(recentPick.lastPick).getTime())) / (1000 * 60 * 60 * 24)
+        }))
+        .map(({ daysSinceLastPick, ...recentPick }) => ({
+            ...recentPick,
+            trendPerDay: +(recentPick.trend / daysSinceLastPick).toFixed(2)
+        }));
 };

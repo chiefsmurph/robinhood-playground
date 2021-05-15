@@ -106,6 +106,13 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             </span>
         ),
 
+        recent500TrendPerDay: ({ scan: { computed: { recent500TrendPerDay } = {}, zScores: { recent500TrendPerDay: zScore } = {} } = {}}) => (
+            <span>
+                <TrendPerc value={recent500TrendPerDay} />&nbsp;
+                ({zScore})
+            </span>
+        ),
+
         // volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
         volumeTo2WeekAvg: ({ scan: { projectedVolumeTo2WeekAvg, zScores: { projectedVolumeTo2WeekAvg: zScore } = {} } = {}}) => (
             <span className={zScore > 0.5 && 'green'}>

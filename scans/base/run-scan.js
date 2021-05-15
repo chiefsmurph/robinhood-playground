@@ -316,12 +316,13 @@ const runScan = async ({
 const addRecentPickTrend = async trend => {
   const getRecentPicks = require('../../app-actions/get-recent-picks');
   const recentPicks = await getRecentPicks(500, true, false, undefined, true);
-  strlog({ recentPicks });
+  const matchingPick = recentPicks.find(p => p.ticker === buy.ticker) || {};
   return trend.map(buy => ({
     ...buy,
     computed: {
       ...buy.computed,
-      recent500PickTrend: (recentPicks.find(p => p.ticker === buy.ticker) || {}).trend
+      recent500PickTrend: matchingPick.trend,
+      recent500TrendPerDay: matchingPick.trendPerDay,
     }
   }));
 };
@@ -344,6 +345,7 @@ const addZScores = array => {
       'tenMinuteRSI',
       'thirtyMinuteRSI',
       'recent500PickTrend',
+      'recent500TrendPerDay',
 
       'tso',
       'tsc',
@@ -371,6 +373,7 @@ const calcZscoreOffset = buy => {
   } = buy.zScores;
   const {
     recent500PickTrend,
+    recent500TrendPerDay,
     stSent,
     tsh,
     tsc,
@@ -382,7 +385,10 @@ const calcZscoreOffset = buy => {
   const rsiVals = rsiKeys.map(key => buy.computed[key]).filter(Boolean);
   const oversoldRsi = rsiVals.filter(rsi => rsi < 30);
   const rsiOffset = sumArray(oversoldRsi.map(rsi => 30 - rsi)) / 2 + oversoldRsi.length * 8; // 0-40
-  const recentPickTrendOffset = recent500PickTrend < -15 && Math.abs(-15 - recent500PickTrend); //if trend is -50 then 0-35
+  const recentPickTrendOffset = sumArray([
+    recent500PickTrend < -15 && Math.abs(-15 - recent500PickTrend), //if trend is -50 then 0-35
+    recent500TrendPerDay < 5 && Math.abs(Math.round(recent500TrendPerDay * 2))
+  ]);
   const stSentOffset = Math.round(stSent > 280 && (stSent - 280) / 8); // if max is 600 then 0-40
   const volumeOffset = projectedVolumeTo2WeekAvg > 2 && Math.min(30, projectedVolumeTo2WeekAvg * 10);  // if max is 5 then 0-20
   const tshOffset = tsh < -25 && Math.abs(tsh) / 1.6;

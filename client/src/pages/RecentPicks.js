@@ -22,8 +22,6 @@ export default class extends Component {
                     recentPicks: recentPicks
                         .map(({ scan, interestingWords, mostRecentTimestamp, pickPrices, ...recentPick }) => ({
                             ...recentPick,
-                            dropType: ['major', 'medium', 'minor'].find(w => JSON.stringify(interestingWords).includes(w)),
-                            lastPick: (new Date(mostRecentTimestamp)).toLocaleString(),
                             // pickPrices: pickPrices.join(', '),
                             ...pick(scan.computed, ['projectedVolumeTo2WeekAvg', 'dailyRSI']),
                             ...pick(scan, ['stSent', 'zScoreSum']),
@@ -33,14 +31,6 @@ export default class extends Component {
                             projectedVolumeTo2WeekAvg: recentPick.projectedVolumeTo2WeekAvg || 0,
                             dailyRSI: recentPick.dailyRSI || 0,
                             ...includeStSent && { stSent: recentPick.stSent || 0 },
-                        }))
-                        .map(recentPick => ({
-                            ...recentPick,
-                            daysSinceLastPick: (Date.now() - (new Date(recentPick.lastPick).getTime())) / (1000 * 60 * 60 * 24)
-                        }))
-                        .map(({ daysSinceLastPick, ...recentPick }) => ({
-                            ...recentPick,
-                            trendPerDay: +(recentPick.trend / daysSinceLastPick).toFixed(2)
                         }))
                         .map(recentPick => ({
                             ...recentPick,
