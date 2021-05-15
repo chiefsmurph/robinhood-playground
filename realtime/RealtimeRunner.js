@@ -386,7 +386,7 @@ module.exports = new (class RealtimeRunner {
           'every 15 minutes - alpaca act on st',
           () => alpacaActOnSt(),
         ),
-        60 * 1000 * 28 // 20 min
+        60 * 1000 * 43 // 20 min
       ),
 
       setInterval(
