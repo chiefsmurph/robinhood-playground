@@ -134,7 +134,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                 .map(key => [key, offsets[key]].join(' '));
             return (
                 <span 
-                    {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join(' ') }}
+                    {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join('\n') }}
                     className={zScoreOffset > 25 && 'green'}
                 >
                     {(zScoreOffset || 0).toFixed(0)}
@@ -152,6 +152,13 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         zScoreFinal: ({ zScoreFinal, scan } ) => scan ? (
             <span className={zScoreFinal > 1 && 'green'}>
                 {zScoreFinal}
+            </span>
+        ) : null,
+
+
+        actOnMultiplier: ({ actOnMultiplier } ) => scan ? (
+            <span className={actOnMultiplier > 1 && 'green'}>
+                {actOnMultiplier}
             </span>
         ) : null,
         // stBracket: ({ stSent: { stBracket, upperLimit, lowerLimit, wordFlags = [] } = {} }) => (
@@ -372,7 +379,7 @@ class Positions extends Component {
         return (
             <div style={{ padding: '15px' }}>
 
-                <style>{`.react-hint__content { width: 840px }`}</style>
+                <style>{`.react-hint__content { max-width: 840px }`}</style>
                 <style>{`table td, th { padding: 2px 15px }`}</style>
                 
                 {

@@ -77,14 +77,14 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, currentPrice, zScoreFinal, zScoreSum, wouldBeDayTrade, interestingWords = [] } = position;
+    const { ticker, currentPrice, zScoreFinal, zScoreSum, wouldBeDayTrade, interestingWords = [], actOnMultiplier } = position;
     if (!wouldBeDayTrade) {
       await log(`ZSCORE FLIPPING ${ticker}`); 
     }
     await cancelAllOrders(ticker, 'sell');
     const { currentPrice: pickPrice } = await lookup(ticker);
     const MAX_MULT = 4;
-    const multiplier = Math.max(1, Math.min(MAX_MULT, Math.ceil(zScoreFinal) + Math.floor(zScoreSum / 8)));
+    const multiplier = Math.max(1, Math.min(MAX_MULT, actOnMultiplier));  // 1-4
     let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
 
 

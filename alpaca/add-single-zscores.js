@@ -20,4 +20,8 @@ module.exports = positions => positions
   .map(position => ({
     ...position,
     zScoreFinal: position.aboveMaxBuy ? 0 : twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 2))
-  }));;
+  }))
+  .map(position => ({
+    ...position,
+    actOnMultiplier: Math.floor(position.zScoreFinal / 1.5) + Math.floor((position.zScoreSum - 40) / 20),
+  }));
