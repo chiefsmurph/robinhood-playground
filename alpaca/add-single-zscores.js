@@ -29,8 +29,8 @@ module.exports = positions => positions
     );
     let actOnMultiplier = sumArray([
       position.zScoreFinal / 1.5,
-      (position.zScoreSum - 40) / 15
-    ].map(Math.ceil));
+      (position.zScoreSum - 40) / 16
+    ].map(Math.floor));
     if (yesMin) {
       actOnMultiplier = Math.max(1, actOnMultiplier);
     }
