@@ -57,11 +57,7 @@ module.exports = async () => {
   const maxPercOfBalance = getMinutesFromOpen() < 200 ? 3 : 29;
   const toBuy = positions
     .filter(p => p.scan)
-    .filter(p => (
-      p.zScoreFinal > 2.3 ||
-      p.zScoreSum > 55 ||
-      p.zScoreRelative > 1.15
-    ))
+    .filter(p => p.actOnMultiplier > 0)
     .filter(p => p.percentOfBalance < maxPercOfBalance);
   const label = ps => ps.map(p => p.ticker).join(', ');
 

@@ -21,7 +21,21 @@ module.exports = positions => positions
     ...position,
     zScoreFinal: position.aboveMaxBuy ? 0 : twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 2))
   }))
-  .map(position => ({
-    ...position,
-    actOnMultiplier: Math.floor(position.zScoreFinal / 1.5) + Math.floor((position.zScoreSum - 40) / 20),
-  }));
+  .map(position => {
+    const yesMin = (
+      position.zScoreFinal > 2.3 ||
+      position.zScoreSum > 55 ||
+      position.zScoreRelative > 1.15
+    );
+    let actOnMultiplier = sumArray([
+      position.zScoreFinal / 1.5,
+      (position.zScoreSum - 40) / 15
+    ].map(Math.ceil));
+    if (yesMin) {
+      actOnMultiplier = Math.max(1, actOnMultiplier);
+    }
+    return {
+      ...position,
+      actOnMultiplier,
+    };
+  });

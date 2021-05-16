@@ -156,7 +156,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         ) : null,
 
 
-        actOnMultiplier: ({ actOnMultiplier } ) => scan ? (
+        actOnMultiplier: ({ actOnMultiplier } ) => actOnMultiplier ? (
             <span className={actOnMultiplier > 1 && 'green'}>
                 {actOnMultiplier}
             </span>
