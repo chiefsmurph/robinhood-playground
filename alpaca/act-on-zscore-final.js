@@ -79,16 +79,16 @@ module.exports = async () => {
     }
     await cancelAllOrders(ticker, 'sell');
     const { currentPrice: pickPrice } = await lookup(ticker);
-    const MAX_MULT = 4;
+    const MAX_MULT = 5;
     const multiplier = Math.max(1, Math.min(MAX_MULT, actOnMultiplier));  // 1-4
     let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
 
 
-    if (interestingWords.includes('overnight')) {
-      totalAmtToSpend = totalAmtToSpend / 2;
-    } else if (interestingWords.includes('sudden')) {
-      totalAmtToSpend = totalAmtToSpend * 1.2;
-    }
+    // if (interestingWords.includes('overnight')) {
+    //   totalAmtToSpend = totalAmtToSpend / 2;
+    // } else if (interestingWords.includes('sudden')) {
+    //   totalAmtToSpend = totalAmtToSpend * 1.2;
+    // }
 
 
     // interesting....

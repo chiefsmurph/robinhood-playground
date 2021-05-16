@@ -458,18 +458,22 @@ module.exports = async ({
 
 
             const maxPrice = pickPrice * 1.03;
-            alpacaBuyBetween(
-                ticker,
-                Math.round(perStock / 2),
-                maxPrice,
-                undefined,
-                60 * 60 // 1hour
-            );
+
+            const doBuyBetweenAlso = totalQuantity > 10;
+            if (doBuyBetweenAlso) {
+                alpacaBuyBetween(
+                    ticker,
+                    Math.round(perStock / 2),
+                    maxPrice,
+                    undefined,
+                    60 * 60 // 1hour
+                );
+            }
 
             const response = await eclecticBuy({
                 ticker,
                 pickPrice,
-                quantity: Math.round(totalQuantity / 2),
+                quantity: doBuyBetweenAlso ? Math.round(totalQuantity / 2) : totalQuantity,
                 urgency
             });
 
