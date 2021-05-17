@@ -80,7 +80,7 @@ const getBasedOnRecentPicks = async () => {
     // DAILY RSI BELOW 30
     let rsiOversold = recentThreeHundredPicks
         .sort((a, b) => getRSI(a) - getRSI(b))  // ascending - lowest first
-        .filter(pick => getRSI(pick) < 30 && getRSI(pick) > 1)
+        .filter(pick => getRSI(pick) < 27 && getRSI(pick) > 1)
         .slice(0, 3);
     if (rsiOversold.length > 12) {
         await log(`too many rsiOversold something is up, resetting`, { rsiOversold});
@@ -116,8 +116,15 @@ const getBasedOnRecentPicks = async () => {
     await log(`readyToGoAndHighSt: ${readyToGoAndHighSt.map(getTicker)}`);
 
 
-    const topSt = readyToGoAndHighSt.slice(0, 1);
-    await log(`topSt: ${topSt.map(getTicker)}`);
+    const topSt = readyToGoAndHighSt
+        .filter(p => {
+            const downToday = ['tsh', 'tsc'].some(prop => 
+                get(p.scan, `computed.${prop}`) < -8
+            );
+            return downToday;
+        })
+        .slice(0, 1);
+    await log(`topSt: ${topSt.map(getTicker)} ${getSt(topSt[0])} ${topSt[0].scan.computed.tsh} ${topSt[0].scan.computed.tsc}`);
 
 
     const recentFiveHundredPicks = await getReadyToGoWithStWithInverse(
