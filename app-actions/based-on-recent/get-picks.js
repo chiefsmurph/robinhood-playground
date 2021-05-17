@@ -118,13 +118,15 @@ const getBasedOnRecentPicks = async () => {
 
     const topSt = readyToGoAndHighSt
         .filter(p => {
-            const downToday = ['tsh', 'tsc'].some(prop => 
-                get(p.scan, `computed.${prop}`) < -8
-            );
+            const downToday = ['tsh', 'tsc'].some(prop => {
+                const { scan = {} } = p;
+                const { computed = {} } = scan;
+                return computed[prop] < 0;
+            });
             return downToday;
         })
         .slice(0, 1);
-    await log(`topSt: ${topSt.map(getTicker)} ${getSt(topSt[0])} ${topSt[0].scan.computed.tsh} ${topSt[0].scan.computed.tsc}`);
+   topSt.length && await log(`topSt: ${topSt.map(getTicker)} ${getSt(topSt[0])} ${topSt[0].scan.computed.tsh} ${topSt[0].scan.computed.tsc}`);
 
 
     const recentFiveHundredPicks = await getReadyToGoWithStWithInverse(
