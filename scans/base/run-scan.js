@@ -453,7 +453,7 @@ const finalize = (array, detailed) => {
       
 
       // high stSent, low movement, low dailyRSI
-      const zScoreInverseTrendMinusRSI = (stSent * 1.4) - highestTrend - dailyRSI;
+      const zScoreInverseTrendMinusRSI = (Number(stSent || 10) * 1.4) - highestTrend - dailyRSI;
       
       
       // high stSent, low movement, high volume
@@ -463,19 +463,23 @@ const finalize = (array, detailed) => {
       const zScoreMagic = (() => {
 
         const howHot = dailyRSI + highestTrend;
-        const wantLow = howHot + fiveMinuteRSI + tenMinuteRSI + thirtyMinuteRSI + recent500PickTrend;
-        const wantHigh = stSent + zScoreVolume;
+        const wantLow = sumArray([howHot, fiveMinuteRSI, tenMinuteRSI, thirtyMinuteRSI, recent500PickTrend]);
+        const wantHigh = sumArray([stSent, zScoreVolume]);
         return wantHigh - wantLow;
 
       })();
 
       // high stSent * 2, high volume * 1, low dailyRSI * 3
       const zScoreHotAndCool = (() => {
-
-        const wantLow = (dailyRSI * 3) + (fiveMinuteRSI * 2) + thirtyMinuteRSI + tenMinuteRSI + recent500PickTrend;
-        const wantHigh = (stSent * 2) + zScoreVolume;
+        const wantLow = sumArray([
+          dailyRSI * 3,
+          fiveMinuteRSI * 2,
+          thirtyMinuteRSI,
+          tenMinuteRSI,
+          recent500PickTrend
+        ]);
+        const wantHigh = (Number(stSent || 10) * 2) + zScoreVolume;
         return wantHigh - wantLow;
-
       })();
 
       // high stSent, trending down

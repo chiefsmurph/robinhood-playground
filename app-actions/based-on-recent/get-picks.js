@@ -167,4 +167,11 @@ const getBasedOnRecentPicks = async () => {
     };
 };
 
+
+// const getBasedOnRecentPicks = async () => {
+//     const recentHundredPicks = await getRecentPicks(100, true, true, 'sudden-drops');
+//     strlog({ recentHundredPicks})
+// };
+
+
 module.exports = getBasedOnRecentPicks;
