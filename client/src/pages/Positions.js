@@ -156,11 +156,11 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         ) : null,
 
 
-        actOnMultiplier: ({ actOnMultiplier } ) => actOnMultiplier ? (
-            <span className={actOnMultiplier > 1 && 'green'}>
-                {actOnMultiplier}
+        buyMult: ({ buyMult } ) => (
+            <span className={buyMult > 1 && 'green'}>
+                {buyMult}
             </span>
-        ) : null,
+        ),
         // stBracket: ({ stSent: { stBracket, upperLimit, lowerLimit, wordFlags = [] } = {} }) => (
         //     <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
         //         <span>{stBracket}</span>    

@@ -389,13 +389,13 @@ module.exports = new (class RealtimeRunner {
         60 * 1000 * 43 // 20 min
       ),
 
-      setInterval(
-        () => this.timedAsync(
-          'every 12 minutes - alpaca act on multipliers',
-          () => alpacaActOnMultipliers(),
-        ),
-        60 * 1000 * 20 // 16 minutes
-      ),
+      // setInterval(
+      //   () => this.timedAsync(
+      //     'every 12 minutes - alpaca act on multipliers',
+      //     () => alpacaActOnMultipliers(),
+      //   ),
+      //   60 * 1000 * 20 // 16 minutes
+      // ),
 
       // setTimeout(() => 
       setInterval(

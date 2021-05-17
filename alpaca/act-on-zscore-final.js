@@ -57,7 +57,7 @@ module.exports = async () => {
   const maxPercOfBalance = getMinutesFromOpen() < 200 ? 3 : 29;
   const toBuy = positions
     .filter(p => p.scan)
-    .filter(p => p.actOnMultiplier > 0)
+    .filter(p => p.buyMult > 0)
     .filter(p => p.percentOfBalance < maxPercOfBalance);
   const label = ps => ps.map(p => p.ticker).join(', ');
 
@@ -73,14 +73,14 @@ module.exports = async () => {
     dollarsToBuyPerStock
   });
   for (let position of toBuy) {
-    const { ticker, currentPrice, zScoreFinal, zScoreSum, wouldBeDayTrade, interestingWords = [], actOnMultiplier } = position;
+    const { ticker, currentPrice, zScoreFinal, zScoreSum, wouldBeDayTrade, interestingWords = [], buyMult } = position;
     if (!wouldBeDayTrade) {
       await log(`ZSCORE FLIPPING ${ticker}`); 
     }
     await cancelAllOrders(ticker, 'sell');
     const { currentPrice: pickPrice } = await lookup(ticker);
     const MAX_MULT = 5;
-    const multiplier = Math.max(1, Math.min(MAX_MULT, actOnMultiplier));  // 1-4
+    const multiplier = Math.max(1, Math.min(MAX_MULT, buyMult));  // 1-4
     let totalAmtToSpend = Math.round(dollarsToBuyPerStock * multiplier);
 
 

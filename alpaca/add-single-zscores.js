@@ -27,15 +27,15 @@ module.exports = positions => positions
       position.zScoreSum > 55 ||
       position.zScoreRelative > 1.15
     );
-    let actOnMultiplier = sumArray([
+    let buyMult = sumArray([
       position.zScoreFinal / 1.5,
       (position.zScoreSum - 40) / 16
     ].map(Math.floor));
     if (yesMin) {
-      actOnMultiplier = Math.max(1, actOnMultiplier);
+      buyMult = Math.max(1, buyMult);
     }
     return {
       ...position,
-      actOnMultiplier,
+      buyMult,
     };
   });
