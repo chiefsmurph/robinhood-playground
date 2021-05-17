@@ -216,7 +216,8 @@ module.exports = class PositionWatcher {
       market_value,
       quantity,
       wouldBeDayTrade,
-      zScoreSum
+      zScoreSum,
+      percentOfBalance,
       // stSent: { stBracket } = {}
     } = this.getRelatedPosition();
     
@@ -313,16 +314,11 @@ module.exports = class PositionWatcher {
     }
 
 
-
-
-
-
-
-
+    
     if (wouldBeDayTrade && !alreadyDayTraded && returnPerc >= 11 && !disableDayTrades) {
       const account = await alpaca.getAccount();
-      const { portfolio_value, daytrade_count } = account;
-      if (Number(market_value) > Number(portfolio_value) * 0.2) {
+      const { daytrade_count } = account;
+      if (percentOfBalance > 15) {
         if (daytrade_count <= 2) {
           await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 14% & 26% up?`);
           await alpacaCancelAllOrders(ticker, 'buy');
