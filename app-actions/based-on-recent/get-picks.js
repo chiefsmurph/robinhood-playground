@@ -148,8 +148,9 @@ const getBasedOnRecentPicks = async () => {
     await log(`fiveHundredBackwardsStTrend: ${fiveHundredBackwardsStTrend.map(pick => [pick.ticker, getSt(pick), pick.trend, pick.backwardsStTrend].join(' - ')).join(' and ')}`);
 
     const lowestFiveMinuteRSI = recentFiveHundredPicks
-        .filter(p => (p.scan || {}).fiveMinuteRSI < 30)
-        .sort((a, b) => a.scan.fiveMinuteRSI - b.scan.fiveMinuteRSI).slice(0, 3);
+        .filter(p => (p.scan || {}).fiveMinuteRSI)
+        .sort((a, b) => a.scan.fiveMinuteRSI - b.scan.fiveMinuteRSI)
+        .slice(0, 3);
     await log(`lowestFiveMinuteRSI: ${lowestFiveMinuteRSI.map(pick => [pick.ticker, pick.scan.fiveMinuteRSI].join(' - ')).join(' and ')}`);
 
     const highestZScoreMagic = recentFiveHundredPicks
