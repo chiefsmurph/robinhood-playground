@@ -60,7 +60,7 @@ const runBasedOnRecent = async skipSetPerc => {
     const allToBuy = uniq(
         Object.values(picks).flat().filter(({ ticker }) => {
             const { percentOfBalance } = getRelatedPosition(ticker);
-            const percLimit = curMin < 200 ? 3 : 7;
+            const percLimit = curMin < 200 ? 1.5 : 7;
             const dontBuy = percentOfBalance > percLimit;
             return !dontBuy;
         }),

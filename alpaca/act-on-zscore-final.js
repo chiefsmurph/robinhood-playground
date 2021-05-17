@@ -54,7 +54,7 @@ module.exports = async () => {
   })
 
 
-  const maxPercOfBalance = getMinutesFromOpen() < 200 ? 3 : 29;
+  const maxPercOfBalance = getMinutesFromOpen() < 200 ? 1.5 : 29;
   const toBuy = positions
     .filter(p => p.scan)
     .filter(p => p.buyMult > 0)
