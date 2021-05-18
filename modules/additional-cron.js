@@ -111,6 +111,11 @@ const additionalCron = [
         fn: restartProcess
     },
 
+    {
+        name: 'restart pm2 process',
+        run: [-32],
+        fn: () => alpacaCancelAllOrders()
+    },
 
 
 
