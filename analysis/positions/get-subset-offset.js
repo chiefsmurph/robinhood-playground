@@ -68,7 +68,7 @@ const subsetOffsets = {
   brunch: 6,
   lunch: 20,
   dinner: 40,
-  afterhours: -100,
+  afterhours: -140,
 
   initialNotWatchout: 5,
 
