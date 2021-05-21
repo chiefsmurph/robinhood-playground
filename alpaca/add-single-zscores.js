@@ -7,7 +7,7 @@ const twoDec = roundTo(2);
 
 module.exports = positions => positions
   .map(position => {
-    const { interestingWords } = position;
+    const { interestingWords = [] } = position;
     const BAD_WORDS = ['afterhours', 'overnight'];
     if (BAD_WORDS.some(word => interestingWords.includes(word))) {
       position.zScoreSum /= 2;
