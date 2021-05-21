@@ -38,7 +38,7 @@ const getReadyToGoWithStWithInverse = async recentPicks => {
 const getZScorePicks = picks => picks
     .filter(p => p.scan && p.scan.zScoreSum)
     .sort((a, b) => b.scan.zScoreSum - a.scan.zScoreSum)
-    .slice(0, 3);
+    .slice(0, 2);
 
 const getBasedOnRecentPicks = async () => {
 
@@ -81,7 +81,7 @@ const getBasedOnRecentPicks = async () => {
     let rsiOversold = recentThreeHundredPicks
         .sort((a, b) => getRSI(a) - getRSI(b))  // ascending - lowest first
         .filter(pick => getRSI(pick) < 27 && getRSI(pick) > 1)
-        .slice(0, 3);
+        .slice(0, 2);
     if (rsiOversold.length > 12) {
         await log(`too many rsiOversold something is up, resetting`, { rsiOversold});
         rsiOversold = [];
@@ -112,7 +112,7 @@ const getBasedOnRecentPicks = async () => {
     const readyToGoAndHighSt = withStSent
         .filter(pick => getSt(pick) > 300)
         .sort((a, b) => getSt(b) - getSt(a))
-        .slice(0, 3);
+        .slice(0, 2);
     await log(`readyToGoAndHighSt: ${readyToGoAndHighSt.map(getTicker)}`);
 
 
@@ -150,12 +150,12 @@ const getBasedOnRecentPicks = async () => {
     const lowestFiveMinuteRSI = recentFiveHundredPicks
         .filter(p => (p.scan || {}).fiveMinuteRSI)
         .sort((a, b) => a.scan.fiveMinuteRSI - b.scan.fiveMinuteRSI)
-        .slice(0, 3);
+        .slice(0, 2);
     await log(`lowestFiveMinuteRSI: ${lowestFiveMinuteRSI.map(pick => [pick.ticker, pick.scan.fiveMinuteRSI].join(' - ')).join(' and ')}`);
 
     const highestZScoreMagic = recentFiveHundredPicks
         .filter(p => (p.scan || {}).zScoreMagic)
-        .sort((a, b) => b.scan.zScoreMagic - a.scan.zScoreMagic).slice(0, 3);
+        .sort((a, b) => b.scan.zScoreMagic - a.scan.zScoreMagic).slice(0, 2);
     await log(`highestZScoreMagic: ${highestZScoreMagic.map(pick => [pick.ticker, pick.scan.zScoreMagic].join(' - ')).join(' and ')}`);
 
     return {
