@@ -79,7 +79,7 @@ module.exports = new (class RealtimeRunner {
     if (!allPrices) return null;
     const rsiSeries = getRSI(allPrices.map(quote => quote.currentPrice));
     const rsi = rsiSeries[rsiSeries.length - 1];
-    strlog({ fiveminutersi: ticker, allPrices  });
+    // strlog({ fiveminutersi: ticker, allPrices  });
     return rsi;
   }
 

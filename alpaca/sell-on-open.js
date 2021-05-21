@@ -142,7 +142,7 @@ module.exports = async () => {
     await Hold.updateOne({ ticker }, { isSelling: true });
     await log(`isSelling true ${ticker} sellonopen`);
 
-    const marketQ = Math.ceil(firstQ / 5);
+    const marketQ = Math.ceil(firstQ / 10);
 
     await alpaca.createOrder({
       symbol: ticker, // any valid ticker symbol

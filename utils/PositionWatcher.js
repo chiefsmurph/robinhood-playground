@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const INITIAL_TIMEOUT = 40 * 1000;      // 40 seconds
+const INITIAL_TIMEOUT = 80 * 1000;      // 40 seconds
 const END_AFTER = 2 * 1000 * 60 * 60;   // 2 hr
 
 const { RSI } = require('technicalindicators');
@@ -365,7 +365,7 @@ module.exports = class PositionWatcher {
   scheduleTimeout() {
     console.log(`observing again in ${this.timeout / 1000} seconds (${(new Date(Date.now() + this.timeout).toLocaleTimeString())})`)
     this.TO = setTimeout(() => this.running && this.observe(), this.timeout);
-    const changeSlightly = (num, variancePercent = 20) => {
+    const changeSlightly = (num, variancePercent = 30) => {
       const posOrNeg = Math.random() > 0.5 ? 1 : -1;
       const varianceValue = Math.random() * variancePercent;
       const actualPercChange = posOrNeg * varianceValue;
@@ -374,7 +374,7 @@ module.exports = class PositionWatcher {
     };
     this.timeout = Math.min(
       changeSlightly(this.timeout * 2), 
-      (getMinutesFromOpen() < 0 ? 3 : 5) * 1000 * 60
+      changeSlightly(10 * 1000 * 60)
     );
   }
   newBuy(buyPrice) {
