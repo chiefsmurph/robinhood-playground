@@ -74,7 +74,7 @@ const runBasedOnRecent = async skipSetPerc => {
     const { cash, buying_power, equity } = account;
 
     const allToBuyCount = allToBuy.length;
-    let perBuy = 8;
+    let perBuy = 5;
     const amtNeeded = allToBuyCount * perBuy;
     await log(`runBasedOnRecent - perBuy $${perBuy}`);
 
