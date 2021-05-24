@@ -77,7 +77,7 @@ module.exports = async () => {
   })
 
 
-  for (let p of ofInterest) {
+  for (let [index, p] of ofInterest.entries()) {
     let { ticker, quantity, percToSell, stSent: { stBracket, bullBearScore } = {}, market_value, numMultipliers, avgMultipliersPerPick, currentPrice, zScoreFinal, unrealized_intraday_plpc, returnPerc } = p;
 
     // const multiplierMult = Math.floor(numMultipliers / 300) + Number(avgMultipliersPerPick > 150);
@@ -119,7 +119,7 @@ module.exports = async () => {
     if (maxPerPositionAfterOpenPerc !== 0 && actualPercToSell === 100) {
       regCronIncAfterSixThirty({
         name: `special liquidate ${ticker}`,
-        run: [actualMinTarget + 2],
+        run: [actualMinTarget + 2 + index],
         fn: () => liquidate(ticker)
       });
     }
