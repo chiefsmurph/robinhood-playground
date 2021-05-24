@@ -284,15 +284,16 @@ module.exports = new (class RealtimeRunner {
     });
     
     regCronIncAfterSixThirty({
-      name: 'RealtimeRunner: hurry up actOnZScore',
-      run: [370],
+      name: 'RealtimeRunner: set actOnZScore interval',
+      run: [370, 420],
       fn: () => {
         clearInterval(this.afternoonIntervals[2]);
         this.afternoonIntervals[2] = null;
         this.afternoonIntervals[2] = setInterval(
           () => this.runZScoreFinal(),
-          getZScoreInteral()
+          this.getZScoreInteral()
         );
+        this.runZScoreFinal();
       }
     });
 
@@ -302,9 +303,10 @@ module.exports = new (class RealtimeRunner {
   }
 
   getZScoreInteral() {
+    const min = getMinutesFromOpen();
     const minMs = 1000 * 60;
     return minMs * (
-      getMinutesFromOpen() >= 369 
+      min >= 360 && min <= 415
         ? 15 // after hours means more frequent
         : 27
     );
