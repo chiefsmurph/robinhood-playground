@@ -108,7 +108,7 @@ module.exports = async () => {
       if (percToSell === 100) return 100;
       if (definedPercent[ticker]) return definedPercent[ticker];
 
-      // calc [erc based pm targetAmt
+      // calc perc based pm targetAmt
       let perc = (1 - targetAmt / Number(market_value)) * 100;;
 
       perc = Math.min(perc, 100);

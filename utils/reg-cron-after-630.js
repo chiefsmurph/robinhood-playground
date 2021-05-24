@@ -9,7 +9,7 @@ const regCronIncAfterSixThirty = ({ name, run = [], fn }) => {
         const newDateObj = new Date(d.getTime() + min * 60000);
         newDateObj.setSeconds(0);
         const cronStr = `${newDateObj.getMinutes()} ${newDateObj.getHours()} * * 1-5`;
-
+        log(`new cron: "${name}" happening at ${run} minutes: ${cronStr}`);
         allCrons.push({
             date: newDateObj,
             cronStr,

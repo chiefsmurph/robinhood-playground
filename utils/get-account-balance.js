@@ -23,6 +23,7 @@ module.exports = async (includeTrend, todaysDate) => {
     account = account || (await Robinhood.accounts()).results[0];
     const { account_number } = account;
     const portfolio = await Robinhood.url(`https://api.robinhood.com/portfolios/${account_number}/`);
+    // strlog({portfolio})
     const { 
         equity, 
         extended_hours_equity,
