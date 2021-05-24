@@ -15,7 +15,7 @@ const { registerNewStrategy } = require('../app-actions/buys-in-progress');
 
 module.exports = async () => {
 
-  const { onlyUseCash, actOnPercent } = await getPreferences();
+  const { onlyUseCash, actOnPercent, maxPercentOfBalance } = await getPreferences();
 
   if (disableActOnZscore) return log('act on zscore disabled');
   
@@ -54,7 +54,7 @@ module.exports = async () => {
   })
 
 
-  const maxPercOfBalance = getMinutesFromOpen() < 200 ? 1.5 : 29;
+  const maxPercOfBalance = getMinutesFromOpen() < 200 ? 1.5 : maxPercentOfBalance;
   const toBuy = positions
     .filter(p => p.scan)
     .filter(p => p.buyMult > 0)
