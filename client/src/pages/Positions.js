@@ -40,7 +40,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                 </a>
             );
         },
-        
+
         ...!admin ? {
             'percent of total': pos => pos.percTotal + '%',
         } : {
@@ -62,6 +62,55 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                 // </span>
             ),
         },
+
+
+        zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
+            scan ? (
+                <span className={zScoreRelative > 0.5 && 'green'}>
+                    {`${(zScoreSum || 0).toFixed(0)} (${(zScoreRelative || 0).toFixed(2)})`}
+                </span>
+            ) : null,
+    
+        zScoreFinal: ({ zScoreFinal, scan } ) => scan ? (
+            <span className={zScoreFinal > 1 && 'green'}>
+                {zScoreFinal}
+            </span>
+        ) : null,
+
+
+        buyMult: ({ buyMult } ) => (
+            <span className={buyMult > 1 && 'green'}>
+                {buyMult}
+            </span>
+        ),
+
+        zScoreCalcSum: ({ scan: { zScoreCalcSum } = {} } = {} ) => 
+            zScoreCalcSum ? (
+                <span className={zScoreCalcSum > 0.5 && 'green'}>
+                    {(zScoreCalcSum || 0).toFixed(0)}
+                </span>
+            ) : null,
+
+        zScoreOffset: ({ scan: { zScoreOffset, offsets } = {}, negatives = [] } = {} ) => {
+            if (!zScoreOffset && !negatives.length) return null;
+            const offsetStrings = [
+                ...Object.keys(offsets)
+                    .filter(key => offsets[key])
+                    .map(key => [key, offsets[key]].join(' ')),
+                ...negatives
+            ];
+            return (
+                <span 
+                    {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join('\n') }}
+                    className={zScoreOffset > 25 && 'green'}
+                >
+                    {(zScoreOffset || 0).toFixed(0)}
+                </span>
+            )
+        },
+
+        
+        
         // 'buy strategies': 'buyStrategy',
         bullBearScore: ({ stSent: { bullBearScore, stBracket, wordFlags = [] }, scan: { zScores: { stSent } = {} } = {} }) => (
             <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
@@ -120,47 +169,6 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             </span>
         ),
             
-        zScoreCalcSum: ({ scan: { zScoreCalcSum } = {} } = {} ) => 
-            zScoreCalcSum ? (
-                <span className={zScoreCalcSum > 0.5 && 'green'}>
-                    {(zScoreCalcSum || 0).toFixed(0)}
-                </span>
-            ) : null,
-
-        zScoreOffset: ({ scan: { zScoreOffset, offsets } = {}, } = {} ) => {
-            if (!zScoreOffset) return null;
-            const offsetStrings = Object.keys(offsets)
-                .filter(key => offsets[key])
-                .map(key => [key, offsets[key]].join(' '));
-            return (
-                <span 
-                    {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join('\n') }}
-                    className={zScoreOffset > 25 && 'green'}
-                >
-                    {(zScoreOffset || 0).toFixed(0)}
-                </span>
-            )
-        },
-
-        zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
-            scan ? (
-                <span className={zScoreRelative > 0.5 && 'green'}>
-                    {`${(zScoreSum || 0).toFixed(0)} (${(zScoreRelative || 0).toFixed(2)})`}
-                </span>
-            ) : null,
-    
-        zScoreFinal: ({ zScoreFinal, scan } ) => scan ? (
-            <span className={zScoreFinal > 1 && 'green'}>
-                {zScoreFinal}
-            </span>
-        ) : null,
-
-
-        buyMult: ({ buyMult } ) => (
-            <span className={buyMult > 1 && 'green'}>
-                {buyMult}
-            </span>
-        ),
         // stBracket: ({ stSent: { stBracket, upperLimit, lowerLimit, wordFlags = [] } = {} }) => (
         //     <span {...wordFlags.length && { 'data-custom': true, 'data-tooltip-str': wordFlags.join(' ') }}>
         //         <span>{stBracket}</span>    
