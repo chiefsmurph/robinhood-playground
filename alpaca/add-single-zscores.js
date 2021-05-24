@@ -1,4 +1,4 @@
-const { pick } = require('underscore');
+const { pick, get } = require('underscore');
 const { sumArray, zScore } = require('../utils/array-math');
 
 const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.pow(10, numDec);
@@ -8,9 +8,27 @@ const twoDec = roundTo(2);
 module.exports = positions => positions
   .map(position => {
     const { interestingWords = [] } = position;
+    const negatives = [];
     const BAD_WORDS = ['afterhours', 'overnight'];
     if (BAD_WORDS.some(word => interestingWords.includes(word))) {
       position.zScoreSum /= 2;
+      negatives.push('has bad words');
+    }
+    const { tsc } = get(position.scan, 'computed', {});
+    const tscBreakdowns = {
+      20: 4,
+      10: 3,
+      0: 2
+    };
+    const hitTscBreakdown = Object.keys(tscBreakdowns).find(breakdown => {
+      return tsc > Number(breakdown);
+    });
+    if (hitTscBreakdown) {
+      position.zScoreSum /= tscBreakdowns[hitTscBreakdown];
+      negatives.push(`hitTscBreakdown${hitTscBreakdown}`);
+    }
+    if (negatives.length) {
+      position.negatives = negatives;
     }
     return position;
   })
