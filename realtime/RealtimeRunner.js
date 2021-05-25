@@ -248,7 +248,14 @@ module.exports = new (class RealtimeRunner {
 
     regCronIncAfterSixThirty({
       name: 'RealtimeRunner: some extra act on zscore final',
-      run: [16, 36, 60, 90, 110, 135],
+      run: [
+        16, 
+        // 36, 
+        // 60,
+        80, 
+        // 110, 
+        135
+      ],
       fn: () => alpacaActOnZScoreFinal()
     });
 
@@ -273,7 +280,7 @@ module.exports = new (class RealtimeRunner {
     }
 
     // afternoon intervals
-    const AFTERNOON_START_MIN = 100; // 10:20am
+    const AFTERNOON_START_MIN = 275; // 10:20am
     if (dayInProgress(AFTERNOON_START_MIN)) {
       this.startAfternoonIntervals();
     }
