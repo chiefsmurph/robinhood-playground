@@ -432,7 +432,7 @@ module.exports = async (
       ...position,
       marketValueZScore: zScore(
         array.map(p => p.market_value),
-        p => p.market_value
+        position.market_value
       )
     }));
 
