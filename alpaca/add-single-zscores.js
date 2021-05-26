@@ -67,7 +67,7 @@ module.exports = positions => positions
   })
   .map((position, index) => {
     const { buyMult, marketValueZScore } = position;
-    if (buyMult < 3 && marketValueZScore <= 0.21) {
+    if (buyMult > 0 && buyMult < 3 && marketValueZScore <= 0.3) {
       position.buyMult++;
       position.flagged = 'buyMult increased';
     } else if (buyMult > 1 && (index === 0 || marketValueZScore > 2)) {

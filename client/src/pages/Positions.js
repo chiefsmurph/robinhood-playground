@@ -78,8 +78,8 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         ) : null,
 
 
-        buyMult: ({ buyMult } ) => (
-            <span className={buyMult > 1 && 'green'}>
+        buyMult: ({ buyMult, flagged } ) => (
+            <span className={buyMult > 1 && 'green'} {...flagged && { 'data-custom': true, 'data-tooltip-str': flagged }}>
                 {buyMult}
             </span>
         ),
