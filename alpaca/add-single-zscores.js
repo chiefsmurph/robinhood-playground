@@ -64,4 +64,15 @@ module.exports = positions => positions
       ...position,
       buyMult,
     };
+  })
+  .map((position, index) => {
+    const { buyMult, marketValueZScore } = position;
+    if (buyMult < 3 && marketValueZScore <= 0.21) {
+      position.buyMult++;
+      position.flagged = 'buyMult increased';
+    } else if (buyMult > 1 && (index === 0 || marketValueZScore > 2)) {
+      position.buyMult--;
+      position.flagged = 'buyMult decreased';
+    }
+    return position;
   });
