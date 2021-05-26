@@ -180,11 +180,11 @@ const additionalCron = [
 
 
 
-    // {
-    //     name: 'alpacaActOnPositions',
-    //     run: [22, 220, 365],
-    //     fn: () => alpacaActOnPositions()
-    // },
+    {
+        name: 'alpacaActOnPositions',
+        run: [95, 365],
+        fn: () => alpacaActOnPositions()
+    },
 
 
     // {

@@ -1,6 +1,6 @@
 const { alpaca } = require('.');
 const getStSentiment = require('../utils/get-stocktwits-sentiment');
-const { avgArray } = require('../utils/array-math');
+const { avgArray, zScore } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
 const getSpyTrend = require('../utils/get-spy-trend');
 const Holds = require('../models/Holds');
@@ -427,8 +427,14 @@ module.exports = async (
     .map(position => ({
       ...position,
       aboveMaxBuy: position.percentOfBalance > maxPercentOfBalance
+    }))
+    .map((position, _, array) => ({
+      ...position,
+      marketValueZScore: zScore(
+        array.map(p => p.market_value),
+        p => p.market_value
+      )
     }));
-
 
   const withSingleZScores = addSingleZScores(withPercentOfBalance);
   const sorted = withSingleZScores.sort((a, b) => b.market_value - a.market_value);
