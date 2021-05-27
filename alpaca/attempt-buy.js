@@ -1,4 +1,4 @@
-
+const { alpaca } = require('.');
 const lookup = require('../utils/lookup');
 const limitBuy = require('./limit-buy');
 const marketBuy = require('./market-buy');

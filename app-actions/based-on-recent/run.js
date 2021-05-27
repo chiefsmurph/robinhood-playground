@@ -8,7 +8,8 @@ const getMinutesFromOpen = require('../../utils/get-minutes-from-open');
 
 const { registerNewStrategy } = require('../buys-in-progress');
 const { uniq } = require('underscore');
-const alpacaMarketBuy = require('../../alpaca/market-buy');
+// const alpacaMarketBuy = require('../../alpaca/market-buy');
+const fakeMarketBuy = require('../../alpaca/fake-market-buy');
 
 const runArray = [
     27,
@@ -113,7 +114,7 @@ const runBasedOnRecent = async skipSetPerc => {
         await log(`buying ${ticker} about $${Math.round(quantity * nowPrice)}`);
         await alpacaCancelAllOrders(ticker, 'sell');
 
-        alpacaMarketBuy({
+        fakeMarketBuy({
             ticker,
             quantity,
         });

@@ -3,7 +3,7 @@ const attemptSell = require('./attempt-sell');
 const { range } = require('underscore');
 const Log = require('../models/Log');
 const Hold = require('../models/Holds');
-const marketSell = require('./market-sell');
+const fakeMarketSell = require('./fake-market-sell');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
@@ -88,7 +88,7 @@ module.exports = async ({
     const quantity = qAmts[i];
     console.log(`spray selling ${i+1} of ${numShots} - ${quantity} shares`);
     responses.push(
-      marketSell({
+      fakeMarketSell({
         ticker,
         quantity
       })
