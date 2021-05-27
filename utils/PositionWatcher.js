@@ -23,6 +23,7 @@ const { disableDayTrades, breakdownRSIs } = require('../settings');
 const { get } = require('underscore');
 
 const getRecentPicksForTicker = require('./get-recent-picks-for-ticker');
+const spraySell = require('../alpaca/spray-sell');
 
 
 const randomString = () => Math.random().toString(36).substring(7);
@@ -133,7 +134,7 @@ module.exports = class PositionWatcher {
         wouldBeDayTrade,
         canSellUpperBreaks
       });
-      await alpacaAttemptSell({
+      await spraySell({
         ticker,
         quantity: q,
         fallbackToMarket: true

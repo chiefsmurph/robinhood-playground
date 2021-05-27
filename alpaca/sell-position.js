@@ -7,25 +7,26 @@ const getTrend = require('../utils/get-trend');
 const alpacaCancelAllOrders = require('./cancel-all-orders');
 const getMinFromOpen = require('../utils/get-minutes-from-open');
 const Hold = require('../models/Holds');
+const marketSell = require('./market-sell');
 
-const bothAttemptAndSpray = ({ ticker, quantity, numSeconds }) => {
-    const halfQuantity = Math.floor(quantity / 2);
-    const secondQuantity = quantity - halfQuantity;
-    return Promise.all([
-        attemptSell({ 
-            ticker, 
-            quantity: halfQuantity,
-            // limitPrice: currentPrice * .995,
-            // timeoutSeconds: 60,
-            fallbackToMarket: true
-         }),
-         spraySell({
-             ticker,
-             quantity: secondQuantity,
-             ...numSeconds && { numSeconds }
-         })
-    ]);
-};
+// const bothAttemptAndSpray = ({ ticker, quantity, numSeconds }) => {
+//     const halfQuantity = Math.floor(quantity / 2);
+//     const secondQuantity = quantity - halfQuantity;
+//     return Promise.all([
+//         attemptSell({ 
+//             ticker, 
+//             quantity: halfQuantity,
+//             // limitPrice: currentPrice * .995,
+//             // timeoutSeconds: 60,
+//             fallbackToMarket: true
+//          }),
+//          spraySell({
+//              ticker,
+//              quantity: secondQuantity,
+//              ...numSeconds && { numSeconds }
+//          })
+//     ]);
+// };
 
 module.exports = async (position, numSeconds) => {
 
@@ -64,17 +65,12 @@ module.exports = async (position, numSeconds) => {
     await log(`isSelling true ${ticker}`);
     const halfQuantity = Math.ceil(sellQuantity / 2);
 
-    const response = getMinFromOpen() >= 0 && market_value > 30
-        ? await bothAttemptAndSpray({   // reg hours
-            ticker,
-            quantity: sellQuantity,
-            numSeconds
-        })
-        : await attemptSell({       // premarket
-            ticker,
-            quantity: sellQuantity,
-            fallbackToMarket: false,
-        });
+    // TODO: maybe bring back attemptsell???????
+    const response = await spraySell({       // premarket
+        ticker,
+        quantity: sellQuantity,
+        fallbackToMarket: false,
+    });
 
 
     await log(`DONE SELLING ${ticker}`, {

@@ -161,15 +161,16 @@ const eclecticBuy = async ({
         },
 
 
-        {
-            method: async (params) => {
-                await new Promise(resolve => setTimeout(resolve, 60000 * 3));
-                return alpacaAttemptBuy(params);
-            },
-            name: 'attemptBuy3MinDelay',
-            pickPrice,
-            fallbackToMarket: true
-        },
+        // disabled for now until fok is implemented in attemptbuy
+        // {
+        //     method: async (params) => {
+        //         await new Promise(resolve => setTimeout(resolve, 60000 * 3));
+        //         return alpacaAttemptBuy(params);
+        //     },
+        //     name: 'attemptBuy3MinDelay',
+        //     pickPrice,
+        //     fallbackToMarket: true
+        // },
 
         {
             method: alpacaLimitBuy,
