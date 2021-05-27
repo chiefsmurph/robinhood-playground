@@ -6,6 +6,7 @@ const Log = require('../models/Log');
 const { response } = require('express');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const getTrend = require('../utils/get-trend');
+const alpacaMarketBuy = require('./market-buy');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
@@ -103,10 +104,9 @@ module.exports = async ({
       );
     } else {
       responses.push(
-        attemptBuy({
-          ticker, 
+        alpacaMarketBuy({
+          ticker,
           quantity,
-          fallbackToMarket: true 
         })
       );
     }

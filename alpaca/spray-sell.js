@@ -3,6 +3,7 @@ const attemptSell = require('./attempt-sell');
 const { range } = require('underscore');
 const Log = require('../models/Log');
 const Hold = require('../models/Holds');
+const marketSell = require('./market-sell');
 
 const NUM_SECONDS_TOTAL = 60 * 20;
 
@@ -87,10 +88,9 @@ module.exports = async ({
     const quantity = qAmts[i];
     console.log(`spray selling ${i+1} of ${numShots} - ${quantity} shares`);
     responses.push(
-      attemptSell({
-        ticker, 
-        quantity,
-        fallbackToMarket: true 
+      marketSell({
+        ticker,
+        quantity
       })
     );
     await new Promise(resolve => setTimeout(resolve, spaceApart));
