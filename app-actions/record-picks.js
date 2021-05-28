@@ -25,7 +25,6 @@ const {
     maxMultiplier = 300,
     overallMultiplierMultiplier = 1,
     onlyAvgDownOpenPositions,
-    dontBuy,
     skipPurchasing,
     dontRecommendAtHigherPrices
 } = require('../settings');
@@ -270,9 +269,10 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
                 if (skipPurchasing) return log(`skipping purchasing of ${stocksToBuy.join(', ')}`);
                 console.log('strategy enabled: ', stratMin, 'purchasing', stocksToBuy, multiplier);
 
+                const { purchaseAmt, skipForPurchaseBuying, dontBuy = [] } = await getPreferences();
+
                 const includesDontBuyTicker = stocksToBuy.filter(s => dontBuy.includes(s)).length;
 
-                const { purchaseAmt, skipForPurchaseBuying } = await getPreferences();
                 if (skipForPurchaseBuying) return log(`skipping buying ${stocksToBuy} because skipForPurchaseBuying`);
 
                 if (!strategy.includes('supr-dwn')) {

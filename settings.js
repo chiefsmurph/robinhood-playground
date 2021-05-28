@@ -46,12 +46,7 @@ module.exports = {
         // JDST: 2.3
     },
 
-    dontBuy: [
-        // 'STG'
-    ],
-
     breakdownRSIs: [
-        33,
         29,
         25,
         22,
