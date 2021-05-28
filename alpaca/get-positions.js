@@ -63,6 +63,7 @@ const checkForHugeDrop = position => {
 
 const activeRS = {
   // FTSI: 20
+  CTRM: 10
 };
 const handleRS = ({ ticker, avgEntry, quantity, unrealizedPl, currentPrice }) => {
   const found = activeRS[ticker];
