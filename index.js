@@ -55,12 +55,21 @@ global.logMemory = function() {
 };
 
 
+const IGNORE_THESE_ERRORS = [
+    'insufficient qty available for',
+    'account is not allowed to short',
+    'depende',
+];
+
 process.on('unhandledRejection', async (err, p) => {
     if (!err || !err.toString) {
         console.log('oh shit wt heck', err);
         throw err;
     }
-    if (err.toString().includes('depende')) return;
+    if (IGNORE_THESE_ERRORS.some(text => err.toString().includes(text))) {
+        console.error(`ignoring ${err.toString()}`);
+        return;
+    }
     // application specific logging, throwing a n error, or other logic here
     const logStr = `Unhandled Rejection at: ${p.toString()}, err: ${err}`;
     console.log('we hit an error oh shit');
