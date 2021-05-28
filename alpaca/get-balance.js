@@ -7,7 +7,7 @@ module.exports = async () => {
   const { equity } = account;
 
   const offsetByRs = balance => {
-      const curRsOffset = require('./strat-manager').getReverseSplitOffset();
+      const curRsOffset = require('../socket-server/strat-manager').getReverseSplitOffset();
       return curRsOffset === null
         ? null
         : balance - curRsOffset;
