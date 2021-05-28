@@ -1,5 +1,4 @@
 const getAccountBalance = require('../utils/get-account-balance');
-const alpacaBalance = require('../alpaca/get-balance');
 const getIndexes = require('../utils/get-indexes');
 const getTrend = require('../utils/get-trend');
 const { alpaca } = require('../alpaca');
@@ -7,6 +6,7 @@ const sendEmail = require('../utils/send-email');
 
 const { disableDayTrades } = require('../settings');
 const findDayTrade = require('../tests/find-daytrade');
+const getBalance = require('../alpaca/get-balance');
 
 let lastDtCount;
 
@@ -20,22 +20,13 @@ module.exports = async (isRegularHours = true) => {
 //       accountBalance = lastBalance;
 //   }
 
-  const account = await alpaca.getAccount();
-  console.log('Current Account:', account);
-  const { equity, buying_power, cash, daytrade_count, maintenance_margin, long_market_value } = account;
-
-  const offsetByRs = balance => {
-      const curRsOffset = require('./strat-manager').getReverseSplitOffset();
-      return curRsOffset === null
-        ? null
-        : balance - curRsOffset;
-  };
-
   // lastBalance = accountBalance;
+
+  const alpacaBalance = await getBalance();
   const report = {
       accountBalance,
       indexPrices: await getIndexes(),
-      alpacaBalance: offsetByRs(Number(equity)),
+      alpacaBalance,
       isRegularHours,
   };
   const additionalAccountInfo = {

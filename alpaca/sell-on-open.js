@@ -9,6 +9,7 @@ const Hold = require('../models/Holds');
 const Log = require('../models/Log');
 const cancelAllOrders = require('./cancel-all-orders');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
+const getBalance = require('./get-balance');
 
 
 const liquidateTicker = async ticker => {
@@ -40,7 +41,7 @@ const liquidateAll = async () => {
 module.exports = async () => {
 
   const { morningMinTarget = 60, maxPerPositionAfterOpenPerc = 40, bullishTickers = [], definedPercent = {} } = await getPreferences();
-  const { equity } = await alpaca.getAccount();
+  const equity = await getBalance();
 
   const maxPerPositionAfterSell = equity * (maxPerPositionAfterOpenPerc / 100);
 

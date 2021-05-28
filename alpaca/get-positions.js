@@ -440,6 +440,6 @@ module.exports = async (
   const withSingleZScores = addSingleZScores(withPercentOfBalance);
   const sorted = withSingleZScores.sort((a, b) => b.market_value - a.market_value);
 
-  return sorted.filter(p => p.ticker !== 'CTRM');
+  return sorted;
 
 };
