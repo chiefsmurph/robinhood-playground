@@ -9,7 +9,7 @@ const orderAtPrice = async ({ ticker, quantity, limitPrice }) => {
     const order = await alpaca.createOrder({
         symbol: ticker, // any valid ticker symbol
         qty: Number(quantity),
-        side: 'buy',
+        side: 'sell',
         type: 'limit',
         limit_price: Number(limitPrice.toFixed(4)),
         ...extendedHours ? {

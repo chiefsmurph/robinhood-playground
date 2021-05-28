@@ -294,10 +294,10 @@ module.exports = new (class RealtimeRunner {
       name: 'RealtimeRunner: set actOnZScore interval',
       run: [370, 420],
       fn: () => {
-        clearInterval(this.afternoonIntervals[2]);
-        this.afternoonIntervals[2] = null;
-        this.afternoonIntervals[2] = setInterval(
-          () => this.runZScoreFinal(),
+        clearInterval(this.afternoonIntervals[0]);
+        this.afternoonIntervals[0] = null;
+        this.afternoonIntervals[0] = setInterval(
+          this.runZScoreFinal,
           this.getZScoreInteral()
         );
         this.runZScoreFinal();
@@ -390,6 +390,13 @@ module.exports = new (class RealtimeRunner {
   async startAfternoonIntervals() {
     await log('starting afternoon intervals');
     this.afternoonIntervals = [
+
+
+      setInterval(
+        () => this.runZScoreFinal(),
+        this.getZScoreInteral()
+      ),
+
       setInterval(
         () => this.timedAsync(
           'every 15 minutes - alpaca act on st',
@@ -397,6 +404,7 @@ module.exports = new (class RealtimeRunner {
         ),
         60 * 1000 * 43 // 20 min
       ),
+
 
       // setInterval(
       //   () => this.timedAsync(
@@ -406,13 +414,6 @@ module.exports = new (class RealtimeRunner {
       //   60 * 1000 * 20 // 16 minutes
       // ),
 
-      // setTimeout(() => 
-      setInterval(
-        () => this.runZScoreFinal(),
-        this.getZScoreInteral()
-      ),
-        // 1000 * 60 * 5
-      // ),
 
     ];
   }
