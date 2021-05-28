@@ -297,7 +297,7 @@ module.exports = new (class RealtimeRunner {
         clearInterval(this.afternoonIntervals[0]);
         this.afternoonIntervals[0] = null;
         this.afternoonIntervals[0] = setInterval(
-          this.runZScoreFinal,
+          () => this.runZScoreFinal(),
           this.getZScoreInteral()
         );
         this.runZScoreFinal();
