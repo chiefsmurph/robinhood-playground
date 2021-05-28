@@ -21,12 +21,19 @@ module.exports = async (isRegularHours = true) => {
 //   }
 
   // lastBalance = accountBalance;
+  const account = await alpaca.getAccount();
+  const { equity, buying_power, cash, daytrade_count, maintenance_margin, long_market_value } = account;
+  const offsetByRs = balance => {
+    const curRsOffset = require('./strat-manager').getReverseSplitOffset();
+    return curRsOffset === null
+      ? null
+      : balance - curRsOffset;
+  };
 
-  const alpacaBalance = await getBalance();
   const report = {
       accountBalance,
       indexPrices: await getIndexes(),
-      alpacaBalance,
+      alpacaBalance: offsetByRs(Number(equity)),
       isRegularHours,
   };
   const additionalAccountInfo = {
