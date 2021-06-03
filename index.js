@@ -56,6 +56,7 @@ global.logMemory = function() {
 
 
 const IGNORE_THESE_ERRORS = [
+    'ufficient buying po',
     'insufficient qty available for',
     'account is not allowed to short',
     'depende',
