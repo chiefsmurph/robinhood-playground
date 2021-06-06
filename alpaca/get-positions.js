@@ -439,7 +439,23 @@ module.exports = async (
 
   const withSingleZScores = addSingleZScores(withPercentOfBalance);
   const sorted = withSingleZScores.sort((a, b) => b.market_value - a.market_value);
-
-  return sorted;
+  const withCurrentActions = sorted.map(position => {
+    const { buys = [], sells = [], isSelling } = position;
+    const getMinuteDiff = ({ timestamp }) => 
+      (Date.now() - (new Date(timestamp).getTime())) / 1000 / 60;
+    const transactionWithinMinutes = (minLimit = 45) =>
+      transaction => getMinuteDiff(transaction) < minLimit;
+    const isBuying = buys.some(transactionWithinMinutes());
+    const actuallySelling = sells.some(transactionWithinMinutes()) || isSelling;
+    return {
+      ...position,
+      currentAction: isBuying
+        ? 'buying'
+        : actuallySelling
+          ? 'selling'
+          : null
+    };
+  });
+  return withCurrentActions;
 
 };

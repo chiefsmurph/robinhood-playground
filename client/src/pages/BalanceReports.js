@@ -855,8 +855,14 @@ class DayReports extends Component {
                             ))
                         }
                     </div>
-                    <div style={{ fontSize: '86%', textAlign: 'center' }}>
-                        <div style={{ border: '1px solid black', padding: '7px' }}>
+                    <div style={{ 
+                        fontSize: '160%', 
+                        textAlign: 'center', 
+                        ...window.location.href.includes('forcePage') && !hiddenFields.includes('alpaca balance') && {
+                            display: 'none'
+                        }
+                    }}>
+                        <div style={{ border: '4px solid black', padding: '7px' }}>
                             <table style={{ marginRight: '0' }}>
                                 {
                                     Object.keys(indexStats)
@@ -890,7 +896,7 @@ class DayReports extends Component {
                         ))
                     }
                 </div>
-                <div style={{ height: '90%' }} className='wider-container'>
+                <div style={{ height: `${window.location.href.includes('forcePage') ? 95 : 80}%` }} className='wider-container'>
                     <Line 
                         data={slicedChartData} 
                         plugins={[ChartAnnotation]}

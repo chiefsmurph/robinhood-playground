@@ -122,7 +122,7 @@ class BorRecs extends Component {
         }
         return (
             <div style={{ padding: '20px' }}>
-                <h2>Based on Recent Recommendations</h2>
+                <h2>Based on Recent Picks</h2>
                 <i>last updated: {(new Date(lastUpdated)).toLocaleString()}</i><br/>
                 <button onClick={() => this.props.socket.emit('client:act', 'refreshBorRecs')}>click here to refresh</button>
                 <hr/>

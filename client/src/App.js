@@ -228,7 +228,7 @@ class App extends Component {
         value: 0,
         socket: null,
         tags: ['notManual', 'lastTen'].map(createTag),
-        authLevel: 0,
+        authLevel: 100,
         onlyRegHrs: false,
         lowKey: true,
         hiddenFields: window.location.href.includes('balance') ? [] : ['btc'],
@@ -254,6 +254,15 @@ class App extends Component {
         let { origin } = window.location;
 
         const urlParams = new URLSearchParams(window.location.search);
+
+        const forcePage = urlParams.get('forcePage');
+
+        if (forcePage) {
+            console.log({ forcePage })
+            setTimeout(() => this.handlePageChange(undefined, forcePage), 100);
+        }
+
+
         const port = urlParams.get('p') || 3001;
 
         const socketEndpoint = origin.includes('localhost') && false ? 'http://localhost:3000' : `https://chiefsmurph.com`;
@@ -278,6 +287,10 @@ class App extends Component {
             if (!data.isRecommended || !isForPurchase(data.stratMin, settings, pms) || isSprDwn) {
                 return;
             }
+            // if we in forcePage mode only pop it up in the TodaysPicks window
+            if (window.location.href.includes('forcePage') && this.getCurrentPageLabel() != 'today') {
+                return; 
+            }
             notification.play();
             console.log({ data })
             this.setState({
@@ -285,7 +298,13 @@ class App extends Component {
                   ...data,
                   newPick: true
                 }
-            })
+            });
+            // close the pick after 20 seconds
+            setTimeout(() => {
+                this.setState({
+                    showingPick: null
+                });
+            }, 20 * 1000);
             // setTimeout(() => {
             //     this.setState({
             //         newPicksData: null
@@ -339,13 +358,23 @@ class App extends Component {
             }));
         });
         ReactGA.pageview(window.location.pathname + 'index');
+
+        
     }
 
+    getCurrentPageLabel = () => {
+        const { authLevel, value } = this.state;
+        const pageLabel = camelize(pages(authLevel)[value].label);
+        return pageLabel;
+    };
+    
     handlePageChange = (event, value) => {
-        ReactGA.pageview(window.location.pathname + camelize(pages(this.state.authLevel)[value].label.replace(/'/g, '')));
+        const pageLabel = camelize(pages(this.state.authLevel)[value].label);
+        ReactGA.pageview(window.location.pathname + pageLabel.replace(/'/g, ''));
+        document.title = `${pageLabel} - chiefsmurph stocks to watch`
         this.setState({ value });
         if (this.state.authLevel < 100) {
-            this.state.socket.emit('client:act', 'log', `switched to ${pages(this.state.authLevel)[value].label}`)
+            this.state.socket.emit('client:act', 'log', `switched to ${pageLabel}`)
         }
     };
 
@@ -482,13 +511,8 @@ class App extends Component {
         const thing = ps.find(page => page.label === tabs[showingPage]);
         const { component: PageComponent } = thing;
         return (
-            <div className="App">
-                <AppBar 
-                    position="static"
-                    style={{
-                        // minWidth: authLevel === 100 ? '1000px' : ''
-                    }}
-                >
+            <div className={`App ${window.location.href.includes('forcePage') ? 'forcePage' : ''}`}>
+                <AppBar position="static">
                     <Toolbar>
                         <Typography variant="title" color="inherit">
                             chiefsmurph's stock <a href="#" onClick={this.auth} style={{ color: 'orange' }}>picks</a><br/>

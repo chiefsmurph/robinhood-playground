@@ -19,6 +19,7 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1, runCount = 0) =
   }
 
   strlog({ qAmts })
+  numSeconds = Math.max(numSeconds, 0.1);
   const numShots = qAmts.length;
   
   const numMs = numSeconds * 1000;

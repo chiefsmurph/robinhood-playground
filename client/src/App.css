@@ -3,6 +3,9 @@
   height: 100vh;
   overflow: hidden;
 }
+.App.forcePage > header {
+  display: none;
+}
 /* 
 .MuiAppBar-root-1 {
   min-width: 1000px;
@@ -22,10 +25,11 @@
 
 
 
-
-
 .App > div:nth-child(4) {
   overflow: scroll;
+}
+
+.App:not(.forcePage) > div:nth-child(4) {
   /* margin-top: 104px; */
   height: 86vh;
 }

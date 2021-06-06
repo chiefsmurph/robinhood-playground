@@ -26,11 +26,14 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
     
     const toDisplay = {
         // 'days old': 'dayAge',
-        sell: pos => (
-            <a onClick={() => spraySell(pos)} href="javascript:void(0)">spray-sell</a>
-        ),
-        daysOld: 'daysOld',
-        bought: 'mostRecentPurchase',
+        ...!lowKey && {
+            sell: pos => (
+                <a onClick={() => spraySell(pos)} href="javascript:void(0)">spray-sell</a>
+            ),
+
+            daysOld: 'daysOld',
+            bought: 'mostRecentPurchase',
+        },
         // sellOffDaysLeft: 'sellOffDaysLeft',
         ticker: pos => {
             const tooltipText = (pos.interestingWords || []).join(' ');
@@ -41,21 +44,21 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             );
         },
 
-        ...!admin ? {
-            'percent of total': pos => pos.percTotal + '%',
-        } : {
-            ...!lowKey && {
-                equity: 'equity',
-                'unrealizedPl $': pos => <TrendPerc value={pos.unrealizedPl} dollar={true} />,
-            },
-            'unrealizedPlPc %': ({ unrealizedPlPc, actualReturnPerc }) => (
-                <span {...actualReturnPerc && { 'data-custom': true, 'data-tooltip-str': actualReturnPerc }}>
-                    <TrendPerc value={unrealizedPlPc} />
-                </span>
-            ),
-            ...!lowKey && {
-                'today $': pos => <TrendPerc style={{ opacity: 0.55 }} value={pos.unrealized_intraday_pl} dollar={true} />,
-            },
+        '% of balance': ({ percentOfBalance }) => percentOfBalance && (
+            <span>{(percentOfBalance).toFixed(1)}%</span>
+        ),
+        'current action': 'currentAction',
+        ...!lowKey && {
+            equity: 'equity',
+            'unrealizedPl $': pos => <TrendPerc value={pos.unrealizedPl} dollar={true} />,
+        },
+        'unrealizedPlPc %': ({ unrealizedPlPc, actualReturnPerc }) => (
+            <span {...actualReturnPerc && { 'data-custom': true, 'data-tooltip-str': actualReturnPerc }}>
+                <TrendPerc value={unrealizedPlPc} />
+            </span>
+        ),
+        ...!lowKey && {
+            'today $': pos => <TrendPerc style={{ opacity: 0.55 }} value={pos.unrealized_intraday_pl} dollar={true} />,       
             'today %': ({ unrealized_intraday_plpc }) => (
                 // <span {...actualReturnPerc && { 'data-custom': true, 'data-tooltip-str': actualReturnPerc }}>
                     <TrendPerc style={{ opacity: 0.55 }} value={unrealized_intraday_plpc * 100} />
@@ -64,13 +67,14 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         },
 
 
-        zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => 
-            scan ? (
+        zScoreSum: ({ zScoreSum, zScoreRelative, scan } ) => {
+            if (!scan) return;
+            return (
                 <span className={zScoreRelative > 0.5 && 'green'}>
                     {`${(zScoreSum || 0).toFixed(0)} (${(zScoreRelative || 0).toFixed(2)})`}
                 </span>
-            ) : null,
-    
+            );
+        },
         zScoreFinal: ({ zScoreFinal, scan } ) => scan ? (
             <span className={zScoreFinal > 1 && 'green'}>
                 {zScoreFinal}
@@ -84,30 +88,34 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             </span>
         ),
 
-        zScoreCalcSum: ({ scan: { zScoreCalcSum } = {} } = {} ) => 
-            zScoreCalcSum ? (
-                <span className={zScoreCalcSum > 0.5 && 'green'}>
-                    {(zScoreCalcSum || 0).toFixed(0)}
-                </span>
-            ) : null,
+        ...!lowKey && {
 
-        zScoreOffset: ({ scan: { zScoreOffset, offsets } = {}, negatives = [] } = {} ) => {
-            if (!zScoreOffset && !negatives.length) return null;
-            const offsetStrings = [
-                ...Object.keys(offsets)
-                    .filter(key => offsets[key])
-                    .map(key => [key, offsets[key]].join(' ')),
-                ...negatives
-            ];
-            return (
-                <span 
-                    {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join('\n') }}
-                    className={zScoreOffset > 25 && 'green'}
-                >
-                    {(zScoreOffset || 0).toFixed(0)}
-                </span>
-            )
+            zScoreCalcSum: ({ scan: { zScoreCalcSum } = {} } = {} ) => 
+                zScoreCalcSum ? (
+                    <span className={zScoreCalcSum > 0.5 && 'green'}>
+                        {(zScoreCalcSum || 0).toFixed(0)}
+                    </span>
+                ) : null,
+
+            zScoreOffset: ({ scan: { zScoreOffset, offsets } = {}, negatives = [] } = {} ) => {
+                if (!zScoreOffset && !negatives.length) return null;
+                const offsetStrings = [
+                    ...Object.keys(offsets)
+                        .filter(key => offsets[key])
+                        .map(key => [key, offsets[key]].join(' ')),
+                    ...negatives
+                ];
+                return (
+                    <span 
+                        {...offsetStrings.length && { 'data-custom': true, 'data-tooltip-str': offsetStrings.join('\n') }}
+                        className={zScoreOffset > 25 && 'green'}
+                    >
+                        {(zScoreOffset || 0).toFixed(0)}
+                    </span>
+                )
+            },
         },
+
 
         
         
@@ -155,12 +163,15 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             </span>
         ),
 
-        recent500TrendPerDay: ({ scan: { computed: { recent500TrendPerDay } = {}, zScores: { recent500TrendPerDay: zScore } = {} } = {}}) => (
-            <span>
-                <TrendPerc value={recent500TrendPerDay} />&nbsp;
-                ({zScore})
-            </span>
-        ),
+        ...!lowKey && {
+            recent500TrendPerDay: ({ scan: { computed: { recent500TrendPerDay } = {}, zScores: { recent500TrendPerDay: zScore } = {} } = {}}) => (
+                <span>
+                    <TrendPerc value={recent500TrendPerDay} />&nbsp;
+                    ({zScore})
+                </span>
+            ),
+        },
+
 
         // volumeScore: ({ scan: { zScoreVolume } = {}}) => zScoreVolume,
         volumeTo2WeekAvg: ({ scan: { projectedVolumeTo2WeekAvg, zScores: { projectedVolumeTo2WeekAvg: zScore } = {} } = {}}) => (
@@ -175,10 +186,15 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         //         {/* ({lowerLimit} -> {upperLimit}) */}
         //     </span>
         // ),
-        recommendation: 'recommendation',
-        percToSell: 'percToSell',
-        wouldBeDayTrade: pos => pos.wouldBeDayTrade ? 'true' : '',
-        numPicks: 'numPicks',
+        ...!lowKey ? {
+            recommendation: 'recommendation',
+            percToSell: 'percToSell',
+            wouldBeDayTrade: pos => pos.wouldBeDayTrade ? 'true' : '',
+        } : {
+            'avg': ({ avgEntry, actualEntry }) => (
+                <span {...actualEntry && { 'data-custom': true, 'data-tooltip-str': actualEntry }}>${Number(avgEntry).toFixed(2)}{actualEntry && '*'}</span>
+            ),
+        },
         pickPoints: 'pickPoints',
         zScorePoints: 'zScorePoints',
         stPoints: 'stPoints',
@@ -188,9 +204,11 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         numMultipliers: 'numMultipliers',
         avgMultipliersPerPick: 'avgMultipliersPerPick',
         ...admin ? {
+
+            numPicks: 'numPicks',
             'avgPickPrice': 'avgPickPrice',
             'avg': ({ avgEntry, actualEntry }) => (
-                <span {...actualEntry && { 'data-custom': true, 'data-tooltip-str': actualEntry }}>{Number(avgEntry).toFixed(4)}{actualEntry && '*'}</span>
+                <span {...actualEntry && { 'data-custom': true, 'data-tooltip-str': actualEntry }}>{Number(avgEntry).toFixed(2)}{actualEntry && '*'}</span>
             ),
             'current': 'currentPrice',
             'avgSellPrice': ({ avgSellPrice }) => avgSellPrice && !isNaN(avgSellPrice) ? +avgSellPrice.toFixed(2) : '---',
@@ -270,7 +288,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         <div>
             <h2>{name}</h2>
             <table>
-                <thead style={{ textAlign: 'left' }}>
+                {/* <thead style={{ textAlign: 'left' }}>
                     <th colspan="2">days</th>
                     <th colspan="2">basics</th>
                     <th colspan="4">percents</th>
@@ -280,7 +298,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                     <th colspan="3">prices</th>
                     <th colspan="4">selling</th>
                     <th colspan="2">impact</th>
-                </thead>
+                </thead> */}
                 <thead>
                     {
                         Object.keys(toDisplay).map(header => 
@@ -388,20 +406,22 @@ class Positions extends Component {
             <div style={{ padding: '15px' }}>
 
                 <style>{`.react-hint__content { max-width: 840px }`}</style>
-                <style>{`table td, th { padding: 2px 15px }`}</style>
+                <style>{`table td, th { padding: 2px 5px }`}</style>
                 
                 {
-                    Object.entries(positions).map(([name, positions]) => (
-                        <PositionSection
-                            relatedPrices={relatedPrices}
-                            positions={positions}
-                            name={name}
-                            admin={true}
-                            lowKey={lowKey}
-                            spraySell={this.spraySell}
-                            navigateToSingleStock={navigateToSingleStock}
-                        />
-                    ))
+                    Object.entries(positions)
+                        .filter(([name]) => !lowKey || name !== 'robinhood')
+                        .map(([name, positions]) => (
+                            <PositionSection
+                                relatedPrices={relatedPrices}
+                                positions={positions}
+                                name={name}
+                                admin={true}
+                                lowKey={lowKey}
+                                spraySell={this.spraySell}
+                                navigateToSingleStock={navigateToSingleStock}
+                            />
+                        ))
                 }
                 
                 
