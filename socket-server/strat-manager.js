@@ -100,7 +100,7 @@ const stratManager = {
                 this.sendToAll('server:balance-report', { report, additionalAccountInfo });
             }, this.curDate);
 
-            this.sendToAll('server:data-updata', {
+            this.sendToAll('server:data-update', {
                 balanceReports: balanceReportManager.getAllBalanceReports(),
             });
 
