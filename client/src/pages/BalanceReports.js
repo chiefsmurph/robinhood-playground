@@ -705,7 +705,7 @@ class DayReports extends Component {
                     }
                 </Ticker> */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
-                    <div style={{ paddingLeft: '0.5em' }}>
+                    <div style={{ paddingLeft: '0.5em', zoom: '140%' }}>
                         <div>
                             number of days to show... 
                             <select onChange={event => this.setState({ numDaysToShow: Number(event.target.value) })} value={numDaysToShow.toString()}>
@@ -855,6 +855,11 @@ class DayReports extends Component {
                             ))
                         }
                     </div>
+                    {
+                        !hiddenFields.includes('alpaca balance') && (
+                            <h2>PERCENT OF BALANCE INVESTED: {Math.round(longMarketValue / (stats.alpaca || {}).current * 100)}%</h2>
+                        )
+                    }
                     <div style={{ 
                         fontSize: '160%', 
                         textAlign: 'center', 
@@ -896,7 +901,7 @@ class DayReports extends Component {
                         ))
                     }
                 </div>
-                <div style={{ height: `${window.location.href.includes('forcePage') ? 95 : 80}%` }} className='wider-container'>
+                <div style={{ height: `${window.location.href.includes('forcePage') ? 95 : 65}%` }} className='wider-container'>
                     <Line 
                         data={slicedChartData} 
                         plugins={[ChartAnnotation]}
