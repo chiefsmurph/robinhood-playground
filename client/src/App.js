@@ -258,10 +258,17 @@ class App extends Component {
         const forcePage = urlParams.get('forcePage');
 
         if (forcePage) {
-            console.log({ forcePage })
+            console.log({ forcePage });
+            // force the thing!  ...aka redirect
             setTimeout(() => this.handlePageChange(undefined, forcePage), 100);
             // because my comp keeps crashing when streaming with OBS 
-            setTimeout(() => window.location.reload(), 1000 * 60 * 15 * Math.random());
+            if (forcePage !== '0') {
+                // dont refresh the balance pages because the settings will refresh
+                setTimeout(
+                    () => window.location.reload(), 
+                    1000 * 60 * 10 * Math.random()  // random 0 - 15 minutes
+                );
+            }
         }
 
 
