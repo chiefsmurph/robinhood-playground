@@ -266,7 +266,7 @@ class App extends Component {
                 // dont refresh the balance pages because the settings will refresh
                 setTimeout(
                     () => window.location.reload(), 
-                    1000 * 60 * 10 * Math.random()  // random 0 - 15 minutes
+                    1000 * 60 * ((20 * Math.random()) + 10)  // random 0 - 15 minutes
                 );
             }
         }
