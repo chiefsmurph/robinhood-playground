@@ -260,6 +260,8 @@ class App extends Component {
         if (forcePage) {
             console.log({ forcePage })
             setTimeout(() => this.handlePageChange(undefined, forcePage), 100);
+            // because my comp keeps crashing when streaming with OBS 
+            setTimeout(() => window.location.reload(), 1000 * 60 * 15 * Math.random());
         }
 
 
