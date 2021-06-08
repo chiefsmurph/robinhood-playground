@@ -901,7 +901,7 @@ class DayReports extends Component {
                         ))
                     }
                 </div>
-                <div style={{ height: `${window.location.href.includes('forcePage') ? 95 : 65}%` }} className='wider-container'>
+                <div style={{ height: `${window.location.href.includes('forcePage') ? 85 : 85}%` }} className='wider-container'>
                     <Line 
                         data={slicedChartData} 
                         plugins={[ChartAnnotation]}
