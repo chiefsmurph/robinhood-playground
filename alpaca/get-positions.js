@@ -464,6 +464,14 @@ module.exports = async (
     }
     return position;
   });
-  return handledFavs;
+  const withHugedown = handledFavs.map(position => ({
+    ...position,
+    hugeDown: Boolean(
+      position.buyMult > 5 ||
+      position.zScoreSum > 80 ||
+      (position.zScoreSum > 40 && position.zScoreFinal > 3)
+    )
+  }));
+  return withHugedown;
 
 };
