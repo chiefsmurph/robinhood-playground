@@ -437,7 +437,13 @@ module.exports = async (
       )
     }));
 
-  const withSingleZScores = addSingleZScores(withPercentOfBalance);
+  const handledFavs = withPercentOfBalance.map(position => {
+    if (favs.includes(position.ticker)) {
+      position.isFav = true;
+    }
+    return position;
+  });
+  const withSingleZScores = addSingleZScores(handledFavs);
   const sorted = withSingleZScores.sort((a, b) => b.market_value - a.market_value);
   const withCurrentActions = sorted.map(position => {
     const { buys = [], sells = [], isSelling } = position;
@@ -456,22 +462,18 @@ module.exports = async (
           : null
     };
   });
-  const handledFavs = withCurrentActions.map(position => {
-    if (favs.includes(position.ticker)) {
-      position.zScoreSum += 50;
-      position.isFav = true;
-      position.buyMult = Math.max(1, position.buyMult);
-    }
-    return position;
-  });
-  const withHugedown = handledFavs.map(position => ({
-    ...position,
-    hugeDown: Boolean(
+  const withHugedown = withCurrentActions.map(position => {
+    const hugeDown = Boolean(
       position.buyMult > 5 ||
       position.zScoreSum > 80 ||
       (position.zScoreSum > 40 && position.zScoreFinal > 3)
-    )
-  }));
+    );
+    return {
+      ...position,
+      hugeDown,
+      buyMult: Math.max(2, buyMult + 1)
+    };
+  });
   return withHugedown;
 
 };

@@ -33,6 +33,12 @@ module.exports = positions =>
       }
       return position;
     })
+    .map(position => {
+      if (position.isFav) {
+        position.zScoreSum += 40;
+      }
+      return position;
+    });
     .map((position, index, positions) => ({
       ...position,
       zScoreRelative: zScore(
@@ -74,6 +80,12 @@ module.exports = positions =>
       } else if (buyMult > 1 && (index === 0 || marketValueZScore > 2)) {
         position.buyMult--;
         position.flagged = 'buyMult decreased';
+      }
+      return position;
+    })
+    .map(position => {
+      if (position.isFav) {
+
       }
       return position;
     });
