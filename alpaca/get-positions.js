@@ -471,7 +471,7 @@ module.exports = async (
     return {
       ...position,
       hugeDown,
-      buyMult: Math.max(2, buyMult + 1)
+      buyMult: Math.max(2, position.buyMult + 1)
     };
   });
   return withHugedown;
