@@ -1,14 +1,19 @@
 {
   "onlyUseCash": false,
-  "purchaseAmt": 0.4,
-  "actOnPercent": 0.3,
-  "maxPerPositionAfterOpenPerc": 0.5,
-  "morningMinTarget": 80,
+  "purchaseAmt": 3,
+  "actOnPercent": 2,
+  "maxPerPositionAfterOpenPerc": 3.5,
+  "morningMinTarget": 360,
   "maxPercentOfBalance": 40,
   "dontBuyPositionsBeingSold": true,
   "makeFundsOnlyForDowners": false,
   "makeFundsForRecent": false,
-  "definedPercent": {},
+  "definedPercent": {
+    "AMC": 0
+  },
+  "favs": [
+    "AMC"
+  ],
   "dontSell": [],
-  "recentBuyPerc": 1
+  "dontBuy": []
 }

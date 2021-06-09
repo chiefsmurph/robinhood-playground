@@ -310,7 +310,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                     {
                         positions
                             .map(pos => (
-                                <tr style={{ background: hugeDown ? 'orange' : pos.buyMult > 0 ? `rgba(255,255,0,${pos.buyMult > 1 ? 1 : 0.5})` : 'inherit' }}>
+                                <tr style={{ background: pos.hugeDown ? 'orange' : pos.buyMult > 0 ? `rgba(255,255,0,${pos.buyMult > 1 ? 1 : 0.5})` : 'inherit' }}>
                                     {
                                         Object.keys(toDisplay).map(header => {
                                             const render = toDisplay[header];
