@@ -141,7 +141,7 @@ module.exports = async (
   }));
 
 
-  const { dontSell = [], maxPercentOfBalance = 40 } = await getPreferences();
+  const { dontSell = [], maxPercentOfBalance = 40, favs = [] } = await getPreferences();
 
   positions = await mapLimit(positions, 3, async position => {
     const { ticker } = position;
@@ -456,6 +456,14 @@ module.exports = async (
           : null
     };
   });
-  return withCurrentActions;
+  const handledFavs = withCurrentActions.map(position => {
+    if (favs.includes(position.ticker)) {
+      position.zScoreSum += 50;
+      position.isFav = true;
+      position.buyMult = Math.max(1, position.buyMult);
+    }
+    return position;
+  });
+  return handledFavs;
 
 };

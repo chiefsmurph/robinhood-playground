@@ -5,11 +5,8 @@ const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.p
 const oneDec = roundTo(1);
 const twoDec = roundTo(2);
 
-module.exports = positions => {
-
-  const { favs = [] } = getPreferences();
-
-  return positions
+module.exports = positions =>
+  positions
     .map(position => {
       const { interestingWords = [] } = position;
       const negatives = [];
@@ -33,13 +30,6 @@ module.exports = positions => {
       }
       if (negatives.length) {
         position.negatives = negatives;
-      }
-      return position;
-    })
-    .map(position => {
-      if (favs.includes(position.ticker)) {
-        position.zScoreSum += 50;
-        position.isFav = true;
       }
       return position;
     })
@@ -87,5 +77,3 @@ module.exports = positions => {
       }
       return position;
     });
-
-}
