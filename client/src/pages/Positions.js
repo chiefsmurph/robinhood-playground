@@ -38,7 +38,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         ticker: pos => {
             const tooltipText = (pos.interestingWords || []).join(' ');
             return (
-                <a href='javascript:void' onClick={() => navigateToSingleStock(pos.ticker)}>
+                <a href='javascript:void' onClick={() => navigateToSingleStock(pos.ticker)} style={pos.isFav && { fontWeight: 'bold', zoom: '110%' }}>
                     <span {...tooltipText && { 'data-custom': true, 'data-tooltip-str': tooltipText }}>{pos.ticker}</span>
                 </a>
             );

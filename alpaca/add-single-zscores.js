@@ -39,7 +39,7 @@ module.exports = positions => {
     .map(position => {
       if (favs.includes(position.ticker)) {
         position.zScoreSum += 50;
-        position.isFavorite = true;
+        position.isFav = true;
       }
       return position;
     })
