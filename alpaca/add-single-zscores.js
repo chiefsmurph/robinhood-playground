@@ -38,7 +38,7 @@ module.exports = positions =>
         position.zScoreSum += 40;
       }
       return position;
-    });
+    })
     .map((position, index, positions) => ({
       ...position,
       zScoreRelative: zScore(
