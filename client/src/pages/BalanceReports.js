@@ -346,7 +346,7 @@ class DayReports extends Component {
                     numDaysToShow: nextDayCount
                 });
                 this.cycleNumDays();
-            }, 1000 * (numDaysToShow === 1 ? 4 * 60 : 12))
+            }, 1000 * (numDaysToShow === 1 ? 2 * 60 : 12))
         })
     };
     stopNumDaysCycle = () => {
