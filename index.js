@@ -60,6 +60,7 @@ const IGNORE_THESE_ERRORS = [
     'insufficient qty available for',
     'account is not allowed to short',
     'depende',
+    'ded hours orders between 6:0'
 ];
 
 process.on('unhandledRejection', async (err, p) => {
