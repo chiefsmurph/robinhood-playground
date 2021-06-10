@@ -479,7 +479,7 @@ module.exports = async (
   
   const withTimeOfDay = withHugedown.map(position => {
     const max = min < 100 ? 1 : min < 200 ? 2 : min < 300 ? 3 : null;
-    if (max < 300) {
+    if (max) {
       position.buyMult = Math.min(position.buyMult, max);
     }
     return position;
