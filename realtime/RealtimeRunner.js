@@ -254,7 +254,8 @@ module.exports = new (class RealtimeRunner {
         // 60,
         80, 
         // 110, 
-        135
+        135,
+        250,
       ],
       fn: () => alpacaActOnZScoreFinal()
     });
