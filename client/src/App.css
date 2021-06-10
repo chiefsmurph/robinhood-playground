@@ -82,7 +82,7 @@ select {
 }
 h2 {
   /* margin-left: 15px; */
-  font-variant: small-caps;
+  /* font-variant: small-caps; */
   text-decoration: underline;
 }
 
