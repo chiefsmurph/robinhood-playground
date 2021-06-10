@@ -38,13 +38,17 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         ticker: pos => {
             const tooltipText = (pos.interestingWords || []).join(' ');
             return (
-                <a href='javascript:void' onClick={() => navigateToSingleStock(pos.ticker)} style={pos.isFav && { fontWeight: 'bold', zoom: '110%' }}>
-                    <span {...tooltipText && { 'data-custom': true, 'data-tooltip-str': tooltipText }}>{pos.ticker}</span>
-                </a>
+                <span>
+                    {pos.isFav && <span className="fav-star">✰</span>}
+                    <a href='javascript:void' onClick={() => navigateToSingleStock(pos.ticker)} style={pos.isFav && { fontWeight: 'bold', zoom: '110%' }}>
+                        <span {...tooltipText && { 'data-custom': true, 'data-tooltip-str': tooltipText }}>{pos.ticker}</span>
+                    </a>
+                </span>
+                
             );
         },
 
-        '% of balance': ({ percentOfBalance }) => percentOfBalance && (
+        'balance': ({ percentOfBalance }) => percentOfBalance && (
             <span>{(percentOfBalance).toFixed(1)}%</span>
         ),
         'current action': 'currentAction',
@@ -52,7 +56,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             equity: 'equity',
             'unrealizedPl $': pos => <TrendPerc value={pos.unrealizedPl} dollar={true} />,
         },
-        'unrealizedPlPc %': ({ unrealizedPlPc, actualReturnPerc }) => (
+        'unrealized': ({ unrealizedPlPc, actualReturnPerc }) => (
             <span {...actualReturnPerc && { 'data-custom': true, 'data-tooltip-str': actualReturnPerc }}>
                 <TrendPerc value={unrealizedPlPc} />
             </span>
@@ -240,7 +244,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
         } : {}
     };
 
-    const dontCountTickers = ['DESTQ', 'KEG'];
+    const dontCountTickers = [];
 
     
     const getStatsForSegment = (filterFn = () => true) => {
@@ -285,8 +289,16 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
     });
 
     return (
-        <div>
-            <h2>{name}</h2>
+        <div className="positions">
+            <header>
+                <h2>{name}</h2>
+                <div>
+                    <div><span className="fav-star">✰</span> = Nomad John favorite</div>
+                    <div><div className="square orange" />= SUPER RECOMMENDED</div>
+                    <div><div className="square yellow" />= RECOMMENDED</div>
+                </div>
+            </header>
+            
             <table>
                 {/* <thead style={{ textAlign: 'left' }}>
                     <th colspan="2">days</th>

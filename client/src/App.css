@@ -190,3 +190,51 @@ table th {
 header > div:nth-child(2) > div > div {
   overflow-x: scroll;
 }
+
+.positions .fav-star {
+  background-color: aqua;
+  margin-right: 0.5em;
+}
+
+.positions header > div {
+  display: flex;
+  align-items: center;
+}
+
+.positions header h2 {
+  float: left;
+  margin-right: 1em;
+}
+
+.positions header div > div {
+  float: left;
+  margin-right: 20px;
+}
+
+.positions header > div > div:first-of-type {
+  transform: translateY(-5px);
+}
+
+.positions header span.fav-star {
+  font-size: 170%;
+  transform: translateY(5px);
+  display: inline-block;
+  margin-right: 0.2em;
+}
+
+.positions header .square {
+  width: 1em;
+  height: 1em;
+  border: 2px solid black;
+  box-sizing: content-box;
+  margin: 0;
+  margin-right: 0.5em;
+  transform: translateY(2px);
+}
+
+.positions header .square.orange {
+  background-color: orange;
+}
+.positions header .square.yellow {
+  background-color: rgb(255,255,0);
+}
