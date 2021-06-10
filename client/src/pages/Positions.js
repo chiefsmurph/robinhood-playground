@@ -293,7 +293,7 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             <header>
                 {!lowKey && <h2>{name}</h2>}
                 <div>
-                    <div><span className="fav-star">✰</span> = Nomad John favorite</div>
+                    <div><span className="fav-star">✰</span> = PERSONAL FAV</div>
                     <div><div className="square orange" />= SUPER RECOMMENDED</div>
                     <div><div className="square yellow" />= RECOMMENDED</div>
                 </div>
