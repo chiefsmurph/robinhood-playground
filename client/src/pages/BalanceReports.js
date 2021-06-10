@@ -308,6 +308,9 @@ class DayReports extends Component {
             this.startBtcFetching();
         }
         this.loadLsSettings();
+        if (window.location.href.includes('forcePage')) {
+            this.cycleNumDays();
+        }
     }
     loadLsSettings = () => {
         const settingsStr = localStorage.getItem('balanceSettings');
@@ -329,7 +332,26 @@ class DayReports extends Component {
     };
     componentWillUnmount() {
         this.stopBtcFetching();
+        this.stopNumDaysCycle();
     }
+    cycleNumDays = () => {
+        const daysToCycle = [1, 2, 4, 6, 10];
+        const { numDaysToShow } = this.state;
+        const currentIndex = daysToCycle.findIndex(d => d >= numDaysToShow);
+        const nextIndex = currentIndex === daysToCycle.length - 1 ? 0 : currentIndex + 1;
+        const nextDayCount = daysToCycle[nextIndex];
+        this.setState({
+            numDaysCycle: window.setTimeout(() => {
+                this.setState({
+                    numDaysToShow: nextDayCount
+                });
+                this.cycleNumDays();
+            }, 1000 * (numDaysToShow === 1 ? 4 * 60 : 12))
+        })
+    };
+    stopNumDaysCycle = () => {
+        window.clearTimeout(this.state.numDaysCycle);
+    };
     startAnimation = () =>
         this.setState({
             animateCount: 0
@@ -663,7 +685,7 @@ class DayReports extends Component {
         let { balanceReports, authLevel, collections, lastCollectionRefresh, additionalAccountInfo: { cash, buyingPower, daytradeCount, maintenanceMargin, longMarketValue }, setAppState, lowKey, onlyRegHrs, hiddenFields } = this.props;
         let { timeFilter, numDaysToShow, hoverIndex, fuzzFactor, afterHoursAnnotations, animateCount, intensiveData, keyData } = this.state;
         if (!balanceReports || !balanceReports.length || !intensiveData) return <b>LOADING</b>;
-        const { chartData, stats, indexStats, allDates, showingSince, afterHoursBoxes,   } = intensiveData;
+        const { chartData, stats, indexStats, allDates, showingSince, afterHoursBoxes } = intensiveData;
 
         console.log({ chartData });
 
@@ -707,7 +729,7 @@ class DayReports extends Component {
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
                     <div style={{ paddingLeft: '0.5em', zoom: '140%' }}>
                         <div>
-                            number of days to show... 
+                            number of days showing...
                             <select onChange={event => this.setState({ numDaysToShow: Number(event.target.value) })} value={numDaysToShow.toString()}>
                                 {
                                     [...Array(allDates.length).keys()].map(i => ++i).map(num => (
