@@ -476,6 +476,14 @@ module.exports = async (
       }
     };
   });
-  return withHugedown;
+  
+  const withTimeOfDay = withHugedown.map(position => {
+    const max = min < 100 ? 1 : min < 200 ? 2 : min < 300 ? 3 : null;
+    if (max < 300) {
+      position.buyMult = Math.min(position.buyMult, max);
+    }
+    return position;
+  });
+  return withTimeOfDay;
 
 };
