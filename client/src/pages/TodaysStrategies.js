@@ -8,7 +8,7 @@ import TrendPerc from '../components/TrendPerc';
 import { partition, pick, sortBy, mapObject } from 'underscore';
 
 class TodaysStrategies extends Component {
-  state = { picks: [], relatedPrices: {}, pmFilter: 'forPurchase', pastData: {}, predictionModels: {}, afterHoursEnabled: true, sortBy: 'avgTrend', additionalFilters: '' };
+  state = { picks: [], relatedPrices: {}, pmFilter: 'forPurchase', pastData: {}, predictionModels: {}, afterHoursEnabled: true, sortBy: 'timestamp', additionalFilters: '' };
   strategyMove = increment => {
       const curStrategy = this.state.pmFilter;
       const listOfStrategies = [...Object.keys(this.props.predictionModels), 'forPurchase', 'no filter'];
