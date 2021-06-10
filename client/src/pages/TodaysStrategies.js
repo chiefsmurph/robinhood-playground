@@ -21,7 +21,6 @@ class TodaysStrategies extends Component {
       });
   }
   componentWillUnmount() {
-      window.localStorage.setItem('TodaysStrategies', JSON.stringify(pick(this.state, ['pmFilter', 'sortBy', 'additionalFilters'])));
   }
   componentDidMount() {
     this.setState(
@@ -36,6 +35,11 @@ class TodaysStrategies extends Component {
         additionalFilters: `${additionalFilters},${ticker}` 
     }));
   }
+  onSortChange = event => {
+    console.log('setting pm change')
+    window.localStorage.setItem('TodaysStrategies', JSON.stringify(pick(this.state, ['pmFilter', 'sortBy', 'additionalFilters'])));
+    this.setStateOfProp('sortBy')(event);
+  };
   render() {
     let { pmFilter, afterHoursEnabled, sortBy: sortByFilter, additionalFilters } = this.state;
     let { picks, relatedPrices, predictionModels, pastData, curDate, pmPerfs, pms, settings, socket, positions, showPick } = this.props;
@@ -193,7 +197,7 @@ class TodaysStrategies extends Component {
                 </button>
                 <br/>
                 sort by:
-                <select value={sortByFilter} onChange={this.setStateOfProp('sortBy')}>
+                <select value={sortByFilter} onChange={this.onSortChange}>
                     {['avgTrend', 'timestamp'].map(sortBy => (
                         <option value={sortBy}>{sortBy}</option>
                     ))}

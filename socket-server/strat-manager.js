@@ -199,7 +199,7 @@ const stratManager = {
             analyzedClosed: this.analyzedClosed 
         });
 
-        const hugeDown = positions.alpaca.filter(({ hugedown }) => hugedown);
+        const hugeDown = positions.alpaca.filter(({ hugeDown }) => hugeDown);
         for (let position of hugeDown) {
             await log(`huge down ${position.ticker} zScoreSum ${position.zScoreSum} zScoreFinal ${position.zScoreFinal}`);
             await notifyBig(position);
