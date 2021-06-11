@@ -33,12 +33,6 @@ module.exports = positions =>
       }
       return position;
     })
-    .map(position => {
-      if (position.isFav) {
-        position.zScoreSum += 40;
-      }
-      return position;
-    })
     .map((position, index, positions) => ({
       ...position,
       zScoreRelative: zScore(
@@ -54,6 +48,12 @@ module.exports = positions =>
       ...position,
       zScoreFinal: position.aboveMaxBuy ? 0 : twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 2))
     }))
+    .map(position => {
+      if (position.isFav) {
+        position.zScoreFinal *= 2;
+      }
+      return position;
+    })
     .map(position => {
       const yesMin = (
         position.zScoreFinal > 2.3 ||
