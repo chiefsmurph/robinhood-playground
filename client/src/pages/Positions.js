@@ -336,10 +336,10 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
                             ))
                     }
                     {
-                        admin && <tr><td colspan={Object.keys(toDisplay).length}><hr/></td></tr>
+                        !lowKey && <tr><td colspan={Object.keys(toDisplay).length}><hr/></td></tr>
                     }
                     {
-                        admin && (
+                        !lowKey && (
                             <tr>
                                 <td>Totals</td>
                                 <td>{totals.equity}</td>
