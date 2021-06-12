@@ -7,7 +7,7 @@ const WAIT_MIN_BETWEEN = 33;
 
 const dayInProgress = require('../realtime/day-in-progress');
 
-const notifyHugeDown = ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
+const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
   if (!dayInProgress(-30, 430)) {
     console.log('no need');
     return;
