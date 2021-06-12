@@ -7,7 +7,7 @@
     "@material-ui/core": "^3.7.1",
     "chart.js": "^2.8.0",
     "chartjs-plugin-annotation": "^0.5.7",
-    "handlebars": "^4.7.3",
+    "handlebars": "^4.7.7",
     "install": "^0.12.2",
     "mdbreact": "^4.19.0",
     "mixin-deep": "^2.0.1",
