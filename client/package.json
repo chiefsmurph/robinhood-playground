@@ -5,7 +5,7 @@
   "homepage": "/stocks",
   "dependencies": {
     "@material-ui/core": "^3.7.1",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "chartjs-plugin-annotation": "^0.5.7",
     "handlebars": "^4.7.3",
     "install": "^0.12.2",
