@@ -248,8 +248,8 @@ export default class PickGraphs extends Component {
         <h3>Pick Price: ${pickPrice}</h3>
         {
           stScore
-            ? <h3>Stocktwits Sentiment: {JSON.stringify(stScore, null, 2)}</h3>
-            : <button onClick={() => this.loadStScoreForPick(pick)}>Load Stocktwits Score</button>
+            ? <h3>stSentiment: {JSON.stringify(stScore, null, 2)}</h3>
+            : <button onClick={() => this.loadStScoreForPick(pick)}>Load stScore</button>
         }
         {
           !!Object.keys(position).length && (

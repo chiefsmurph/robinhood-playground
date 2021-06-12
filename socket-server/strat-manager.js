@@ -42,7 +42,7 @@ const getAnalyzedClosed = require('../analysis/positions/get-closed');
 const dayInProgress = require('../realtime/day-in-progress');
 
 const getBorRecs = require('../app-actions/based-on-recent/get-picks');
-const notifyBig = require('../app-actions/notify-big');
+const notifyHugeDown = require('../app-actions/notify-huge-down');
 
 // const RealtimeRunner = ;
 
@@ -202,7 +202,7 @@ const stratManager = {
         const hugeDown = positions.alpaca.filter(({ hugeDown }) => hugeDown);
         for (let position of hugeDown) {
             await log(`huge down ${position.ticker} zScoreSum ${position.zScoreSum} zScoreFinal ${position.zScoreFinal}`);
-            await notifyBig(position);
+            await notifyHugeDown(position);
         }
         return positions.alpaca;
     },

@@ -879,7 +879,11 @@ class DayReports extends Component {
                     </div>
                     {
                         !hiddenFields.includes('alpaca balance') && (
-                            <h2>PERCENT OF BALANCE INVESTED: {Math.round(longMarketValue / (stats.alpaca || {}).current * 100)}%</h2>
+                            <div>
+                                <h3>BALANCE INVESTED: {Math.round(longMarketValue / (stats.alpaca || {}).current * 100)}%</h3>
+                                <h3>BUYING POWER: {Math.round(buyingPower / (stats.alpaca || {}).current * 100)}%</h3>
+                                <h3>DAYTRADES USED: {daytradeCount}</h3>
+                            </div>
                         )
                     }
                     <div style={{ 

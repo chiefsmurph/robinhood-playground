@@ -116,16 +116,22 @@ const formatters = {
 
 class BorRecs extends Component {
     render() {
-        const { borRecs: { lastUpdated, picks } = {}, navigateToSingleStock } = this.props;
+        const { borRecs: { lastUpdated, picks } = {}, navigateToSingleStock, lowKey } = this.props;
         if (!lastUpdated) {
             return <b>loading</b>
         }
         return (
             <div style={{ padding: '20px' }}>
                 <h2>Based on Recent Picks</h2>
-                <i>last updated: {(new Date(lastUpdated)).toLocaleString()}</i><br/>
-                <button onClick={() => this.props.socket.emit('client:act', 'refreshBorRecs')}>click here to refresh</button>
-                <hr/>
+                {
+                    !lowKey && (
+                        <div>
+                            <i>last updated: {(new Date(lastUpdated)).toLocaleString()}</i><br/>
+                            <button onClick={() => this.props.socket.emit('client:act', 'refreshBorRecs')}>click here to refresh</button>
+                            <hr/>
+                        </div>
+                    )
+                }
                 {
                     Object.entries(picks)
                         .filter(([__, specificPicks]) => specificPicks.length)

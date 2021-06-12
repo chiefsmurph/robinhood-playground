@@ -124,7 +124,7 @@ const ScanResults = ({ results, recentPicks }) => {
 
       <h4>Links</h4>
       <ul>
-        <li><a href={`https://stocktwits.com/symbol/${ticker}`} target="_blank">{ticker} on Stocktwits</a></li>
+        <li><a href={`https://stocktwits.com/symbol/${ticker}`} target="_blank">{ticker} on ST</a></li>
         <div style={{ fontStyle: 'italic' }}>in my scan of recent posts... bullish: {bullishCount}, bearish: {bearishCount}{stWordFlags.length ? `, `: ''}{renderWLs(stWordFlags)}</div>
         <li><a href={`https://www.finviz.com/quote.ashx?t=${ticker}`} target="_blank">{ticker} on Finviz</a></li>
         <li><a href={`https://trends.google.com/trends/explore?date=today%201-m&geo=US&q=${ticker}%20stock`} target="_blank">{ticker} on Google Trends (last 30 days)</a></li>

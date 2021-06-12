@@ -29,6 +29,7 @@
     "react-ticker": "^1.2.2",
     "react-tradingview-widget": "^1.3.0",
     "reactjs-popup": "^1.3.2",
+    "scroll-js": "^3.4.1",
     "socket.io-client": "^2.2.0"
   },
   "scripts": {

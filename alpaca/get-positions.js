@@ -463,7 +463,7 @@ module.exports = async (
     };
   });
   const withHugedown = withCurrentActions.map(position => {
-    const hugeDown = Boolean(
+    const hugeDown = position.unrealizedPlPc < -2 && Boolean(
       position.buyMult > 5 ||
       position.zScoreSum > 80 ||
       (position.zScoreSum > 40 && position.zScoreFinal > 3)

@@ -110,7 +110,8 @@ const runScan = async ({
           buy.quote.currentPrice, 
           !irregularHours ? buy.quote.prevClose : buy.quote.lastTradePrice
         ),
-        tsh: getTrend(buy.quote.currentPrice, buy.fundamentals.high)
+        tsh: getTrend(buy.quote.currentPrice, buy.fundamentals.high),
+        tsl: getTrend(buy.quote.currentPrice, buy.fundamentals.low),
       }
     }))
     .map(buy => ({

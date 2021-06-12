@@ -15,7 +15,11 @@ module.exports = positions =>
         position.zScoreSum /= 2;
         negatives.push('has bad words');
       }
-      const { tsc } = get(position.scan, 'computed', {});
+      const { tsc, tsl } = get(position.scan, 'computed', {});
+      if (tsl > 10) {
+        position.zScoreSum /= 1.5;
+        negatives.push('trended > 10% since low of day');
+      }
       const tscBreakdowns = {
         20: 4,
         10: 3,

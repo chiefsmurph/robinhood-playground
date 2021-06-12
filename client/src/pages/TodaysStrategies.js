@@ -6,6 +6,15 @@ import { avgArray, percUp, sumArray } from '../utils/array-math';
 import Pick from '../components/Pick';
 import TrendPerc from '../components/TrendPerc';
 import { partition, pick, sortBy, mapObject } from 'underscore';
+import { scrollTo } from 'scroll-js';
+
+const scrollPage = async () => {
+    const { scrollHeight } = document.body;
+    return scrollTo(document.body, {
+        top: scrollHeight,
+        duration: scrollHeight * 4
+    });
+};
 
 class TodaysStrategies extends Component {
   state = { picks: [], relatedPrices: {}, pmFilter: 'forPurchase', pastData: {}, predictionModels: {}, afterHoursEnabled: true, sortBy: 'timestamp', additionalFilters: '' };
@@ -25,8 +34,23 @@ class TodaysStrategies extends Component {
   componentDidMount() {
     this.setState(
         JSON.parse(window.localStorage.getItem('TodaysStrategies'))
-    )
+    );
+    if (window.location.href.includes('forcePage')) {
+        this.scheduleScroll();
+    }
   }
+  getScrollTimeout = () => 1000 * (20 + (Math.random() * 120));
+  scheduleScroll = () => {
+    setTimeout(() => this.startScrolling(), this.getScrollTimeout());
+  }
+  startScrolling = async () => {
+    await scrollPage();
+    window.scroll({
+        top: 0,
+        behavior: 'smooth'
+    });
+    this.scheduleScroll();
+  };
   setStateOfProp = prop => event => this.setState({ [prop]: event.target.value });
   toggleAfterHours = () => this.setState({ afterHoursEnabled: !this.state.afterHoursEnabled });
   addToFilter = ticker => {

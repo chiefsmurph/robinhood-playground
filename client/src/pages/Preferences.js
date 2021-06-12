@@ -122,8 +122,8 @@ class Preferences extends Component {
           <li><a onClick={pd((evt) => {
             const ticker = window.prompt('Enter a ticker or leave blank');
             console.log({ ticker });
-            this.act('notifyBig', { ticker })(evt);
-          })} href="#">Notify Big</a></li>
+            this.act('notifyHugeDown', { ticker })(evt);
+          })} href="#">Notify Huge Down</a></li>
 
           <li><a onClick={pd((evt) => {
             const amt = window.prompt('Enter a $ amount');
