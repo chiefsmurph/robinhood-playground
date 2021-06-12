@@ -43,7 +43,7 @@
     "request-promise": "^4.2.2",
     "retriable-promise": "^1.0.0",
     "robinhood": "^1.6.0",
-    "socket.io": "^2.0.4",
+    "socket.io": "^2.4.0",
     "string-similarity": "^1.2.0",
     "technicalindicators": "^1.1.12",
     "twitter": "^1.7.1",
