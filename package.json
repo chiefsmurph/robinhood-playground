@@ -30,7 +30,7 @@
     "http": "0.0.0",
     "js-combinatorics": "^0.5.3",
     "json2xls": "^0.1.2",
-    "mongoose": "5.3.1",
+    "mongoose": "5.7.5",
     "mz": "^2.7.0",
     "nodemailer": "^4.6.4",
     "pm2": "^3.5.0",
