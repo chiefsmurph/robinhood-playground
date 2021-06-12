@@ -49,4 +49,4 @@ const getAssociatedStrategies = async ({
     return withStrategies;
 };
 
-module.exports = getAssociatedStrategies;
+export default getAssociatedStrategies;

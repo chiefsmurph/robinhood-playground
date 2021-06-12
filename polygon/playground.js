@@ -11,7 +11,7 @@ const getTickersOfInterest = require('./get-tickers-of-interest');
 
 const { mapObject } = require('underscore');
 
-module.exports = async (ticker = 'AAPL') => {
+export default async (ticker = 'AAPL') => {
 
 
   console.log(

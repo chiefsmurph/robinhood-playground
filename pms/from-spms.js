@@ -30599,7 +30599,7 @@ const spms = [
       }
 ]
 
-module.exports = async Robinhood => {
+export default async Robinhood => {
 
     const analyzeSPM = spm => {
         const { anyCountPerfectos } = spm;

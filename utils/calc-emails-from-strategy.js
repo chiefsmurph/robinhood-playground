@@ -27,4 +27,4 @@ const calcEmailsFromStrategy = async (_, strategy) => {
     return emailsToSend;
 };
 
-module.exports = calcEmailsFromStrategy;
+export default calcEmailsFromStrategy;

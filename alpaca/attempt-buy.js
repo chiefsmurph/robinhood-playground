@@ -80,4 +80,4 @@ const alpacaAttemptBuy = async ({ ticker, quantity, pickPrice, strategy, fallbac
 
 };
 
-module.exports = alpacaAttemptBuy;
+export default alpacaAttemptBuy;

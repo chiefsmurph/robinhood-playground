@@ -76,4 +76,4 @@ schema.statics.getRecentPicksForTicker = async function({
 };
 
 const Pick = mongoose.model('Pick', schema, 'picks');
-module.exports = Pick;
+export default Pick;

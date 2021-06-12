@@ -10,7 +10,7 @@ const inDt = async (ticker) => {
     return foundInDT;
 };
 
-module.exports = async (ticker) => {
+export default async (ticker) => {
 
     const inTransactions = async () => {
         const transactions = await loadAllTransactionsSince(1);

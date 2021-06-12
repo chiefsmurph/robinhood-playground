@@ -6,7 +6,7 @@ const tiingoHistoricals = require('../realtime/historicals/tiingo');
 const { partition } = require('underscore');
 const { sumArray } = require('../utils/array-math');
 
-module.exports = async (groupByDay, numDays = Number.POSITIVE_INFINITY, excludeActual) => {
+export default async (groupByDay, numDays = Number.POSITIVE_INFINITY, excludeActual) => {
 
 
   const { SPY: thirtyHistoricals } = await tiingoHistoricals(['SPY'], 30, 360);

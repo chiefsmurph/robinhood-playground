@@ -18,4 +18,4 @@ const cancelAllOrders = async () => {
     }
 };
 
-module.exports = cancelAllOrders;
+export default cancelAllOrders;

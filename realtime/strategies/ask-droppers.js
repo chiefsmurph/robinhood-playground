@@ -11,7 +11,7 @@ const isOvernight = allPrices => {
 };
 
 
-module.exports = {
+export default {
     period: [5, 10],
     disabled: true,
     collections: ['spy', 'options', 'fitty', 'lowVolFitty', 'zeroToOne', 'oneToTwo', 'twoToFive', 'fiveToTen'],

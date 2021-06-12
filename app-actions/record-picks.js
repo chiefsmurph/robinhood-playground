@@ -347,7 +347,7 @@ const handlePick = async (strategy, min, withPrices, { keys, data }) => {
 
 
 
-module.exports = async (strategy, min, toPurchase, trendKey = '', { keys, data } = {}) => {
+export default async (strategy, min, toPurchase, trendKey = '', { keys, data } = {}) => {
     const isNotRegularHours = min < 0 || min > 390;
 
     const record = async (stocks, strategyName, tickerLookups) => {

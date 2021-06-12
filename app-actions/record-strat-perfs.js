@@ -65,7 +65,7 @@ const analyzeDay = async (day) => {
 
 };
 
-module.exports = {
+export default {
     analyzeDay,
     default: async (min) => {
 

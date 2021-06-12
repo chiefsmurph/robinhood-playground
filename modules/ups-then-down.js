@@ -111,4 +111,4 @@ const upsThenDowns = {
 };
 
 
-module.exports = upsThenDowns;
+export default upsThenDowns;

@@ -1,4 +1,4 @@
-module.exports = position => {
+export default position => {
   const { 
     ticker,
     daysOld, 

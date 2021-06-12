@@ -46,7 +46,7 @@ const scrapeStockInvest = async (browser, url) => {
         .map(result => result.ticker);
 };
 
-module.exports = {
+export default {
     config,
     scrapeFn: async (browser, url) => {
         if (stockinvestapi) {

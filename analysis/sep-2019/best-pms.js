@@ -1,6 +1,6 @@
 const allPmAnalysis = require('./all-pm-analysis');
 
-module.exports = async () => {
+export default async () => {
   const pmAnalysis = await allPmAnalysis();
   return pmAnalysis
     .filter(perf => {

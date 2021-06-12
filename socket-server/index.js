@@ -99,7 +99,7 @@ app.get('/by-date-analysis', async (req, res) => {
 });
 
 
-module.exports = new Promise(resolve => {
+export default new Promise(resolve => {
 
     const server = app.listen(port, async () => {
         await stratManager.init({ io });

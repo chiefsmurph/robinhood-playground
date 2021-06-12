@@ -1,6 +1,6 @@
 const tiingoHistoricals = require('../realtime/historicals/tiingo');
 
-module.exports = async () => {
+export default async () => {
   console.log(
     await tiingoHistoricals(
       ['SPY'],

@@ -1,6 +1,6 @@
 const stratManager = require('../socket-server/strat-manager');
 
-module.exports = async Robinhood => {
+export default async Robinhood => {
     await stratManager.init();
     // setTimeout(() => {
         console.log(

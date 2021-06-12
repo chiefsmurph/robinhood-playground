@@ -5,7 +5,7 @@ const DONT_INCLUDE = [];
 
 
 
-module.exports = async () => {
+export default async () => {
   const todaysPicks = await Pick.find(
       { date: '1-27-2020' },
       { data: 0 }

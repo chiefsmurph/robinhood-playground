@@ -83,7 +83,7 @@ const getKST = (values, ticker) => {
 };
 
 
-module.exports = {
+export default {
     period: [10, 30],
     collections: ['hotSt'],
     disabled: true,

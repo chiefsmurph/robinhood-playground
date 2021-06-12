@@ -18,7 +18,7 @@ const getStocktwitsSentiment = require('../utils/get-stocktwits-sentiment');
 
 const runScan = require('../scans/base/run-scan');
 
-module.exports = async () => {
+export default async () => {
   // const top100 = await getRhStocks('100-most-popular');
   // strlog({ top100});
 

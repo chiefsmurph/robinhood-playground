@@ -73,7 +73,7 @@ const postBearish = (ticker, strategy) =>
 const postBullish = (ticker, strategy) =>
     postPublicAndRoom(ticker, strategy, 'bullish', true);   // dont post public
 
-module.exports = {
+export default {
     getProxy,
     getToken,
     postBearish,

@@ -23,7 +23,7 @@ const addToDailyTransactions = async data => {
 };
 
 
-module.exports = ({ ticker, quantity }) => {
+export default ({ ticker, quantity }) => {
 
     return new Promise(async (resolve, reject) => {
 

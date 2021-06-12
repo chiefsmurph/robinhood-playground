@@ -10,4 +10,4 @@ const lookupIpLocation = cacheThis(async ip => {
   return `${city}, ${region_code}`;
 }, Number.POSITIVE_INFINITY);
 
-module.exports = lookupIpLocation;
+export default lookupIpLocation;

@@ -6,7 +6,7 @@ const stratPerfToday = require('./strategy-perf-today');
 const { avgArray } = require('../utils/array-math');
 // const strategiesEnabled = require('../strategies-enabled');
 
-module.exports = async () => {
+export default async () => {
     const overall = await stratPerfOverall(false, 6, 4);
     const today = await stratPerfToday();
     console.log(overall, today);

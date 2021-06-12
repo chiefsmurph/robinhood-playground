@@ -74,4 +74,4 @@ const spread = {
     // run: [58, 123, 202],
 };
 
-module.exports = spread;
+export default spread;

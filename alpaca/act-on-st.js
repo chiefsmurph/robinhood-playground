@@ -12,7 +12,7 @@ const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
 const { registerNewStrategy } = require('../app-actions/buys-in-progress');
 
-module.exports = async () => {
+export default async () => {
 
   if (disableActOnSt) return log('act on st disabled');
 

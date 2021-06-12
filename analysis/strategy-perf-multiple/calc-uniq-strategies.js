@@ -1,4 +1,4 @@
-module.exports = stratObj => {
+export default stratObj => {
     const stratNames = [];
     Object.keys(stratObj).forEach(date => {
         Object.keys(stratObj[date]).forEach(timeKey => {

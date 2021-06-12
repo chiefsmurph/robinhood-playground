@@ -184,4 +184,4 @@ const getBasedOnRecentPicks = async () => {
 // };
 
 
-module.exports = getBasedOnRecentPicks;
+export default getBasedOnRecentPicks;

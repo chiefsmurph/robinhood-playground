@@ -1,6 +1,6 @@
 let i = 0;
 
-module.exports = {
+export default {
   collections: [
     // 'options',
     'options',

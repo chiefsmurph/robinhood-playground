@@ -20,7 +20,7 @@ const getSpmDates = async () => {
   // return require(`../json/strat-perf-multiples/${sortedFiles[0]}`)
 };
 
-module.exports = async (
+export default async (
   daysToConsider = DAYS_TO_CONSIDER, 
   daysToSkip = DAYS_TO_SKIP
 ) => {

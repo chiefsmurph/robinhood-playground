@@ -2,7 +2,7 @@ const buysInProgress = {};
 const timeouts = {};
 const { get } = require('underscore');
 
-module.exports = {
+export default {
     
     registerNewStrategy: (ticker, strategy) => {
         buysInProgress[ticker] = [

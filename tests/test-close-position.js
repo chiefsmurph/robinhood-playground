@@ -1,7 +1,7 @@
 const Holds = require('../models/Holds');
 const ClosedPositions = require('../models/Holds/ClosedPositions');
 
-module.exports = async (ticker = 'WAFU') => {
+export default async (ticker = 'WAFU') => {
   console.log(await (await Holds.findOne({ ticker })).closePosition())
   console.log(ClosedPositions.findOne({ ticker }).lean())
   // const theHold = await Holds.findOneAndUpdate(

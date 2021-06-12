@@ -29,7 +29,7 @@ const spraySell = require('../alpaca/spray-sell');
 const randomString = () => Math.random().toString(36).substring(7);
 
 
-module.exports = class PositionWatcher {
+export default class PositionWatcher {
   constructor({ 
     ticker,
     initialTimeout = INITIAL_TIMEOUT,

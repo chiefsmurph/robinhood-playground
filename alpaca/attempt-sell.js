@@ -36,7 +36,7 @@ const calcLimitPrice = async ({ ticker, attemptNum, minPrice = Number.NEGATIVE_I
 };
 
 
-module.exports = async ({ ticker, quantity, fallbackToMarket }) => {
+export default async ({ ticker, quantity, fallbackToMarket }) => {
 
     // limit
     for (let attemptNum of Array(MAX_ATTEMPTS).fill(0).map((v, i) => i)) {

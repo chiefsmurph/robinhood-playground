@@ -6,7 +6,7 @@ const DONT_INCLUDE = [];
 const { isOvernight } = require('../realtime/strategies/sudden-drops');
 const { omit } = require('underscore');
 
-module.exports = async () => {
+export default async () => {
   const todaysPicks = await Pick.find(
       { date: '10-15-2019' },
   ).lean();

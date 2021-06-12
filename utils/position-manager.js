@@ -1,7 +1,7 @@
 const allPositionWatchers = {};
 const PositionWatcher = require('./PositionWatcher');
 
-module.exports = {
+export default {
   watchThis: data => {
 
     const { 

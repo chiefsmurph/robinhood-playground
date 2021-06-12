@@ -16,4 +16,4 @@ const incrementPickPoints = async (ticker, pickPoints, attemptCount = 0) => {
   }
 };
 
-module.exports = incrementPickPoints;
+export default incrementPickPoints;

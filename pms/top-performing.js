@@ -143,7 +143,7 @@ const stratPerfPredictions = async (includeToday, numDays, minCount) => {
 };
 
 
-module.exports = async () => {
+export default async () => {
     return {
         ...await predictCurrent(8),
         ...await stratPerfPredictions(true, 10, 1)

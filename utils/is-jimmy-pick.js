@@ -25,7 +25,7 @@ const checkImportantData = importantData => {
 };
 
 
-module.exports = cacheThis(async (tickers = 'BPMX') => {
+export default cacheThis(async (tickers = 'BPMX') => {
 
   tickers = Array.isArray(tickers) ? tickers : tickers.split(',');
 

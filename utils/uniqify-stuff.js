@@ -58,7 +58,7 @@ const uniqifyArrayOfStrategies = (array, strength = 0.99) => {
 
 
 
-module.exports = {
+export default {
     uniqifyArray,
     uniqifyArrayOfStrategies
 };

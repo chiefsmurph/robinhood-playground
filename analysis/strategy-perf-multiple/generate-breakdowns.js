@@ -374,7 +374,7 @@ const analyzeRoundup = allRoundup => {
 };
 
 
-module.exports = {
+export default {
     analyzeRoundup,
     runBreakdown,
     highestPlayoutFn,

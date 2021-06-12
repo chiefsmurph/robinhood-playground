@@ -1,47 +1,47 @@
 import React, { Component } from 'react';
 import './BorRecs.css';
+import _ from 'underscore';
 
 const getRSI = pick => get(pick.scan, 'computed.dailyRSI', 100);
 const trendAndSt = pick => `trend ${pick.trend}% stSent ${getSt(pick)}`;
-const _ = require('underscore');
+
+function get(obj, path, fallback) {
+    if (!obj && !path) {
+        return undefined;
+    } else {
+        var paths, nPath, remainingPath;
+
+        if (!_.isEmpty(path.match(/^\[\d\]/))) {
+            paths = path.replace(/^[\[\]]/g, '').split(/\./);
+            nPath = _.first(paths[0].replace(/\]/, ''));
+        } else {
+            paths = path.split(/[\.\[]/);
+            nPath = _.first(paths);
+        }
+
+        remainingPath = _.reduce(_.rest(paths), function(result, item) {
+            if (!_.isEmpty(item)) {
+                if (item.match(/^\d\]/)) {
+                    item = "[" + item;
+            }
+                result.push(item);
+            }
+
+            return result;
+        }, []).join('.');
+
+        if (_.isEmpty(remainingPath)) {
+            return obj ? obj[nPath] : fallback;
+        } else {
+            return _.has(obj, nPath) && _.get(obj[nPath], remainingPath);
+        }
+    }
+}
 
 
 _.mixin({
-    get: function(obj, path, fallback) {
-        if (!obj && !path) {
-            return undefined;
-        } else {
-            var paths, nPath, remainingPath;
-  
-            if (!_.isEmpty(path.match(/^\[\d\]/))) {
-                paths = path.replace(/^[\[\]]/g, '').split(/\./);
-                nPath = _.first(paths[0].replace(/\]/, ''));
-            } else {
-                paths = path.split(/[\.\[]/);
-                nPath = _.first(paths);
-            }
-  
-            remainingPath = _.reduce(_.rest(paths), function(result, item) {
-                if (!_.isEmpty(item)) {
-                    if (item.match(/^\d\]/)) {
-                        item = "[" + item;
-                }
-                    result.push(item);
-                }
-  
-                return result;
-            }, []).join('.');
-  
-            if (_.isEmpty(remainingPath)) {
-                return obj ? obj[nPath] : fallback;
-            } else {
-                return _.has(obj, nPath) && _.get(obj[nPath], remainingPath);
-            }
-        }
-    },
+    get,
 });
-
-const { get } = require('underscore');
 
 const getSt = pick => (
     get(pick.scan, 'stSent', 0) ||

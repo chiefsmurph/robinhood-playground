@@ -94,4 +94,4 @@ const firstGreens = {
     // run: [12, 190, 250, 600, -15],
 };
 
-module.exports = firstGreens;
+export default firstGreens;

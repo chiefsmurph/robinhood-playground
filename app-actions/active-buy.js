@@ -46,7 +46,7 @@ const preOrPostMarketBuy = async ({
     return limitBuyLastTrade(data);
 };
 
-module.exports = async (
+export default async (
         {
         ticker,
         strategy,   // strategy name

@@ -4,4 +4,4 @@ const getTrend = (val1, val2) => {
     return +(trendPerc.toFixed(2));
 };
 
-module.exports = getTrend;
+export default getTrend;

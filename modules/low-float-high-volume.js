@@ -179,4 +179,4 @@ const lowFloatHighVolume = {
             
 };
 
-module.exports = lowFloatHighVolume;
+export default lowFloatHighVolume;

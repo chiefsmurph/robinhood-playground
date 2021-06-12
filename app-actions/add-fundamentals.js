@@ -8,7 +8,7 @@ const chunkApi = require('../utils/chunk-api');
 const fundamentalCache = {};
 const REFRESH_CACHE = 1000 * 60;
 
-module.exports = async (trend) => {
+export default async (trend) => {
 
     const allTickers = trend.map(t => t.ticker);
     const tickersInCache = allTickers.filter(ticker =>

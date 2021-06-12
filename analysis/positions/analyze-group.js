@@ -35,4 +35,4 @@ const analyzeGroup = analyzedPositions => {
   }
 };
 
-module.exports = analyzeGroup;
+export default analyzeGroup;

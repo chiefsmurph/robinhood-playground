@@ -21,7 +21,7 @@ const calcLowVolWarning = allPrices => {
   };
 }
 
-module.exports = async () => {
+export default async () => {
   const todaysPicks = await Pick.find(
       { date: '9-25-2019' },
       // { data: 0 }

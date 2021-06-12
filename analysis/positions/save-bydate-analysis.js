@@ -25,7 +25,7 @@ const saveDateAnalysis = async byDateAnalysis => {
 
 
 
-module.exports = async () => {
+export default async () => {
 
   const allPositions = await getAllPositions();
 

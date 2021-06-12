@@ -27,7 +27,7 @@ process.on('unhandledRejection', (reason, p) => {
   // application specific logging, throwing an error, or other logic here
 });
 
-module.exports = async Robinhood => {
+export default async Robinhood => {
 
     Robinhood = await login();
     global.Robinhood = Robinhood;

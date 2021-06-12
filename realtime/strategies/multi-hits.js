@@ -1,6 +1,6 @@
 const Combinatorics = require('js-combinatorics');
 
-module.exports = {
+export default {
   disabled: true,
   postRun: picks => {
 

@@ -10,7 +10,7 @@ const NUM_DAYS = [
     52
 ];
 
-module.exports = async (dollars, ...strategies) => {
+export default async (dollars, ...strategies) => {
 
     // strategies = manual.lilMore;
 

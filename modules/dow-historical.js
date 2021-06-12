@@ -127,4 +127,4 @@ const dowHistorical = {
     // run: [13, 73, 196],
 };
 
-module.exports = dowHistorical;
+export default dowHistorical;

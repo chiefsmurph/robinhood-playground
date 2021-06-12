@@ -1,7 +1,7 @@
 const getPositions = require('./get-positions');
 const { continueDownForDays } = require('../settings');
 
-module.exports = async () => {
+export default async () => {
   const positions = await getPositions();
   const underDaysOld = positions.filter(({ daysOld }) => daysOld <= continueDownForDays);
   const suddenDrops = underDaysOld.filter(({ interestingWords = [] }) => interestingWords.includes('sudden'));

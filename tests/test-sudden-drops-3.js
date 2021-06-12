@@ -1,7 +1,7 @@
 const Pick = require('../models/Pick');
 const { mapObject } = require('underscore');
 
-module.exports = async () => {
+export default async () => {
   const todaysPicks = await Pick.find(
     { 
       date: '3-10-2020',

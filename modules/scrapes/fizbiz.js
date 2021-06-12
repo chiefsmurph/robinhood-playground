@@ -36,7 +36,7 @@ const scrapeFizbiz = async (browser, url) => {
     return results;
 };
 
-module.exports = {
+export default {
     config,
     scrapeFn: scrapeFizbiz
 };

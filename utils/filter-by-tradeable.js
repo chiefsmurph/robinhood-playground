@@ -15,7 +15,7 @@ const filterByTradeable = stocks => {
     return areTradeable;
 };
 
-module.exports = {
+export default {
     isTradeable,
     filterByTradeable
 };

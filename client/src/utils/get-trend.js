@@ -4,4 +4,4 @@ const getTrend = (val1, val2, noFix) => {
     return !noFix ? +(trendPerc.toFixed(2)) : trendPerc;
 };
 
-module.exports = getTrend;
+export default getTrend;

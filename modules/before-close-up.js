@@ -48,4 +48,4 @@ const beforeCloseUp = {
 };
 
 
-module.exports = beforeCloseUp;
+export default beforeCloseUp;

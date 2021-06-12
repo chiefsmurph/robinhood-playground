@@ -1,6 +1,6 @@
 const { alpaca } = require('../alpaca');
 
-module.exports = async () => {
+export default async () => {
   const orders = await alpaca.getOrders({
     status: 'all',
     after: '2020-03-20T01:25:05.281Z',

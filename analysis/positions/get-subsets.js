@@ -21,7 +21,7 @@ const bigDowner = p => straightDown60(p) || straightDown120(p);
 const spread1 = ({ interestingWords }) => interestingWords.includes('spread1');
 const { wordFlags } = require('../../settings');
 
-module.exports = positions => {
+export default positions => {
 
   const allWords = positions.map(pos => pos.interestingWords).flatten().uniq();
   console.log({ allWords})

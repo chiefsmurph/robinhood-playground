@@ -18,4 +18,4 @@ const schema = new Schema({
 });
 
 const BalanceReport = mongoose.model('BalanceReport', schema, 'balanceReport');
-module.exports = BalanceReport;
+export default BalanceReport;

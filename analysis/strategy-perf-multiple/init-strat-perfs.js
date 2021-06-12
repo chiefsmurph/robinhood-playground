@@ -4,7 +4,7 @@ const jsonMgr = require('../../utils/json-mgr');
 const { avgArray } = require('../../utils/array-math');
 const StratPerf = require('../../models/StratPerf');
 
-module.exports = async (daysBack, skipDays = 0) => {
+export default async (daysBack, skipDays = 0) => {
 
     console.log('initing strat-perfs')
 

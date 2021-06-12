@@ -37,4 +37,4 @@ schema.statics.getByDate = cacheThis(
 );
 
 const StratPerf = mongoose.model('StratPerf', schema, 'stratPerfs');
-module.exports = StratPerf;
+export default StratPerf;

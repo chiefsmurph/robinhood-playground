@@ -55,7 +55,7 @@ const getRSI = values => {
 };
 
 
-module.exports = new (class RealtimeRunner {
+export default new (class RealtimeRunner {
   
 
   constructor(disabled = false) {

@@ -4,7 +4,7 @@ const saveJSON = async (fileName, obj) => {
 
 const predictSuddenCount = require('../utils/predict-sudden-count');
 
-module.exports = async (amt) => {
+export default async (amt) => {
   amt = amt ? Number(amt) : null;
   const predictions = await predictSuddenCount(undefined, -1);
   strlog({ predictions})

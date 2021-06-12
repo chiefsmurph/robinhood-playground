@@ -1,6 +1,6 @@
 const stratPerfMultiple = require('../strategy-perf-multiple');
 
-module.exports = async () => {
+export default async () => {
   for (skipDays of [...Array(10).keys()].map(i => ++i)) {
     console.log('repopulating spm...')
     strlog({

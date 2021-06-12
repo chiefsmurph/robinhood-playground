@@ -16,7 +16,7 @@ const addToDailyTransactions = async data => {
     await jsonMgr.save(fileName, curTransactions);
 };
 
-module.exports = async ({ 
+export default async ({ 
     ticker, 
     quantity 
 }) => {

@@ -7,7 +7,7 @@ const rhHistoricals = require('./robinhood');
 const tiingoHistoricals = require('./tiingo');
 const dailyHistoricals = require('./daily');
 
-module.exports = async (tickers, period, daysBack, includeAfterHours) => {
+export default async (tickers, period, daysBack, includeAfterHours) => {
 
   console.log({ tickers, period, daysBack, includeAfterHours })
   const historicalMethods = {

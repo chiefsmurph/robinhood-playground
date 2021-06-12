@@ -22,4 +22,4 @@ const schema = new Schema({
 });
 
 const DateAnalysis = mongoose.model('DateAnalysis', schema, 'dateAnalysis');
-module.exports = DateAnalysis;
+export default DateAnalysis;

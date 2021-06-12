@@ -26,7 +26,7 @@ for example....
 
 create a config.js file that exports an object
 ```
-module.exports = {
+export default {
     credentials: {
       username: 'robinhoodusername',
       password: 'robinhoodpassword'

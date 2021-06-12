@@ -216,7 +216,7 @@ const trendFilter = async (trend) => {
 
 };
 
-module.exports = {
+export default {
     name: 'new-highs',
     trendFilter,
     run: [0, 90]

@@ -21,4 +21,4 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
 };
 
 
-module.exports = notifyHugeDown;
+export default notifyHugeDown;

@@ -70,7 +70,7 @@ const scans = [
   'unfiltered',
 ];
 
-module.exports = async () => {
+export default async () => {
 
   let picks = [];
   for (let scan of scans) {

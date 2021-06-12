@@ -2,7 +2,7 @@ const Pick = require('../models/Pick');
 const { difference, partition } = require('underscore');
 const cachedPositions = require('../utils/cached-positions');
 
-module.exports = async (_, pennyPicks) => {
+export default async (_, pennyPicks) => {
 
 
   // what to buy

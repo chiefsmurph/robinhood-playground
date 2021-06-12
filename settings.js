@@ -21,7 +21,7 @@ let expectedPickCount = 0;
 // };
 
 
-module.exports = {
+export default {
     // important settings
 
     wordFlags: ['split', 'reverse split', 'rocket', 'offering', 'delist', 'breakthrough', 'bankrupt', 'bankruptcy', 'coronavirus'],

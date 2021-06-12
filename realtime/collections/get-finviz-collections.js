@@ -59,4 +59,4 @@ const getFinvizCollections = async () => {
   }), {});
 };
 
-module.exports = getFinvizCollections;
+export default getFinvizCollections;

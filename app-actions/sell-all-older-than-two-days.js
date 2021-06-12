@@ -9,7 +9,7 @@ const daysBetween = (firstDate, secondDate) => {
     return diffDays;
 };
 
-module.exports = async Robinhood => {
+export default async Robinhood => {
     const nonzero = await detailedNonZero();
     const withAge = nonzero.map(pos => ({
         ...pos,

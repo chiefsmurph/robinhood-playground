@@ -544,4 +544,4 @@ const finalize = (array, detailed) => {
 
 
 
-module.exports = runScan;
+export default runScan;

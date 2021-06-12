@@ -24,7 +24,7 @@ const spread1 = ({ interestingWords }) => interestingWords.includes('spread1');
 
 const wordFlags = ['split', 'reverse split', 'rocket', 'offering', 'delist', 'breakthrough', 'bankrupt', 'bankruptcy', 'coronavirus'];
 
-module.exports = positions => {
+export default positions => {
 
     const allWords = positions.map(pos => pos.interestingWords).flatten().uniq();
     // console.log({ allWords})

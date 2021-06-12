@@ -8643,7 +8643,7 @@ const allKSTwatchers = [
 
 const late = ['brunch', 'lunch', 'dinner'];
 
-module.exports = {
+export default {
   allKSTwatchers,
   kstFirstAlerts: allKSTwatchers.filter(strat => strat.includes('firstAlert')),
   kstFirstAlertsIsLow: allKSTwatchers.filter(strat => strat.includes('firstAlert') && strat.includes('isLow')),

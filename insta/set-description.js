@@ -17,7 +17,7 @@ const initBrowser = async () => {
     })();
 };
 
-module.exports = async (description = `my new description ${Date.now()}`) => {
+export default async (description = `my new description ${Date.now()}`) => {
 
     if (!browser) await initBrowser();
 

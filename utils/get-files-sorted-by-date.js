@@ -8,4 +8,4 @@ const getFilesSortedByDate = async jsonFolder => {
         .reverse();
 };
 
-module.exports = getFilesSortedByDate;
+export default getFilesSortedByDate;

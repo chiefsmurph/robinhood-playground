@@ -23,7 +23,7 @@ const getBuyTickers = async () => {
 };
 
 const MIN_POSITIONS = 40;
-module.exports = async amt => {
+export default async amt => {
 
   // return log('ERROR: SHOULDNT BE HEsRE...FORCE DISABLE MAKE FUNDS AVAILABLE WHAT THE HECK')
   if (amt <= 3) {

@@ -5,7 +5,7 @@ const cacheThis = require('../utils/cache-this');
 
 const MAX_PRICE = 12;
 
-module.exports = cacheThis(async () => {
+export default cacheThis(async () => {
   const iexEverything = JSON.parse(await request(`https://api.tiingo.com/iex/?token=${token}`));
   const cheapPriced = iexEverything.filter(({ tngoLast }) => tngoLast < MAX_PRICE);
   const tickers = cheapPriced.map(t => t.ticker);

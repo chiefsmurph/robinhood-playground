@@ -6,7 +6,7 @@ const simpleSell = require('./simple-sell');
 const sendEmail = require('../utils/send-email');
 const { sellAllStocksOnNthDay } = require('../settings');
 
-module.exports = async (dontSell) => {
+export default async (dontSell) => {
     let nonZero = await detailedNonZero();
     nonZero = nonZero.filter(pos => !keepers.includes(pos.ticker));
 

@@ -18,4 +18,4 @@ const recursiveUrl = async (callUrl) => {
     return allResults;
 };
 
-module.exports = recursiveUrl;
+export default recursiveUrl;

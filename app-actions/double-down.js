@@ -4,7 +4,7 @@ const detailedNonZero = require('./detailed-non-zero');
 const simpleBuy = require('./simple-buy');
 const sendEmail = require('../utils/send-email');
 
-module.exports = async (minute, minPercDown = 10) => {
+export default async (minute, minPercDown = 10) => {
     console.log(`${minute} doubling down on stocks bought today and are already down ${minPercDown}%`);
     let nonzero = await detailedNonZero();
     const dateStr = (new Date()).toLocaleDateString().split('/').join('-');

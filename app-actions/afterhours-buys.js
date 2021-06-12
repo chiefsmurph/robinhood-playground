@@ -5,7 +5,7 @@ const lookup = require('../utils/lookup');
 const alpacaCancelAllOrders = require('../alpaca/cancel-all-orders');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
-module.exports = async (_, dontAct) => {
+export default async (_, dontAct) => {
 
   const { onlyUseCash } = await getPreferences();
 

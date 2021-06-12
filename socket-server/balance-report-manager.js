@@ -133,7 +133,7 @@ const stop = () => {
     timeout = null;
 };
 
-module.exports = {
+export default {
     init,
     start,
     stop,

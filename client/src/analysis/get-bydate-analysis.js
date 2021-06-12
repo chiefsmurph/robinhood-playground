@@ -1,7 +1,7 @@
-const { groupBy, mapObject } = require('underscore');
-const analyzeGroup = require('./analyze-group');
+import { groupBy, mapObject } from 'underscore';
+import analyzeGroup from './analyze-group';
 
-module.exports = positions => {
+export default positions => {
   const byDate = groupBy(positions.filter(position => position.date), 'date');
   const byDateAnalysis = Object.keys(byDate).map(date => {
     const datePositions = byDate[date];

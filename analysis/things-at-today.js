@@ -3,7 +3,7 @@ const lookupMultiple = require('../utils/lookup-multiple');
 const getTrend = require('../utils/get-trend');
 const { avgArray } = require('../utils/array-math');
 
-module.exports = async (date, strat) => {
+export default async (date, strat) => {
     console.log({ strat, date })
     const allFound = await Pick.find({
         date,

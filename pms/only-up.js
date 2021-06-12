@@ -1,4 +1,4 @@
-module.exports = [
+export default [
     "only-up-365-percUp-4",
     "only-up-365-percUp-95",
     "only-up-365-percUp-180",

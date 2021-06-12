@@ -1,7 +1,7 @@
 const theBigLebowski = require('./the-big-lebowski');
 const pmJson = require('./pm-json');
 
-module.exports = async () => {
+export default async () => {
 
   const lebowskiPms = (
     await theBigLebowski(20)

@@ -80,7 +80,7 @@ const onEnd = allPicks => {
 
 
 
-module.exports = {
+export default {
     name: 'ticker-watchers',
     init: async () => {
 
@@ -229,7 +229,7 @@ module.exports = {
 
 
 
-// module.exports = {
+// export default {
 //     name: 'quick-drops',
 //     crons: 
 

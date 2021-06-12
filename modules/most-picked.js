@@ -105,4 +105,4 @@ const mostPicked = {
     }
 };
 
-module.exports = mostPicked;
+export default mostPicked;

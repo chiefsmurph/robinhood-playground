@@ -2,7 +2,7 @@ const tiingoHistoricals = require('../realtime/historicals/tiingo');
 const rhHistoricals = require('../realtime/historicals/robinhood');
 const { mapObject, pick } = require('underscore');
 
-module.exports = async (ticker = 'AMRH', period = 30) => {
+export default async (ticker = 'AMRH', period = 30) => {
   period = Number(period);
 
   const obj = {

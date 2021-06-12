@@ -32,4 +32,4 @@ const lookupMultiple = async (tickersToLookup, detailedQuote) => {
     return tickerLookups;
 };
 
-module.exports = lookupMultiple;
+export default lookupMultiple;

@@ -2,7 +2,7 @@ const alpacaLimitBuy = require('../alpaca/limit-buy');
 const Pick = require('../models/Pick');
 const purchaseStocks = require('../app-actions/purchase-stocks');
 
-module.exports = async () => {
+export default async () => {
   const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
   const pickObj = {
     date: dateStr, 

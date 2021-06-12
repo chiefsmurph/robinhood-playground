@@ -10,7 +10,7 @@ const { avgArray } = require('../utils/array-math');
 const getTrend = require('../utils/get-trend');
 
 
-module.exports = async () => {
+export default async () => {
 
     const getHistorical = async ticker => {
         const historicalDailyUrl = `https://api.robinhood.com/quotes/historicals/${ticker}/?interval=day`;

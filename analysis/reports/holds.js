@@ -16,7 +16,7 @@ const twoDec = roundTo(2);
 const Pick = require('../../models/Pick');
 const { force: { keep }} = require('../../settings');
 
-module.exports = async () => {
+export default async () => {
 
     const nonzero = await detailedNonZero();
     let positions = nonzero.sort((a, b) => Math.abs(b.returnDollars) - Math.abs(a.returnDollars));

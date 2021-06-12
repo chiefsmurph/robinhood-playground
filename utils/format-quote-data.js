@@ -27,4 +27,4 @@ const formatQuoteData = originalQuoteData => {
 };
 
 
-module.exports = formatQuoteData;
+export default formatQuoteData;

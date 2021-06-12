@@ -18,4 +18,4 @@ const generatePlayouts = async (strategy, buyDate) => {
     return foundTrends;
 };
 
-module.exports = generatePlayouts;
+export default generatePlayouts;

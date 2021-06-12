@@ -1,5 +1,5 @@
 const addFundamentals = require('../app-actions/add-fundamentals');
-module.exports = async (ticker) => {
+export default async (ticker) => {
     console.log({ ticker })
     let fundamentals;
     try {

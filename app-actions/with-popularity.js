@@ -1,4 +1,4 @@
-module.exports = async (withOvernightJumps) => {
+export default async (withOvernightJumps) => {
     let i = 1;
     const withPopularity = await mapLimit(withOvernightJumps, 3, async o => {
         const { quote_data, fundamentals } = o;

@@ -58,7 +58,7 @@ const smaTrendingUp = (obj, lastVal) => {
 };
 
 
-module.exports = {
+export default {
     name: 'ema-crossover-watchers',
     disableinit: async () => {
 

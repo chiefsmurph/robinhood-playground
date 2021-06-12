@@ -100,7 +100,7 @@ const getKST = (values, ticker) => {
 };
 
 
-module.exports = {
+export default {
     period: [10, 30, 'd'],
     collections: ['hotSt'],
     handler: async ({ ticker, allPrices }) => {

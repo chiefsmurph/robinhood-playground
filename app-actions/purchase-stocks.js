@@ -83,4 +83,4 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     });
 };
 
-module.exports = purchaseStocks;
+export default purchaseStocks;

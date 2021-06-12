@@ -168,4 +168,4 @@ const deriveCollections = async collections => {
 };
 
 
-module.exports = deriveCollections;
+export default deriveCollections;

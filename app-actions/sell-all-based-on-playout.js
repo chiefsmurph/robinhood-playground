@@ -35,7 +35,7 @@ const determineSingleBestPlayoutFromMultiOutput = require(
 
 // do it
 
-module.exports = async (dontActuallySellFlag) => {
+export default async (dontActuallySellFlag) => {
 
     // helper action fns
     const sellPosition = async (pos, whySelling) => {

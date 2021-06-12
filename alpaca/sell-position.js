@@ -28,7 +28,7 @@ const marketSell = require('./market-sell');
 //     ]);
 // };
 
-module.exports = async (position, numSeconds) => {
+export default async (position, numSeconds) => {
 
     let { 
         ticker, 

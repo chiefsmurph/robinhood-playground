@@ -5,7 +5,7 @@ const limitSell = require('./limit-sell');
 const STRENGTH = 1;
 const timeoutSeconds = 60 * 20;
 
-module.exports = async () => {
+export default async () => {
   
   const positions = await getPositions(true);
 

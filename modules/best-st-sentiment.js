@@ -13,7 +13,7 @@ const fieldSorter = (fields) => (a, b) => fields.map(o => {
     return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
 }).reduce((p, n) => p ? p : n, 0);
 
-module.exports = {
+export default {
     name: 'best-st-sentiment',
     trendFilter: async (trend, min, priceKey) => {
 

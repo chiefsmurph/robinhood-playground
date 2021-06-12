@@ -330,4 +330,4 @@ const addDailyHistoricals = async trend => {
 
 };
 
-module.exports = runScan;
+export default runScan;

@@ -100,4 +100,4 @@ const emaCrossover = {
     run: [18, 220],
 };
 
-module.exports = emaCrossover;
+export default emaCrossover;

@@ -8,7 +8,7 @@ const getRSI = values => {
     }) || [];
 };
 
-module.exports = {
+export default {
     period: [10, 30, 'd'],
     collections: ['fitty', 'twoToFive', 'hotSt', 'spy', 'holds'],
     handler: async ({ ticker, allPrices, collections }) => {

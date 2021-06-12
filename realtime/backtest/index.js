@@ -66,7 +66,7 @@ const sellWhen = (compareHist, buyHist, compareIndex) => {
 
 
 
-module.exports = async () => {
+export default async () => {
   let { SPY: thirtyHistoricals } = await getHistoricals(['SPY'], 30, 365);
 
 

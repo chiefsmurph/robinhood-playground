@@ -123,7 +123,7 @@ const runBasedOnRecent = async skipSetPerc => {
     return allToBuy;
 };
 
-module.exports = {
+export default {
     runBasedOnRecent,
     runArray
 };

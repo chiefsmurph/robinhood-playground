@@ -9,7 +9,7 @@ const { lookup } = require('yahoo-stocks');
 const formatQuoteData = require('./format-quote-data');
 const { alpaca } = require('../alpaca');
 
-module.exports = async (ticker) => {
+export default async (ticker) => {
     // console.log('looking up', ticker);
     // const alpacaResponse = await alpaca.lastQuote(ticker);
     // const alpacaTrade = await alpaca.lastTrade(ticker);

@@ -24,7 +24,7 @@ const getTickersBetween = async (min, max) => {
 };
 
 
-module.exports = async ({  
+export default async ({  
   minPrice = 0.5,
   maxPrice = 8
 } = {}) => {

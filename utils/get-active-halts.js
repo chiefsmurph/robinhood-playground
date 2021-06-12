@@ -6,7 +6,7 @@ function camelize(str) {
   }).replace(/\s+/g, '');
 }
 
-module.exports = async () => {
+export default async () => {
 
   const browser = await puppeteer.launch({ 
     headless: true,

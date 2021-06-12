@@ -4,7 +4,7 @@ const Pick = require('../models/Pick');
 const jsonMgr = require('../utils/json-mgr');
 const loadAllTransactionsSince = require('../rh-actions/load-all-transactions-since');
 
-module.exports = async Robinhood => {
+export default async Robinhood => {
 
     const mostRecentDate = (await Pick.getUniqueDates()).pop();
     // forPurchase strats

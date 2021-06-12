@@ -1,7 +1,7 @@
 const { sortBy } = require('underscore');
 const getMinutesFromOpen = require('../../utils/get-minutes-from-open');
 
-module.exports = {
+export default {
   disabled: true,
   postRun: (newPicks, todaysPicks, periods) => {
     if (!newPicks || !newPicks.length) return;

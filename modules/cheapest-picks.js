@@ -31,4 +31,4 @@ const cheapestPicks = {
 };
 
 
-module.exports = cheapestPicks;
+export default cheapestPicks;

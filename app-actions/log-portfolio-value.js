@@ -1,7 +1,7 @@
 // npm
 const fs = require('mz/fs');
 
-module.exports = async () => {
+export default async () => {
 
     // get portfolio value
 

@@ -18,7 +18,7 @@ const compareTwoBreakdowns = (a, b) => {
 };
 const orderBreakdownKeys = keys => keys.sort(compareTwoBreakdowns);
 
-module.exports = {
+export default {
     dayOrder,
     isBreakdownKey,
     compareTwoBreakdowns,

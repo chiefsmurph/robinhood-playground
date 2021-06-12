@@ -37,4 +37,4 @@ const sellAllStocks = async () => {
 
 };
 
-module.exports = sellAllStocks;
+export default sellAllStocks;

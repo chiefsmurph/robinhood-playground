@@ -41,7 +41,7 @@ const createTickerObj = async tickers => {
     }), {});
 };
 
-module.exports = async (tickers, x, y, includeCurrentPrice = true) => {
+export default async (tickers, x, y, includeCurrentPrice = true) => {
 
   console.log({ tickers: tickers.length, includeCurrentPrice })
   // tickers = tickers || await getTickersBetween(80, Number.POSITIVE_INFINITY);

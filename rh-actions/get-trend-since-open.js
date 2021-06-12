@@ -166,7 +166,7 @@ const getTrendSinceOpen = {
     }
 };
 
-module.exports = async (input) => {
+export default async (input) => {
     if (Array.isArray(input)) {
         return getTrendSinceOpen.multiple(input);
     } else {

@@ -1,7 +1,7 @@
 // const login = require('../rh-actions/login');
 const getTrendAndSave = require('../app-actions/get-trend-and-save');
 
-module.exports = async () => {
+export default async () => {
     let trend = await getTrendAndSave();
     const pennies = trend
         .filter(stock => {

@@ -54,4 +54,4 @@ const addEMAs = trend => trend.map(o => ({
     },
 }));
 
-module.exports = { calcEMA, smaTrendingUp, addEMAs };
+export default { calcEMA, smaTrendingUp, addEMAs };

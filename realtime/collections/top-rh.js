@@ -15,4 +15,4 @@ const getRhStocks = async (rhTag = '100-most-popular') => {
     return top100RHtrend.map(t => t.ticker);
 };
 
-module.exports = getRhStocks
+export default getRhStocks

@@ -1,4 +1,4 @@
-module.exports = async () => {
+export default async () => {
 
   const promises = [
     new Promise(resolve => setTimeout(() => resolve(1), 1000)),

@@ -550,4 +550,4 @@ stratManager.refreshPositions = throttle(
     60000 * 2 // 2min
 );
 
-module.exports = stratManager;
+export default stratManager;

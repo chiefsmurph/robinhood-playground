@@ -144,4 +144,4 @@ const basedOnJump = {
     // run: [0, 5, 16, 30],
 };
 
-module.exports = basedOnJump;
+export default basedOnJump;

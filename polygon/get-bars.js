@@ -22,4 +22,4 @@ const getBars = async (tickers = ['DGLY'], period = '5Min') => {
   );
 };
 
-module.exports = getBars;
+export default getBars;

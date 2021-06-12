@@ -6,7 +6,7 @@ const getStSent = require('../utils/get-stocktwits-sentiment');
 const sellPosition = require('./sell-position');
 const getPositions = require('./get-positions');
 
-module.exports = async (dontSell) => {
+export default async (dontSell) => {
 
     console.log({ dontSell })
     let positions = await getPositions();

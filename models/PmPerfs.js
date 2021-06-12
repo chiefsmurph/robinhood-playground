@@ -17,4 +17,4 @@ schema.statics.getUniqueDates = async function() {
 };
 
 const PmPerfs = mongoose.model('PmPerfs', schema, 'pmPerfs');
-module.exports = PmPerfs;
+export default PmPerfs;

@@ -60,4 +60,4 @@ schema.statics.scannedToday = async function(ticker) {
 };
 
 const Log = mongoose.model('Log', schema, 'logs');
-module.exports = Log;
+export default Log;

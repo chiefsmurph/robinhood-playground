@@ -11,7 +11,7 @@ const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
 const { registerNewStrategy } = require('../app-actions/buys-in-progress');
 
-module.exports = async () => {
+export default async () => {
 
   const { actOnPercent, onlyUseCash } = await getPreferences();
 

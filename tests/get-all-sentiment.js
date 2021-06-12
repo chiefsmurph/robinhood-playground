@@ -19,7 +19,7 @@ const parseTitle = title => {
     }, Math.round);
 };
 
-module.exports = async () => {
+export default async () => {
     const allLogs = await Log.find({ title: /sentiment/ }).lean();
 
     let { SPY: historicals } = await getHistoricals(['SPY'], 30, 90);

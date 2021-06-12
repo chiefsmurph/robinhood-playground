@@ -24,7 +24,7 @@ const orderAtPrice = async ({ ticker, quantity, limitPrice }) => {
 }
     
 
-module.exports = async ({ ticker, quantity }) => {
+export default async ({ ticker, quantity }) => {
     const { askPrice, lastTrade } = await lookup(ticker);
     const atLastTrade = await orderAtPrice({ ticker, quantity, limitPrice: lastTrade });
     if (atLastTrade.filled_at) {

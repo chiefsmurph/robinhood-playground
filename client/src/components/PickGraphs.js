@@ -251,11 +251,11 @@ export default class PickGraphs extends Component {
             ? <h3>stSentiment: {JSON.stringify(stScore, null, 2)}</h3>
             : <button onClick={() => this.loadStScoreForPick(pick)}>Load stScore</button>
         }
-        {
+        {/* {
           !!Object.keys(position).length && (
             <h3>Position: {JSON.stringify(pickProp(position, ['average_buy_price', 'currentPrice', 'returnDollars', 'returnPerc', 'equity']))}</h3>
           )
-        }
+        } */}
         <h3>Quote: {JSON.stringify(pickProp(curQuote, ['currentPrice', 'askPrice', 'bidPrice', 'count']))} <TrendPerc value={getTrend(curQuote.currentPrice, pickPrice)} /></h3>
         {
           this.props.authLevel === 100 && <button onClick={() => this.slapTheAsk()}>SLAP THE ASK</button>

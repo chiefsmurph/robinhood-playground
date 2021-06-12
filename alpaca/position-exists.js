@@ -1,4 +1,4 @@
-module.exports = async ticker => {
+export default async ticker => {
   try {
     await require('./').alpaca.getPosition(ticker.toUpperCase());
     return true;

@@ -1,6 +1,6 @@
 import getSubsets from './get-subsets';
-const { groupBy, mapObject } = require('underscore');
-const analyzeGroup = require('./analyze-group');
+import { groupBy, mapObject } from 'underscore';
+import analyzeGroup from './analyze-group';
 Array.prototype.uniq = function() {
   return [...new Set(this)];
 };

@@ -1,6 +1,6 @@
 const getStSent = require('../utils/get-stocktwits-sentiment');
 
-module.exports = async (ticker, time = '12/13/2019, 6:40:06 AM') => {
+export default async (ticker, time = '12/13/2019, 6:40:06 AM') => {
 
   console.log(`finding stSent for ${ticker} at ${(new Date(time)).toLocaleString()}`)
   let lastId;

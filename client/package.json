@@ -23,7 +23,7 @@
     "react-modal": "^3.8.2",
     "react-odometerjs": "^2.1.1",
     "react-responsive-embed": "^2.1.0",
-    "react-scripts": "1.1.4",
+    "react-scripts": "2.x.x",
     "react-spinners": "^0.8.0",
     "react-tag-input": "^6.4.1",
     "react-ticker": "^1.2.2",
@@ -37,5 +37,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

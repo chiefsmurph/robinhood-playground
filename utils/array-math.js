@@ -28,7 +28,7 @@ const zScore = (arr, val) => {
     return numerator / denominator;
 };
 
-module.exports = {
+export default {
     sumArray,
     avgArray,
     percUp,

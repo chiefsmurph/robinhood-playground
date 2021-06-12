@@ -1,4 +1,4 @@
 const sendEmail = require('../utils/send-email');
-module.exports = async () => {
+export default async () => {
   await sendEmail('testing', 'body');
 }

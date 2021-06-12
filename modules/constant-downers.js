@@ -101,4 +101,4 @@ const constantRisers = {
     // run: [77, 242, 309]
 };
 
-module.exports = constantRisers;
+export default constantRisers;

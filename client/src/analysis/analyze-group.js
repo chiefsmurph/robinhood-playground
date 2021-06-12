@@ -1,4 +1,4 @@
-const { sumArray, avgArray, percUp } = require('../utils/array-math');
+import { sumArray, avgArray, percUp } from '../utils/array-math';
 Array.prototype.flatten = function() {
     return [].concat(...this);
 };
@@ -33,4 +33,4 @@ const analyzeGroup = analyzedPositions => {
     };
 };
 
-module.exports = analyzeGroup;
+export default analyzeGroup;

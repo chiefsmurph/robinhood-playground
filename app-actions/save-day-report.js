@@ -17,7 +17,7 @@ const oneDec = roundTo(1);
 const twoDec = roundTo(2);
 
 
-module.exports = async (min = 515) => {
+export default async (min = 515) => {
 
     const todaysDate = (await getFilesSortedByDate('prediction-models'))[0];
     console.log(`Creating report for ${todaysDate} @ ${min} minutes`);

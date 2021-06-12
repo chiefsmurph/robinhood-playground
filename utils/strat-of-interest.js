@@ -20,7 +20,7 @@ const functionMatches = [
     },
 
 ];
-module.exports = (strat, numPicks) => {
+export default (strat, numPicks) => {
     return true;    // for now every logged strat
     const matchesExact = () => exactMatches.includes(strat);
     const matchesKeyword = () => keywordMatches.some(

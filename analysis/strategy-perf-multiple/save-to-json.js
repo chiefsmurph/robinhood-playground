@@ -2,7 +2,7 @@ const jsonMgr = require('../../utils/json-mgr');
 const getFilesSortedByDate = require('../../utils/get-files-sorted-by-date');
 const StratPerf = require('../../models/StratPerf');
 
-module.exports = async (json, fileName) => {
+export default async (json, fileName) => {
     
     fileName = fileName || (await StratPerf.getUniqueDates()).pop();
     // console.log({ fileName });

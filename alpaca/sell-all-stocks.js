@@ -1,7 +1,7 @@
 const getPositions = require('./get-positions');
 const sellPosition = require('./sell-position');
 
-module.exports = async () => {
+export default async () => {
   const percToSell = 3;
   await log(`selling all stocks: ${percToSell}%`);
   let positions = await getPositions();

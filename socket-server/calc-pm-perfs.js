@@ -1,3 +1,3 @@
-module.exports = (relatedPrices, predictionModels) => {
+export default (relatedPrices, predictionModels) => {
 
 };

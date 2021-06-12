@@ -1,7 +1,7 @@
 const lookup = require('../utils/lookup');
 const limitBuyMultiple = require('./limit-buy-multiple');
 
-module.exports = async (ticker, totalAmtToSpend = 20) => {
+export default async (ticker, totalAmtToSpend = 20) => {
   const { currentPrice } = await lookup(ticker);
   console.log(`buying ${ticker} $${totalAmtToSpend} @ $${currentPrice}`)
   return limitBuyMultiple({

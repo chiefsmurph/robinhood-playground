@@ -1,6 +1,6 @@
 const limitBuyMultiple = require('../app-actions/limit-buy-multiple');
 
-module.exports = async () => {
+export default async () => {
 
   await limitBuyMultiple({
     ticker: 'BPMX',

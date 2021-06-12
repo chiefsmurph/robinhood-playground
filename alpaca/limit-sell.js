@@ -53,4 +53,4 @@ const limitSell = async ({
 
 };
 
-module.exports = limitSell;
+export default limitSell;

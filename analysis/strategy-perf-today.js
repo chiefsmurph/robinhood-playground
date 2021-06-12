@@ -5,7 +5,7 @@ const login = require('../rh-actions/login');
 const { analyzeDay } = require('../app-actions/record-strat-perfs');
 const Pick = require('../models/Pick');
 
-module.exports = async () => {
+export default async () => {
     let sortedDates = await Pick.getUniqueDates();
 
     console.log(sortedDates);

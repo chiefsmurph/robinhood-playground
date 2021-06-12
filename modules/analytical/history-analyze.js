@@ -15,7 +15,7 @@ const strategy = require('./strategy');
 
 
 
-module.exports = {
+export default {
     trendFilter: async (trend) => {
 
         const addTrendWithHistoricals = async (trend, interval, span) => {

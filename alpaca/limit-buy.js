@@ -56,4 +56,4 @@ const alpacaLimitBuy = async ({
 
 };
 
-module.exports = alpacaLimitBuy;
+export default alpacaLimitBuy;

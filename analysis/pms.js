@@ -3,7 +3,7 @@ const jsonMgr = require('../utils/json-mgr');
 const { avgArray } = require('../utils/array-math');
 const stratManager = require('../socket-server/strat-manager');
 
-module.exports = async (daysBack, minCount = 2, includeToday = true, ...searchString) => {
+export default async (daysBack, minCount = 2, includeToday = true, ...searchString) => {
     daysBack = typeof daysBack !== undefined ? Number(daysBack) : 5;
 
     let files = await fs.readdir('./json/pm-perfs');

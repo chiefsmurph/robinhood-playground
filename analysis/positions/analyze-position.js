@@ -100,4 +100,4 @@ const analyzePosition = async position => {
   return mapObject(analyzed, (v, k) => numericProperties.includes(k) ? Number(v) : v);
 };
 
-module.exports = analyzePosition;
+export default analyzePosition;

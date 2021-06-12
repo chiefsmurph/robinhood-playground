@@ -3,7 +3,7 @@ const Pick = require('../models/Pick');
 const { avgArray } = require('../utils/array-math');
 const { pick } = require('underscore');
 
-module.exports = async (numDays = 10, ...words) => {
+export default async (numDays = 10, ...words) => {
   const daysOfInterest = (await Pick.getUniqueDates()).slice(0 - numDays);
   strlog({ daysOfInterest })
   const matches = await StratPerf

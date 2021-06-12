@@ -1,7 +1,7 @@
 const { groupBy, mapObject } = require('underscore');
 const analyzeGroup = require('./analyze-group');
 
-module.exports = positions => {
+export default positions => {
   const allDates = positions.map(pos => pos.date).uniq();
   const lastFive = allDates.slice(0, 5);
   // strlog({ allDates, lastFive })
