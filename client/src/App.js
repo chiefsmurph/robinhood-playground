@@ -228,7 +228,7 @@ class App extends Component {
         value: 0,
         socket: null,
         tags: ['notManual', 'lastTen'].map(createTag),
-        authLevel: 100,
+        authLevel: 0,
         onlyRegHrs: false,
         lowKey: true,
         hiddenFields: window.location.href.includes('balance') ? [] : ['btc'],
@@ -524,7 +524,7 @@ class App extends Component {
                 <AppBar position="static">
                     <Toolbar>
                         <Typography variant="title" color="inherit">
-                            chiefsmurph's stock <a href="#" onClick={this.auth} style={{ color: 'orange' }}>picks</a><br/>
+                            chiefsmurph's stock <a href="#" onClick={this.auth} style={{ color: 'orange' }}>picks</a><br/>{authLevel}
                             {/* <a href="https://github.com/chiefsmurph/robinhood-playground" target='_blank' style={{ color: 'darkorange', fontSize: '80%'}}>
                                 https://github.com/chiefsmurph/robinhood-playground
                             </a> */}
