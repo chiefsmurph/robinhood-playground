@@ -133,4 +133,4 @@ const analyzeStrategy = ({
 
 };
 
-export default analyzeStrategy;
+module.exports = analyzeStrategy;

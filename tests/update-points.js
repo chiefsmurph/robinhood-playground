@@ -1,7 +1,7 @@
 
 const Hold = require('../models/Holds');
 
-export default async () => {
+module.exports = async () => {
   
   await Hold.updateOne(
     { ticker: 'SNDL' },

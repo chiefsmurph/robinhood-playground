@@ -4,7 +4,7 @@ const { force: { keep }} = require('../settings');
 const howMuchBoughtToday = require('./how-much-bought-today');
 const alreadyBoughtToday = require('../rh-actions/already-bought-today');
 
-export default async (_, ticker, dontSell) => {
+module.exports = async (_, ticker, dontSell) => {
     const boughtToday = await howMuchBoughtToday(_, ticker) || 0;
     if (boughtToday > 0) {
         throw 'already bought today: ' + ticker;

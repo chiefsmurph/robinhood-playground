@@ -1,5 +1,5 @@
 const lookupMultiple = require('../utils/lookup-multiple');
-export default async (rh) => {
+module.exports = async (rh) => {
     console.log(
         await lookupMultiple(
             rh, 

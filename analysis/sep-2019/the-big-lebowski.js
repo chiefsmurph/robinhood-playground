@@ -4,7 +4,7 @@ const { avgArray, percUp } = require('../../utils/array-math');
 const addTodayTrendToStrategies = require('./add-today-trend-to-strategies');
 const realtimeRunner = require('../../realtime/RealtimeRunner');
 
-export default async (daysBack = 8, skipDays = 1, addTodayTrend = true) => {
+module.exports = async (daysBack = 8, skipDays = 1, addTodayTrend = true) => {
 
   console.log("THE BIG LEBOWSKI");
   console.log("STRATEGY AND PM ANALYZER COPYRIGHT JOHN MURPHY 2019");

@@ -20,7 +20,7 @@ const NUMS = [
   40
 ];
 
-export default cacheThis(async ticker => {
+module.exports = cacheThis(async ticker => {
 
   // daily rsi
   const [{

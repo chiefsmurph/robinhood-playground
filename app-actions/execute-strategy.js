@@ -35,4 +35,4 @@ const executeStrategy = async (strategyFn, min, ratioToSpend, strategy, trendFil
 
 };
 
-export default executeStrategy;
+module.exports = executeStrategy;

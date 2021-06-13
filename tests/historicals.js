@@ -1,5 +1,5 @@
 const getMultipleHistoricals = require('../app-actions/get-multiple-historicals');
-export default async () => {
+module.exports = async () => {
   strlog(
     await getMultipleHistoricals(
       ['BPMX'],

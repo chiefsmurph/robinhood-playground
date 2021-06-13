@@ -1,7 +1,7 @@
 const getTrend = require('../../utils/get-trend');
 const { avgArray } = require('../../utils/array-math');
 
-export default async (strategies) => {
+module.exports = async (strategies) => {
 
   const stratManager = require('../../socket-server/strat-manager');
   await stratManager.init({ lowKey: true });

@@ -89,7 +89,7 @@ const handleRS = ({ ticker, avgEntry, quantity, unrealizedPl, currentPrice }) =>
 
 
 
-export default async (
+module.exports = async (
   skipStSent = false
 ) => {
 

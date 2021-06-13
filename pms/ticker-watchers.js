@@ -1159,7 +1159,7 @@ const myTickerWatchers = myTickerWatchersInitial         // with spice!
     .filter(noEarlyWatchouts);
 
 
-export default {
+module.exports = {
     allTickerWatchers,
 
     // should watchout not watchout

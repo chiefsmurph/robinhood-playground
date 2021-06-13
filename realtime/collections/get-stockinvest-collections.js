@@ -38,4 +38,4 @@ const getStockInvestCollections = async () => {
   }), {});
 };
 
-export default getStockInvestCollections;
+module.exports = getStockInvestCollections;

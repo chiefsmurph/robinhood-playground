@@ -14,7 +14,7 @@ const fakeSuddenDrops = ({ allPrices }) => {
 const getCollections = require('../realtime/collections/get-collections');
 
 
-export default async (ticker = 'PSTV') => {
+module.exports = async (ticker = 'PSTV') => {
   
   const allTickers = Object.values(await getCollections()).flatten();
 

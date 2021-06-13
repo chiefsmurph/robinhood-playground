@@ -10,7 +10,7 @@ const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const lookup = require('../utils/lookup');
 const Hold = require('../models/Holds');
 
-export default async () => {
+module.exports = async () => {
 
   const { actOnPercent, onlyUseCash } = await getPreferences();
 

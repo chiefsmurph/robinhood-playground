@@ -50,7 +50,7 @@ updates_client.connect()
 // client.connect()
 
 
-export default {
+module.exports = {
     alpaca,
     // client
 };

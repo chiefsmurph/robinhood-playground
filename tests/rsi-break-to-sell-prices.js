@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Log = require('../models/Log');
 const getPositions = require('../alpaca/get-positions');
 
-export default async () => {
+module.exports = async () => {
 
   console.log( );
 

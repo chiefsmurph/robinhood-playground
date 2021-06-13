@@ -3,7 +3,7 @@ const { twitter: config } = require('../config');
 
 const client = new Twitter(config);
 
-export default {
+module.exports = {
     tweet: async (msg) => {
         client.post('statuses/update', { status: msg });
     }

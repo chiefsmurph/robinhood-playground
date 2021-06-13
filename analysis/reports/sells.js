@@ -30,7 +30,7 @@ const calcWeightAvg = transactions => {
     return numerator / totalShares;
 };
 
-export default async (daysBack = 5) => {
+module.exports = async (daysBack = 5) => {
 
     // console.log({ mostRecentOnly });
     const dailyTransactionDates = await getFilesSortedByDate('daily-transactions');

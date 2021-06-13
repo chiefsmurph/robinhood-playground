@@ -129,7 +129,7 @@ const subsetOffsets = {
 };
 
 
-export default position => {
+module.exports = position => {
   // interestingWords = 'sudden drops !watchout brunch bullish mediumJump !down hotSt 5min avgh10 spread3 firstAlert'.split(' ');
   // const position = { interestingWords };
 

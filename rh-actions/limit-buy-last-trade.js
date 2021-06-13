@@ -76,4 +76,4 @@ const limitBuyLastTrade = async ({ ticker, maxPrice, quantity, bidPrice }) => {
 
 };
 
-export default limitBuyLastTrade;
+module.exports = limitBuyLastTrade;

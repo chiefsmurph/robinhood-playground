@@ -17,4 +17,4 @@ const positionWithBracket = position => {
   
 };
 
-export default positionWithBracket;
+module.exports = positionWithBracket;

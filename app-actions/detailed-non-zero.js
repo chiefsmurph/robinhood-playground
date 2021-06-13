@@ -69,5 +69,5 @@ const getDetailedNonZero = async () => {
     return withShouldSell;
 };
 
-export default getDetailedNonZero;
+module.exports = getDetailedNonZero;
 module.exports.getPositions = getPositions;

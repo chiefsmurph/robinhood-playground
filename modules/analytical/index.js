@@ -13,7 +13,7 @@ const prefixKeys = (obj, prefix) =>
         [`${prefix}-${key}`]: obj[key]
     }), {});
 
-export default {
+module.exports = {
     trendFilter: async (trend) => {
 
         const addTrendWithHistoricals = async (trend, interval, span) => {

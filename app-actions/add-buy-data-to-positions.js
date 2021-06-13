@@ -74,4 +74,4 @@ const addBuyDateToPositions = async nonzero => {
     return withAge;
 };
 
-export default addBuyDateToPositions;
+module.exports = addBuyDateToPositions;

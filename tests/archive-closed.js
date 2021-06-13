@@ -1,1 +1,1 @@
-export default () => require('../models/Holds/ClosedPositions').updateMany({}, { archived: true });
+module.exports = () => require('../models/Holds/ClosedPositions').updateMany({}, { archived: true });

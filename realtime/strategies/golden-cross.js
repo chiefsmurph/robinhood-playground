@@ -4,7 +4,7 @@ const Combinatorics = require('js-combinatorics');
 const calcSMA = (values, period) => 
   SMA.calculate({ values, period });
 
-export default {
+module.exports = {
   period: ['d', 30, 10],
   handler: ({ allPrices }) => {
     const closes = allPrices.map(hist => hist.currentPrice);

@@ -28,7 +28,7 @@ class HashTable {
     }
 }
 
-export default async (includeToday, daysBack = NUM_DAYS, minCount = 0, skipDays, maxCount = Number.POSITIVE_INFINITY, stratFilter = '') => {
+module.exports = async (includeToday, daysBack = NUM_DAYS, minCount = 0, skipDays, maxCount = Number.POSITIVE_INFINITY, stratFilter = '') => {
     console.log('includeToday', includeToday);
     console.log('days back', daysBack);
     console.log('mincount', minCount);

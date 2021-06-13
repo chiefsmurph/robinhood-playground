@@ -1,4 +1,4 @@
-export default async () => {
+module.exports = async () => {
   console.log('here', await getPreferences());
   await savePreferences({
     purchaseAmt: 1.2,

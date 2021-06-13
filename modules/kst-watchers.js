@@ -173,7 +173,7 @@ const onEnd = allPicks => {
 let tickersAlerted = [];
 
 
-export default {
+module.exports = {
     name: 'kst-watchers',
     init: async () => {
 

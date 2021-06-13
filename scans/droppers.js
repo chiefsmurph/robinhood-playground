@@ -1,6 +1,6 @@
 const runScan = require('./base/run-scan');
 
-export default ({ minPrice, maxPrice, ...rest } = {}) => 
+module.exports = ({ minPrice, maxPrice, ...rest } = {}) => 
   runScan({
     minPrice,
     maxPrice,

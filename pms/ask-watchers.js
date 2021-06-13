@@ -554,7 +554,7 @@ const AWmyAskWatchers = AWmyAskWatchersInitial         // with spice!
     .filter(noEarlyWatchouts);
 
 
-export default {
+module.exports = {
     allAskWatchers,
 
     // should watchout not watchout

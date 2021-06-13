@@ -48,7 +48,7 @@ const sendScreenshot = async (numDays, queryString = '') => {
   ]);
 };
 
-export default async (numDays = 1) => {
+module.exports = async (numDays = 1) => {
 
   const days = [
     1,

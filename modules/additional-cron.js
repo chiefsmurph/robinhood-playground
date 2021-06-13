@@ -314,4 +314,4 @@ const additionalCron = [
 
 ];
 
-export default additionalCron;
+module.exports = additionalCron;

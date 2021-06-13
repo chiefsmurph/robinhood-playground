@@ -1,6 +1,6 @@
 const { alpaca } = require('.');
 
-export default async () => {
+module.exports = async () => {
   const positions = await alpaca.getPositions();
   const sortedByUnrealizedPlPc = positions.sort((a, b) => Number(a.unrealized_plpc) - Number(b.unrealized_plpc));
   strlog({ sortedByUnrealizedPlPc});

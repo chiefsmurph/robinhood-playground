@@ -1,2 +1,2 @@
 
-export default () => (require('../models/Pick')).getUniqueDates();
+module.exports = () => (require('../models/Pick')).getUniqueDates();

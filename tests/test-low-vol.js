@@ -2,7 +2,7 @@ const getDailyKeys = require('../utils/get-daily-keys');
 const Pick = require('../models/Pick');
 
 
-export default async () => {
+module.exports = async () => {
   const todaysPicks = await Pick.find(
       { date: '1-27-2020' },
       { data: 0 }

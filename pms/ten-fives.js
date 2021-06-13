@@ -1,7 +1,7 @@
 const strategyPerfOverall = require('../analysis/strategy-perf-overall');
 const { uniqifyArrayOfStrategies } = require('../utils/uniqify-stuff');
 
-export default async Robinhood => {
+module.exports = async Robinhood => {
     const tenFive = await strategyPerfOverall(true, 10, 5);
     str({ tenFive })
     const modified = Object.keys(tenFive).reduce((acc, key) => {

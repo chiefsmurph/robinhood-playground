@@ -3,7 +3,7 @@ const getRecs = require('./get-recs');
 const { mapObject } = require('underscore');
 const getStSentiment = require("../utils/get-stocktwits-sentiment");
 
-export default async () => {
+module.exports = async () => {
   const recs = await getRecs();
   strlog(recs);
   for (let key of ['buy', 'sell']) {

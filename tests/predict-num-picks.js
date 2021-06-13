@@ -5,7 +5,7 @@ const getExpectedCountForPm = pm => {
 
 };
 
-export default async () => {
+module.exports = async () => {
 
   const pmPerf = await pmJson(20);
   strlog({pmPerf})

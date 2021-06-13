@@ -1,5 +1,5 @@
 const addOvernightJumpAndTSO = require('../app-actions/add-overnight-jump-and-tso');
-export default {
+module.exports = {
     name: 'high-volume',
     trendFilter: async (trend) => {
         console.log('adding overnite jump')

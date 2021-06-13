@@ -1,7 +1,7 @@
 const getPositions = require('../alpaca/get-positions');
 const Hold = require('../models/Holds');
 
-export default async () => {
+module.exports = async () => {
   const positions = await getPositions(true);
   for (const position of positions) {
     const { ticker, numMultipliers, mostDownPoints } = position;

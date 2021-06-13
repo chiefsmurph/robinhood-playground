@@ -2,7 +2,7 @@ const getTrendAndSave = require('./get-trend-and-save');
 const { pick } = require('underscore');
 const NUM = 10;
 
-export default async () => {
+module.exports = async () => {
   const trend = await getTrendAndSave();
   const cheapest = trend
     .sort((a, b) => a.last_trade_price - b.last_trade_price)

@@ -170,4 +170,4 @@ const dynamo3000 = {
     // run: [4, 40, 100, 200, 260, 351, 381],
 };
 
-export default dynamo3000;
+module.exports = dynamo3000;

@@ -1,5 +1,5 @@
 const PositionWatcher = require('../utils/PositionWatcher');
-export default async (ticker = 'KODK') => {
+module.exports = async (ticker = 'KODK') => {
 
     new PositionWatcher({ ticker });
     setTimeout(() => {

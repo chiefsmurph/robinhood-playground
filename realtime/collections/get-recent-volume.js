@@ -2,7 +2,7 @@ const getMultipleHistoricals = require('../../app-actions/get-multiple-historica
 const { avgArray } = require('../../utils/array-math');
 const getTrend = require('../../utils/get-trend');
 
-export default async (tickers = ['AAPL']) => {
+module.exports = async (tickers = ['AAPL']) => {
 
   console.log(`getting recent volume for ${tickers.length} tickers`);
 

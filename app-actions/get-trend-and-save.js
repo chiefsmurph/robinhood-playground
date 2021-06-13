@@ -34,4 +34,4 @@ const getTrendAndSave = async (min) => {
 
 };
 
-export default getTrendAndSave;
+module.exports = getTrendAndSave;

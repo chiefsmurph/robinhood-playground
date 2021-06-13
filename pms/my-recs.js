@@ -3,7 +3,7 @@ const strategyPerfToday = require('../analysis/strategy-perf-today');
 
 const { uniqifyArrayOfStrategies } = require('../utils/uniqify-stuff');
 
-export default async () => {
+module.exports = async () => {
 
     const todayPerf = await strategyPerfToday();
 

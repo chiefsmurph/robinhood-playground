@@ -41,4 +41,4 @@ regCronIncAfterSixThirty.toString = function() {
     return lines.join('\n');
 };
 
-export default regCronIncAfterSixThirty;
+module.exports = regCronIncAfterSixThirty;

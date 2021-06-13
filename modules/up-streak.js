@@ -49,4 +49,4 @@ const upstreak = {
 };
 
 
-export default upstreak;
+module.exports = upstreak;

@@ -54,7 +54,7 @@ const allEmaLastTrades = [
 
 const allEmaLastTradeTrendingUp180SMA = allEmaLastTrades.filter(s => s.includes('sma180trendingUp'));
 
-export default { 
+module.exports = { 
     allEmaCrossoverWatchers,
     myEmaCrossoverWatchers: allEmaCrossoverWatchers.filter(s => !s.includes('lowVol')),
     allEmaLastTrades,

@@ -126,7 +126,7 @@ const saveDateAnalysis = async byDateAnalysis => {
   }
 };
 
-export default async () => {
+module.exports = async () => {
 
 
   let open = await Hold.find({}).lean();

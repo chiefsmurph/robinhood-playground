@@ -48,7 +48,7 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1) => {
 const getRandom = (min = 1, max = 10) => 
   Math.floor(Math.random() * (max - min + 1) + min)
 
-export default async ({
+module.exports = async ({
   ticker,
   quantity,
   numSeconds = NUM_SECONDS_TOTAL

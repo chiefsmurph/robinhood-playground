@@ -52,7 +52,7 @@ const getStBracket = ({ bullBearScore, bullishCount, bearishCount, totalCount })
 };
     
 
-export default async (ticker, detailed, maxId) => {
+module.exports = async (ticker, detailed, maxId) => {
     try {
         ticker = ticker.toUpperCase();
         // console.log({ ticker, detailed }, 'getting stocktwits sent')

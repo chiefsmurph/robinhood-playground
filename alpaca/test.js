@@ -1,6 +1,6 @@
 const { alpaca } = require('.');
 
-export default async _ => {
+module.exports = async _ => {
     const account = await alpaca.getAccount();
     console.log('Current Account:', account);
 

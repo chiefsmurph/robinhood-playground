@@ -10,7 +10,7 @@ const getBalance = require('../alpaca/get-balance');
 
 let lastDtCount;
 
-export default async (isRegularHours = true) => {
+module.exports = async (isRegularHours = true) => {
   let { accountBalance } = await getAccountBalance();
 //   if (Math.abs(getTrend(accountBalance, lastBalance)) > 4.9) {
 //       console.log('WOAH WOAH', {

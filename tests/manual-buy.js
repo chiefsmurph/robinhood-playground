@@ -2,7 +2,7 @@ const simpleBuy = require('../app-actions/simple-buy');
 const alpacaMarketBuy = require('../alpaca/market-buy');
 const lookup = require('../utils/lookup');
 
-export default async (rh, ticker, amt) => {
+module.exports = async (rh, ticker, amt) => {
     amt = Number(amt);
 
     const { currentPrice } = await lookup(rh, ticker);

@@ -1,6 +1,6 @@
 const Hold = require("../models/Holds");
 
-export default async ticker => {
+module.exports = async ticker => {
     const theHold = await Hold.find({ ticker });
     return Boolean(theHold.isSelling);
 };

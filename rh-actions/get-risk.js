@@ -80,7 +80,7 @@ const getRisk = async ({
     // console.log(JSON.stringify(dailyYear, null, 2));
 };
 
-export default cacheThis(
+module.exports = cacheThis(
     getRisk, 
     60 * 3  // 3 hours
 );

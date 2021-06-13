@@ -31,4 +31,4 @@ const getUpStreak = async (ticker, historicals) => {
 
 };
 
-export default getUpStreak;
+module.exports = getUpStreak;

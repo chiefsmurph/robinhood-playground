@@ -7,7 +7,7 @@ const getEMA = (values, period) => {
   }) || [];
 };
 
-export default {
+module.exports = {
   period: [10, 30],
   collections: ['options', 'spy'],
 

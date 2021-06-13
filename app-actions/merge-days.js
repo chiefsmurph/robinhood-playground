@@ -1,7 +1,7 @@
 const fs = require('mz/fs');
 const jsonMgr = require('../utils/json-mgr');
 
-export default async (day1, day2) => {
+module.exports = async (day1, day2) => {
     let day2Files = await fs.readdir(`./json/picks-data/${day2}`);
     console.log(day2Files);
 

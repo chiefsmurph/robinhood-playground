@@ -1,5 +1,5 @@
 const getPositions = require('../alpaca/get-positions');
-export default async () => {
+module.exports = async () => {
   const positions = await getPositions();
 
   // strlog({ positions });

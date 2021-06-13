@@ -722,7 +722,7 @@ const allRSIwatchers = [
 ];
 
 
-export default {
+module.exports = {
   allRSIwatchers,
   rsiLt20: strat => [
     'rsilt20',

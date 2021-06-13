@@ -30,7 +30,7 @@ const permutator = (inputArr) => {
      return result;
 };
 
-export default async (daysBack = 5, numChunks = 3, ignoreDays = 0) => {
+module.exports = async (daysBack = 5, numChunks = 3, ignoreDays = 0) => {
 
     console.log('daysBack', daysBack);
     console.log('numChunks', numChunks);

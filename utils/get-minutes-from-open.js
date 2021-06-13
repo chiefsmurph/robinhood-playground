@@ -1,4 +1,4 @@
-export default () => {
+module.exports = () => {
 
     let sixthirty = new Date();
     sixthirty.setHours(9);

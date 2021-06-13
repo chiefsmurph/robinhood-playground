@@ -96,4 +96,4 @@ class HistoricalTickerWatcher extends TickerWatcher {
     }
 }
 
-export default HistoricalTickerWatcher;
+module.exports = HistoricalTickerWatcher;

@@ -131,7 +131,7 @@ const feb13emacrossovers = [
     "ema-crossover-last-trade-allOthers-360"
 ];
 
-export default {
+module.exports = {
     feb13bestst,
     feb13tw,
     feb13highvol,

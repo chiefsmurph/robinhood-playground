@@ -127,4 +127,4 @@ const weekSwings = {
     // run: [1, 169, 273, 575, 583],
 };
 
-export default weekSwings;
+module.exports = weekSwings;

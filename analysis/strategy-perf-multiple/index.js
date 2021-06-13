@@ -6,7 +6,7 @@ const { analyzeRoundup } = require('./generate-breakdowns');
 const { isBreakdownKey } = require('../../utils/breakdown-key-compares');
 const saveToJson = require('./save-to-json');
 
-export default async (daysBack = 2, skipDays = 0, ...strategiesArgs) => {
+module.exports = async (daysBack = 2, skipDays = 0, ...strategiesArgs) => {
     daysBack = Number(daysBack);
     skipDays = Number(skipDays);
     console.log('days back', daysBack);

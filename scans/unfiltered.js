@@ -1,1 +1,1 @@
-export default require('./base/run-scan');
+module.exports = require('./base/run-scan');

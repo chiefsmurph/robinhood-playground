@@ -35,4 +35,4 @@ schema.statics.getUniqueDates = async function() {
 };
 
 const DayReport = mongoose.model('DayReport', schema, 'dayReports');
-export default DayReport;
+module.exports = DayReport;

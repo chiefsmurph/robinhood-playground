@@ -4,7 +4,7 @@ const lookup = require('../utils/lookup');
 const Pick = require('../models/Pick');
 const Hold = require('../models/Holds');
 
-export default async () => {
+module.exports = async () => {
 
   const { equity } = await alpaca.getAccount();
   const superDownPicks = await require('../socket-server/strat-manager').getSuperDownPicks();

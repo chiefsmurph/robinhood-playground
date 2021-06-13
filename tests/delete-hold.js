@@ -1,6 +1,6 @@
 
 const Holds = require('../models/Holds');
-export default async () => {
+module.exports = async () => {
   const doc = await Holds.findOneAndDelete({
     ticker: 'aaaaapl'
   });

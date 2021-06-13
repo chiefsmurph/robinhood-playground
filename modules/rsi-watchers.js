@@ -110,7 +110,7 @@ const onEnd = allPicks => {
 let tickersAlerted = [];
 
 
-export default {
+module.exports = {
     name: 'rsi-watchers',
     init: async () => {
 
@@ -244,7 +244,7 @@ export default {
 
 
 
-// export default {
+// module.exports = {
 //     name: 'quick-drops',
 //     crons: 
 

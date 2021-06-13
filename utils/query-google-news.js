@@ -20,7 +20,7 @@ const promiseTimeout = function(ms, promise){
   ])
 }
 
-export default cacheThis(async (ticker, daysBack = 2) => { 
+module.exports = cacheThis(async (ticker, daysBack = 2) => { 
   let items; 
   try {
     const news = await promiseTimeout(3000, googleNewsAPI.getNews(googleNewsAPI.SEARCH, ticker, "en-US").catch(e => {

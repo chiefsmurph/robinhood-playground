@@ -54,7 +54,7 @@ const addDailyRSI = withDailyHistoricals => {
 
 };
 
-export default {
+module.exports = {
   getDailyHistoricals,
   addDailyHistoricals,
   addDailyRSI

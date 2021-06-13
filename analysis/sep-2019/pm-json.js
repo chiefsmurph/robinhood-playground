@@ -2,7 +2,7 @@ const fs = require('mz/fs');
 const { mapObject } = require('underscore');
 const { avgArray } = require('../../utils/array-math');
 
-export default async (daysBack = 5, filterStr = '') => {
+module.exports = async (daysBack = 5, filterStr = '') => {
   daysBack = Number(daysBack);
   let files = await fs.readdir('./json/pm-perfs');
 

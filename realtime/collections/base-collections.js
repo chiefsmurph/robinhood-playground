@@ -100,7 +100,7 @@ const OPTIONSTICKERS = [
 
 
 
-export default async () => {
+module.exports = async () => {
 
     console.log('get collections!');
 

@@ -5,7 +5,7 @@ const roundTo = numDec => num => Math.round(num * Math.pow(10, numDec)) / Math.p
 const oneDec = roundTo(1);
 const twoDec = roundTo(2);
 
-export default positions =>
+module.exports = positions =>
   positions
     .map(position => {
       const { interestingWords = [] } = position;

@@ -3,7 +3,7 @@ const getTrend = require('../utils/get-trend');
 const chunkApi = require('../utils/chunk-api');
 const addFundamentals = require('./add-fundamentals');
 
-export default async (trend) => {
+module.exports = async (trend) => {
 
     const trendWithFundamentals = trend && trend[0].fundamentals
         ? trend

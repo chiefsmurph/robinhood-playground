@@ -75,4 +75,4 @@ const analyzeDay = ({ strategyName, stratPerf, date, maxBreakdownKey }) => {
     return stats;
 };
 
-export default analyzeDay;
+module.exports = analyzeDay;

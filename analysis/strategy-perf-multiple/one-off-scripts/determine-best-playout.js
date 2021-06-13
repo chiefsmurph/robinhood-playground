@@ -58,7 +58,7 @@ const determineIndividualBestPlayoutsFromMultiOutput = pastPerf => {
     }));
 };
 
-export default async (...strategiesForConsideration) => {
+module.exports = async (...strategiesForConsideration) => {
     strategiesForConsideration = strategiesForConsideration.filter(v => !!v);
     strategiesForConsideration = strategiesForConsideration.length ? strategiesForConsideration : await getMostRecentForPurchase();
     console.log({ strategiesForConsideration });

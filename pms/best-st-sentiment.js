@@ -588,7 +588,7 @@ const myStSents = [
     'top100RH-highest-bullishCount-270',
 ].map(t => `best-st-sentiment-${t}`);
 
-export default {
+module.exports = {
     allBestSt: allStrats,
     myStSents
 };

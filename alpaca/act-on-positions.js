@@ -10,7 +10,7 @@ const alpacaAttemptSell = require('./attempt-sell');
 const stratManager = require('../socket-server/strat-manager');
 const sendEmail = require('../utils/send-email');
 
-export default async (_, dontAct) => {
+module.exports = async (_, dontAct) => {
 
     let positions = await getPositions();
     positions = positions.filter(({ ticker }) => !keep.includes(ticker));

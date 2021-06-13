@@ -1,6 +1,6 @@
 const { alpaca } = require('.');
 
-export default async ({
+module.exports = async ({
     ticker = 'IMBI', 
     quantity = 14,
     timeoutSeconds = 60, 

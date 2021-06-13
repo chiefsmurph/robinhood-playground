@@ -1,6 +1,6 @@
 const BalanceReport = require('../models/BalanceReport');
 
-export default async (date) => {
+module.exports = async (date) => {
   if (!date) return console.log('send a date to delete');
 
   const reports = await BalanceReport.find({}).sort({ _id: -1 }).limit(10000).lean();

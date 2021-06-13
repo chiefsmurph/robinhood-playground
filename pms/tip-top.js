@@ -4,7 +4,7 @@ const strategyPerfToday = require('../analysis/strategy-perf-today');
 const { uniqifyArrayOfStrategies } = require('../utils/uniqify-stuff');
 const getNames = arr => arr.map(pick => pick.name);
 
-export default async () => {
+module.exports = async () => {
     const { sortedByPercUp } = await stratPerfOverall(true, 60);
     console.log(sortedByPercUp, 'haha');
 

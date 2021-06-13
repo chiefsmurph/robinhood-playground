@@ -3,7 +3,7 @@ const getTrendAndSave = require('../../app-actions/get-trend-and-save');
 const addOvernightJumpAndTSO = require('../../app-actions/add-overnight-jump-and-tso');
 const getMultipleHistoricals = require('../../app-actions/get-multiple-historicals');
 const jsonMgr = require('../../utils/json-mgr');
-export default {
+module.exports = {
     name: 'user-modules',
     // run: [1, 95, 285, 380],
     fn: async (min) => {

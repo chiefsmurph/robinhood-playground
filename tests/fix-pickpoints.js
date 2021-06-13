@@ -1,3 +1,3 @@
-export default () => require('../models/Holds').find(
+module.exports = () => require('../models/Holds').find(
   { pickPoints: undefined } ,
 );

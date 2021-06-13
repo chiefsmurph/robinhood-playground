@@ -13,7 +13,7 @@ function flatten(array) {
 }
 
 
-export default async (tickers, apiFn, num, name = '') => {
+module.exports = async (tickers, apiFn, num, name = '') => {
     const chunks = splitIntoChunks(tickers, num);
     let i = 0;
     let nestedArray = await mapLimit(chunks, 3, async collection => {

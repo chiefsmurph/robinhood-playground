@@ -1,6 +1,6 @@
 const fs = require('mz/fs');
 
-export default async () => {
+module.exports = async () => {
   let files = await fs.readdir('./json/strat-perf-multiples');
 
   let sortedFiles = files

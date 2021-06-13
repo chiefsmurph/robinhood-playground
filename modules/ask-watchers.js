@@ -48,7 +48,7 @@ const onEnd = allPicks => {
 
 
 
-export default {
+module.exports = {
     name: 'ask-watchers',
     disabledInit: async () => {
 

@@ -7,7 +7,7 @@ const sellPosition = require('./sell-position');
 const getPositions = require('./get-positions');
 const Log = require('../models/Log');
 
-export default async dontSell => {
+module.exports = async dontSell => {
 
     console.log({ dontSell })
     let positions = await getPositions();

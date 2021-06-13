@@ -1,5 +1,5 @@
 const Holds = require('../models/Holds');
-export default async () => {
+module.exports = async () => {
   await Holds.registerAlpacaFill({
     ticker: 'OCGN',
     alpacaOrder: {

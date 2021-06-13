@@ -6,7 +6,7 @@ const send = gmailSend({
   pass: credentials.password
 });
 
-export default (force, subject, text = '', to = credentials.username, files = []) => 
+module.exports = (force, subject, text = '', to = credentials.username, files = []) => 
   new Promise((resolve, reject) => {
     console.log('disabled')
     if (force !== 'force') return resolve();

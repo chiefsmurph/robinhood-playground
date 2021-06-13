@@ -29,4 +29,4 @@ const alpacaMarketBuy = async ({
     
 };
 
-export default alpacaMarketBuy;
+module.exports = alpacaMarketBuy;

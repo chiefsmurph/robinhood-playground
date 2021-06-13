@@ -16,4 +16,4 @@ const getAllTickers = async () => {
     return allResults;
 };
 
-export default getAllTickers;
+module.exports = getAllTickers;

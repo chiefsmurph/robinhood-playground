@@ -31,4 +31,4 @@ const cacheThis = (asyncFn, minRefresh = 20) => {
     return responseFn;
 };
 
-export default cacheThis;
+module.exports = cacheThis;

@@ -1,4 +1,4 @@
-export default [
+module.exports = [
     // 'limit1',
     // 'limit2',
     // 'limit3',

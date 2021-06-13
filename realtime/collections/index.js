@@ -4,7 +4,7 @@ const getJimmyCollection = require('./get-jimmy-collection');
 
 const { mapObject } = require('underscore');
 
-export default async dontMerge => {
+module.exports = async dontMerge => {
   console.log('getting base collections....')
   const baseCollections = await getBaseCollections();
   console.log('getting derived collections....')

@@ -184,7 +184,7 @@ const feb122021 = [
 ];
 
 
-export default {
+module.exports = {
     // ...require('./ticker-watchers'),
     // // ...require('./ask-watchers'),
     // ...require('./best-st-sentiment'),

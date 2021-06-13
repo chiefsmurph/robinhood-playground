@@ -3,7 +3,7 @@ const { emails } = require('../config');
 const { partition } = require('underscore');
 const settings = require('../settings');
 
-export default async (_, strategy) => {
+module.exports = async (_, strategy) => {
   await require('../realtime/RealtimeRunner').init(true);
   const pms = require('../realtime/RealtimeRunner').getPms();
   // console.log('pms-hit', { strategy, pms }, settings.forPurchase);

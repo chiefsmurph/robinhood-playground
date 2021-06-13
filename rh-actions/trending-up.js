@@ -41,4 +41,4 @@ const trendingUp = async (ticker, days) => {
 
 };
 
-export default trendingUp;
+module.exports = trendingUp;

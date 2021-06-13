@@ -4,7 +4,7 @@ const getRecsFromFiveDayAndSPM = require('./get-recs-from-fiveday-and-spm');
 const addTodayTrendToStrategies = require('./add-today-trend-to-strategies');
 const { avgArray } = require('../../utils/array-math');
 
-export default async (addTodayTrend) => {
+module.exports = async (addTodayTrend) => {
   let fiveDay = (await stratPerfOverall(false, 5, 0, 1)).sortedByAvgTrend;
   fiveDay = fiveDay.filter(s => s.count >= 2 && s.count <= 8);
   const spmAll = (await spmRecent()).all

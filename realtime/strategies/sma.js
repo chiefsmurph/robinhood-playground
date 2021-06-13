@@ -7,7 +7,7 @@ const getSMA = values => {
   }) || [];
 };
 
-export default {
+module.exports = {
   period: [5, 10, 30],
   disabled: true,
   collections: [],

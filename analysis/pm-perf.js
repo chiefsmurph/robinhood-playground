@@ -5,7 +5,7 @@ const getFilesSortedByDate = require('../utils/get-files-sorted-by-date');
 const jsonMgr = require('../utils/json-mgr');
 const stratPerfMultiple = require('./strategy-perf-multiple');
 
-export default async (daysBack, ...pmNames) => {
+module.exports = async (daysBack, ...pmNames) => {
     const pmStrats = flatten(
         pmNames.map(pm => manualPms[pm])
     );

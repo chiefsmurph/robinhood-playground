@@ -2,7 +2,7 @@
 const getTickersOfInterest = require('./get-tickers-of-interest');
 const getBars = require('./get-bars');
 
-export default async () => {
+module.exports = async () => {
   const tickers = await getTickersOfInterest();
   // const fiveMinBars = await alpaca.getBars('5Min', tickers, { after: '2020-08-10'});
 

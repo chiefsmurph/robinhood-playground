@@ -157,4 +157,4 @@ const swings = {
     // run: [193, 253],
 };
 
-export default swings;
+module.exports = swings;

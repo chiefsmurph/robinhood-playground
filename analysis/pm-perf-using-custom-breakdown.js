@@ -6,7 +6,7 @@ const jsonMgr = require('../utils/json-mgr');
 const stratPerfMultiple = require('./strategy-perf-multiple');
 const { generateBreakdownConfigs, runBreakdown } = require('./strategy-perf-multiple/generate-breakdowns');
 
-export default async (daysBack, ...pmNames) => {
+module.exports = async (daysBack, ...pmNames) => {
     let pmStrats = flatten(
         pmNames.map(pm => manualPms[pm])
     );

@@ -3,7 +3,7 @@ const fs = require('mz/fs');
 const jsonMgr = require('../utils/json-mgr');
 const { avgArray } = require('../utils/array-math');
 
-export default async () => {
+module.exports = async () => {
 
     // all picks to object
     

@@ -1,6 +1,6 @@
 const positionManager = require('../utils/position-manager');
 
-export default async () => {
+module.exports = async () => {
   positionManager.create({
     ticker: 'AAPL'
   })

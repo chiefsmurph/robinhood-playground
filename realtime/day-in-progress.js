@@ -5,7 +5,7 @@ const formatDate = date => date.toLocaleDateString().split('/').join('-');
 const START_MIN = 0;
 const STOP_MIN = 390;
 
-export default (startMin = START_MIN, stopMin = STOP_MIN) => {
+module.exports = (startMin = START_MIN, stopMin = STOP_MIN) => {
   // if between start and end times then start() on init
   const min = getMinutesFromOpen();
   console.log({ min })

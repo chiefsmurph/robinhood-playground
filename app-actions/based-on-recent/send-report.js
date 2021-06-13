@@ -91,7 +91,7 @@ const getMyLargestPositions = async () => {
     }));
 };
 
-export default async (onlyMe = true) => {
+module.exports = async (onlyMe = true) => {
     const dateStr = (new Date()).toLocaleDateString().split('/').join('-');
 
     const picks = {

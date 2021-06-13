@@ -13,7 +13,7 @@ const { disableActOnZscore } = require('../settings');
 const { registerNewStrategy } = require('../app-actions/buys-in-progress');
 
 
-export default async () => {
+module.exports = async () => {
 
   const { onlyUseCash, actOnPercent, maxPercentOfBalance } = await getPreferences();
 

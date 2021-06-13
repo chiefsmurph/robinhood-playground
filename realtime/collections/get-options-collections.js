@@ -34,7 +34,7 @@ const getBarChartOptions = async () => {
   }
 };
 
-export default async () => {
+module.exports = async () => {
 
 
   const optionsTickers = [

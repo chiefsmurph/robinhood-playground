@@ -6,7 +6,7 @@ const getBalance = require('../alpaca/get-balance');
 const { alpaca } = require('../alpaca');
 // const { continueDownForDays } = require('../settings');
 
-export default async (forceAvgDistance, forceTrendSincePrevClose) => {
+module.exports = async (forceAvgDistance, forceTrendSincePrevClose) => {
   let { SPY: spyHistoricals } = await getHistoricals(['SPY'], 'd', 'year', false);
   const [{
     open_price,

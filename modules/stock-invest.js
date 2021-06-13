@@ -3,7 +3,7 @@ const appConfig = require('../config');
 const { stockinvestapi } = appConfig;
 const { filterByTradeable } = require('../utils/filter-by-tradeable');
 
-export default {
+module.exports = {
     name: 'stock-invest',
     trendFilter: async () => {
         const urls = {

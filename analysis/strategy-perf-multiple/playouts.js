@@ -88,4 +88,4 @@ const playouts = {
     onlyMax: createPlayout(null, arr => Math.max(...arr))
 };
 
-export default playouts;
+module.exports = playouts;

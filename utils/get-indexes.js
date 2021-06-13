@@ -10,7 +10,7 @@ const indexes = {
     russell2000: 'IWM',
 };
 
-export default async () => {
+module.exports = async () => {
     const lookups = await lookupMultiple(Object.values(indexes));
     return {
         ...mapObject(indexes, ticker => lookups[ticker]),

@@ -2,7 +2,7 @@ const getFilesSortedByDate = require('../utils/get-files-sorted-by-date');
 const { uniqifyArrayOfStrategies } = require('../utils/uniqify-stuff');
 const strategyPerfMultiple = require('../analysis/strategy-perf-multiple');
 
-export default async (daysBack) => {
+module.exports = async (daysBack) => {
 
     let spm;
 

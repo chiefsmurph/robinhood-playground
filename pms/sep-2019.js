@@ -149,4 +149,4 @@ const data = {
 const asArrays = mapObject(data, str => Array.isArray(str) ? str : str.split('\n').map(line => line.trim()).filter(Boolean));
 const prefixed = prefixKeys(asArrays, 'sep2019-');
 
-export default prefixed;
+module.exports = prefixed;

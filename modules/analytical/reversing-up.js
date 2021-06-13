@@ -253,4 +253,4 @@ const strategy = async (trendWithHistoricals, daysBack, outerPermsLimit) => {
 };
 
 
-export default strategy;
+module.exports = strategy;

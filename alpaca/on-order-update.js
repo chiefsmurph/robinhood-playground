@@ -6,7 +6,7 @@ const positionExists = require('./position-exists');
 
 const { alpaca } = require('./');
 
-export default async data => {
+module.exports = async data => {
 
   // ugh annoying
   const stratManager = require('../socket-server/strat-manager');

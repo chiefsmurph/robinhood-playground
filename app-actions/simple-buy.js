@@ -22,7 +22,7 @@ const calcQuantity = (maxPrice, bidPrice) => {
     return quantity;
 };
 
-export default async ({
+module.exports = async ({
     ticker,
     strategy,   // strategy name
     maxPrice,   // total amount to spend

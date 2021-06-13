@@ -48,4 +48,4 @@ const loadAllRobinhoodTransactions = async (daysBack = 1) => {
     // console.log({ orders });
 };
 
-export default loadAllRobinhoodTransactions;
+module.exports = loadAllRobinhoodTransactions;

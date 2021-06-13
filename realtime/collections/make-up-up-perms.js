@@ -1,4 +1,4 @@
-export default (results, collections) => {
+module.exports = (results, collections) => {
   return Object.keys(collections)
     .reduce((acc, key) => {
         const prop = collections[key];

@@ -11,7 +11,7 @@ const limitToLowSpread = trend =>
         o.quote_data.askPrice < o.quote_data.currentPrice * 1.004
     );
 
-export default async (min) => {
+module.exports = async (min) => {
 
     // first calculate pricePerm trends
     let trend = await getTrendAndSave(min + '*');

@@ -1,6 +1,6 @@
 const getStSentiment = require('../../utils/get-stocktwits-sentiment');
 
-export default {
+module.exports = {
 
   postRun: async (picks, todaysPicks, periods) => {
     if (!periods.includes(30)) {

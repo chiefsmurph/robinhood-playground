@@ -64,7 +64,7 @@ const perms = [
 ];
 
 const flatten = arr => [].concat(...arr);
-export default () => {
+module.exports = () => {
 
     let collection = [null];
     perms.forEach(perm => {

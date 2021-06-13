@@ -32,7 +32,7 @@ const calcPmAnalysisMultiplier = (pms, pmsAnalyzed) => {
   return avgCheckCount;
 };
 
-export default async (pms, strategy, stocksToBuy) => {
+module.exports = async (pms, strategy, stocksToBuy) => {
   console.log({
     pms,
     strategy,

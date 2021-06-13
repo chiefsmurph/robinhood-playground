@@ -14,7 +14,7 @@ const getPrevClose = cacheThis(async () => {
 }, 400);
 
 
-export default cacheThis(async () => {
+module.exports = cacheThis(async () => {
   const prevClose = await getPrevClose();
   const { currentPrice } = await lookup('SPY');
   console.log({ prevClose, currentPrice })

@@ -14,7 +14,7 @@ const chunkApi = require('../utils/chunk-api');
 
 const sumArray = arr => arr.reduce((acc, val) => acc + val, 0);
 
-export default async () => {
+module.exports = async () => {
 
     let files = await fs.readdir('./json/daily-transactions');
 

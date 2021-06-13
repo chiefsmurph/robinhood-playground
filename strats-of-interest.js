@@ -1,4 +1,4 @@
-export default [
+module.exports = [
     "week-swings-tenTo15-1",
     "constant-risers-10minute-percUpHighClosePoints-300",
     "based-on-jump-down3overnight-trending35257-5",

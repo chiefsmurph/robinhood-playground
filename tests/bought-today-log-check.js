@@ -1,4 +1,4 @@
 const Log = require('../models/Log');
-export default async ticker => {
+module.exports = async ticker => {
   return Log.boughtToday(ticker);
 };

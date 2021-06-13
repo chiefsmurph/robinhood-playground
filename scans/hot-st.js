@@ -1,7 +1,7 @@
 const runScan = require('./base/run-scan');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
-export default ({ minPrice, maxPrice, ...rest } = {}) => {
+module.exports = ({ minPrice, maxPrice, ...rest } = {}) => {
   const min = getMinutesFromOpen();
   const irregularHours = min < 0 || min > 390;
   const limitUp = !irregularHours ? 7 : 5;

@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const { instagram: { username, password }} = require('../config');
 
 let browser;
-export default async ticker => {
+module.exports = async ticker => {
     try {
         browser = browser || await puppeteer.launch();
         const page = await browser.newPage();

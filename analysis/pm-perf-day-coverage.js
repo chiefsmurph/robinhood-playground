@@ -8,7 +8,7 @@ const flatten = require('../utils/flatten-array');
 
 const getFilesSortedByDate = require('../utils/get-files-sorted-by-date');
 
-export default async (daysBack, ...pms) => {
+module.exports = async (daysBack, ...pms) => {
 
     const strategies = flatten(pms.map(pm => manualPms[pm]));
     console.log('pms', pms);

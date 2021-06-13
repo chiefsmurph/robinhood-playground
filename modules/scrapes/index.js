@@ -39,4 +39,4 @@ const allScrapeModules = Object.keys(scrapesToRun)
     })
 
 
-export default allScrapeModules;
+module.exports = allScrapeModules;

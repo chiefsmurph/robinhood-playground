@@ -11,4 +11,4 @@ const schema = new Schema({
 });
 
 const Connection = mongoose.model('Connection', schema, 'connections');
-export default Connection;
+module.exports = Connection;

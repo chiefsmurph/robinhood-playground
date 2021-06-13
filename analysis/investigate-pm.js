@@ -1,6 +1,6 @@
 const Pick = require('../models/Pick');
 
-export default async pm => {
+module.exports = async pm => {
   console.log({ pm })
   const picks = await Pick.find({
     isRecommended: true,

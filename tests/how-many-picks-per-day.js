@@ -1,6 +1,6 @@
 const Pick = require('../models/Pick');
 
-export default async () => {
+module.exports = async () => {
 
   const getPicksForDate = date => 
     Pick.find(

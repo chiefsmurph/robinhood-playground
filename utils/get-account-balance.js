@@ -8,7 +8,7 @@ const twoDec = roundTo(2);
 
 let account;
 
-export default async (includeTrend, todaysDate) => {
+module.exports = async (includeTrend, todaysDate) => {
     
     const getPrevDateBalanceFromPortfolioCache = async () => {
         const portCache = await jsonMgr.get('./portfolio-cache.json');

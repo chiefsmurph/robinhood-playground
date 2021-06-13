@@ -1,7 +1,7 @@
 const { alpaca } = require('../alpaca');
 const cancelAllOrders = require('../alpaca/cancel-all-orders');
 
-export default async () => {
+module.exports = async () => {
 
   const getNumDayTrades = async () => {
     const account = await alpaca.getAccount();

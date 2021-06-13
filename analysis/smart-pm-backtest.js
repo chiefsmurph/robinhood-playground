@@ -12,7 +12,7 @@ const perms = {
     numChunks: [1, 2, 3, 4, 5, 6]
 };
 
-export default async (
+module.exports = async (
         numDays = 5,    // number of days to backtest
     // daysBack = 5,   // number of days to send to smart-pms when calculating smart-pms
     // numChunks = 3   // number of pms to recommend each day

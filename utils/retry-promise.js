@@ -16,4 +16,4 @@ const retryPromise = fn => {
 
 };
 
-export default retryPromise;
+module.exports = retryPromise;

@@ -36,4 +36,4 @@ const getRecsFromFiveDayAndSPM = (fiveDay, spmAll) => {
 };
 
 
-export default getRecsFromFiveDayAndSPM;
+module.exports = getRecsFromFiveDayAndSPM;

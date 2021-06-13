@@ -1,6 +1,6 @@
 const fs = require('mz/fs');
 
-export default {
+module.exports = {
     get: async (file) => {
         try {
             return JSON.parse(await fs.readFile(file, 'utf8'));

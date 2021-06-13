@@ -31,7 +31,7 @@ const getFirstStratPerf = async (stratMin, date) => {
 };
 
 
-export default async (daysBack = 10) => {
+module.exports = async (daysBack = 10) => {
 
   const dates = await Pick.getUniqueDates();
   const datesOfInterest = dates.slice(0 - daysBack - 1).slice(0, -1);

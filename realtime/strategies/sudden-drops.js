@@ -16,7 +16,7 @@ const stSents = [
   'bullish',
   'bearish'
 ];
-export default {
+module.exports = {
     period: [5],
     // collections: ['spy', 'options', 'fitty', 'lowVolFitty', 'zeroToOne', 'oneToTwo', 'twoToFive', 'fiveToTen'],
     excludeCollections: ['hotSt'],

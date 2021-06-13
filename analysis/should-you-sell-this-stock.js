@@ -1,7 +1,7 @@
 const getStSent = require('../utils/get-stocktwits-sentiment');
 const lookup = require('../utils/lookup');
 const getTrend = require('../utils/get-trend');
-export default async (
+module.exports = async (
     ticker, 
     avgBuyPrice,
     bullishLimits = [12, -6],

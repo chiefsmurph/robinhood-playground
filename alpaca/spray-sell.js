@@ -44,7 +44,7 @@ const calculateQAmts = (quantity, numSeconds, sharesAtATime = 1, runCount = 0) =
   };
 };
 
-export default async ({
+module.exports = async ({
   ticker,
   quantity,
   numSeconds = NUM_SECONDS_TOTAL

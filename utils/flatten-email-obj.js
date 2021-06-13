@@ -38,4 +38,4 @@ const flattenEmailObj = async () => {
     
 };
 
-export default flattenEmailObj;
+module.exports = flattenEmailObj;

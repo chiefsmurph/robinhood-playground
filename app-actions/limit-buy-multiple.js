@@ -299,7 +299,7 @@ const simpleLimitBuy = async ({
     });
 
 
-export default async ({
+module.exports = async ({
     totalAmtToSpend,
     strategy,
     maxNumStocksToPurchase, 

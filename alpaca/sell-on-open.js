@@ -38,7 +38,7 @@ const liquidateAll = async () => {
   }
 }
 
-export default async () => {
+module.exports = async () => {
 
   const { morningMinTarget = 60, maxPerPositionAfterOpenPerc = 40, bullishTickers = [], definedPercent = {} } = await getPreferences();
   const equity = await getBalance();

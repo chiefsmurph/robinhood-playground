@@ -101,4 +101,4 @@ schema.methods.closePosition = async function() {
     return closedPosition;
 };
 
-export default schema;
+module.exports = schema;

@@ -2,7 +2,7 @@ const runScan = require('../../scans/base/run-scan');
 const getRecentVolume = require('./get-recent-volume');
 const makeUpUpPerms = require('./make-up-up-perms');
 
-export default async () => {
+module.exports = async () => {
 
   console.log('getting recent volume collections');
   const scan = await runScan({

@@ -3,7 +3,7 @@ const { credentials } = require('../config');
 const cacheThis = require('../utils/cache-this');
 const retry = require('async-retry')
 
-export default () => {
+module.exports = () => {
     return new Promise((resolve) => {
         console.log('initializing Robinhood');
         const Robinhood = require('robinhood')(credentials, () => {

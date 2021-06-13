@@ -2,7 +2,7 @@ const chunkApi = require('../utils/chunk-api');
 const getTrend = require('../utils/get-trend');
 const cacheThis = require('../utils/cache-this');
 
-export default cacheThis(
+module.exports = cacheThis(
     async (tickers, qs = 'interval=day') => {
         console.log({ tickers, qs })
         const allHistoricals = await chunkApi(

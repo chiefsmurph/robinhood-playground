@@ -74,7 +74,7 @@ const getHistoricals = async (ticker, period, daysBack = 7) => {
 
 };
 
-export default async (tickers, period, daysBack) => {
+module.exports = async (tickers, period, daysBack) => {
   // console.log({ tickers })
 
   if (typeof tickers === 'string') tickers = [tickers];

@@ -418,4 +418,4 @@ function RobinhoodWebApi(opts, callback) {
   return api;
 }
 
-export default RobinhoodWebApi;
+module.exports = RobinhoodWebApi;

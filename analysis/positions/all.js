@@ -1,7 +1,7 @@
 const getOpen = require('./get-open');
 const getClosed = require('./get-closed');
 
-export default async () => {
+module.exports = async () => {
   let closed = await getClosed();
   let open = await getOpen();
 

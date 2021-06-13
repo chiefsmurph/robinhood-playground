@@ -6,7 +6,7 @@ const RealtimeRunner = require('./RealtimeRunner');
 
 let modules = [];
 
-export default async () => {
+module.exports = async () => {
 
 
     var normalizedPath = path.join(__dirname, './strategies');

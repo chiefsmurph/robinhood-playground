@@ -3,7 +3,7 @@ const jsonMgr = require('../utils/json-mgr');
 const lookup = require('../utils/lookup');
 const alreadyBoughtToday = require('./already-bought-today');
 
-export default async ({
+module.exports = async ({
     ticker,
     quantity = 1,
     bidPrice

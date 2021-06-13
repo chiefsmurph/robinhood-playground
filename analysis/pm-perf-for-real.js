@@ -4,7 +4,7 @@ const { avgArray } = require('../utils/array-math');
 
 
 
-export default async () => {
+module.exports = async () => {
   
   const allPms = await PmPerfs.find().sort({ _id: -1 }).lean();
   // strlog({ allPms })

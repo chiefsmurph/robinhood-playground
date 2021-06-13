@@ -58,4 +58,4 @@ const bigDayTrendUp = {
     // run: [10, 35, 90, 223]
 };
 
-export default bigDayTrendUp;
+module.exports = bigDayTrendUp;

@@ -52,7 +52,7 @@ const handleModuleFile = (moduleFile) => {
 };
 
 
-export default async () => {
+module.exports = async () => {
 
     var normalizedPath = path.join(__dirname, '../modules');
 

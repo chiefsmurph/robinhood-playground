@@ -43,7 +43,7 @@ const analyzeByMethod = formatted => {
   }));
 };
 
-export default async (numDays = 5) => {
+module.exports = async (numDays = 5) => {
   // numDays = numD
   const roundupLogs = await Log.find({
     title: /roundup/i,

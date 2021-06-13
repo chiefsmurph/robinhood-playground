@@ -103,7 +103,7 @@ const handleMACDConfig = macdConfig => allCurrents => {
 };
 
 
-export default {
+module.exports = {
     disabled: true,
     period: [10, 30],
     collections: ['hotSt', 'holds'],

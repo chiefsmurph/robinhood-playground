@@ -3,7 +3,7 @@ const Pick = require('../models/Pick');
 const { mapObject } = require('underscore');
 const Holds = require('../models/Holds');
 
-export default async () => {
+module.exports = async () => {
 
   const buys = (
     await alpaca.getOrders({

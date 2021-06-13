@@ -72,4 +72,4 @@ class TickerWatcher {
     }
 }
 
-export default TickerWatcher;
+module.exports = TickerWatcher;
