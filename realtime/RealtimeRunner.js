@@ -398,13 +398,13 @@ module.exports = new (class RealtimeRunner {
         this.getZScoreInteral()
       ),
 
-      setInterval(
-        () => this.timedAsync(
-          'every 15 minutes - alpaca act on st',
-          () => alpacaActOnSt(),
-        ),
-        60 * 1000 * 43 // 20 min
-      ),
+      // setInterval(
+      //   () => this.timedAsync(
+      //     'every 15 minutes - alpaca act on st',
+      //     () => alpacaActOnSt(),
+      //   ),
+      //   60 * 1000 * 43 // 20 min
+      // ),
 
 
       // setInterval(

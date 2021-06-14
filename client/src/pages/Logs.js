@@ -31,7 +31,15 @@ class Logs extends Component {
                             if (title.includes('$') && !title.startsWith('buying')) {
                                 return false;
                             }
+                            
                             return true;
+                        })
+                        .map(line => {
+                            if (!lowKey) return line;
+                            return {
+                                ...line,
+                                title: line.title.split(' return').shift()
+                            }
                         })
                         .map(line => {
                             if (!lowKey || !line.title.includes('$')) return line;
@@ -39,13 +47,10 @@ class Logs extends Component {
                             const deleteAfterDash = title.split('--').shift();
                             const [before, after] = deleteAfterDash.split('$');
                             const [dollarAmt, ...rest] = after.split(' ');
-                            const newString = `${before} ${Math.round(dollarAmt / alpacaBalance * 1000) / 10}% ${rest.join(' ')}`;
-                            console.log({
-
-                            })
+                            const dollarsHandled = `${before} ${Math.round(dollarAmt / alpacaBalance * 1000) / 10}% ${rest.join(' ')}`;
                             return {
                                 ...line,
-                                title: newString
+                                title: dollarsHandled
                             };
                         })
                         .slice(0, numLines).map(log => (
