@@ -255,22 +255,6 @@ class App extends Component {
 
         const urlParams = new URLSearchParams(window.location.search);
 
-        const forcePage = urlParams.get('forcePage');
-
-        if (forcePage) {
-            console.log({ forcePage });
-            // force the thing!  ...aka redirect
-            setTimeout(() => this.handlePageChange(undefined, forcePage), 100);
-            // because my comp keeps crashing when streaming with OBS 
-            // if (forcePage !== '0') {
-            //     // dont refresh the balance pages because the settings will refresh
-            //     setTimeout(
-            //         () => window.location.reload(), 
-            //         1000 * 60 * ((20 * Math.random()) + 10)  // random 0 - 15 minutes
-            //     );
-            // }
-        }
-
 
         const port = urlParams.get('p') || 3001;
 
@@ -406,6 +390,24 @@ class App extends Component {
                 localStorage.clear();
             } else {
                 localStorage.setItem('placate', authString);
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const forcePage = urlParams.get('forcePage');
+
+                if (forcePage) {
+                    console.log({ forcePage });
+                    // force the thing!  ...aka redirect
+                    setTimeout(() => this.handlePageChange(undefined, forcePage), 100);
+                    // because my comp keeps crashing when streaming with OBS 
+                    // if (forcePage !== '0') {
+                    //     // dont refresh the balance pages because the settings will refresh
+                    //     setTimeout(
+                    //         () => window.location.reload(), 
+                    //         1000 * 60 * ((20 * Math.random()) + 10)  // random 0 - 15 minutes
+                    //     );
+                    // }
+                }
+
             }
         });
     };

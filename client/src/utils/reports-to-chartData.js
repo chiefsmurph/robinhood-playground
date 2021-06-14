@@ -33,7 +33,7 @@ const fields = {
         if (!d.accountBalance || !array[0].accountBalance) return 0;
         return getTrend(d.accountBalance, array[0].accountBalance);
     },
-    'alpaca balance': (d, i, array) => {
+    'algo balance': (d, i, array) => {
         const firstVal = array.find(b => b.alpacaBalance).alpacaBalance;
         return i === 0 ? 0 : getTrend(d.alpacaBalance || firstVal, firstVal, true);
     },
@@ -86,7 +86,7 @@ export default {
             arg2,
         });
         const fields = [
-            'alpaca balance',
+            'algo balance',
             'account balance',
             'russell2000', 
             'SP500', 

@@ -321,24 +321,24 @@ module.exports = class PositionWatcher {
       const { daytrade_count } = account;
       if (percentOfBalance > 15) {
         if (daytrade_count <= 2) {
-          await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 14% & 26% up?`);
+          await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 21% up?`);
           await alpacaCancelAllOrders(ticker, 'buy');
           const firstChunk = Math.round(Number(quantity) / 2.2);
           const secondChunk = firstChunk;//Number(quantity) - firstChunk;
           alpacaLimitSell({
             ticker,
             quantity: firstChunk,
-            limitPrice: avgEntry * 1.138,
+            limitPrice: avgEntry * 1.21,
             timeoutSeconds: 60 * 30,
             fallbackToMarket: false
           });
-          alpacaLimitSell({
-            ticker,
-            quantity: secondChunk,
-            limitPrice: avgEntry * 1.26,
-            timeoutSeconds: 60 * 40,
-            fallbackToMarket: false
-          });
+          // alpacaLimitSell({
+          //   ticker,
+          //   quantity: secondChunk,
+          //   limitPrice: avgEntry * 1.26,
+          //   timeoutSeconds: 60 * 40,
+          //   fallbackToMarket: false
+          // });
           this.alreadyDayTraded = true;
         } else {
           // await sendEmail(`You are at three daytrades but you might want to take a look at ${ticker}`);

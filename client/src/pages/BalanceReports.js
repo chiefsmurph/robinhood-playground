@@ -487,7 +487,7 @@ class DayReports extends Component {
         hiddenFields.forEach(field => {
             const key = {
                 'account balance': 'robinhood',
-                'alpaca balance': 'alpaca',
+                'algo balance': 'alpaca',
                 btc: 'bitcoin'
             }[field];
             delete stats[key];
@@ -569,7 +569,7 @@ class DayReports extends Component {
 
         const mods = {
             // 1: [
-            //     { label: "alpaca balance", mod: v => v + 4 - 0.5},
+            //     { label: "algo balance", mod: v => v + 4 - 0.5},
             //     { label: "russell2000", mod: v => v + 2 - 0.5 },
             //     { label: "nasdaq", mod: v => v - 1 },
             // ]
@@ -878,7 +878,7 @@ class DayReports extends Component {
                         }
                     </div>
                     {
-                        !hiddenFields.includes('alpaca balance') && (
+                        !hiddenFields.includes('algo balance') && (
                             <div>
                                 <h3>BALANCE INVESTED: {Math.round(longMarketValue / (stats.alpaca || {}).current * 100)}%</h3>
                                 <h3>BUYING POWER: {Math.round(buyingPower / (stats.alpaca || {}).current * 100)}%</h3>
@@ -889,7 +889,7 @@ class DayReports extends Component {
                     <div style={{ 
                         fontSize: '160%', 
                         textAlign: 'center', 
-                        ...window.location.href.includes('forcePage') && !hiddenFields.includes('alpaca balance') && {
+                        ...window.location.href.includes('forcePage') && !hiddenFields.includes('algo balance') && {
                             display: 'none'
                         }
                     }}>
