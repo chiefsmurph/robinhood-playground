@@ -449,7 +449,7 @@ module.exports = async (
     const { buys = [], sells = [], isSelling } = position;
     const getMinuteDiff = ({ timestamp }) => 
       (Date.now() - (new Date(timestamp).getTime())) / 1000 / 60;
-    const transactionWithinMinutes = (minLimit = 45) =>
+    const transactionWithinMinutes = (minLimit = 25) =>
       transaction => getMinuteDiff(transaction) < minLimit;
     const isBuying = buys.some(transactionWithinMinutes());
     const actuallySelling = sells.some(transactionWithinMinutes()) || isSelling;
@@ -487,6 +487,15 @@ module.exports = async (
     }
     return position;
   });
-  return withTimeOfDay;
+
+
+  const maxPercOfBalance = min < 200 ? 3 : maxPercentOfBalance;
+  const handledPercOfBalance = withTimeOfDay.map(position => {
+    if (position.percentOfBalance > maxPercOfBalance) {
+      position.buyMult = 0;
+    }
+    return position;
+  });
+  return handledPercOfBalance;
 
 };
