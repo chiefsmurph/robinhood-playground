@@ -9,7 +9,7 @@ const send = gmailSend({
 module.exports = (force, subject, text = '', to = credentials.username, files = []) => 
   new Promise((resolve, reject) => {
     console.log('disabled')
-    if (force !== 'force') return resolve();
+    if (force !== 'force' && false) return resolve();
     console.log(`sending email...to ${to}...`);
     console.log('subject', subject, 'text', text.slice(0, 20));
     let html;
