@@ -28,7 +28,7 @@ module.exports = async (groupByDay, numDays = Number.POSITIVE_INFINITY, excludeA
     spyOvernight: getTrend(hist.open_price, (arr[index-1] || {}).close_price),
     spyTrend: hist.trend,
     spyDistance: getTrend(hist.high_price, hist.low_price),
-    vixOvernight: getTrend(dailyVix[index].open_price, (dailyVix[index-1] || {}).close_price)
+    // vixOvernight: getTrend(dailyVix[index].open_price, (dailyVix[index-1] || {}).close_price)
   }));
 
   const getDaily = date => combined.find(o => o.date === date);

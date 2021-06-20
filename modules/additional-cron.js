@@ -123,16 +123,16 @@ const additionalCron = [
     // SELLING
 
 
-    // {
-    //     name: 'alpacaPreMarketSells',
-    //     run: [
-    //         -30,
-    //         // -22,
-    //         // -16,
-    //         // -8
-    //     ],
-    //     fn: () => alpacaPremarketSells()
-    // },
+    {
+        name: 'alpacaPreMarketSells',
+        run: [
+            -30,
+            // -22,
+            // -16,
+            // -8
+        ],
+        fn: () => alpacaPremarketSells()
+    },
 
 
     // SELLING AT OPEN
