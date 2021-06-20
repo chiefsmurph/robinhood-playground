@@ -384,6 +384,15 @@ class App extends Component {
         if (!authString) return;
         console.log('attempt auth', { authString })
         this.state.socket.emit('attemptAuth', authString, authLevel => {
+
+            if (authLevel !== 100) {
+                const doubleCheck = window.prompt('going to need some more info.... who are you and how did you get here?');
+                this.state.socket.emit('client:act', 'log', `double check reason.... ${doubleCheck}`);
+                if (doubleCheck) {
+                    alert('ok that works.  welcome.');
+                }
+            }
+
             console.log("received auth response", authLevel);
             this.setAuthLevel(authLevel);
             if (!authLevel) {
