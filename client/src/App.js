@@ -535,7 +535,7 @@ class App extends Component {
                 <AppBar position="static">
                     <Toolbar>
                         <Typography variant="title" color="inherit">
-                            chiefsmurph's stock <a href="#" onClick={this.auth} style={{ color: 'orange' }}>picks</a><br/>{authLevel}
+                            chiefsmurph's stock <a href="#" onClick={this.auth} style={{ color: 'orange' }}>picks</a>
                             {/* <a href="https://github.com/chiefsmurph/robinhood-playground" target='_blank' style={{ color: 'darkorange', fontSize: '80%'}}>
                                 https://github.com/chiefsmurph/robinhood-playground
                             </a> */}
