@@ -100,7 +100,7 @@ module.exports = async (onlyMe = true) => {
     };
 
     const intro = [
-        `Hey everybody!!  It's a new week and you know what that means.  FRESH, NEW, PICKS!  Straight to your inbox.  Changing things up this week with some new strategies and removed some old ones.<br>`,
+        `Hey everybody!!  In case you were checking out chiefsmurph.com/stocks this past weekend and then got "denied authorization" all of a sudden.... No worries.  If you wouldn't mind just saying that was me that would be great so I don't think somebody was trying to hack into things.  You might notice I have changed the password to login.  Enjoy!  Let's go team!<br>`,
     ];
     const lines = Object.entries(picks)
         .filter(([_, specificPicks]) => specificPicks.length)
