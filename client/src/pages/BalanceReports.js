@@ -878,7 +878,7 @@ class DayReports extends Component {
                         }
                     </div>
                     {
-                        !hiddenFields.includes('algo balance') && (
+                        !hiddenFields.includes('algo balance') && authLevel === 100 && (
                             <div>
                                 <h3>BALANCE INVESTED: {Math.round(longMarketValue / (stats.alpaca || {}).current * 100)}%</h3>
                                 <h3>BUYING POWER: {Math.round(buyingPower / (stats.alpaca || {}).current * 100)}%</h3>
