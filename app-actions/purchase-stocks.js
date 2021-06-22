@@ -19,7 +19,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
     });
 
     let amtLeft = Number(onlyUseCash ? cash : buying_power);
-    if (getMinutesFromOpen() > 386 && onlyUseCash) {
+    if (getMinutesFromOpen() > 360 && onlyUseCash) {
         // use all maintenance_margin if after hours
         const origAmt = amtLeft;
         const newAmtLeft = (Number(equity) - Number(maintenance_margin)) * 0.7;
