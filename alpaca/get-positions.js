@@ -493,8 +493,6 @@ module.exports = async (
   const handledPercOfBalance = withTimeOfDay.map(position => {
     if (position.percentOfBalance > maxPercOfBalance) {
       position.buyMult = 0;
-    } else if (position.isFav) {
-      position.buyMult = Math.max(1, position.buyMult);
     }
     return position;
   });

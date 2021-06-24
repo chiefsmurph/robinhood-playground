@@ -53,12 +53,6 @@ module.exports = positions =>
       zScoreFinal: position.aboveMaxBuy ? 0 : twoDec(position.zScoreRelative + (position.zScoreReturnPerc * 2))
     }))
     .map(position => {
-      if (position.isFav) {
-        position.zScoreFinal *= 2;
-      }
-      return position;
-    })
-    .map(position => {
       const yesMin = (
         position.zScoreFinal > 2.3 ||
         position.zScoreSum > 55 ||
@@ -77,19 +71,14 @@ module.exports = positions =>
       };
     })
     .map((position, index) => {
-      const { buyMult, marketValueZScore } = position;
-      if (buyMult > 0 && buyMult < 3 && marketValueZScore <= 0.3) {
+      const { buyMult, marketValueZScore, isFav } = position;
+      const smallMarketValueAndModerateBuyMult = buyMult > 0 && buyMult < 3 && marketValueZScore <= 0.3;
+      if (smallMarketValueAndModerateBuyMult || isFav) {
         position.buyMult++;
         position.flagged = 'buyMult increased';
       } else if (buyMult > 1 && (index === 0 || marketValueZScore > 2)) {
         position.buyMult--;
         position.flagged = 'buyMult decreased';
-      }
-      return position;
-    })
-    .map(position => {
-      if (position.isFav) {
-        
       }
       return position;
     });
