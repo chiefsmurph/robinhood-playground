@@ -17,7 +17,7 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
     return;
   }
   await sendEmail('force', `hugeDown ${ticker}`, `zScoreSum ${zScoreSum} | zScoreFinal ${zScoreFinal} | buyMult ${buyMult}`, Object.keys(emails)[1]); // cell phone
-  lastNotifications[ticker] = handler;
+  lastNotifications[ticker] = Date.now();
 };
 
 
