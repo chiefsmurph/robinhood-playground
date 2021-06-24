@@ -89,7 +89,7 @@ module.exports = positions =>
     })
     .map(position => {
       if (position.isFav) {
-
+        
       }
       return position;
     });
