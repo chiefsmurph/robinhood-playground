@@ -463,17 +463,18 @@ module.exports = async (
     };
   });
   const withHugedown = withCurrentActions.map(position => {
-    const hugeDown = position.returnPerc < 0 && Boolean(
-      position.buyMult >= 5 ||
-      position.zScoreSum > 80 ||
-      (position.zScoreSum > 40 && position.zScoreFinal > 5)
+    const { returnPerc, zScoreSum, buyMult } = position;
+    const hugeDown = returnPerc < 0 && Boolean(
+      zScoreSum > 100// ||
+      // (position.zScoreSum > 40 && position.zScoreFinal > 5)
     );
+    if (hugeDown) {
+      position.buyMult = Math.max(2, buyMult + 2);
+      position.flagged = 'buyMult increased bc hugeDown';
+    }
     return {
       ...position,
       hugeDown,
-      ...hugeDown && {
-        buyMult: Math.max(2, position.buyMult + 2)
-      }
     };
   });
   

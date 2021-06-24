@@ -75,10 +75,10 @@ module.exports = positions =>
       const smallMarketValueAndModerateBuyMult = buyMult > 0 && buyMult < 3 && marketValueZScore <= 0.3;
       if (smallMarketValueAndModerateBuyMult || isFav) {
         position.buyMult++;
-        position.flagged = 'buyMult increased';
+        position.flagged = `buyMult increased bc ${isFav ? 'isFav' : 'smallMarketValueAndModerateBuyMult'}`;
       } else if (buyMult > 1 && (index === 0 || marketValueZScore > 2)) {
         position.buyMult--;
-        position.flagged = 'buyMult decreased';
+        position.flagged = 'buyMult decreased bc large marketValue';
       }
       return position;
     });
