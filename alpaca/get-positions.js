@@ -463,10 +463,10 @@ module.exports = async (
     };
   });
   const withHugedown = withCurrentActions.map(position => {
-    const hugeDown = position.unrealizedPlPc < 0 && Boolean(
+    const hugeDown = position.returnPerc < 0 && Boolean(
       position.buyMult >= 5 ||
       position.zScoreSum > 80 //||
-      // (position.zScoreSum > 40 && position.zScoreFinal > 3)
+      (position.zScoreSum > 40 && position.zScoreFinal > 5)
     );
     return {
       ...position,
