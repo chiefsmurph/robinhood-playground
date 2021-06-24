@@ -464,9 +464,9 @@ module.exports = async (
   });
   const withHugedown = withCurrentActions.map(position => {
     const hugeDown = position.unrealizedPlPc < 0 && Boolean(
-      position.buyMult > 5 ||
-      position.zScoreSum > 80 ||
-      (position.zScoreSum > 40 && position.zScoreFinal > 3)
+      position.buyMult >= 5 ||
+      position.zScoreSum > 80 //||
+      // (position.zScoreSum > 40 && position.zScoreFinal > 3)
     );
     return {
       ...position,
