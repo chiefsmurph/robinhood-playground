@@ -40,7 +40,7 @@ module.exports = async () => {
   strlog({ account})
 
 
-  const positions = await getPositions();
+  const positions = (await getPositions()).reverse();
 
 
   await log('ACTONZSCOREFINAL', {
