@@ -104,9 +104,9 @@ const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, sprayS
             zScoreOffset: ({ scan: { zScoreOffset, offsets } = {}, negatives = [] } = {} ) => {
                 if (!zScoreOffset && !negatives.length) return null;
                 const offsetStrings = [
-                    ...Object.keys(offsets)
+                    ...offsets ? Object.keys(offsets)
                         .filter(key => offsets[key])
-                        .map(key => [key, offsets[key]].join(' ')),
+                        .map(key => [key, offsets[key]].join(' ')) : [],
                     ...negatives
                 ];
                 return (
