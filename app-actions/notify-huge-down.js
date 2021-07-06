@@ -9,7 +9,7 @@ const dayInProgress = require('../realtime/day-in-progress');
 const { registerNewStrategy } = require('./buys-in-progress');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
-const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percentOfBalance }) => {
+const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percentOfBalance, wouldBeDayTrade }) => {
   if (!dayInProgress(-30, 430)) {
     console.log('no need');
     return;
@@ -22,7 +22,7 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percent
   lastNotifications[ticker] = Date.now();
 
   const min = getMinutesFromOpen();
-  const shouldBuy = percentOfBalance < 30 || min > 200;
+  const shouldBuy = wouldBeDayTrade && (percentOfBalance < 30 || min > 200);
   if (!shouldBuy) return;
 
   await log(`buying this huge down: ${ticker}`);
@@ -31,7 +31,7 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percent
   const purchaseStocks = require('./purchase-stocks');
   purchaseStocks({
     strategy: 'huge-down',
-    multiplier: 80,
+    multiplier: 140,
     ticker
   });
 };
