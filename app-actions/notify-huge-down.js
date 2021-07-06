@@ -6,7 +6,6 @@ const lastNotifications = {};
 const WAIT_MIN_BETWEEN = 33;
 
 const dayInProgress = require('../realtime/day-in-progress');
-const purchaseStocks = require('./purchase-stocks');
 const { registerNewStrategy } = require('./buys-in-progress');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
@@ -29,6 +28,7 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percent
   await log(`buying this huge down: ${ticker}`);
   // buy it
   registerNewStrategy(ticker, 'hugeDown');
+  const purchaseStocks = require('./purchase-stocks');
   purchaseStocks({
     strategy: 'huge-down',
     multiplier: 80,
