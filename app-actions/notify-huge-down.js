@@ -8,8 +8,9 @@ const WAIT_MIN_BETWEEN = 33;
 const dayInProgress = require('../realtime/day-in-progress');
 const purchaseStocks = require('./purchase-stocks');
 const { registerNewStrategy } = require('./buys-in-progress');
+const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 
-const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
+const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percentOfBalance }) => {
   if (!dayInProgress(-30, 430)) {
     console.log('no need');
     return;
@@ -21,11 +22,16 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
   await sendEmail('force', `hugeDown ${ticker}`, `zScoreSum ${zScoreSum} | zScoreFinal ${zScoreFinal} | buyMult ${buyMult}`, Object.keys(emails)[1]); // cell phone
   lastNotifications[ticker] = Date.now();
 
+  const min = getMinutesFromOpen();
+  const shouldBuy = percentOfBalance < 30 || min > 200;
+  if (!shouldBuy) return;
+
+  await log(`buying this huge down: ${ticker}`);
   // buy it
   registerNewStrategy(ticker, 'hugeDown');
   purchaseStocks({
     strategy: 'huge-down',
-    multiplier: 40,
+    multiplier: 80,
     ticker
   });
 };
