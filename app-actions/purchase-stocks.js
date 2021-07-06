@@ -5,7 +5,7 @@ const { alpaca } = require('../alpaca');
 const makeFundsAvailable = require('../alpaca/make-funds-available');
 const sendEmail = require('../utils/send-email');
 
-const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}, dontBuy) => {
+const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices, ticker } = {}, dontBuy) => {
 
     const account = await alpaca.getAccount();
     const { portfolio_value, cash, buying_power, long_market_value, maintenance_margin, equity } = account;
@@ -80,6 +80,7 @@ const purchaseStocks = async ({ strategy, multiplier = 1, min, withPrices } = {}
         strategy,
         min,
         withPrices,
+        ticker,
     });
 };
 

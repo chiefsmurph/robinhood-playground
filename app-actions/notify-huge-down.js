@@ -6,6 +6,8 @@ const lastNotifications = {};
 const WAIT_MIN_BETWEEN = 33;
 
 const dayInProgress = require('../realtime/day-in-progress');
+const purchaseStocks = require('./purchase-stocks');
+const { registerNewStrategy } = require('./buys-in-progress');
 
 const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
   if (!dayInProgress(-30, 430)) {
@@ -18,6 +20,14 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult }) => {
   }
   await sendEmail('force', `hugeDown ${ticker}`, `zScoreSum ${zScoreSum} | zScoreFinal ${zScoreFinal} | buyMult ${buyMult}`, Object.keys(emails)[1]); // cell phone
   lastNotifications[ticker] = Date.now();
+
+  // buy it
+  registerNewStrategy(ticker, 'hugeDown');
+  purchaseStocks({
+    strategy: 'huge-down',
+    multiplier: 40,
+    ticker
+  });
 };
 
 
