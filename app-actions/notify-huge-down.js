@@ -26,18 +26,22 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percent
   const shouldBuy = percentOfBalance < 30 || min > 200;
   if (!shouldBuy) return;
 
-  await log(`buying this huge down: ${ticker}`);
-  // buy it
-  if (wouldBeDayTrade || isSelling) {
-    await cancelAllOrders(ticker, 'sell');
-  }
-  registerNewStrategy(ticker, 'hugeDown');
-  const purchaseStocks = require('./purchase-stocks');
-  purchaseStocks({
-    strategy: 'huge-down',
-    multiplier: 140,
-    ticker
-  });
+  setTimeout(async () => {
+
+    await log(`buying this huge down: ${ticker}`);
+    // buy it
+    if (wouldBeDayTrade || isSelling) {
+      await cancelAllOrders(ticker, 'sell');
+    }
+    registerNewStrategy(ticker, 'hugeDown');
+    const purchaseStocks = require('./purchase-stocks');
+    purchaseStocks({
+      strategy: 'huge-down',
+      multiplier: 140,
+      ticker
+    });
+
+  }, Math.random() * 1000 * 60 * 5);
 };
 
 
