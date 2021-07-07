@@ -8,7 +8,7 @@ const WAIT_MIN_BETWEEN = 33;
 const dayInProgress = require('../realtime/day-in-progress');
 const { registerNewStrategy } = require('./buys-in-progress');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
-const cancelAllOrders = require('../alpaca/cancel-all-orders');
+// const cancelAllOrders = require('../alpaca/cancel-all-orders');
 
 const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percentOfBalance, wouldBeDayTrade, isSelling }) => {
   if (!dayInProgress(-30, 430)) {
@@ -23,16 +23,15 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percent
   lastNotifications[ticker] = Date.now();
 
   const min = getMinutesFromOpen();
-  const shouldBuy = percentOfBalance < 30 || min > 200;
+
+  const skipBuy = isSelling || !wouldBeDayTrade;
+  const shouldBuy = !skipBuy && (percentOfBalance < 20 || min > 200);
   if (!shouldBuy) return;
 
   setTimeout(async () => {
 
     await log(`buying this huge down: ${ticker}`);
     // buy it
-    if (wouldBeDayTrade || isSelling) {
-      await cancelAllOrders(ticker, 'sell');
-    }
     registerNewStrategy(ticker, 'hugeDown');
     const purchaseStocks = require('./purchase-stocks');
     purchaseStocks({
