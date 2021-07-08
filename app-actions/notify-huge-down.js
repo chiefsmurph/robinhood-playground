@@ -24,8 +24,11 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percent
 
   const min = getMinutesFromOpen();
 
-  const skipBuy = isSelling || !wouldBeDayTrade;
-  const shouldBuy = !skipBuy && (percentOfBalance < 20 || min > 200);
+  const shouldBuy = (
+    wouldBeDayTrade && 
+    !isSelling && 
+    (percentOfBalance < 20 || min > 200)
+  );
   if (!shouldBuy) return;
 
   setTimeout(async () => {
@@ -36,7 +39,7 @@ const notifyHugeDown = async ({ ticker, zScoreSum, zScoreFinal, buyMult, percent
     const purchaseStocks = require('./purchase-stocks');
     purchaseStocks({
       strategy: 'huge-down',
-      multiplier: 140,
+      multiplier: 180,
       ticker
     });
 
