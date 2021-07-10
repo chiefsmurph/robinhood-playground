@@ -323,11 +323,11 @@ module.exports = class PositionWatcher {
         if (daytrade_count <= 2) {
           await log(`ALERT ALERT - Selling ${ticker} using a daytrade can we get 21% up?`);
           await alpacaCancelAllOrders(ticker, 'buy');
-          const firstChunk = Math.round(Number(quantity) / 2.2);
-          const secondChunk = firstChunk;//Number(quantity) - firstChunk;
+          // const firstChunk = Math.round(Number(quantity) / 2.2);
+          // const secondChunk = firstChunk;//Number(quantity) - firstChunk;
           alpacaLimitSell({
             ticker,
-            quantity: firstChunk,
+            quantity,
             limitPrice: avgEntry * 1.21,
             timeoutSeconds: 60 * 30,
             fallbackToMarket: false
