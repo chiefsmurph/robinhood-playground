@@ -328,7 +328,7 @@ module.exports = class PositionWatcher {
           alpacaLimitSell({
             ticker,
             quantity,
-            limitPrice: avgEntry * 1.21,
+            limitPrice: avgEntry * 1.17,
             timeoutSeconds: 60 * 30,
             fallbackToMarket: false
           });
