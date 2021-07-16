@@ -1,28 +1,17 @@
 const getPositions = require('./get-positions');
 const { alpaca } = require('.');
-const alpacaAttemptSell = require('./attempt-sell')
-const { sumArray } = require('../utils/array-math');
+// const alpacaAttemptSell = require('./attempt-sell')
+// const { sumArray } = require('../utils/array-math');
 const getSpyTrend = require('../utils/get-spy-trend');
 const spraySell = require('./spray-sell');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 const Hold = require('../models/Holds');
-const Log = require('../models/Log');
-const cancelAllOrders = require('./cancel-all-orders');
+// const Log = require('../models/Log');
+// const cancelAllOrders = require('./cancel-all-orders');
 const getMinutesFromOpen = require('../utils/get-minutes-from-open');
 const getBalance = require('./get-balance');
+const liquidateTicker = require('./liquidate-ticker');
 
-
-const liquidateTicker = async ticker => {
-  await cancelAllOrders(ticker);
-  const boughtToday = await Log.boughtToday(ticker);
-  await log(`ticker ${ticker} - boughtToday ${boughtToday}`);
-  if (!boughtToday) {
-    await alpaca.closePosition(ticker);
-    await log(`liquidated ${ticker}`);
-  } else {
-    await log(`no liquidation necessary ${ticker}`);
-  }
-};
 const liquidateAll = async () => {
   await log('liquidating all');
   const positions = await alpaca.getPositions();

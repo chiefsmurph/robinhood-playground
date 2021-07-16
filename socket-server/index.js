@@ -313,6 +313,7 @@ module.exports = new Promise(resolve => {
                 buyTheRed: require('../alpaca/buy-the-red'),
                 buyBetween: require('../alpaca/buy-between'),
                 getRecentPicks: require('../app-actions/get-recent-picks'),
+                liquidateTicker: require('../alpaca/liquidate-ticker'),
                 lookupMultiple,
                 refreshPositions: () => require('../socket-server/strat-manager').refreshPositions(),
                 refreshBorRecs: () => require('../socket-server/strat-manager').refreshBorRecs(),

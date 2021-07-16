@@ -19,16 +19,19 @@ const tooltipStr = ({ buyStrategies }) =>
 // const getByDateStats = 
 
 
-const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, spraySell, navigateToSingleStock }) => {
+const PositionSection = ({ relatedPrices, positions, name, admin, lowKey, spraySell, liquidateTicker, navigateToSingleStock }) => {
 
     console.log({ name, positions });
-
     
     const toDisplay = {
         // 'days old': 'dayAge',
         ...!lowKey && {
             sell: pos => (
-                <a onClick={() => spraySell(pos)} href="javascript:void(0)">spray-sell</a>
+                <div>
+                    <a onClick={() => spraySell(pos)} href="javascript:void(0)">spray</a>
+                    &nbsp;|&nbsp;
+                    <a onClick={() => liquidateTicker(pos)} href="javascript:void(0)">liquidate</a>
+                </div>
             ),
 
             daysOld: 'daysOld',
@@ -399,7 +402,18 @@ class Positions extends Component {
             () => window.alert(`SPRAY SOLD ${ticker}`)
         );
         console.log({ minutes, ticker });
-    }
+    };
+    liquidateTicker = position => {
+        const { ticker } = position;
+        console.log(`liquidating ${ticker}`);
+        this.props.socket.emit(
+            'client:act',
+            'liquidateTicker',
+            ticker,
+            true,   // force
+            () => window.alert(`LIQUIDATED ${ticker}`)
+        );
+    };
     render() {
 
         let { 
@@ -431,6 +445,7 @@ class Positions extends Component {
                                 admin={true}
                                 lowKey={lowKey}
                                 spraySell={this.spraySell}
+                                liquidateTicker={this.liquidateTicker}
                                 navigateToSingleStock={navigateToSingleStock}
                             />
                         ))
