@@ -170,7 +170,7 @@ const getBasedOnRecentPicks = async () => {
         // fiveHundredBackwardsStTrend,
         lowestFiveMinuteRSI,
         highestZScoreMagic,
-        // trendDownBig,
+        trendDownBig,
         rsiOversold,
         // readyToGoAndHighSt,
         topSt,

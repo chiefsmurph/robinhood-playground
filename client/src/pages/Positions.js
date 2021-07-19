@@ -406,6 +406,8 @@ class Positions extends Component {
     liquidateTicker = position => {
         const { ticker } = position;
         console.log(`liquidating ${ticker}`);
+        const areYouSure = window.confirm(`Are you sure you want to liquidate ${ticker}?`);
+        if (!areYouSure) return;
         this.props.socket.emit(
             'client:act',
             'liquidateTicker',
